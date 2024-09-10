@@ -65,6 +65,8 @@ export interface sidebarBtnProps {
   icon: string;
   hoverIcon: string;
   height?: string;
+  onClick: () => void;
+  state: boolean;
 }
 
 export interface prflBgImgProps {
@@ -112,9 +114,23 @@ export interface toggleAreaProps {
   width: string;
 }
 
+export interface colorSelectorProps {
+  colorType: string;
+}
+
+export interface textBtnProps {
+  text: string;
+  btnText: string;
+  width: string;
+}
+
 // redux states types
 
 export interface reduxSignupCreateProfileState {
   isSignupCreateProfile: boolean;
   signupCreateProfileStage: number;
+}
+
+export interface reduxEditSection {
+  profileEditSectionStage: number;
 }

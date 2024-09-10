@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import CreateProfileHandeler from "./SignupSlice"
+import profileEditSectionHandeler from "./EditSectionsSlice"
 // ...
 
 export const store = configureStore({
   reducer: {
-    CreateProfileHandeler:CreateProfileHandeler
+    CreateProfileHandeler:CreateProfileHandeler,
+    profileEditSectionHandeler:profileEditSectionHandeler
   },
 })
 

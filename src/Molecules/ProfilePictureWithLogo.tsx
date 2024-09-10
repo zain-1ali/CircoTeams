@@ -8,7 +8,7 @@ const ProfilePictureWithLogo: React.FC<prflLogoImgProps> = ({
   logoClasses = "h-[36px] w-[36px]  rounded-full absolute right-[-5px] bottom-[-5px]",
   profile = profilePlchldr,
   logo = logoPlchldr,
-  showLogo,
+  showLogo=true,
 }) => {
   return (
     <div className={profileClasses}>

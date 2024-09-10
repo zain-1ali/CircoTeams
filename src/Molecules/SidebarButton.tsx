@@ -8,26 +8,29 @@ const SidebarButton: React.FC<sidebarBtnProps> = ({
   hoverIcon,
   text,
   height,
+  onClick,
+  state,
 }) => {
   const [hover, setHover] = useState<boolean>(false);
   return (
     <div>
       {" "}
       <div
-        className={`${hover && "bg-[#eeeeff]"} ${
+        className={`${(hover || state) && "bg-[#eeeeff]"} ${
           height || "h-[48px]"
         } rounded-md w-[100%] flex items-center cursor-pointer`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
+        onClick={() => onClick()}
       >
         <Image
-          src={hover ? hoverIcon : icon}
+          src={hover || state ? hoverIcon : icon}
           classes="max-h-[24px] max-w-[24px] ml-4 object-cover"
         />
         <Text
           text={text}
           classes={`${
-            hover ? "text-[#2B6EF6]" : "text-[#9a9aa9]"
+            hover || state ? "text-[#2B6EF6]" : "text-[#9a9aa9]"
           } font-[600] text-[16px] ml-3`}
         />
       </div>

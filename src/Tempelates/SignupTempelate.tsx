@@ -6,6 +6,7 @@ const SignupTempelate = () => {
     <div className="w-screen h-screen flex bg-[#F7F7F8]">
       <AuthSidebar isSignin={false} />
       <AuthRightBar />
+    
     </div>
   );
 };

@@ -8,9 +8,11 @@ import upldPrfl from "../assets/images/upldPrfl.png";
 import upldLogo from "../assets/images/upldLogo.png";
 import upldCover from "../assets/images/upldCover.png";
 import ImageSelecter from "./ImageSelecter";
+import { useNavigate } from "react-router-dom";
 
 const SignupCreateProfileStage3 = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <div className="w-[100%] mt-2">
       <div className="w-[100%]">
@@ -45,13 +47,7 @@ const SignupCreateProfileStage3 = () => {
 
       <CustomButton
         text="Continue"
-        onClick={() => {
-          // isSignin
-          //   ?
-          console.log("testing");
-          //   :
-          //    dispatch(setStartProfileCreation(true));
-        }}
+        onClick={() => navigate("/myprofiles")}
         btnClasses="bg-[#2B6EF6] text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-6"
       />
     </div>

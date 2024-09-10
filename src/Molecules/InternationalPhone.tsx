@@ -63,6 +63,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
                     .react-tel-input .flag-dropdown{
                      border:none !important; 
                      border-radius:10px;
+                     
                     }
 
                 /* Additional styling for focus state */
