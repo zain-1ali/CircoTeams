@@ -5,6 +5,7 @@ import Profile_QrContainer from "./Profile_QrContainer";
 
 const EditprofileContent = () => {
   const innerHeight: number = window.innerHeight;
+  
 
   return (
     <div className="w-[83%] h-[100%] bg-[#F7F7F8] flex justify-center">

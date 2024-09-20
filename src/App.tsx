@@ -5,6 +5,10 @@ import Signup from "./Pages/Signup";
 import MyProfiles from "./Pages/MyProfiles";
 import EditProfile from "./Pages/EditProfile";
 import Team from "./Pages/Team";
+import Connections from "./Pages/Connections";
+import Analytics from "./Pages/Analytics";
+import Devices from "./Pages/Devices";
+import Support from "./Pages/Support";
 
 function App() {
   return (
@@ -16,6 +20,10 @@ function App() {
           <Route path="/myprofiles" element={<MyProfiles />} />
           <Route path="/edit/:id" element={<EditProfile />} />
           <Route path="/teams" element={<Team />} />
+          <Route path="/connections" element={<Connections />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/devices" element={<Devices />} />
+          <Route path="/support" element={<Support />} />
         </Routes>
       </BrowserRouter>
     </div>

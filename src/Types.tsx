@@ -118,10 +118,62 @@ export interface colorSelectorProps {
   colorType: string;
 }
 
+export interface tableHeaderProps {
+  text: string;
+  width: string;
+}
+
 export interface textBtnProps {
   text: string;
   btnText: string;
   width: string;
+}
+
+export interface tableHeadProps {
+  tableHeadCells: ReactNode[];
+}
+
+export interface tableProps {
+  headers: ReactNode[];
+  type: string;
+}
+
+export interface iconWithTextProps {
+  icon: string;
+  text: string;
+  iconClass: string;
+}
+
+export interface imageWithTextProps {
+  containerClass: string;
+  isAdmin: boolean;
+}
+
+export interface SubTeamsGetStartedProps {
+  createTeam: () => void;
+}
+
+export interface radioProps {
+  classes: string;
+}
+
+export interface pageHeadProps {
+  headerName: string;
+  number: string | number;
+}
+
+export interface counterBoxProps {
+  icon: string;
+  count: string | number;
+  text: string;
+  iconStyle: string;
+}
+
+export interface contactOptionsProps {
+  icon: string;
+  heading: string;
+  text: string;
+  btnText: string;
 }
 
 // redux states types
@@ -133,4 +185,8 @@ export interface reduxSignupCreateProfileState {
 
 export interface reduxEditSection {
   profileEditSectionStage: number;
+}
+
+export interface reduxTeamSection {
+  teamSectionStage: number;
 }

@@ -42,29 +42,29 @@ const Sidebar = () => {
             icon={i3}
             hoverIcon={hi3}
             text="Connections"
-            onClick={() => {}}
-            state={false}
+            onClick={() => navigate("/connections")}
+            state={currentPath === "/connections"}
           />
           <SidebarButton
             icon={i4}
             hoverIcon={i4}
             text="Analytics"
-            onClick={() => {}}
-            state={false}
+            onClick={() => navigate("/analytics")}
+            state={currentPath === "/analytics"}
           />
           <SidebarButton
             icon={i5}
             hoverIcon={hi5}
             text="Devices"
-            onClick={() => {}}
-            state={false}
+            onClick={() => navigate("/devices")}
+            state={currentPath === "/devices"}
           />
           <SidebarButton
             icon={i6}
             hoverIcon={hi6}
             text="Support"
-            onClick={() => {}}
-            state={false}
+            onClick={() => navigate("/support")}
+            state={currentPath === "/support"}
           />
         </div>
       </div>
