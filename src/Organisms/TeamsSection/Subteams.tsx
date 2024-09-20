@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TableHeader from "../../Molecules/TableHeader";
 
 import SubTeamsGetStarted from "../../Molecules/SubTeamsGetStarted";

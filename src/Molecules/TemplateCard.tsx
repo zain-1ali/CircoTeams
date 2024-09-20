@@ -1,4 +1,3 @@
-import React from "react";
 import Text from "../Atoms/Text";
 import i16 from "../assets/images/i16.png";
 import Image from "../Atoms/Image";
