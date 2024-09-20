@@ -1,7 +1,7 @@
 import Checkbox from "../Atoms/Checkbox";
 import IconWithTextCell from "../Molecules/IconWithTextCell";
 import ImageWithTextCell from "../Molecules/ImageWithTextCell";
-import message from "../assets/images/Message.png";
+import message from "../assets/images/message.png";
 import hi11 from "../assets/images/hi11.png";
 import hi12 from "../assets/images/hi12.png";
 
