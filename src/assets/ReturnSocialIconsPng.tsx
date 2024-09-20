@@ -34,7 +34,7 @@ import twitch from "./socialLink/twitch.png";
 import thread from "./socialLink/thread.png";
 import discord from "./socialLink/discord.png";
 import zelle from "./socialLink/zelle.png";
-import openSea from "./socialLink/openSea.png";
+import openSea from "./socialLink/OpenSea.png";
 
 // Import music icons
 import spotify from "./socialLink/spotify.png";
