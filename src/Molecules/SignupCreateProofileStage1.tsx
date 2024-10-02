@@ -6,10 +6,18 @@ import {
   setProfileCreationStage,
   setStartProfileCreation,
 } from "../Redux/SignupSlice";
-import { useAppDispatch } from "../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
+import { setAddress, setCompany, setJobTitle } from "../Redux/ProfileSlice";
 
 const SignupCreateProofileStage1 = () => {
+  const address = useAppSelector((state) => state.profileHandler.address);
+
+  const company = useAppSelector((state) => state.profileHandler.company);
+
+  const jobTitle = useAppSelector((state) => state.profileHandler.jobTitle);
+
   const dispatch = useAppDispatch();
+
   return (
     <div className="w-[100%] mt-6">
       <div className="w-[100%]">
@@ -23,24 +31,24 @@ const SignupCreateProofileStage1 = () => {
       <InputWithLabel
         type="text"
         label="Company"
-        onChange={() => {}}
-        value=""
+        onChange={(e) => dispatch(setCompany(e.target.value))}
+        value={company}
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
       <InputWithLabel
         type="text"
         label="Job Title"
-        onChange={() => {}}
-        value=""
+        onChange={(e) => dispatch(setJobTitle(e.target.value))}
+        value={jobTitle}
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
       <InputWithLabel
         type="text"
         label="Location"
-        onChange={() => {}}
-        value=""
+        onChange={(e) => dispatch(setAddress(e.target.value))}
+        value={address}
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />

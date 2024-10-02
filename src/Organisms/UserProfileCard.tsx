@@ -8,7 +8,11 @@ import { prflCardProps } from "../Types";
 import { FaArrowRightLong } from "react-icons/fa6";
 import SquareIconBtn from "../Molecules/SquareIconBtn";
 
-const UserProfileCard: React.FC<prflCardProps> = ({ isCreatePrfl }) => {
+const UserProfileCard: React.FC<prflCardProps> = ({
+  isCreatePrfl,
+  profile,
+  onClick,
+}) => {
   const navigate = useNavigate();
   return (
     <div
@@ -21,14 +25,27 @@ const UserProfileCard: React.FC<prflCardProps> = ({ isCreatePrfl }) => {
             Business Profile
           </div>
         )}
-        <ProfileBackgroundImage containerClass="" imgClass="" src="" />
+        <ProfileBackgroundImage
+          imgClass="w-[100%] h-[128px] rounded-[16px]"
+          containerClass="w-[100%] h-[100%] rounded-[16px]"
+          src={profile?.coverUrl}
+        />
         <div className="absolute bottom-[-45px]">
-          <ProfilePictureWithLogo showLogo={false} />
+          <ProfilePictureWithLogo
+            showLogo={false}
+            profile={profile?.profileUrl}
+            logo={profile?.logoUrl}
+          />
         </div>
       </div>
       {!isCreatePrfl ? (
         <>
-          <ProfileTextualArea />
+          <ProfileTextualArea
+            name={profile?.firstName + " " + profile?.lastName}
+            job={profile?.jobTitle}
+            location={profile?.address}
+            company={profile?.company}
+          />
 
           <div className="w-[100%] flex justify-center">
             <div className="w-[85%] flex justify-between mt-3">
@@ -41,7 +58,7 @@ const UserProfileCard: React.FC<prflCardProps> = ({ isCreatePrfl }) => {
               <SquareIconBtn
                 btnClass="h-[50px] w-[50px] rounded-[12px] bg-[#F4F4F4] flex justify-center items-center cursor-pointer"
                 imgClass="h-[20px] w-[20px] object-cover"
-                action={() => navigate("/edit/123")}
+                action={() => navigate(`/edit/${profile?.id}`)}
                 btnType={2}
               />
               <SquareIconBtn
@@ -67,7 +84,7 @@ const UserProfileCard: React.FC<prflCardProps> = ({ isCreatePrfl }) => {
             btnClasses="bg-[#2B6EF6] text-[white] w-[235px] h-[50px] text-[600] text-[16px] rounded-[12px] flex justify-center items-center mt-[35px] gap-2"
             text="Create new profile"
             icon={<FaArrowRightLong />}
-            onClick={() => {}}
+            onClick={() => onClick()}
           />
         </>
       )}

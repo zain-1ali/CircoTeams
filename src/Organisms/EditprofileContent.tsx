@@ -1,11 +1,53 @@
+import { useParams } from "react-router-dom";
 import EditContainer from "./EditContainer";
 import EditProfileHeader from "./EditProfileHeader";
 import EditSidebar from "./EditSidebar";
 import Profile_QrContainer from "./Profile_QrContainer";
+import { useEffect, useState } from "react";
+import { getSingleChildFromDb } from "../Services/Constants";
+import { useAppDispatch } from "../Hooks/reduxHooks";
+import {
+  setAddress,
+  setCoverUrl,
+  setFirstName,
+  setJobTitle,
+  setLastName,
+  setlogoUrl,
+  setProfileUrl,
+} from "../Redux/ProfileSlice";
 
 const EditprofileContent = () => {
   const innerHeight: number = window.innerHeight;
-  
+
+  const [profileData, setProfileData] = useState<any>({});
+
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+
+  const getProfileData = (data: any) => {
+    if (data) {
+      setProfileData(Object.values(data)?.[0]);
+    }
+  };
+
+  // getting profile data
+  useEffect(() => {
+    getSingleChildFromDb("User/", "id", id, getProfileData);
+  }, [id]);
+
+  console.log(profileData);
+
+  // setting redux states
+
+  useEffect(() => {
+    dispatch(setFirstName(profileData?.firstName));
+    dispatch(setLastName(profileData?.lastName));
+    dispatch(setJobTitle(profileData?.jobTitle));
+    dispatch(setAddress(profileData?.address));
+    dispatch(setProfileUrl(profileData?.profileUrl));
+    dispatch(setCoverUrl(profileData?.coverUrl));
+    dispatch(setlogoUrl(profileData?.logoUrl));
+  }, [profileData?.id]);
 
   return (
     <div className="w-[83%] h-[100%] bg-[#F7F7F8] flex justify-center">

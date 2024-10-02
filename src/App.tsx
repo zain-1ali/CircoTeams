@@ -9,10 +9,12 @@ import Connections from "./Pages/Connections";
 import Analytics from "./Pages/Analytics";
 import Devices from "./Pages/Devices";
 import Support from "./Pages/Support";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div style={{ fontFamily: "Inter" }}>
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Signin />} />
@@ -31,3 +33,6 @@ function App() {
 }
 
 export default App;
+
+// profileType
+// profileName

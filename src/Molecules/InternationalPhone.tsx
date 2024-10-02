@@ -8,6 +8,8 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   flagBtnHeight = "47px",
   flagBtnWidth = "50px",
   inputClasses = "w-[90%] h-[47px] outline-none pl-2 bg-[#F7F7F8] rounded-md",
+  value,
+  onChange,
 }) => {
   const [phone, setPhone] = useState("");
 
@@ -86,8 +88,8 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
         </div>
         <input
           type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           placeholder={
             flagBtnHeight === "47px" ? "Enter your phone number" : ""
           }

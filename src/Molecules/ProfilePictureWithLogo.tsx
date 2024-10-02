@@ -6,20 +6,20 @@ import { prflLogoImgProps } from "../Types";
 const ProfilePictureWithLogo: React.FC<prflLogoImgProps> = ({
   profileClasses = "h-[96px] w-[96px] relative  rounded-full",
   logoClasses = "h-[36px] w-[36px]  rounded-full absolute right-[-5px] bottom-[-5px]",
-  profile = profilePlchldr,
-  logo = logoPlchldr,
-  showLogo=true,
+  profile,
+  logo,
+  showLogo = true,
 }) => {
   return (
     <div className={profileClasses}>
       <Image
-        src={profile}
+        src={profile || profilePlchldr}
         classes="h-[100%] w-[100%] rounded-full object-cover"
       />
       {showLogo && (
         <div className={logoClasses}>
           <Image
-            src={logo}
+            src={logo || logoPlchldr}
             classes="h-[100%] w-[100%] rounded-full object-cover"
           />
         </div>

@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
 export interface ImageProps {
-  classes?: string;
-  src?: string;
+  classes?: any;
+  src?: any;
 }
 
 export interface LogoProps {
@@ -37,7 +37,7 @@ export interface textProps {
 
 export interface inputProps {
   type?: string;
-  onChange: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   classes?: string;
   placeholder?: string;
@@ -70,21 +70,23 @@ export interface sidebarBtnProps {
 }
 
 export interface prflBgImgProps {
-  imgClass?: string;
+  imgClass?: any;
   containerClass?: string;
-  src?: string;
+  src?: any;
 }
 
 export interface prflLogoImgProps {
   profileClasses?: string;
   logoClasses?: string;
-  profile?: string;
-  logo?: string;
+  profile?: any;
+  logo?: any;
   showLogo?: boolean;
 }
 
 export interface prflCardProps {
   isCreatePrfl?: boolean;
+  profile?: any;
+  onClick?: any;
 }
 
 export interface profileCardProps {
@@ -100,6 +102,10 @@ export interface imageSelectProps {
   textClasses: string;
   imgClasses?: string;
   containerClasse?: string;
+  handleFileChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    imgType: string
+  ) => void;
 }
 
 export interface phoneInputProps {
@@ -107,6 +113,8 @@ export interface phoneInputProps {
   flagBtnHeight?: string;
   flagBtnWidth?: string;
   inputClasses?: string;
+  value?: string;
+  onChange: (e: string) => void;
 }
 
 export interface toggleAreaProps {
@@ -176,6 +184,13 @@ export interface contactOptionsProps {
   btnText: string;
 }
 
+export interface prfTextsProps {
+  name: string;
+  job: string;
+  location: string;
+  company: string;
+}
+
 // redux states types
 
 export interface reduxSignupCreateProfileState {
@@ -189,4 +204,101 @@ export interface reduxEditSection {
 
 export interface reduxTeamSection {
   teamSectionStage: number;
+}
+
+// profile interfaces
+
+export interface ProfileDesign {
+  appIconColor: string;
+  backgroundColor: string;
+  backgroundImage: string;
+  backgroundOpacity: number;
+  backgroundTheme: string;
+  boxBackgroundColor: string;
+  boxTextColor: string;
+  hideCompanyLogo: boolean;
+  hideSaveContact: boolean;
+  highlightBoxStyle: string;
+  profileFont: string;
+  saveContactBackgroundColor: string;
+  saveContactStyle: string;
+  saveContactTextColor: string;
+  weblinkButtonBackgroundColor: string;
+  weblinkButtonTextColor: string;
+  weblinkStyle: string;
+  whiteProfileText: boolean;
+  whiteTextAndBorder: boolean;
+}
+
+export interface Link {
+  baseUrl?: string;
+  email?: string;
+  graphicTextColor?: string;
+  id: string;
+  image?: string | number;
+  isLinkHighlighted: boolean;
+  linkHighlightDescription?: string;
+  linkID: number;
+  name: string;
+  placeholder?: string;
+  shareable: boolean;
+  textAlign?: string;
+  title?: string;
+  type?: string;
+  value?: string;
+}
+
+export interface TagUid {
+  activationDate: number;
+  id: string;
+  name: string;
+  tagId: string;
+  type: string;
+}
+
+export interface UserProfile {
+  address: string;
+  bio: string;
+  company: string;
+  coverUrl: string | null;
+  direct: Link;
+  directMode: boolean;
+  dob: string;
+  email: string;
+  fcmToken: string;
+  firstName: string;
+  gender: string;
+  hideSaveContact: boolean;
+  id: string;
+  isProMatching: boolean;
+  isProVersion: boolean;
+  isTrialPeriod: boolean;
+  isVisible: boolean;
+  jobTitle: string;
+  lastName: string;
+  leadMode: boolean;
+  links?: Link[];
+  logoUrl: string | null;
+  name: string;
+  parentID: string;
+  phone: string;
+  platform: string;
+  proVersionExpiryDate: string;
+  proVersionPurchaseDate: string;
+  profileDesign: ProfileDesign;
+  profileOn: number;
+  profileSelected: string;
+  profileTitle: string;
+  profileUrl: string | null;
+  qrColor: string;
+  qrLogo: string;
+  subscription: string;
+  tagUid?: TagUid[];
+  transactionId: string;
+  userName: string;
+  username: string;
+}
+
+export interface AuthLinksProps {
+  links: Link[];
 }

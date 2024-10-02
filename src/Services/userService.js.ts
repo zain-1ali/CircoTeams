@@ -1,0 +1,122 @@
+// import { UserProfile } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { auth, db } from "../firebase"
+import { ref, update } from "firebase/database"
+
+export const createNewUser = async (data:any,credentials:any,showError:any,showSuccess:any,navigate:any,setLoading:any) => {
+setLoading(true)
+    createUserWithEmailAndPassword(auth, data?.email, credentials?.password).then((userCredential)=>{
+      const user=userCredential.user
+      localStorage.setItem("circoCompanyUid",user.uid)
+      // console.log(user)
+      update(
+        ref(db, `User/${user.uid}`),{...data,id:user.uid}).then(()=>{
+          showSuccess("Account Created Successfuly")
+          setLoading(false)
+          setTimeout(()=>{
+navigate("/myprofiles")
+          },1000)
+          console.log("Account Created Successfuly")
+        })
+    }).catch((err)=>{
+      setLoading(false)
+      console.log(err)
+      const error=err.message
+      if (error) {
+        if (error.includes("Firebase: Error (auth/invalid-email)."))
+          showError("Please enter a valid email");
+        else if (
+          error.includes("Firebase: Error (auth/email-already-in-use).")
+        )
+          showError("Email already exists");
+        else if (
+          error.includes(
+            "Firebase: Password should be at least 6 characters (auth/weak-password)."
+          )
+        )
+          showError("Password must be at least 6 characters");
+        return;
+      }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+export const LoginUser=async(credentials:any,showError:any,showSuccess:any,navigate:any,setLoading:any)=>{
+if(credentials.email && credentials.password){
+  setLoading(true)
+  signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+  .then((userCredential) => {
+    const user=userCredential.user
+    localStorage.setItem("circoCompanyUid",user.uid)
+    showSuccess("Login successfully")
+    setTimeout(()=>{
+      navigate("/myprofiles")
+                },1000)
+  })
+}else{
+  showError("Email and Password are required to login")
+}
+}

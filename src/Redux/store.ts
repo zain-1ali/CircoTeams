@@ -2,13 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import CreateProfileHandeler from "./SignupSlice"
 import profileEditSectionHandeler from "./EditSectionsSlice"
 import teamSectionHandeler from "./TeamsSectionSlice"
+import profileHandler from "./ProfileSlice"
+import authLinkHandler from "./AuthAddLinkSlice"
 // ...
 
 export const store = configureStore({
   reducer: {
     CreateProfileHandeler:CreateProfileHandeler,
     profileEditSectionHandeler:profileEditSectionHandeler,
-    teamSectionHandeler:teamSectionHandeler
+    teamSectionHandeler:teamSectionHandeler,
+    profileHandler:profileHandler,
+    authLinkHandler:authLinkHandler
   },
 })
 

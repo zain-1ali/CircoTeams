@@ -2,12 +2,17 @@
 import { MdKeyboardBackspace } from "react-icons/md";
 import InputWithLabel from "./InputWithLabel";
 import CustomButton from "./CustomButton";
-import { useAppDispatch } from "../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setProfileCreationStage } from "../Redux/SignupSlice";
 import InternationalPhone from "./InternationalPhone";
+import { setSocialCall, setSocialEmail } from "../Redux/AuthAddLinkSlice";
 
 const SignupCreateProfileStage2 = () => {
   const dispatch = useAppDispatch();
+  const authLinks = useAppSelector((state) => state.authLinkHandler.links);
+  const handleChangePhone = (value: string) => {
+    dispatch(setSocialCall(value));
+  };
   return (
     <div className="w-[100%] mt-6">
       <div className="w-[100%]">
@@ -21,8 +26,8 @@ const SignupCreateProfileStage2 = () => {
       <InputWithLabel
         type="text"
         label="Email"
-        onChange={() => {}}
-        value=""
+        onChange={(e) => dispatch(setSocialEmail(e.target.value))}
+        value={authLinks[0].value}
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
@@ -34,7 +39,10 @@ const SignupCreateProfileStage2 = () => {
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       /> */}
-      <InternationalPhone />
+      <InternationalPhone
+        value={authLinks[1].value}
+        onChange={handleChangePhone}
+      />
 
       <CustomButton
         text="Continue"

@@ -12,10 +12,23 @@ import SignupCreateProofileStage1 from "../Molecules/SignupCreateProofileStage1"
 import { setStartProfileCreation } from "../Redux/SignupSlice";
 import SignupCreateProfileStage2 from "../Molecules/SignupCreateProfileStage2";
 import SignupCreateProfileStage3 from "../Molecules/SignupCreateProfileStage3";
+import { useState } from "react";
+import { setEmail, setFirstName, setLastName } from "../Redux/ProfileSlice";
+import { LoginUser } from "../Services/userService.js";
+import useToastNotifications from "../Hooks/useToastNotification.js";
+import { CircularProgress } from "@mui/material";
 
 const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
   const innerHeight: number = window.innerHeight;
   const navigate = useNavigate();
+  interface Passwords {
+    password: string;
+    confirmPassword: string;
+  }
+  const [passwords, setPassword] = useState<Passwords>({
+    password: "",
+    confirmPassword: "",
+  });
 
   // pre-typed redux hooks
   const isSignupCreateProfile = useAppSelector(
@@ -24,6 +37,36 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
   const signupCreateProfileStage = useAppSelector(
     (state) => state.CreateProfileHandeler.signupCreateProfileStage
   );
+
+  const email = useAppSelector((state) => state.profileHandler.email);
+
+  const firstName = useAppSelector((state) => state.profileHandler.firstName);
+
+  const lastName = useAppSelector((state) => state.profileHandler.lastName);
+  const { showSuccess, showError } = useToastNotifications();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const permitToGoForward = () => {
+    if (isSignin) {
+      if (email && passwords?.password) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (
+        email &&
+        passwords?.password &&
+        passwords?.confirmPassword &&
+        firstName
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
 
   const dispatch = useAppDispatch();
 
@@ -82,8 +125,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <InputWithLabel
                     type="text"
                     label="First Name"
-                    onChange={() => {}}
-                    value=""
+                    onChange={(e) => dispatch(setFirstName(e.target.value))}
+                    value={firstName}
                     inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
                     labelClasses="font-[400] text-[15px] w-[100%] mt-2"
                   />
@@ -92,8 +135,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <InputWithLabel
                     type="text"
                     label="Last Name"
-                    onChange={() => {}}
-                    value=""
+                    onChange={(e) => dispatch(setLastName(e.target.value))}
+                    value={lastName}
                     inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
                     labelClasses="font-[400] text-[15px] w-[100%] mt-2"
                   />
@@ -103,16 +146,21 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
             <InputWithLabel
               type="text"
               label="Email Address"
-              onChange={() => {}}
-              value=""
+              onChange={(e) => dispatch(setEmail(e.target.value))}
+              value={email}
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
               labelClasses="font-[400] text-[15px] w-[100%] mt-2"
             />
             <InputWithLabel
               type="password"
               label="Password"
-              onChange={() => {}}
-              value=""
+              onChange={(e) => {
+                setPassword({
+                  ...passwords,
+                  password: e.target.value,
+                });
+              }}
+              value={passwords?.password}
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
               labelClasses="font-[400] text-[15px] w-[100%] mt-3"
             />
@@ -121,8 +169,13 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
               <InputWithLabel
                 type="password"
                 label="Confirm Password"
-                onChange={() => {}}
-                value=""
+                onChange={(e) => {
+                  setPassword({
+                    ...passwords,
+                    confirmPassword: e.target.value,
+                  });
+                }}
+                value={passwords?.confirmPassword}
                 inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
                 labelClasses="font-[400] text-[15px] w-[100%] mt-3"
               />
@@ -148,12 +201,30 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
             </div>
 
             <CustomButton
-              text={isSignin ? "Log in" : "Continue"}
-              onClick={() => {
-                isSignin
-                  ? console.log("testing")
-                  : dispatch(setStartProfileCreation(true));
-              }}
+              text={isSignin ? (loading ? "" : "Log in") : "Continue"}
+              onClick={
+                permitToGoForward() === true || !loading
+                  ? () => {
+                      isSignin
+                        ? LoginUser(
+                            { email, password: passwords?.password },
+                            showError,
+                            showSuccess,
+                            navigate,
+                            setLoading
+                          )
+                        : dispatch(setStartProfileCreation(true));
+                    }
+                  : () => {}
+              }
+              icon={
+                loading && (
+                  <CircularProgress sx={{ color: "#ffffff" }} size={30} />
+                )
+              }
+              btnClasses={`bg-[#2B6EF6] text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-4 ${
+                permitToGoForward() === false && "opacity-[50%]"
+              }`}
             />
 
             <div
@@ -183,7 +254,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
             ) : signupCreateProfileStage === 1 ? (
               <SignupCreateProfileStage2 />
             ) : (
-              <SignupCreateProfileStage3 />
+              <SignupCreateProfileStage3 passwords={passwords} />
             )}
           </>
         )}

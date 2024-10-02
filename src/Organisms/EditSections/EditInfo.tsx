@@ -6,8 +6,88 @@ import upldLogo from "../../assets/images/upldLogo.png";
 import upldCover from "../../assets/images/upldCover.png";
 import InternationalPhone from "../../Molecules/InternationalPhone";
 import Button from "../../Atoms/Button";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import {
+  setAddress,
+  setCompany,
+  setCoverUrl,
+  setFirstName,
+  setJobTitle,
+  setLastName,
+  setlogoUrl,
+  setProfileUrl,
+} from "../../Redux/ProfileSlice";
+import ImageCropperModal from "../Cropper";
+import { useUploadFile } from "../../Hooks/useUploadFile";
+import useToastNotifications from "../../Hooks/useToastNotification";
+import { useState } from "react";
+import { updateProfileInfo } from "../../Services/ProfileServices";
 
 const EditInfo = () => {
+  const profileData = useAppSelector((state) => state.profileHandler);
+  const dispatch = useAppDispatch();
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [image, setImage] = useState<string>("");
+  const [imageType, setImageType] = useState<string>();
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    imgType: string
+  ): void => {
+    const file = event.target.files?.[0]; // Use optional chaining in case no file is selected
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageType(imgType);
+        setImage(reader.result as string); // Type assertion to ensure `reader.result` is treated as a string
+        setOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCropComplete = (croppedImage: string) => {
+    const uniqueTime = Date.now();
+    setUploadLoading(true);
+    if (imageType === "Profile Image") {
+      uploadFile(croppedImage?.slice(23), `profileUrl${uniqueTime}`).then(
+        (url) => {
+          dispatch(setProfileUrl(url));
+          setUploadLoading(false);
+          setOpen(false);
+        }
+      );
+    } else if (imageType === "Logo") {
+      uploadFile(croppedImage?.slice(23), `logoUrl${uniqueTime}`).then(
+        (url) => {
+          dispatch(setlogoUrl(url));
+          setUploadLoading(false);
+          setOpen(false);
+        }
+      );
+    } else if (imageType === "Cover Image") {
+      uploadFile(croppedImage?.slice(23), `coverUrl${uniqueTime}`).then(
+        (url) => {
+          dispatch(setCoverUrl(url));
+          setUploadLoading(false);
+          setOpen(false);
+        }
+      );
+    }
+  };
+
+  const { uploadFile } = useUploadFile();
+  const { showSuccess, showError } = useToastNotifications();
+
+  console.log(loading);
+
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
       <Text text="Basic Info" classes="font-[600] text-[15px]" />
@@ -24,23 +104,26 @@ const EditInfo = () => {
         <ImageSelecter
           text="Profile Image"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={upldPrfl}
+          image={profileData?.profileUrl || upldPrfl}
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
+          handleFileChange={handleFileChange}
         />
         <ImageSelecter
           text="Cover Image"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={upldCover}
+          image={profileData?.coverUrl || upldCover}
           imgClasses="h-[91px] rounded-[10px] w-[174px]  mt-2"
           containerClasse="flex flex-col items-center"
+          handleFileChange={handleFileChange}
         />
         <ImageSelecter
           text="Logo"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={upldLogo}
+          image={profileData?.logoUrl || upldLogo}
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
+          handleFileChange={handleFileChange}
         />
       </div>
 
@@ -51,8 +134,8 @@ const EditInfo = () => {
           <InputWithLabel
             type="text"
             label="First Name"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => dispatch(setFirstName(e.target.value))}
+            value={profileData.firstName}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
           />
@@ -61,8 +144,8 @@ const EditInfo = () => {
           <InputWithLabel
             type="text"
             label="Last Name"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => dispatch(setLastName(e.target.value))}
+            value={profileData.lastName}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
           />
@@ -74,8 +157,8 @@ const EditInfo = () => {
           <InputWithLabel
             type="text"
             label="Job Title"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => dispatch(setJobTitle(e.target.value))}
+            value={profileData.jobTitle}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
           />
@@ -84,8 +167,8 @@ const EditInfo = () => {
           <InputWithLabel
             type="text"
             label="Company"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => dispatch(setCompany(e.target.value))}
+            value={profileData.company}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
           />
@@ -97,8 +180,8 @@ const EditInfo = () => {
           <InputWithLabel
             type="text"
             label="Location"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => dispatch(setAddress(e.target.value))}
+            value={profileData.address}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
           />
@@ -124,6 +207,7 @@ const EditInfo = () => {
             flagBtnHeight="40px"
             flagBtnWidth="50px"
             inputClasses="w-[90%] h-[40px] outline-none pl-2 bg-[#F7F7F8] rounded-md"
+            onChange={() => {}}
           />
         </div>
       </div>
@@ -137,9 +221,37 @@ const EditInfo = () => {
         <Button
           text="Save"
           btnClasses="text-[12px] font-[600] text-white w-[138px] h-[37px] rounded-[88px] bg-[#2B6EF6]"
-          onClick={() => {}}
+          onClick={
+            () =>
+              updateProfileInfo(
+                {
+                  firstName: profileData?.firstName,
+                  lastName: profileData?.lastName,
+                  company: profileData?.company,
+                  address: profileData?.address,
+                  profileUrl: profileData?.profileUrl,
+                  logoUrl: profileData?.logoUrl,
+                  coverUrl: profileData?.coverUrl,
+                },
+                profileData.id,
+                showError,
+                showSuccess,
+                setLoading
+              )
+            // console.log("working")
+          }
         />
       </div>
+
+      <ImageCropperModal
+        open={open}
+        handleClose={handleClose}
+        imageSrc={image}
+        onCropComplete={handleCropComplete}
+        aspect={imageType === "Cover Image" ? 16 / 9 : 1 / 1}
+        shape={imageType === "Cover Image" ? "rect" : "round"}
+        loading={uploadLoading}
+      />
     </div>
   );
 };
