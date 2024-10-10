@@ -20,9 +20,9 @@ const UserProfileCard: React.FC<prflCardProps> = ({
       style={{ opacity: isCreatePrfl ? "50%" : "100%" }}
     >
       <div className="w-[94%] mt-2 flex justify-center relative">
-        {!isCreatePrfl && (
+        {!isCreatePrfl && profile?.profileName && (
           <div className="h-[26px] w-[99px] rounded-full bg-[#959595A8] text-[white] flex justify-center items-center font-[600] text-[10px] absolute left-[10px] top-[10px]">
-            Business Profile
+            {profile?.profileName}
           </div>
         )}
         <ProfileBackgroundImage

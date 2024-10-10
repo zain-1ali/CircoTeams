@@ -8,11 +8,13 @@ import { getSingleChildFromDb } from "../Services/Constants";
 import { useAppDispatch } from "../Hooks/reduxHooks";
 import {
   setAddress,
+  setCompany,
   setCoverUrl,
   setFirstName,
   setJobTitle,
   setLastName,
   setlogoUrl,
+  setProfileName,
   setProfileUrl,
 } from "../Redux/ProfileSlice";
 
@@ -47,6 +49,8 @@ const EditprofileContent = () => {
     dispatch(setProfileUrl(profileData?.profileUrl));
     dispatch(setCoverUrl(profileData?.coverUrl));
     dispatch(setlogoUrl(profileData?.logoUrl));
+    dispatch(setProfileName(profileData?.profileName));
+    dispatch(setCompany(profileData?.company));
   }, [profileData?.id]);
 
   return (

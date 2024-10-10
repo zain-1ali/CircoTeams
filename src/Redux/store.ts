@@ -4,6 +4,7 @@ import profileEditSectionHandeler from "./EditSectionsSlice"
 import teamSectionHandeler from "./TeamsSectionSlice"
 import profileHandler from "./ProfileSlice"
 import authLinkHandler from "./AuthAddLinkSlice"
+import singleLinkHandeler from "./linkSlice"
 // ...
 
 export const store = configureStore({
@@ -12,7 +13,8 @@ export const store = configureStore({
     profileEditSectionHandeler:profileEditSectionHandeler,
     teamSectionHandeler:teamSectionHandeler,
     profileHandler:profileHandler,
-    authLinkHandler:authLinkHandler
+    authLinkHandler:authLinkHandler,
+    singleLinkHandeler:singleLinkHandeler
   },
 })
 

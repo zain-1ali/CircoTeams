@@ -1,14 +1,10 @@
 // Define the type for icon data
-interface Icon {
-  name: string;
-  img: string; // Assuming the image imports are string paths
-  placeholder: string;
-}
 
 // Import contact icons
 import call from "./socialLink/phone.png";
 import contact from "./socialLink/contacts.png";
 import text from "./socialLink/text.png";
+import text2 from "./socialLink/write.png";
 import whatsapp from "./socialLink/whatsapp.png";
 import email from "./socialLink/email.png";
 
@@ -41,6 +37,7 @@ import spotify from "./socialLink/spotify.png";
 import applemusic from "./socialLink/applemusic.png";
 import soundcloud from "./socialLink/soundcloud.png";
 import itunes from "./socialLink/itunes.png";
+import embdvdo from "./socialLink/embdvdo.png";
 
 // Import payment icons
 import cashapp from "./socialLink/cashapp.png";
@@ -51,38 +48,183 @@ import venmo from "./socialLink/venmo.png";
 import website from "./socialLink/link.png";
 import calendly from "./socialLink/calendly.png";
 import reviews from "./socialLink/review.png";
+import { Icon, IconGroup } from "../Types";
 
 // Define icon arrays with the Icon type
+
+export const popular: Icon[] = [
+  { name: "Text", img: text, placeholder: "Phone Number*", linkID: 4 },
+  { name: "Email", img: email, placeholder: "Email*", linkID: 3 },
+  {
+    name: "Instagram",
+    img: instagram,
+    placeholder: "Instagram Username*",
+    linkID: 11,
+  },
+  {
+    name: "Linkedin",
+    img: linkedin,
+    placeholder: "Linkedin Profile Link*",
+    linkID: 12,
+  },
+  { name: "Call", img: call, placeholder: "Phone Number*", linkID: 2 },
+];
+
 export const contactIcons: Icon[] = [
-  { name: "Call", img: call, placeholder: "Phone Number*" },
-  { name: "Text", img: text, placeholder: "Phone Number*" },
-  { name: "Whatsapp", img: whatsapp, placeholder: "Phone Number*" },
-  { name: "Email", img: email, placeholder: "Email*" },
+  { name: "Call", img: call, placeholder: "Phone Number*", linkID: 2 },
+  { name: "Text", img: text, placeholder: "Phone Number*", linkID: 4 },
+  { name: "Whatsapp", img: whatsapp, placeholder: "Phone Number*", linkID: 5 },
+  { name: "Email", img: email, placeholder: "Email*", linkID: 3 },
 ];
 
 export const socialIcons: Icon[] = [
-  { name: "Instagram", img: instagram, placeholder: "Instagram Username*" },
-  { name: "Facebook", img: facebook, placeholder: "Facebook Profile Link*" },
-  { name: "Tiktok", img: tiktok, placeholder: "Tiktok Username*" },
-  { name: "Twitter", img: twitter, placeholder: "Twitter Username*" },
-  { name: "Linkedin", img: linkedin, placeholder: "Linkedin Profile Link*" },
-  { name: "Pinterest", img: pinterest, placeholder: "Pinterest Username*" },
-  { name: "Youtube", img: youtube, placeholder: "Youtube Chanel Url*" },
-  { name: "Snapchat", img: snapchat, placeholder: "Snapchat Username*" },
+  {
+    name: "Instagram",
+    img: instagram,
+    placeholder: "Instagram Username*",
+    linkID: 11,
+  },
+  {
+    name: "Facebook",
+    img: facebook,
+    placeholder: "Facebook Profile Link*",
+    linkID: 14,
+  },
+  { name: "Tiktok", img: tiktok, placeholder: "Tiktok Username*", linkID: 13 },
+  {
+    name: "Twitter",
+    img: twitter,
+    placeholder: "Twitter Username*",
+    linkID: 17,
+  },
+  {
+    name: "Linkedin",
+    img: linkedin,
+    placeholder: "Linkedin Profile Link*",
+    linkID: 12,
+  },
+  {
+    name: "Pinterest",
+    img: pinterest,
+    placeholder: "Pinterest Username*",
+    linkID: 18,
+  },
+  {
+    name: "Youtube",
+    img: youtube,
+    placeholder: "Youtube Channel Url*",
+    linkID: 16,
+  },
+  {
+    name: "Snapchat",
+    img: snapchat,
+    placeholder: "Snapchat Username*",
+    linkID: 15,
+  },
+];
+
+export const business: Icon[] = [
+  {
+    name: "Calendly",
+    img: calendly,
+    placeholder: "Calendly link*",
+    linkID: 41,
+  },
+  {
+    name: "Etsy",
+    img: Etsy,
+    placeholder: "Etsy link*",
+    linkID: 42,
+  },
+  {
+    name: "Yelp",
+    img: yelp,
+    placeholder: "yelp link*",
+    linkID: 43,
+  },
+  {
+    name: "App link",
+    img: applink,
+    placeholder: "yelp link*",
+    linkID: 44,
+  },
+  {
+    name: "Reviews",
+    img: reviews,
+    placeholder: "yelp link*",
+    linkID: 45,
+  },
 ];
 
 export const media: Icon[] = [
-  { name: "Spotify", img: spotify, placeholder: "Spotify link*" },
+  { name: "Spotify", img: spotify, placeholder: "Spotify link*", linkID: 22 },
+  {
+    name: "Sound Cloud",
+    img: soundcloud,
+    placeholder: "Sound Cloud link*",
+    linkID: 23,
+  },
+  {
+    name: "Apple Music",
+    img: soundcloud,
+    placeholder: "Apple Music link*",
+    linkID: 24,
+  },
+  {
+    name: "Embedded Video(Youtube Viemo API)",
+    img: embdvdo,
+    placeholder: "Embedded Video link*",
+    linkID: 25,
+  },
+  {
+    name: "Text",
+    img: text2,
+    placeholder: "Text*",
+    linkID: 25,
+  },
+  {
+    name: "Embedded Songs(Spotify, SoundCloud, Apple Music API)",
+    img: itunes,
+    placeholder: "Embedded Songs Link*",
+    linkID: 27,
+  },
 ];
 
 export const payment: Icon[] = [
-  { name: "Cash App", img: cashapp, placeholder: "Cash App username*" },
-  { name: "PayPal", img: paypal, placeholder: "paypal.me link*" },
+  {
+    name: "Cash App",
+    img: cashapp,
+    placeholder: "Cash App username*",
+    linkID: 31,
+  },
+
+  { name: "PayPal", img: paypal, placeholder: "paypal.me link*", linkID: 32 },
+  { name: "Venmo", img: venmo, placeholder: "venmo link*", linkID: 33 },
 ];
 
 export const more: Icon[] = [
-  { name: "Website", img: website, placeholder: "Website link*" },
-  { name: "Calendly", img: calendly, placeholder: "Calendly link*" },
+  { name: "Website", img: website, placeholder: "Website link*", linkID: 21 },
+  {
+    name: "Calendly",
+    img: calendly,
+    placeholder: "Calendly link*",
+    linkID: 41,
+  },
+];
+
+export const allLinks: IconGroup[] = [
+  {
+    name: "Popular",
+    links: [...popular],
+  },
+  {
+    name: "Contact Info",
+    links: [...contactIcons],
+  },
+  { name: "Social", links: [...socialIcons] },
+  { name: "Business", links: [...business] },
+  { name: "Content", links: [...media] },
+  { name: "Payment", links: [...payment] },
 ];
 
 // Type for the id parameter in returnPngIcons function

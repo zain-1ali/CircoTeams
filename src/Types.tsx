@@ -191,6 +191,10 @@ export interface prfTextsProps {
   company: string;
 }
 
+export interface LoadingProps {
+  bgColor: string;
+}
+
 // redux states types
 
 export interface reduxSignupCreateProfileState {
@@ -205,6 +209,31 @@ export interface reduxEditSection {
 export interface reduxTeamSection {
   teamSectionStage: number;
 }
+
+export interface Icon {
+  name: string;
+  img: string; // Assuming the image imports are string paths
+  placeholder: string;
+  linkID: number;
+}
+
+export interface IconGroup {
+  name: string;
+  links: Icon[];
+}
+
+export interface uploadIconProps {
+  imgSrc: string | undefined;
+  isShare: boolean;
+}
+
+export interface allLinksProps {
+  changeLinkMode: (type: string) => void;
+}
+
+export interface addLinksProps extends allLinksProps {}
+
+export interface webLinksProps extends allLinksProps {}
 
 // profile interfaces
 
@@ -297,6 +326,7 @@ export interface UserProfile {
   transactionId: string;
   userName: string;
   username: string;
+  profileName: string;
 }
 
 export interface AuthLinksProps {

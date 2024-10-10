@@ -116,15 +116,17 @@ const initialData={
     }
     }
 
-export const updateProfileInfo=(data:any,id:string,showError:any,showSuccess:any,setLoading:any)=>{
-    console.log("outer")
+export const updateProfileInfo=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
+    console.log(data)
     if(data){
         console.log("inner")
         update(ref(db, `User/${id}`),{...data}).then(()=>{
             setLoading(false)
             showSuccess("Information updated sucessfully")
-        }).catch(()=>{
+            console.log("working well")
+        }).catch((Error)=>{
             showError("Something went wrong")
+            console.log("the error",Error)
         })
     }
 }

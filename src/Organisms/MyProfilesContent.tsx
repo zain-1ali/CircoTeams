@@ -139,7 +139,7 @@ const MyProfilesContent = () => {
         />
       </CustomModal>
 
-      {loading && <Loading />}
+      {loading && <Loading bgColor="#F7F7F8" />}
     </div>
   );
 };

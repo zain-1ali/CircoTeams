@@ -15,6 +15,7 @@ import {
   setJobTitle,
   setLastName,
   setlogoUrl,
+  setProfileName,
   setProfileUrl,
 } from "../../Redux/ProfileSlice";
 import ImageCropperModal from "../Cropper";
@@ -22,10 +23,12 @@ import { useUploadFile } from "../../Hooks/useUploadFile";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import { useState } from "react";
 import { updateProfileInfo } from "../../Services/ProfileServices";
+import { useParams } from "react-router-dom";
 
 const EditInfo = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const dispatch = useAppDispatch();
+  const { id } = useParams();
 
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
@@ -86,7 +89,7 @@ const EditInfo = () => {
   const { uploadFile } = useUploadFile();
   const { showSuccess, showError } = useToastNotifications();
 
-  console.log(loading);
+  console.log(profileData);
 
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
@@ -94,8 +97,8 @@ const EditInfo = () => {
       <InputWithLabel
         type="text"
         label="Profile Name"
-        onChange={() => {}}
-        value=""
+        onChange={(e) => dispatch(setProfileName(e.target.value))}
+        value={profileData?.profileName}
         inputClasses="h-[40px] w-[238px] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
         labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
       />
@@ -232,8 +235,10 @@ const EditInfo = () => {
                   profileUrl: profileData?.profileUrl,
                   logoUrl: profileData?.logoUrl,
                   coverUrl: profileData?.coverUrl,
+                  jobTitle: profileData?.jobTitle,
+                  profileName: profileData.profileName,
                 },
-                profileData.id,
+                id,
                 showError,
                 showSuccess,
                 setLoading

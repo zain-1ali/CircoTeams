@@ -222,7 +222,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <CircularProgress sx={{ color: "#ffffff" }} size={30} />
                 )
               }
-              btnClasses={`bg-[#2B6EF6] text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-4 ${
+              btnClasses={`bg-primary text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-4 ${
                 permitToGoForward() === false && "opacity-[50%]"
               }`}
             />

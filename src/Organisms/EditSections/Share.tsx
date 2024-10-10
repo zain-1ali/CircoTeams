@@ -2,6 +2,7 @@ import Text from "../../Atoms/Text";
 import ColorSelector from "../../Molecules/ColorSelector";
 import TextButton from "../../Molecules/TextButton";
 import UploadIcon from "../../Molecules/UploadIcon";
+import junk1 from "../../assets/images/junk1.png";
 
 const Share = () => {
   return (
@@ -10,7 +11,7 @@ const Share = () => {
       <div className="mt-3">
         <ColorSelector colorType="QR Code Color" />
         <div className="mt-2">
-          <UploadIcon />
+          <UploadIcon imgSrc={junk1} isShare={true} />
         </div>
       </div>
 

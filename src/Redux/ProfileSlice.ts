@@ -67,6 +67,7 @@ const initialState: UserProfile = {
     whiteProfileText: false,
     whiteTextAndBorder: true
   },
+  profileName:"",
   profileOn: 1,
   profileSelected: "",
   profileTitle: "",
@@ -118,6 +119,9 @@ export const profileSlice = createSlice({
     },
     setPhone: (state, action: PayloadAction<string>) => {
       state.phone = action.payload;
+    },
+    setProfileName: (state, action: PayloadAction<string>) => {
+      state.profileName = action.payload;
     },
     setPlatform: (state, action: PayloadAction<string>) => {
       state.platform = action.payload;
@@ -232,6 +236,7 @@ export const {
   setProfileDesign,
   setProVersionDates,
   setLinks,
+  setProfileName,
 //   addTagUid,
   setTagUid
 } = profileSlice.actions;
