@@ -144,6 +144,11 @@ export interface tableHeadProps {
 export interface tableProps {
   headers: ReactNode[];
   type: string;
+  data: [];
+}
+
+export interface TableRowProps {
+  data: any;
 }
 
 export interface iconWithTextProps {
@@ -155,6 +160,11 @@ export interface iconWithTextProps {
 export interface imageWithTextProps {
   containerClass: string;
   isAdmin: boolean;
+}
+export interface FilterImageWithTextProps {
+  imgUrl: string;
+  texts: string;
+  containerClass: string;
 }
 
 export interface SubTeamsGetStartedProps {

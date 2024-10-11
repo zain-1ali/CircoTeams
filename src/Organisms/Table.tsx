@@ -5,7 +5,8 @@ import MembersTableRow from "../Molecules/MembersTableRow";
 import ConnectionTableRow from "../Molecules/ConnectionTableRow";
 import DevicesTableRow from "../Molecules/DevicesTableRow";
 
-const Table: React.FC<tableProps> = ({ headers, type }) => {
+const Table: React.FC<tableProps> = ({ headers, type, data }) => {
+  // console.log(data);
   return (
     <div className="w-[100%]">
       <TableHead tableHeadCells={headers} />
@@ -21,12 +22,13 @@ const Table: React.FC<tableProps> = ({ headers, type }) => {
 
       {type === "connections" && (
         <>
-          <ConnectionTableRow />
-          <ConnectionTableRow />
-          <ConnectionTableRow />
+          {/* {data?.map((item: object, index: any) => (
+            <ConnectionTableRow key={index} data={item} />
+          ))} */}
           <ConnectionTableRow />
         </>
       )}
+
 
       {type === "devices" && (
         <>
