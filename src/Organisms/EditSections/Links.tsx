@@ -5,11 +5,12 @@ import LinkContainer from "../LinkContainer";
 import CustomModal from "../Modal/Modal";
 import { useState } from "react";
 import LinkModal from "../Modal/LinkModal";
+import { useAppSelector } from "../../Hooks/reduxHooks";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
   console.log(window.innerHeight);
-
+  const profileData = useAppSelector((state) => state.profileHandler);
   return (
     <div className="w-[96%] mt-6 overflow-y-scroll pb-4">
       <div className="w-[100%] flex justify-between items-center">
@@ -23,10 +24,18 @@ const Links = () => {
         />
       </div>
       <div className="w-[100%] mt-10 h-[83%] flex flex-col gap-4 overflow-y-scroll">
-        <LinkContainer />
-        <LinkContainer />
-        <LinkContainer />
-        <LinkContainer />
+        {profileData.links && profileData.links.length > 0 ? (
+          profileData?.links?.map((link) => {
+            return <LinkContainer link={link} />;
+          })
+        ) : (
+          <div className="w-[100%] h-[100%] flex justify-center items-center">
+            No links to show
+          </div>
+        )}
+        {/* // <LinkContainer />
+        // <LinkContainer />
+        // <LinkContainer /> */}
       </div>
 
       <CustomModal

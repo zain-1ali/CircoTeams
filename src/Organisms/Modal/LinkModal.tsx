@@ -25,7 +25,7 @@ const LinkModal = () => {
     } else if (type === "addLink") {
       setLinkMode({
         allLinksMode: false,
-        addLinkMode: false,
+        addLinkMode: true,
         webLinkMode: false,
       });
     } else if (type === "webLink") {

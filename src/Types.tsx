@@ -41,6 +41,8 @@ export interface inputProps {
   value?: string | number;
   classes?: string;
   placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
 }
 
 export interface inputWithLabelProps extends inputProps {
@@ -215,6 +217,7 @@ export interface Icon {
   img: string; // Assuming the image imports are string paths
   placeholder: string;
   linkID: number;
+  baseUrl?: string;
 }
 
 export interface IconGroup {
@@ -225,6 +228,8 @@ export interface IconGroup {
 export interface uploadIconProps {
   imgSrc: string | undefined;
   isShare: boolean;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  removeImg: () => void;
 }
 
 export interface allLinksProps {
@@ -263,17 +268,24 @@ export interface Link {
   baseUrl?: string;
   email?: string;
   graphicTextColor?: string;
+  graphicDisplayText: string;
+  graphicDisplayType: string;
+  graphicImgUrl: string;
+  buttonImgUrl: string;
+  linkImgUrl: string | null;
   id: string;
   image?: string | number;
   isLinkHighlighted: boolean;
-  linkHighlightDescription?: string;
+  linkHighlightDescription: string;
   linkID: number;
   name: string;
   placeholder?: string;
   shareable: boolean;
+  style: string;
   textAlign?: string;
   title?: string;
   type?: string;
+  url?: string;
   value?: string;
 }
 
@@ -331,4 +343,8 @@ export interface UserProfile {
 
 export interface AuthLinksProps {
   links: Link[];
+}
+
+export interface SocialLinkProps {
+  link: Link;
 }

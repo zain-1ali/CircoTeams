@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword, User } from "firebase/auth";
-import { auth } from "../firebase"; // Your firebase configuration
+import { auth } from "../firebase"; 
 import { FirebaseError } from "firebase/app";
 
 interface UseCreateFirebaseUser {
-  firebaseUser: User | null; // Firebase User object or null initially
+  firebaseUser: User | null;
   error: string;
-  createUser: (email: string, password: string) => Promise<void>; // Return a promise
+  createUser: (email: string, password: string) => Promise<void>; 
 }
 
 const useCreateFirebaseUser = (): UseCreateFirebaseUser => {
@@ -22,8 +22,6 @@ const useCreateFirebaseUser = (): UseCreateFirebaseUser => {
         setFirebaseUser(userCredential.user);
         console.log("User created:", userCredential.user);
       });
-
-      // Set the firebase user after the operation succeeds
   
     } catch (error: unknown) {
       // Handle the Firebase error

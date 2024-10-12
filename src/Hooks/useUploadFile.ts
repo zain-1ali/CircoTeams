@@ -13,15 +13,15 @@ const uploadFile = useCallback(
       contentType: "image/png",
     })
       .then(() => {
-        return getDownloadURL(storageRef);  // Return download URL promise
+        return getDownloadURL(storageRef);  
       })
       .then((url) => {
         console.log("uploading end");
-        return url;  // Return the download URL
+        return url;  
       })
       .catch((error) => {
         console.error("File upload error:", error);
-        return null;  // Return null in case of error
+        return null;  
       });
   },[])
 

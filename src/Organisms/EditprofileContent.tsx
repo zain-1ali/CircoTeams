@@ -13,6 +13,7 @@ import {
   setFirstName,
   setJobTitle,
   setLastName,
+  setLinks,
   setlogoUrl,
   setProfileName,
   setProfileUrl,
@@ -51,6 +52,9 @@ const EditprofileContent = () => {
     dispatch(setlogoUrl(profileData?.logoUrl));
     dispatch(setProfileName(profileData?.profileName));
     dispatch(setCompany(profileData?.company));
+    if (typeof profileData?.links === "object") {
+      dispatch(setLinks(Object.values(profileData?.links)));
+    }
   }, [profileData?.id]);
 
   return (
