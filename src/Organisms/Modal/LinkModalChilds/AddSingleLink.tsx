@@ -167,6 +167,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
           />
         </div>
 
+        {/* slow transition  */}
         {socialLink?.isLinkHighlighted && (
           <div className="w-[95%] mt-11 ">
             <motion.div
