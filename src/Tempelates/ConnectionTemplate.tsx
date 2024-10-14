@@ -18,7 +18,32 @@ const updateConnections = (connections: any) => {
   setFilteredConnections(connections);
   setAllConnections(connections);
 }
-  
+
+const applyFilterId = (id: string) => {
+
+  if(id == "")
+  {
+    setFilteredConnections(allConnections);
+  }
+  else{
+    setFilteredConnections(
+      allConnections.filter((item: any) => item?.userid === id)
+    );
+  }
+
+};
+const searchItem = (searchValue: string) => {
+  if (searchValue === "") {
+    setFilteredConnections(allConnections);
+  } else {
+    setFilteredConnections(
+      allConnections.filter((item: any) => 
+        item?.name?.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    );
+  }
+};
+
 
   const innerHeight: number = window.innerHeight;
   const headers = [
@@ -33,7 +58,7 @@ const updateConnections = (connections: any) => {
       
       <div className="w-[83%] h-[100%] px-5 pt-6 border bg-[#f6f6f6] relative">
         {/* <TableHeader number={78} headerName="Connections" /> */}
-        <ConnectionHeader />
+        <ConnectionHeader applyFilterId={applyFilterId} searchItem = {searchItem} />
 
         <div
           className={`w-[96%]  ${

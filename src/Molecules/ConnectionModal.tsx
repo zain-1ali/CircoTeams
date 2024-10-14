@@ -5,14 +5,16 @@ import Button from "../Atoms/Button";
 import { TbFileExport } from "react-icons/tb";
 import InputWithLabel from "../Molecules/InputWithLabel";
 import TextareaWithLabel from "../Molecules/TextareaWithLabel";
+import { BsCopy } from "react-icons/bs";
 
 interface ConnectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (formData: any) => void;
+  data: any
 }
 
-const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSubmit, data }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleSave = () => {
@@ -61,7 +63,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
                 type="text"
                 label="Name"
                 onChange={(e) => (null)}
-                value="some text"
+                value={data?.name}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
@@ -84,7 +86,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Connected with"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.memberName}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -95,7 +97,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Date"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.formatedDate}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -108,7 +110,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Company"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.company}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -119,7 +121,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Job Title"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.job}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -127,26 +129,34 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
           </div>
         </div>
         <div className="flex justify-between w-[100%]">
-          <div className="w-[48%]">
+          <div className="w-[48%] relative">
             <InputWithLabel
               type="text"
               label="Email"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.email}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-
+                  <BsCopy onClick={() => {
+                    navigator.clipboard.writeText(data?.email)
+                      // toast.success("Copied to clipboard");
+                  }} className="ml-1 absolute bottom-[12px] right-[5px] cursor-pointer" />
+                
           </div>
-          <div className="w-[48%]">
+          <div className="w-[48%] relative">
             <InputWithLabel
               type="text"
               label="Phone"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.phone}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
+            <BsCopy onClick={() => {
+                    navigator.clipboard.writeText(data?.phone)
+                      // toast.success("Copied to clipboard");
+                  }} className="ml-1 absolute bottom-[12px] right-[5px] cursor-pointer" />
           </div>
         </div>
         <div className="flex justify-between w-[100%]">
@@ -155,7 +165,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Note"
               onChange={(e) => (null)}
-              value="some text"
+              value={data?.message}
               inputClasses="min-h-[70px] max-h-[90px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />

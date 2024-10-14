@@ -22,10 +22,10 @@ const Table: React.FC<tableProps> = ({ headers, type, data }) => {
 
       {type === "connections" && (
         <>
-          {/* {data?.map((item: object, index: any) => (
+          {data?.map((item: object, index: any) => (
             <ConnectionTableRow key={index} data={item} />
-          ))} */}
-          <ConnectionTableRow />
+          ))}
+          {/* <ConnectionTableRow /> */}
         </>
       )}
 

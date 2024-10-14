@@ -150,7 +150,10 @@ export interface tableProps {
 export interface TableRowProps {
   data: any;
 }
-
+export interface ConnectionHeaderProps {
+  applyFilterId: (id: string) => void;
+  searchItem : (id: string) => void;
+}
 export interface iconWithTextProps {
   icon: string;
   text: string;
@@ -160,6 +163,7 @@ export interface iconWithTextProps {
 export interface imageWithTextProps {
   containerClass: string;
   isAdmin: boolean;
+  data: any
 }
 export interface FilterImageWithTextProps {
   imgUrl: string;
