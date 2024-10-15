@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, query, ref } from "firebase/database";
+import { equalTo, onValue, orderByChild, query, ref, remove } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
 
@@ -45,6 +45,35 @@ export const getMultipleChilds = async (collectionName:string,orderBy:string,id:
       // updateStarCount(postElement, data);
     });
   };
+  export const removeSingleChildFromDb=(collectionName:string,id:any,callBackFunc:any)=>{
+    
+    remove(ref(db, `${collectionName}/${id}`))
+  .then(() => {
+    callBackFunc(); 
+  })
+  .catch((error) => {
+    console.error("Error removing data:", error); // Handle any errors
+  });
+
+}
+export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<string>, callBackFunc: () => void 
+) => {
+  const promises = ids.map((id) => {
+    return remove(ref(db, `${collectionName}/${id}`)) 
+      .catch((error) => {
+        console.error("Error removing data:", error); 
+      });
+  });
+  Promise.all(promises)
+    .then(() => {
+      callBackFunc(); 
+    })
+    .catch((error) => {
+      console.error("Error completing removal:", error); 
+    });
+};
+
+
 
   export const appendBucketPath = (path:string) => {
     let url = "";

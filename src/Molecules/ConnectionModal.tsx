@@ -2,17 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import { Modal, Box } from "@mui/material";
 import Text from "../Atoms/Text";
 import Button from "../Atoms/Button";
-import { TbFileExport } from "react-icons/tb";
 import InputWithLabel from "../Molecules/InputWithLabel";
 import TextareaWithLabel from "../Molecules/TextareaWithLabel";
-import { BsCopy } from "react-icons/bs";
-
+import { BsCopy } from "react-icons/bs"
+import useToastNotifications from "../Hooks/useToastNotification";;
+import DownloadCsv from "../Organisms/DownloadCsv";
+import { TbFileExport } from "react-icons/tb";
 interface ConnectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (formData: any) => void;
   data: any
 }
+const { showSuccess, showError } = useToastNotifications();
 
 const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSubmit, data }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -22,6 +24,14 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
     onClose();
   };
 
+  let [connectionData, setConnectionData] = useState({
+    name: data?.name || "",
+    email: data?.email || "",
+    job: data?.job || "",
+    company: data?.company || "",
+    phone: data?.phone || "",
+    message: data?.message || "",
+  })
   const modalStyles = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -41,11 +51,12 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
         <div className="w-full flex justify-between items-center mb-4">
           <Text text="Connection Info" classes="font-[600] text-[18px]" />
           <div className="flex">
-            <Button
-              text="Export"
+          <Button
+              text={<DownloadCsv data={[data]} />}
               btnClasses="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
               onClick={() => { }}
               icon={<TbFileExport className="absolute left-3 text-[16px]" />}
+
             />
             <Button
               text="Save"
@@ -63,7 +74,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
                 type="text"
                 label="Name"
                 onChange={(e) => (null)}
-                value={data?.name}
+                value={connectionData?.name}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
@@ -110,7 +121,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Company"
               onChange={(e) => (null)}
-              value={data?.company}
+              value={connectionData?.company}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -121,7 +132,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Job Title"
               onChange={(e) => (null)}
-              value={data?.job}
+              value={connectionData?.job}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
@@ -134,13 +145,13 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Email"
               onChange={(e) => (null)}
-              value={data?.email}
+              value={connectionData?.email}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
                   <BsCopy onClick={() => {
-                    navigator.clipboard.writeText(data?.email)
-                      // toast.success("Copied to clipboard");
+                    navigator.clipboard.writeText(connectionData?.email)
+                    showSuccess("Email copied to clipboard");
                   }} className="ml-1 absolute bottom-[12px] right-[5px] cursor-pointer" />
                 
           </div>
@@ -149,13 +160,13 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Phone"
               onChange={(e) => (null)}
-              value={data?.phone}
+              value={connectionData?.phone}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
             <BsCopy onClick={() => {
-                    navigator.clipboard.writeText(data?.phone)
-                      // toast.success("Copied to clipboard");
+                    navigator.clipboard.writeText(connectionData?.phone)
+                    showSuccess("Phone copied to clipboard");
                   }} className="ml-1 absolute bottom-[12px] right-[5px] cursor-pointer" />
           </div>
         </div>
@@ -165,7 +176,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ isOpen, onClose, onSu
               type="text"
               label="Note"
               onChange={(e) => (null)}
-              value={data?.message}
+              value={connectionData?.message}
               inputClasses="min-h-[70px] max-h-[90px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />

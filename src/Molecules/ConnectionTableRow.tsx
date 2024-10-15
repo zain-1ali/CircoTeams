@@ -5,10 +5,11 @@ import ImageWithTextCell from "../Molecules/ImageWithTextCell";
 import { TableRowProps } from "../Types";
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import DownloadCsv from "../Organisms/DownloadCsv";
 import ConnectionModal from "../Molecules/ConnectionModal";
-import { timestampToDate, getSingleChildFromDb } from "../Services/Constants";
+import { timestampToDate, getSingleChildFromDb, removeSingleChildFromDb } from "../Services/Constants";
 
-const ConnectionTableRow: React.FC<TableRowProps> = ({ data }) => {
+const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, isSelected, }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -28,7 +29,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data }) => {
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-// console.log(profileData);
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -37,17 +38,27 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data }) => {
     setModalOpen(true);
     handleMenuClose();
   };
+  const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleRowSelect(data, e.target.checked);
+  };
+  
 
   const handleModalSubmit = () => {
     console.log("callback");
+  };
+  const deleteRowCallback = () => {
+    console.log("deleteRowCallback");
+  };
+  const handleRemoveConnection = () => {
+    removeSingleChildFromDb("Contacts/", data?.id, deleteRowCallback);
   };
 // console.log(data);
   return (
     <>
       <div className="w-[100%] h-[60px] rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 pr-4">
         <Checkbox
-          checkValue={false}
-          onChange={() => { }}
+          checkValue={isSelected}
+          onChange={handleSelectedItem}
           classes="h-[20px] w-[20px] border border-[#B3B3BF] rounded-[2px]"
         />
 
@@ -88,18 +99,18 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data }) => {
           </MenuItem>
           <hr className="border-t border-gray-200" />
           <MenuItem
-            onClick={handleMenuClose}
+            onClick={() => {}}
             sx={{
               fontSize: '14px',
               textAlign: 'center',
               justifyContent: 'center',
             }}
           >
-            Export
+            <DownloadCsv data={[data] || []} />
           </MenuItem>
           <hr className="border-t border-gray-200" />
           <MenuItem
-            onClick={handleMenuClose}
+            onClick={handleRemoveConnection}
             sx={{
               fontSize: '14px',
               textAlign: 'center',

@@ -139,20 +139,27 @@ export interface textBtnProps {
 
 export interface tableHeadProps {
   tableHeadCells: ReactNode[];
+  allSelected: boolean;
+  onSelectAll: (isChecked: boolean) => void;
 }
 
 export interface tableProps {
   headers: ReactNode[];
   type: string;
   data: [];
+  selectedRows: string[]; // Array of selected row IDs
+  handleRowSelect: (ids: string[], isChecked: boolean) => void;
 }
 
 export interface TableRowProps {
   data: any;
+  handleRowSelect: (id: string, isChecked: boolean) => void;
+  isSelected: boolean;
 }
 export interface ConnectionHeaderProps {
   applyFilterId: (id: string) => void;
   searchItem : (id: string) => void;
+  selectedRows: string[];
 }
 export interface iconWithTextProps {
   icon: string;

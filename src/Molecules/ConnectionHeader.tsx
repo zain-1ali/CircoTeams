@@ -9,14 +9,20 @@ import { Menu } from "@mui/material";
 import { BsChevronUp } from "react-icons/bs";
 import { BsChevronDown } from "react-icons/bs";
 import FilterImageWithTextCell from "../Molecules/FilterImageWithTextCell";
-import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
+import { getMultipleChilds, appendBucketPath, removeMultipleChildFromDb } from "../Services/Constants";
 import Loading from "./Loading";
 import { ConnectionHeaderProps } from "../Types"
+import ConnectionModal from "../Molecules/ConnectionModal";
+import DownloadCsv from "../Organisms/DownloadCsv";
 
 
-const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchItem }) => {
+const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchItem, selectedRows }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [allProfiles, setAllProfiles] = useState<any>([]);
+  const [updatedRows, setUpdatedRows] = useState<any[]>([]);
+  const [connectionModal, setConnectionModal] = useState<boolean>(false);
+
+
   const getAllProfiles = (data: any) => {
     if (data) {
       setAllProfiles(Object.values(data));
@@ -32,7 +38,27 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
       setLoading
     );
   }, [companyId]);
+  useEffect(() => {
+    // Enrich selectedRows with user names based on userid
+    const enrichSelectedRows = () => {
+      const enrichedData = selectedRows.map(connection => {
+        // Find the profile that matches the userid
+        const profile = allProfiles.find(profile => profile.id === connection?.userid);
+        
+        return {
+          ...connection, // Spread the existing connection data
+          memberName: profile ? profile?.firstName + " "+ profile?.lastName : "Unknown", // Add the user name or default to "Unknown"
+        };
+      });
 
+      setUpdatedRows(enrichedData); // Update state with enriched data
+    };
+
+    // Only run this effect if allProfiles have been loaded
+    if (allProfiles.length > 0) {
+      enrichSelectedRows();
+    }
+  }, [selectedRows, allProfiles]);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,12 +95,12 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
     // Call the API with the updated selection
     // applyFilterId(value);  // Or pass the entire updatedOptions object if needed
   };
-
   const handleApplyFilter = () => {
     handleClose();
     // Call the API with the currently selected options
     applyFilterId(selectedOptions.teamId || selectedOptions.subteamId || selectedOptions.profileId || "");
   };
+  
   const handleClearFilter = () => {
     setSelectedOptions({
       teamId: "",
@@ -84,7 +110,13 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
     handleClose();
     applyFilterId(""); 
   }
-
+  const deleteRowCallback = () => {
+    console.log("deleteRowCallback");
+  };
+  const handleRemoveMultiple = () => {
+    const selectedIds = selectedRows.map((row) => row.id);
+    removeMultipleChildFromDb("Contacts/", selectedIds, deleteRowCallback);
+  };
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSearch = (value:string) => {
@@ -92,6 +124,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
     searchItem(value);
   };
 
+  
   const [dropdownOpen, setDropdownOpen] = useState({
     team: false,
     subteam: false,
@@ -287,18 +320,19 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
           <Button
             text="Add Connection"
             btnClasses="w-[131px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
-            onClick={() => { }}
+            onClick={() => { setConnectionModal(true)}}
           />
           <Button
-            text="Export"
-            btnClasses="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
-            onClick={() => { }}
-            icon={<TbFileExport className="absolute left-3 text-[16px]" />}
-          />
+              text={<DownloadCsv data={updatedRows} />}
+              btnClasses="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
+              onClick={() => { }}
+              icon={<TbFileExport className="absolute left-3 text-[16px]" />}
+              
+            />
           <Button
             text="Remove"
             btnClasses="w-[80px] h-[32px] rounded-[22px] text-[#FF4545] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
-            onClick={() => { }}
+            onClick={handleRemoveMultiple}
           />
         </div>
       </div>
@@ -311,6 +345,16 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
           placeholder="Search by name, job title, email, template, or subteam"
         />
       </div>
+      {
+        connectionModal && (
+          <ConnectionModal
+            isOpen={connectionModal}
+            onClose={() => setConnectionModal(false)}
+            onSubmit={() => {}} 
+            data={[]}
+          />
+        )
+      }
     </div>
   );
 };

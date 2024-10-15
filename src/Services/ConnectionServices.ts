@@ -16,3 +16,4 @@ export const getConnections = (id: any, cb: Function) => {
     // console.log("contacts", data);
   });
 };
+
