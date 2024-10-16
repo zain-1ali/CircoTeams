@@ -21,10 +21,13 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
     }
   };
   useEffect(() => {
-    getSingleChildFromDb("User/", "id", data?.userid, getProfileData);
+    if(data?.userid)
+    {
+      getSingleChildFromDb("User/", "id", data?.userid, getProfileData);
+    }
   }, [data?.userid]);
 
-  const memberName = `${profileData?.firstName} ${profileData?.lastName}`;
+  const memberName = `${profileData?.firstName ?? ""} ${profileData?.lastName ?? ""}`;
   const formatedDate = timestampToDate(data?.date);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -125,7 +128,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
       </div>
 
       {/* Connection Modal */}
-      <ConnectionModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSubmit={handleModalSubmit} data={{ ...data, memberName, formatedDate }} />
+      <ConnectionModal action ="update" isOpen={modalOpen} onClose={() => setModalOpen(false)} data={{ ...data, memberName, formatedDate }} />
     </>
   );
 };

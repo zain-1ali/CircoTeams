@@ -49,6 +49,17 @@ export interface inputWithLabelProps extends inputProps {
   labelClasses: string;
 }
 
+export interface selectProps {
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string; 
+  options: { value: string; label: string }[];
+  classes?: string;
+}
+export interface selectWithLabelProps extends selectProps {
+  label: string;
+  inputClasses: string;
+  labelClasses: string;
+}
 export interface checkboxProps extends inputProps {
   checkValue: boolean;
 }

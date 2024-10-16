@@ -47,7 +47,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
         
         return {
           ...connection, // Spread the existing connection data
-          memberName: profile ? profile?.firstName + " "+ profile?.lastName : "Unknown", // Add the user name or default to "Unknown"
+          memberName: profile ? profile?.firstName + " "+ profile?.lastName : "", // Add the user name or default to ""
         };
       });
 
@@ -321,6 +321,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
             text="Add Connection"
             btnClasses="w-[131px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
             onClick={() => { setConnectionModal(true)}}
+            action = "add"
           />
           <Button
               text={<DownloadCsv data={updatedRows} />}
@@ -348,9 +349,9 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, sear
       {
         connectionModal && (
           <ConnectionModal
+            action="add"
             isOpen={connectionModal}
             onClose={() => setConnectionModal(false)}
-            onSubmit={() => {}} 
             data={[]}
           />
         )
