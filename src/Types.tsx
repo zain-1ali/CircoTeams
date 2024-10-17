@@ -51,6 +51,17 @@ export interface inputWithLabelProps extends inputProps {
   labelClasses: string;
 }
 
+export interface selectProps {
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string; 
+  options: { value: string; label: string }[];
+  classes?: string;
+}
+export interface selectWithLabelProps extends selectProps {
+  label: string;
+  inputClasses: string;
+  labelClasses: string;
+}
 export interface checkboxProps extends inputProps {
   checkValue: boolean;
 }
@@ -141,13 +152,28 @@ export interface textBtnProps {
 
 export interface tableHeadProps {
   tableHeadCells: ReactNode[];
+  allSelected: boolean;
+  onSelectAll: (isChecked: boolean) => void;
 }
 
 export interface tableProps {
   headers: ReactNode[];
   type: string;
+  data: [];
+  selectedRows: string[]; // Array of selected row IDs
+  handleRowSelect: (ids: string[], isChecked: boolean) => void;
 }
 
+export interface TableRowProps {
+  data: any;
+  handleRowSelect: (id: string, isChecked: boolean) => void;
+  isSelected: boolean;
+}
+export interface ConnectionHeaderProps {
+  applyFilterId: (id: string) => void;
+  searchItem : (id: string) => void;
+  selectedRows: string[];
+}
 export interface iconWithTextProps {
   icon: string;
   text: string;
@@ -157,6 +183,12 @@ export interface iconWithTextProps {
 export interface imageWithTextProps {
   containerClass: string;
   isAdmin: boolean;
+  data: any
+}
+export interface FilterImageWithTextProps {
+  imgUrl: string;
+  texts: string;
+  containerClass: string;
 }
 
 export interface SubTeamsGetStartedProps {

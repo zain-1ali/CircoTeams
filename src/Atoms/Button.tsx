@@ -1,18 +1,23 @@
-import { buttonProps } from "../Types";
+// Button.tsx
+import React from "react";
 
-const Button: React.FC<buttonProps> = ({
-  img,
-  text,
-  icon,
-  btnClasses,
-  imgClasses,
-  onClick,
-}) => {
+interface ButtonProps {
+  text: string;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void; // Make sure it takes the event parameter
+  btnClasses?: string;
+  ariaControls?: string;
+  icon?: React.ReactNode;
+}
+
+const Button: React.FC<ButtonProps> = ({ text, onClick, btnClasses, ariaControls, icon }) => {
   return (
-    <button className={btnClasses} onClick={() => onClick()}>
-      {img && <img src={img} alt="" className={imgClasses} />}
-      {text}
+    <button
+      className={btnClasses}
+      onClick={onClick}
+      aria-controls={ariaControls}
+    >
       {icon}
+      {text}
     </button>
   );
 };
