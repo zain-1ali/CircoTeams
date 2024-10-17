@@ -8,7 +8,7 @@ const initialState: SocialLinkProps = {
     buttonImgUrl:"",
     email: "",
     graphicDisplayText: "",
-    graphicDisplayType:"",
+    graphicDisplayType:"style1",
     graphicImgUrl:"",
     graphicTextColor:"",
     id:JSON.stringify(Date.now()),
@@ -59,11 +59,23 @@ export const socialLinkSlice = createSlice({
       setSocialLinkImgUrl: (state, action: PayloadAction<string | null>) => {
         state.link.linkImgUrl = action.payload;
       },
+      setWebLinkStyle: (state, action: PayloadAction<"style1"|"style2"|"style3">) => {
+        state.link.style = action.payload;
+      },
+      setBtnImageUrl: (state, action: PayloadAction<string | null>) => {
+        state.link.buttonImgUrl = action.payload;
+      },
+      setGraphicImgUrl: (state, action: PayloadAction<string>) => {
+        state.link.graphicImgUrl = action.payload;
+      },
+      setGraphicDisplayType: (state, action: PayloadAction<string>) => {
+        state.link.graphicDisplayType = action.payload;
+      },
   },
 });
 
 // Export the actions
-export const { setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl } = socialLinkSlice.actions;
+export const { setBtnImageUrl,setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl,setWebLinkStyle,setGraphicImgUrl,setGraphicDisplayType } = socialLinkSlice.actions;
 
 export default socialLinkSlice.reducer;
 

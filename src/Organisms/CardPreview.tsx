@@ -5,7 +5,7 @@ const CardPreview = () => {
 
   return (
     <div
-      className={`w-[272px] flex justify-center bg-white ${
+      className={`w-[272px] flex justify-center bg-white overflow-y-scroll ${
         innerHeight <= 700 ? "h-[85%]" : "h-[589px]"
       }  border rounded-[26px] shadow-lg`}
     >

@@ -23,6 +23,7 @@ import {
   setSocialLinkName,
   setSocialLinkTitle,
   setSocialLinkValue,
+  setWebLinkStyle,
 } from "../../../Redux/socialLinkSlice";
 // import { motion } from "framer-motion";
 import { addLinkToDb } from "../../../Services/ProfileServices";
@@ -43,6 +44,8 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
+
+  console.log(socialLink);
 
   const handleCancelbtn = () => {
     changeLinkMode("allLinks");
@@ -68,41 +71,18 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
     dispatch(setSocialLinkHighlightedDesc(""));
   };
 
-  useEffect(() => {
-    dispatch(setSocialLinkName(linkInfo?.name));
-    dispatch(setSocialLinkBaseurl(linkInfo.baseUrl));
-    dispatch(setSocialLinklinkID(linkInfo.linkID));
-  }, [linkInfo]);
-
   const { showError, showSuccess } = useToastNotifications();
 
-  const [webLinkMode, setWebLinkMode] = useState<any>({
-    icon: true,
-    button: false,
-    image: false,
-  });
-
-  const handleWebLinkMode = (mode: string) => {
-    if (mode === "icon") {
-      setWebLinkMode({
-        icon: true,
-        button: false,
-        image: false,
-      });
-    } else if (mode === "button") {
-      setWebLinkMode({
-        icon: false,
-        button: true,
-        image: false,
-      });
-    } else if (mode === "image") {
-      setWebLinkMode({
-        icon: false,
-        button: false,
-        image: true,
-      });
+  const handleWebLinkMode = (mode: "style1" | "style2" | "style3") => {
+    if (mode != "style1") {
+      dispatch(setSocialLinkIsHighlighted(false));
     }
+    dispatch(setWebLinkStyle(mode));
   };
+
+  useEffect(() => {
+    handleWebLinkMode("style1");
+  }, []);
 
   return (
     <div className="w-[100%] h-[100%] flex">
@@ -185,9 +165,11 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
           <div className="w-[100%] flex justify-around mt-2">
             <div
               className={`w-[166px] h-[104px] bg-[#FAFAFB] rounded-[16px] flex flex-col items-center justify-center gap-2 ${
-                webLinkMode.icon ? "border-[4px] border-[#2B6EF6]" : ""
+                socialLink?.style === "style1"
+                  ? "border-[4px] border-[#2B6EF6]"
+                  : ""
               }  cursor-pointer`}
-              onClick={() => handleWebLinkMode("icon")}
+              onClick={() => handleWebLinkMode("style1")}
             >
               <Image classes="h-[53px] w-[53px]" src={web} />
               <Text
@@ -198,9 +180,11 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
 
             <div
               className={`w-[166px] h-[104px] bg-[#FAFAFB] rounded-[16px] flex flex-col items-center justify-evenly cursor-pointer ${
-                webLinkMode.button ? "border-[4px] border-[#2B6EF6]" : ""
+                socialLink?.style === "style2"
+                  ? "border-[4px] border-[#2B6EF6]"
+                  : ""
               }`}
-              onClick={() => handleWebLinkMode("button")}
+              onClick={() => handleWebLinkMode("style2")}
             >
               <div className="w-[150px] h-[32px] bg-[#D0CFFB54] rounded-[34px] pl-1 flex items-center ">
                 <Image
@@ -221,9 +205,11 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
 
             <div
               className={`w-[166px] h-[104px] bg-[#FAFAFB] rounded-[16px] flex flex-col items-center justify-center gap-2 cursor-pointer ${
-                webLinkMode.image ? "border-[4px] border-[#2B6EF6]" : ""
+                socialLink?.style === "style3"
+                  ? "border-[4px] border-[#2B6EF6]"
+                  : ""
               }`}
-              onClick={() => handleWebLinkMode("image")}
+              onClick={() => handleWebLinkMode("style3")}
             >
               <div className="relative flex justify-center ">
                 <Text
@@ -245,9 +231,9 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
         </div>
 
         <div className="w-[100%]">
-          {webLinkMode.icon && <Icon />}
-          {webLinkMode.image && <ImageMode />}
-          {webLinkMode.button && <ButtonMode />}
+          {socialLink?.style === "style1" && <Icon />}
+          {socialLink?.style === "style3" && <ImageMode />}
+          {socialLink?.style === "style2" && <ButtonMode />}
         </div>
 
         {/* {socialLink?.isLinkHighlighted && (

@@ -31,7 +31,7 @@ export interface authSidebarProps {
 }
 
 export interface textProps {
-  text: string;
+  text: string | undefined;
   classes: string;
 }
 
@@ -230,6 +230,7 @@ export interface uploadIconProps {
   isShare: boolean;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removeImg: () => void;
+  isBigImage?: boolean;
 }
 
 export interface allLinksProps {
@@ -271,7 +272,7 @@ export interface Link {
   graphicDisplayText: string;
   graphicDisplayType: string;
   graphicImgUrl: string;
-  buttonImgUrl: string;
+  buttonImgUrl: string | null;
   linkImgUrl: string | null;
   id: string;
   image?: string | number;

@@ -5,6 +5,8 @@ import Text from "../../Atoms/Text";
 import { Link } from "../../Types";
 
 const PrimaryLink: React.FC<Link> = (link) => {
+  console.log(link.name);
+
   return (
     <div className="w-[65px] h-[60px]  flex flex-col items-center transition-opacity duration-500 ease-in-out">
       <Image

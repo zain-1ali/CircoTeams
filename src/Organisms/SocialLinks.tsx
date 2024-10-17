@@ -2,10 +2,13 @@ import { useAppSelector } from "../Hooks/reduxHooks";
 import Highlighted from "../Molecules/SocialLinks/Highlighted";
 import PrimaryLink from "../Molecules/SocialLinks/PrimaryLink";
 import { motion } from "framer-motion";
+import Weblink from "../Molecules/SocialLinks/Weblink";
 
 export const SocialLinks = () => {
   const starterLinks = useAppSelector((state) => state.authLinkHandler.links);
-  const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
+  const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
+  console.log(socialLink?.name);
+
   return (
     <div className="w-[100%] flex justify-center mt-4">
       <div className="w-[90%] flex justify-evenly flex-wrap  items-center gap-y-2 ">
@@ -23,7 +26,10 @@ export const SocialLinks = () => {
             )
           );
         })}
-        {socialLink?.isLinkHighlighted ? (
+
+        {socialLink?.linkID === 999 ? (
+          <Weblink {...socialLink} />
+        ) : socialLink?.isLinkHighlighted ? (
           <div className="w-[100%]">
             <motion.div
               initial={{ opacity: 0, translateY: 10 }}
@@ -31,7 +37,7 @@ export const SocialLinks = () => {
               exit={{ opacity: 0, translateY: 10 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              {socialLink?.linkID > 0 && <Highlighted {...socialLink} />}
+              {socialLink?.name && <Highlighted {...socialLink} />}
             </motion.div>
           </div>
         ) : (
@@ -41,7 +47,7 @@ export const SocialLinks = () => {
             exit={{ opacity: 0, translateY: 10 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {socialLink?.linkID > 0 && <PrimaryLink {...socialLink} />}
+            {socialLink?.name && <PrimaryLink {...socialLink} />}
           </motion.div>
         )}
       </div>

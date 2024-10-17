@@ -62,10 +62,10 @@ const initialState: UserProfile = {
     profileFont: "3",
     saveContactBackgroundColor: "#ffffff",
     saveContactStyle: "style4",
-    saveContactTextColor: "#ffffff",
-    weblinkButtonBackgroundColor: "#ffffff",
+    saveContactTextColor: "#000000",
+    weblinkButtonBackgroundColor: "#000000",
     weblinkButtonTextColor: "#ffffff",
-    weblinkStyle: "style12",
+    weblinkStyle: "style5",
     whiteProfileText: false,
     whiteTextAndBorder: true
   },

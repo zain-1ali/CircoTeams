@@ -3,7 +3,10 @@ import Text from "../../Atoms/Text";
 import UploadIcon from "../../Molecules/UploadIcon";
 // import { returnPngIcons } from "../../assets/ReturnSocialIconsPng";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
-import { setSocialLinkImgUrl } from "../../Redux/socialLinkSlice";
+import {
+  setBtnImageUrl,
+  setSocialLinkImgUrl,
+} from "../../Redux/socialLinkSlice";
 import { useUploadFile } from "../../Hooks/useUploadFile";
 import ImageCropperModal from "../Cropper";
 import web from "../../assets/socialLink/web.png";
@@ -41,7 +44,7 @@ const ButtonMode = () => {
     setUploadLoading(true);
 
     uploadFile(croppedImage?.slice(23), `social${uniqueTime}`).then((url) => {
-      dispatch(setSocialLinkImgUrl(url));
+      dispatch(setBtnImageUrl(url));
       setUploadLoading(false);
       setOpen(false);
     });
@@ -54,7 +57,7 @@ const ButtonMode = () => {
       />
       <div className="w-[65%] flex justify-between items-center mt-1 ">
         <UploadIcon
-          imgSrc={socialLink?.linkImgUrl || web}
+          imgSrc={socialLink?.buttonImgUrl || web}
           isShare={false}
           handleFileChange={handleFileChange}
           removeImg={() => dispatch(setSocialLinkImgUrl(""))}
@@ -75,3 +78,9 @@ const ButtonMode = () => {
 };
 
 export default ButtonMode;
+
+// simple link image variable >> image
+// web link images:
+// style3>> graphicImgUrl
+// style2>> buttonImgUrl
+// style1>> linkImgUrl
