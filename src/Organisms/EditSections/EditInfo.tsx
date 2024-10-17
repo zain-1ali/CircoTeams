@@ -36,6 +36,8 @@ const EditInfo = () => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(loading);
+
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     imgType: string

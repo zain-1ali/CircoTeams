@@ -24,16 +24,19 @@ const LinkTypeContainer: React.FC<linkTypeProps> = ({ text }) => {
 const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const dispatch = useAppDispatch();
   const changeModeToAddLink = (link: Icon) => {
+    console.log(link);
+
     dispatch(setLinkData(link));
     changeLinkMode("addLink");
   };
+
   return (
     <div className="w-[100%] h-[100%]">
       <Text text="Add Link" classes="font-[600] text-[22px]" />
       <Button
         btnClasses="w-[266px] h-[46px] font-[500] text-[15px] text-white rounded-[100px] bg-primary mt-3"
         text="+ Web Link"
-        onClick={() => {}}
+        onClick={() => changeLinkMode("webLink")}
       />
       <div className="w-[100%] flex gap-4 mt-3">
         <LinkTypeContainer text="Popular" />
@@ -55,7 +58,13 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
 
       <div className="w-[100%] border-t mt-10 h-[70%] overflow-y-scroll">
         {allLinks?.map((linksGroupData, i) => {
-          return <GroupOfLinks key={i} linksGroupData={linksGroupData} changeModeToAddLink={changeModeToAddLink}/>;
+          return (
+            <GroupOfLinks
+              key={i}
+              linksGroupData={linksGroupData}
+              changeModeToAddLink={changeModeToAddLink}
+            />
+          );
         })}
       </div>
     </div>

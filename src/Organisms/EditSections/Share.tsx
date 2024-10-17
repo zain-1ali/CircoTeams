@@ -5,13 +5,31 @@ import UploadIcon from "../../Molecules/UploadIcon";
 import junk1 from "../../assets/images/junk1.png";
 
 const Share = () => {
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // setImage(reader.result as string);
+        // setOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
       <Text text="QR Code" classes="font-[600] text-[15px]" />
       <div className="mt-3">
         <ColorSelector colorType="QR Code Color" />
         <div className="mt-2">
-          <UploadIcon imgSrc={junk1} isShare={true} />
+          <UploadIcon
+            imgSrc={junk1}
+            isShare={true}
+            handleFileChange={handleFileChange}
+            removeImg={() => {}}
+          />
         </div>
       </div>
 

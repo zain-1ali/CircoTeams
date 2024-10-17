@@ -1,5 +1,6 @@
-import { push, ref, update } from "firebase/database"
+import { push, ref, set, update } from "firebase/database"
 import { db } from "../firebase"
+// import { Link } from "../Types"
 
 export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLoading:any)=>{
     setLoading(true)
@@ -124,6 +125,19 @@ export const updateProfileInfo=(data:any,id:string | undefined,showError:any,sho
             setLoading(false)
             showSuccess("Information updated sucessfully")
             console.log("working well")
+        }).catch((Error)=>{
+            showError("Something went wrong")
+            console.log("the error",Error)
+        })
+    }
+}
+
+
+export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
+    if(data){
+        set(ref(db, `User/${id}/links`),[...links,{...data}]).then(()=>{
+            setLoading(false)
+            showSuccess("Link added sucessfully")
         }).catch((Error)=>{
             showError("Something went wrong")
             console.log("the error",Error)

@@ -22,7 +22,9 @@ const initialState: UserProfile = {
     textAlign: "",
     title: "",
     type: "",
-    value: ""
+    value: "",
+    graphicDisplayText:"", graphicDisplayType:"", graphicImgUrl:"", buttonImgUrl:"",
+    linkImgUrl:"", style:""
   },
   directMode: false,
   dob: "",

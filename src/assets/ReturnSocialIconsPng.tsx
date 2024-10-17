@@ -53,28 +53,66 @@ import { Icon, IconGroup } from "../Types";
 // Define icon arrays with the Icon type
 
 export const popular: Icon[] = [
-  { name: "Text", img: text, placeholder: "Phone Number*", linkID: 4 },
-  { name: "Email", img: email, placeholder: "Email*", linkID: 3 },
+  {
+    name: "Text",
+    img: text,
+    placeholder: "Phone Number*",
+    linkID: 4,
+    baseUrl: "",
+  },
+  { name: "Email", img: email, placeholder: "Email*", linkID: 3, baseUrl: "" },
   {
     name: "Instagram",
     img: instagram,
     placeholder: "Instagram Username*",
     linkID: 11,
+    baseUrl: "https://www.instagram.com/",
   },
   {
     name: "Linkedin",
     img: linkedin,
     placeholder: "Linkedin Profile Link*",
     linkID: 12,
+    baseUrl: "",
   },
-  { name: "Call", img: call, placeholder: "Phone Number*", linkID: 2 },
+  {
+    name: "Call",
+    img: call,
+    placeholder: "Phone Number*",
+    linkID: 2,
+    baseUrl: "",
+  },
 ];
 
 export const contactIcons: Icon[] = [
-  { name: "Call", img: call, placeholder: "Phone Number*", linkID: 2 },
-  { name: "Text", img: text, placeholder: "Phone Number*", linkID: 4 },
-  { name: "Whatsapp", img: whatsapp, placeholder: "Phone Number*", linkID: 5 },
-  { name: "Email", img: email, placeholder: "Email*", linkID: 3 },
+  {
+    name: "Call",
+    img: call,
+    placeholder: "Phone Number*",
+    linkID: 2,
+    baseUrl: "tel:",
+  },
+  {
+    name: "Text",
+    img: text,
+    placeholder: "Phone Number*",
+    linkID: 4,
+    baseUrl: "",
+  },
+  {
+    name: "Whatsapp",
+    img: whatsapp,
+    placeholder: "Phone Number*",
+    linkID: 5,
+    baseUrl: "https://wa.me/",
+  },
+  {
+    name: "Email",
+    img: email,
+    placeholder: "Email*",
+    linkID: 3,
+    baseUrl: "mailto:",
+  },
 ];
 
 export const socialIcons: Icon[] = [
@@ -83,43 +121,56 @@ export const socialIcons: Icon[] = [
     img: instagram,
     placeholder: "Instagram Username*",
     linkID: 11,
+    baseUrl: "https://www.instagram.com/",
   },
   {
     name: "Facebook",
     img: facebook,
     placeholder: "Facebook Profile Link*",
     linkID: 14,
+    baseUrl: "",
   },
-  { name: "Tiktok", img: tiktok, placeholder: "Tiktok Username*", linkID: 13 },
+  {
+    name: "Tiktok",
+    img: tiktok,
+    placeholder: "Tiktok Username*",
+    linkID: 13,
+    baseUrl: "https://tiktok.com/@",
+  },
   {
     name: "Twitter",
     img: twitter,
     placeholder: "Twitter Username*",
     linkID: 17,
+    baseUrl: "https://www.Twitter.com/",
   },
   {
     name: "Linkedin",
     img: linkedin,
     placeholder: "Linkedin Profile Link*",
     linkID: 12,
+    baseUrl: "",
   },
   {
     name: "Pinterest",
     img: pinterest,
     placeholder: "Pinterest Username*",
     linkID: 18,
+    baseUrl: "https://www.pinterest.com/",
   },
   {
     name: "Youtube",
     img: youtube,
     placeholder: "Youtube Channel Url*",
     linkID: 16,
+    baseUrl: "",
   },
   {
     name: "Snapchat",
     img: snapchat,
     placeholder: "Snapchat Username*",
     linkID: 15,
+    baseUrl: "https://www.snapchat.com/add/",
   },
 ];
 
@@ -129,64 +180,80 @@ export const business: Icon[] = [
     img: calendly,
     placeholder: "Calendly link*",
     linkID: 41,
+    baseUrl: "",
   },
   {
     name: "Etsy",
     img: Etsy,
     placeholder: "Etsy link*",
     linkID: 42,
+    baseUrl: "",
   },
   {
     name: "Yelp",
     img: yelp,
     placeholder: "yelp link*",
     linkID: 43,
+    baseUrl: "",
   },
   {
     name: "App link",
     img: applink,
-    placeholder: "yelp link*",
+    placeholder: "App link*",
     linkID: 44,
+    baseUrl: "",
   },
   {
     name: "Reviews",
     img: reviews,
-    placeholder: "yelp link*",
+    placeholder: "Reviews link*",
     linkID: 45,
+    baseUrl: "",
   },
 ];
 
 export const media: Icon[] = [
-  { name: "Spotify", img: spotify, placeholder: "Spotify link*", linkID: 22 },
+  {
+    name: "Spotify",
+    img: spotify,
+    placeholder: "Spotify link*",
+    linkID: 22,
+    baseUrl: "",
+  },
   {
     name: "Sound Cloud",
     img: soundcloud,
     placeholder: "Sound Cloud link*",
     linkID: 23,
+    baseUrl: "",
   },
   {
     name: "Apple Music",
     img: soundcloud,
     placeholder: "Apple Music link*",
     linkID: 24,
+    baseUrl: "",
   },
   {
     name: "Embedded Video(Youtube Viemo API)",
     img: embdvdo,
     placeholder: "Embedded Video link*",
     linkID: 25,
+    baseUrl: "",
   },
   {
     name: "Text",
     img: text2,
     placeholder: "Text*",
     linkID: 25,
+    baseUrl: "",
   },
   {
     name: "Embedded Songs(Spotify, SoundCloud, Apple Music API)",
     img: itunes,
     placeholder: "Embedded Songs Link*",
     linkID: 27,
+    baseUrl: "",
   },
 ];
 
@@ -196,19 +263,39 @@ export const payment: Icon[] = [
     img: cashapp,
     placeholder: "Cash App username*",
     linkID: 31,
+    baseUrl: "https://cash.app/",
   },
 
-  { name: "PayPal", img: paypal, placeholder: "paypal.me link*", linkID: 32 },
-  { name: "Venmo", img: venmo, placeholder: "venmo link*", linkID: 33 },
+  {
+    name: "PayPal",
+    img: paypal,
+    placeholder: "paypal.me link*",
+    linkID: 32,
+    baseUrl: "",
+  },
+  {
+    name: "Venmo",
+    img: venmo,
+    placeholder: "venmo link*",
+    linkID: 33,
+    baseUrl: "",
+  },
 ];
 
 export const more: Icon[] = [
-  { name: "Website", img: website, placeholder: "Website link*", linkID: 21 },
+  {
+    name: "Website",
+    img: website,
+    placeholder: "Website link*",
+    linkID: 21,
+    baseUrl: "",
+  },
   {
     name: "Calendly",
     img: calendly,
     placeholder: "Calendly link*",
     linkID: 41,
+    baseUrl: "",
   },
 ];
 
