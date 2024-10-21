@@ -15,6 +15,7 @@ const initialState: UserProfile = {
     image: "",
     isLinkHighlighted: false,
     linkHighlightDescription: "",
+    iconStyle:"",
     linkID: 0,
     name: "",
     placeholder: "",
@@ -200,7 +201,51 @@ export const profileSlice = createSlice({
     // },
     setTagUid: (state, action: PayloadAction<typeof initialState.tagUid>) => {
       state.tagUid = action.payload;
-    }
+    },
+    // profile design 
+    setAppIconColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.appIconColor = action.payload;
+    },
+    setFont: (state, action: PayloadAction<string>) => {
+      state.profileDesign.profileFont = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<string>) => {
+      state.profileDesign.backgroundTheme = action.payload;
+    },
+    setBackgroundColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.backgroundColor = action.payload;
+    },
+    setwhitenText: (state, action: PayloadAction<boolean>) => {
+      state.profileDesign.whiteTextAndBorder = action.payload;
+    },
+    setSaveBtnStyle: (state, action: PayloadAction<string>) => {
+      state.profileDesign.saveContactStyle = action.payload;
+    },
+    setSaveBtnText: (state, action: PayloadAction<string>) => {
+      state.profileDesign.saveContactTextColor = action.payload;
+    },
+    setSaveBtnBgColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.saveContactBackgroundColor = action.payload;
+    },
+    setWeblinkStyle: (state, action: PayloadAction<string>) => {
+      state.profileDesign.weblinkStyle = action.payload;
+    },
+    setWeblinkButtonTextColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.weblinkButtonTextColor = action.payload;
+    },
+    setWeblinkButtonBackgroundColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.weblinkButtonBackgroundColor = action.payload;
+    },
+
+    setBoxBackgroundColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.boxBackgroundColor = action.payload;
+    },
+    setBoxTextColor: (state, action: PayloadAction<string>) => {
+      state.profileDesign.boxTextColor = action.payload;
+    },
+    setBoxStyle: (state, action: PayloadAction<string>) => {
+      state.profileDesign.highlightBoxStyle = action.payload;
+    },
   }
 });
 
@@ -239,7 +284,21 @@ export const {
   setProVersionDates,
   setLinks,
   setProfileName,
+  setAppIconColor,
+  setwhitenText,
+  setBackgroundColor,
+  setTheme,
+  setFont,
+  setSaveBtnBgColor,
+  setSaveBtnText,
+  setSaveBtnStyle,
 //   addTagUid,
+setWeblinkButtonTextColor,
+setWeblinkStyle,
+setWeblinkButtonBackgroundColor,
+setBoxStyle,
+setBoxTextColor,
+setBoxBackgroundColor,
   setTagUid
 } = profileSlice.actions;
 

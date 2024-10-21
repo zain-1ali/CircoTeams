@@ -8,7 +8,7 @@ import { getConnections } from "../Services/ConnectionServices";
 
 const ConnectionTemplate = () => {
   let [allConnections, setAllConnections] = useState([]);
-  let [filteredConnections, setFilteredConnections] = useState([]);
+  let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]); 
   const companyId = localStorage.getItem("circoCompanyUid");
   useEffect(() => {
@@ -59,7 +59,7 @@ const handleRowSelect = (item: any | any[], isChecked: boolean) => {
     if (isChecked) {
       setSelectedRows((prev) => [...prev, item]); // Add the single row data object
     } else {
-      setSelectedRows((prev) => prev.filter((row) => row.id !== item.id)); // Remove the single row by its ID
+      setSelectedRows((prev) => prev.filter((row:any) => row.id !== item.id)); // Remove the single row by its ID
     }
   }
 };

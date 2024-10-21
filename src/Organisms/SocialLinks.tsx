@@ -4,6 +4,7 @@ import PrimaryLink from "../Molecules/SocialLinks/PrimaryLink";
 import { motion } from "framer-motion";
 import Weblink from "../Molecules/SocialLinks/Weblink";
 
+
 export const SocialLinks = () => {
   const starterLinks = useAppSelector((state) => state.authLinkHandler.links);
   const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
@@ -11,7 +12,7 @@ export const SocialLinks = () => {
 
   return (
     <div className="w-[100%] flex justify-center mt-4">
-      <div className="w-[90%] flex justify-evenly flex-wrap  items-center gap-y-2 ">
+      <div className="w-[90%] flex justify-evenly flex-wrap  items-center gap-y-2">
         {starterLinks?.map((link) => {
           return (
             link.value && (

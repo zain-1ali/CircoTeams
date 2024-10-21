@@ -53,7 +53,7 @@ export interface inputWithLabelProps extends inputProps {
 
 export interface selectProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  value?: string; 
+  value?: string;
   options: { value: string; label: string }[];
   classes?: string;
 }
@@ -137,6 +137,8 @@ export interface toggleAreaProps {
 
 export interface colorSelectorProps {
   colorType: string;
+  handleChangeColor: (color: string) => void;
+  color: string;
 }
 
 export interface tableHeaderProps {
@@ -159,19 +161,19 @@ export interface tableHeadProps {
 export interface tableProps {
   headers: ReactNode[];
   type: string;
-  data: [];
+  data: any[];
   selectedRows: string[]; // Array of selected row IDs
   handleRowSelect: (ids: string[], isChecked: boolean) => void;
 }
 
 export interface TableRowProps {
   data: any;
-  handleRowSelect: (id: string, isChecked: boolean) => void;
+  handleRowSelect: (id: string[], isChecked: boolean) => void;
   isSelected: boolean;
 }
 export interface ConnectionHeaderProps {
   applyFilterId: (id: string) => void;
-  searchItem : (id: string) => void;
+  searchItem: (id: string) => void;
   selectedRows: string[];
 }
 export interface iconWithTextProps {
@@ -183,7 +185,7 @@ export interface iconWithTextProps {
 export interface imageWithTextProps {
   containerClass: string;
   isAdmin: boolean;
-  data: any
+  data: any;
 }
 export interface FilterImageWithTextProps {
   imgUrl: string;
@@ -304,6 +306,7 @@ export interface Link {
   graphicDisplayText: string;
   graphicDisplayType: string;
   graphicImgUrl: string;
+  iconStyle: string;
   buttonImgUrl: string | null;
   linkImgUrl: string | null;
   id: string;

@@ -5,12 +5,20 @@ import LinkContainer from "../LinkContainer";
 import CustomModal from "../Modal/Modal";
 import { useState } from "react";
 import LinkModal from "../Modal/LinkModal";
-import { useAppSelector } from "../../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { resetLinkData } from "../../Redux/linkSlice";
+import { resetSocialLink } from "../../Redux/socialLinkSlice";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   console.log(window.innerHeight);
   const profileData = useAppSelector((state) => state.profileHandler);
+  const handleCloseLinkModal = () => {
+    dispatch(resetLinkData());
+    dispatch(resetSocialLink());
+    setLinkModal(false);
+  };
   return (
     <div className="w-[96%] mt-6 overflow-y-scroll pb-4">
       <div className="w-[100%] flex justify-between items-center">
@@ -40,7 +48,7 @@ const Links = () => {
 
       <CustomModal
         open={linkModal}
-        onClose={() => setLinkModal(false)}
+        onClose={() => handleCloseLinkModal()}
         style={{ height: 595, width: 956, borderRadius: "33px", p: 4 }}
       >
         <LinkModal />

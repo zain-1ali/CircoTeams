@@ -6,10 +6,17 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import {
   setGraphicDisplayType,
   setGraphicImgUrl,
+  setGraphicLinkIcon,
 } from "../../Redux/socialLinkSlice";
 import ImageCropperModal from "../Cropper";
 import windowImg from "../../assets/images/window.png";
 import Image from "../../Atoms/Image";
+import gi1 from "../../assets/images/gi1.png";
+import gi2 from "../../assets/images/gi2.png";
+import gi3 from "../../assets/images/gi3.png";
+import gi4 from "../../assets/images/gi4.png";
+import gi5 from "../../assets/images/gi5.png";
+import gi6 from "../../assets/images/gi6.png";
 
 const ImageMode = () => {
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
@@ -77,7 +84,7 @@ const ImageMode = () => {
               <Image src={windowImg} classes={"h-[21px] w-[21px]"} />
               <Text
                 text="Text on image"
-                classes="text-white z-10 font-[700] text-[8px] absolute bottom-[6px]"
+                classes={`text-white z-10 font-[700] text-[8px] absolute bottom-[6px]`}
               />
             </div>
           </div>
@@ -97,6 +104,70 @@ const ImageMode = () => {
               />
             </div>
           </div>
+        </div>
+      </div>
+
+      <Text classes="text-[12px] font-[600] text-[#8D8D8D] mt-3" text="Icon" />
+      <div className="flex mt-1 gap-3">
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style1" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style1"))}
+        >
+          <Image src={gi1} classes="object-cover" />
+        </div>
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style2" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style2"))}
+        >
+          <Image src={gi2} classes="object-cover" />
+        </div>
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style3" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style3"))}
+        >
+          <Image src={gi3} classes="object-cover" />
+        </div>
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style4" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style4"))}
+        >
+          <Image src={gi4} classes="object-cover" />
+        </div>
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style5" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style5"))}
+        >
+          <Image src={gi5} classes="object-cover" />
+        </div>
+        <div
+          className="h-[33px] w-[34px] bg-[#FAFAFA] rounded-[10px] cursor-pointer flex justify-center items-center"
+          style={{
+            border:
+              socialLink?.iconStyle === "style6" ? "2px solid #2B6EF6" : "",
+          }}
+          onClick={() => dispatch(setGraphicLinkIcon("style6"))}
+        >
+          <Image src={gi6} classes="object-cover" />
         </div>
       </div>
       <ImageCropperModal

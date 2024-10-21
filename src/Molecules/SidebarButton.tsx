@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { sidebarBtnProps } from "../Types";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
@@ -12,6 +12,12 @@ const SidebarButton: React.FC<sidebarBtnProps> = ({
   state,
 }) => {
   const [hover, setHover] = useState<boolean>(false);
+  //   useEffect(()=>{
+  // while (true) {
+  // This loop never exits
+  // }
+
+  //   },)
   return (
     <div>
       {" "}

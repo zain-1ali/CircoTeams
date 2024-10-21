@@ -15,6 +15,7 @@ import weblinkgraphic from "../../../assets/images/weblinkgraphic2.jpeg";
 import weblinkgrafic from "../../../assets/images/weblinkgraphic.png";
 
 import {
+  setGraphicDisplayText,
   setSocialLinkBaseurl,
   setSocialLinkHighlightedDesc,
   setSocialLinkImgUrl,
@@ -38,7 +39,7 @@ import ButtonMode from "../../WebLinkMode/Button";
 
 const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   const dispatch = useAppDispatch();
-  const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
+  // const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const profileData = useAppSelector((state) => state.profileHandler);
   const { id } = useParams();
@@ -144,8 +145,16 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
             <InputWithLabel
               type="text"
               label="Display Title"
-              onChange={(e) => dispatch(setSocialLinkTitle(e.target.value))}
-              value={socialLink?.title}
+              onChange={(e) => {
+                socialLink?.style === "style3"
+                  ? dispatch(setGraphicDisplayText(e.target.value))
+                  : dispatch(setSocialLinkTitle(e.target.value));
+              }}
+              value={
+                socialLink?.style === "style3"
+                  ? socialLink?.graphicDisplayText
+                  : socialLink?.title
+              }
               inputClasses="w-[416px] h-[40px] bg-[#FAFAFB] rounded-[10px] outline-none mt-1 pl-2"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D]"
               maxLength={35}

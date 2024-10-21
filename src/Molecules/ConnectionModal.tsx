@@ -1,15 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Modal, Box } from "@mui/material";
 import Text from "../Atoms/Text";
 import Button from "../Atoms/Button";
 import InputWithLabel from "../Molecules/InputWithLabel";
 import TextareaWithLabel from "../Molecules/TextareaWithLabel";
 import SelectWithLabel from "../Molecules/SelectWithLabel";
-import { BsCopy } from "react-icons/bs"
+import { BsCopy } from "react-icons/bs";
 import useToastNotifications from "../Hooks/useToastNotification";
 import DownloadCsv from "../Organisms/DownloadCsv";
 import { TbFileExport } from "react-icons/tb";
-import { addConnection, updateConnection } from "../Services/ConnectionServices";
+import {
+  addConnection,
+  updateConnection,
+} from "../Services/ConnectionServices";
 
 interface ConnectionModalProps {
   isOpen: boolean;
@@ -20,7 +23,12 @@ interface ConnectionModalProps {
 
 const { showSuccess, showError } = useToastNotifications();
 
-const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClose, data }) => {
+const ConnectionModal: React.FC<ConnectionModalProps> = ({
+  action,
+  isOpen,
+  onClose,
+  data,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [connectionData, setConnectionData] = useState({
@@ -46,7 +54,8 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
     } else if (!/^(\+?\d{1,4}[-\s]?)?\d{10}$/.test(connectionData.phone)) {
       formErrors.phone = "Invalid phone number format";
     }
-    if (!connectionData.company.trim()) formErrors.company = "Company is required";
+    if (!connectionData.company.trim())
+      formErrors.company = "Company is required";
     if (!connectionData.job.trim()) formErrors.job = "Job title is required";
 
     setErrors(formErrors);
@@ -84,13 +93,13 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
   };
 
   const modalStyles = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 600,
-    bgcolor: 'background.paper',
-    borderRadius: '30px',
+    bgcolor: "background.paper",
+    borderRadius: "30px",
     boxShadow: 24,
     outline: "none",
     p: 4,
@@ -100,14 +109,22 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={modalStyles} ref={modalRef}>
         <div className="w-full flex justify-between items-center mb-4">
-          <Text text={action=="add" ? "Add Connection" : "Connection Info"} classes="font-[600] text-[18px]" />
+          <Text
+            text={action == "add" ? "Add Connection" : "Connection Info"}
+            classes="font-[600] text-[18px]"
+          />
           <div className="flex">
             {action === "update" && (
               <Button
-                text={<DownloadCsv data={[data]} />}
+                text=""
                 btnClasses="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
                 onClick={() => {}}
-                icon={<TbFileExport className="absolute left-3 text-[16px]" />}
+                icon={
+                  <div className="flex">
+                    <TbFileExport className="absolute left-3 text-[16px]" />
+                    <DownloadCsv data={[data]} />
+                  </div>
+                }
               />
             )}
             {action === "update" ? (
@@ -132,28 +149,39 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
               <InputWithLabel
                 type="text"
                 label="Name"
-                onChange={(e) => setConnectionData({ ...connectionData, name: e.target.value })}
+                onChange={(e) =>
+                  setConnectionData({ ...connectionData, name: e.target.value })
+                }
                 value={connectionData.name}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
-              {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
+              {errors.name && (
+                <span className="text-red-500 text-xs">{errors.name}</span>
+              )}
             </div>
             <div className="w-[48%]">
-            <SelectWithLabel
+              <SelectWithLabel
                 label="Status"
-                onChange={(e) => setConnectionData({ ...connectionData, status: e.target.value })}
+                onChange={(e) =>
+                  setConnectionData({
+                    ...connectionData,
+                    status: e.target.value,
+                  })
+                }
                 value={connectionData.status}
                 options={[
-                  { value: 'active', label: 'Active' },
-                  { value: 'inactive', label: 'Inactive' },
+                  { value: "active", label: "Active" },
+                  { value: "inactive", label: "Inactive" },
                   // Add more options as needed
                 ]}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
 
-              {errors.status && <span className="text-red-500 text-xs">{errors.status}</span>}
+              {errors.status && (
+                <span className="text-red-500 text-xs">{errors.status}</span>
+              )}
             </div>
           </div>
         </div>
@@ -163,26 +191,23 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
               <InputWithLabel
                 type="text"
                 label="Connected with"
-                onChange={(e) => (null)}
+                onChange={(e) => console.log(e)}
                 value={data?.memberName}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
-
             </div>
 
             <div className="w-[48%]">
               <InputWithLabel
                 type="text"
                 label="Date"
-                onChange={(e) => (null)}
+                onChange={(e) => console.log(e)}
                 value={data?.formatedDate}
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
             </div>
-
-
           </div>
         )}
 
@@ -192,12 +217,16 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
             <InputWithLabel
               type="text"
               label="Email"
-              onChange={(e) => setConnectionData({ ...connectionData, email: e.target.value })}
+              onChange={(e) =>
+                setConnectionData({ ...connectionData, email: e.target.value })
+              }
               value={connectionData.email}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.email && <span className="text-red-500 text-xs">{errors.email}</span>}
+            {errors.email && (
+              <span className="text-red-500 text-xs">{errors.email}</span>
+            )}
             {connectionData.email !== "" && (
               <BsCopy
                 onClick={() => {
@@ -212,12 +241,16 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
             <InputWithLabel
               type="text"
               label="Phone"
-              onChange={(e) => setConnectionData({ ...connectionData, phone: e.target.value })}
+              onChange={(e) =>
+                setConnectionData({ ...connectionData, phone: e.target.value })
+              }
               value={connectionData.phone}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.phone && <span className="text-red-500 text-xs">{errors.phone}</span>}
+            {errors.phone && (
+              <span className="text-red-500 text-xs">{errors.phone}</span>
+            )}
             {connectionData.phone !== "" && (
               <BsCopy
                 onClick={() => {
@@ -236,35 +269,48 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({ action, isOpen, onClo
             <InputWithLabel
               type="text"
               label="Company"
-              onChange={(e) => setConnectionData({ ...connectionData, company: e.target.value })}
+              onChange={(e) =>
+                setConnectionData({
+                  ...connectionData,
+                  company: e.target.value,
+                })
+              }
               value={connectionData.company}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.company && <span className="text-red-500 text-xs">{errors.company}</span>}
+            {errors.company && (
+              <span className="text-red-500 text-xs">{errors.company}</span>
+            )}
           </div>
           <div className="w-[48%]">
             <InputWithLabel
               type="text"
               label="Job Title"
-              onChange={(e) => setConnectionData({ ...connectionData, job: e.target.value })}
+              onChange={(e) =>
+                setConnectionData({ ...connectionData, job: e.target.value })
+              }
               value={connectionData.job}
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.job && <span className="text-red-500 text-xs">{errors.job}</span>}
+            {errors.job && (
+              <span className="text-red-500 text-xs">{errors.job}</span>
+            )}
           </div>
         </div>
 
         <div>
-        <TextareaWithLabel
-              type="text"
-              label="Note"
-              onChange={(e) => setConnectionData({ ...connectionData, message: e.target.value })}
-              value={connectionData?.message}
-              inputClasses="min-h-[70px] max-h-[90px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
-              labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
-            />
+          <TextareaWithLabel
+            type="text"
+            label="Note"
+            onChange={(e) =>
+              setConnectionData({ ...connectionData, message: e.target.value })
+            }
+            value={connectionData?.message}
+            inputClasses="min-h-[70px] max-h-[90px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+            labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+          />
         </div>
       </Box>
     </Modal>
