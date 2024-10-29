@@ -8,7 +8,7 @@ const ProfileTextualArea: React.FC<prfTextsProps> = ({
   company,
 }) => {
   return (
-    <div className="w-[100%] flex flex-col items-center mt-[55px] h-[80px] ">
+    <div className="w-[100%] flex flex-col items-center  h-[80px] ">
       <Text
         classes="text-[15px] font-[700] w-[80%] text-center"
         text={name === "undefined undefined" ? "" : name}

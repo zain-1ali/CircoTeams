@@ -1,25 +1,24 @@
 import { useAppSelector } from "../../Hooks/reduxHooks";
-import ProfileBackgroundImage from "../../Molecules/ProfileBackgroundImage";
+// import ProfileBackgroundImage from "../../Molecules/ProfileBackgroundImage";
 import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
 
-const Classic = () => {
+const Custom = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
+  console.log(profileData?.profileDesign?.hideCompanyLogo);
+
   return (
-    <div className={`w-[90%] h-[100%]`}>
-      <div className="w-[100%] h-[128px] relative mt-4">
-        <ProfileBackgroundImage src={profileData?.coverUrl} />
-        <div className="w-[100%] flex justify-center  absolute bottom-[-40px]">
-          <ProfilePictureWithLogo
-            logo={profileData?.logoUrl}
-            profile={profileData?.profileUrl}
-            showLogo={!profileData?.profileDesign?.hideCompanyLogo}
-          />
-        </div>
+    <div className={`w-[90%] h-[100%] absolute overflow-y-scroll`}>
+      <div className="w-[100%] flex justify-center mt-11">
+        <ProfilePictureWithLogo
+          showLogo={!profileData?.profileDesign?.hideCompanyLogo}
+          logo={profileData?.logoUrl}
+          profile={profileData?.profileUrl}
+        />
       </div>
-      <div className="w-[100%] mt-[55px]">
+      <div className="w-[100%] mt-[20px]">
         <ProfileTextualArea
           name={profileData?.firstName + " " + profileData?.lastName}
           job={profileData.jobTitle}
@@ -27,10 +26,11 @@ const Classic = () => {
           company={profileData?.company}
         />
       </div>
+
       <ProfileButtonsArea />
       <SocialLinks />
     </div>
   );
 };
 
-export default Classic;
+export default Custom;

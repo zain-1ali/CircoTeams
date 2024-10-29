@@ -1,11 +1,11 @@
 import Textarea from "../Atoms/Textarea";
 import Text from "../Atoms/Text";
-import { inputWithLabelProps } from "../Types";
+import { textAreaWithLabelProps } from "../Types";
 
-const TextareaWithLabel: React.FC<inputWithLabelProps> = ({
+const TextareaWithLabel: React.FC<textAreaWithLabelProps> = ({
   type,
   label,
-  onChange,
+  onTextChange,
   value,
   inputClasses,
   labelClasses,
@@ -15,7 +15,7 @@ const TextareaWithLabel: React.FC<inputWithLabelProps> = ({
       <Text text={label} classes={labelClasses} />
       <Textarea
         type={type}
-        onChange={onChange}
+        onTextChange={onTextChange}
         classes={inputClasses}
         value={value}
       />

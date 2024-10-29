@@ -14,6 +14,7 @@ const UploadIcon: React.FC<uploadIconProps> = ({
   handleFileChange,
   removeImg,
   isBigImage,
+  isThemeImg,
 }) => {
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +44,11 @@ const UploadIcon: React.FC<uploadIconProps> = ({
               <Image src={windowImg} classes={"h-[21px] w-[21px]"} />
             </div>
           )
+        ) : isThemeImg ? (
+          <Image
+            src={imgSrc}
+            classes={"h-[174px] w-[78px] rounded-[12px] object-cover"}
+          />
         ) : (
           <Image src={imgSrc} classes={"h-[74px] w-[74px] rounded-[12px]"} />
         )}

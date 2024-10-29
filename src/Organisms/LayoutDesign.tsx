@@ -1,3 +1,4 @@
+import { useState } from "react";
 import card from "../assets/images/card.png";
 import classic from "../assets/images/classic.png";
 import color from "../assets/images/colored.png";
@@ -7,12 +8,16 @@ import IOSSwitch from "../Atoms/CustomToggleBtn";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
+import { useUploadFile } from "../Hooks/useUploadFile";
 import ColorSelector from "../Molecules/ColorSelector";
+import UploadIcon from "../Molecules/UploadIcon";
 import {
   setBackgroundColor,
+  setProfileDesign,
   setTheme,
   setwhitenText,
 } from "../Redux/ProfileSlice";
+import ImageCropperModal from "./Cropper";
 const LayoutDesign = () => {
   interface Layout {
     name: string;
@@ -33,8 +38,50 @@ const LayoutDesign = () => {
   const handleChangeAppBgColor = (color: string) => {
     dispatch(setBackgroundColor(color));
   };
+  const profileData = useAppSelector((state) => state.profileHandler);
+  console.log("this is image:", profileData?.profileDesign.backgroundImage);
+
+  const layoutBg =
+    profileData?.profileDesign.backgroundImage ||
+    "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1";
+
+  const { uploadFile } = useUploadFile();
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [image, setImage] = useState<string>("");
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result as string);
+        setOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCropComplete = (croppedImage: string) => {
+    const uniqueTime = Date.now();
+    setUploadLoading(true);
+
+    uploadFile(croppedImage?.slice(23), `social${uniqueTime}`).then((url) => {
+      dispatch(setProfileDesign({ backgroundImage: url }));
+      setUploadLoading(false);
+      setOpen(false);
+    });
+  };
+
   return (
-    <div className="w-[100%]   h-[350px] rounded-[20px] bg-[#F9F9F9] pl-4 pr-4 pt-6 mt-1 ">
+    <div className="w-[100%]   min-h-[350px] rounded-[20px] bg-[#F9F9F9] pl-4 pr-4 pt-6 mt-1 ">
       <div className="w-[100%] flex justify-between">
         {layout?.map((elem) => {
           return (
@@ -53,6 +100,16 @@ const LayoutDesign = () => {
           );
         })}
       </div>
+      <div className="w-[100%]">
+        <UploadIcon
+          imgSrc={layoutBg}
+          isShare={false}
+          handleFileChange={handleFileChange}
+          removeImg={() => {}}
+          isThemeImg={true}
+        />
+      </div>
+
       <div className="mt-6">
         <ColorSelector
           colorType="Background Color"
@@ -72,6 +129,16 @@ const LayoutDesign = () => {
           value={profileDesign.whiteProfileText}
         />
       </div>
+
+      <ImageCropperModal
+        open={open}
+        handleClose={handleClose}
+        imageSrc={image}
+        onCropComplete={handleCropComplete}
+        aspect={9 / 16}
+        shape={"rect"}
+        loading={uploadLoading}
+      />
     </div>
   );
 };

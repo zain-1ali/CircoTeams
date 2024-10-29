@@ -144,3 +144,19 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
         })
     }
 }
+
+
+export const updateProfileDesign=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
+    if(data){
+        console.log("inner")
+        update(ref(db, `User/${id}/profileDesign`),{...data}).then(()=>{
+            setLoading(false)
+            showSuccess("Information updated sucessfully")
+            console.log("working well")
+        }).catch((Error)=>{
+            showError("Something went wrong")
+            console.log("the error",Error)
+        })
+    }
+}
+

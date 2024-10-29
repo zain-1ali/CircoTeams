@@ -43,9 +43,9 @@ const SaveContactDesign = () => {
         </div>
         <div
           className="h-[37px] w-[110px] flex justify-center items-center border border-black  text-black rounded-[7px] text-[12px] font-[700] relative"
-          onClick={() => handleChangeSaveStyle("style2")}
+          onClick={() => handleChangeSaveStyle("style3")}
         >
-          {profileDesign?.saveContactStyle === "style2" && (
+          {profileDesign?.saveContactStyle === "style3" && (
             <FaCircleCheck className="text-primary absolute top-[-7px] right-[-7px] text-xl" />
           )}
           Save Contact
@@ -55,9 +55,9 @@ const SaveContactDesign = () => {
           style={{
             background: `url(${btnBg})`,
           }}
-          onClick={() => handleChangeSaveStyle("style3")}
+          onClick={() => handleChangeSaveStyle("style5")}
         >
-          {profileDesign?.saveContactStyle === "style3" && (
+          {profileDesign?.saveContactStyle === "style5" && (
             <FaCircleCheck className="text-primary absolute top-[-7px] right-[-7px] text-xl" />
           )}
           Save Contact
@@ -67,18 +67,18 @@ const SaveContactDesign = () => {
       <div className="flex gap-5 mt-4">
         <div
           className="h-[37px] w-[110px] flex justify-center items-center bg-black text-white rounded-full cursor-pointer text-[12px] font-[700] relative"
-          onClick={() => handleChangeSaveStyle("style4")}
+          onClick={() => handleChangeSaveStyle("style2")}
         >
-          {profileDesign?.saveContactStyle === "style4" && (
+          {profileDesign?.saveContactStyle === "style2" && (
             <FaCircleCheck className="text-primary absolute top-[-7px] right-[-7px] text-xl" />
           )}
           Save Contact
         </div>
         <div
           className="h-[37px] w-[110px] flex justify-center items-center border border-black  text-black rounded-full cursor-pointer text-[12px] font-[700] relative"
-          onClick={() => handleChangeSaveStyle("style5")}
+          onClick={() => handleChangeSaveStyle("style4")}
         >
-          {profileDesign?.saveContactStyle === "style5" && (
+          {profileDesign?.saveContactStyle === "style4" && (
             <FaCircleCheck className="text-primary absolute top-[-7px] right-[-7px] text-xl" />
           )}
           Save Contact

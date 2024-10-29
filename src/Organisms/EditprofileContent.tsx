@@ -15,8 +15,11 @@ import {
   setLastName,
   setLinks,
   setlogoUrl,
+  setProfileDesign,
   setProfileName,
   setProfileUrl,
+  setQrColor,
+  setQrLogo,
 } from "../Redux/ProfileSlice";
 
 const EditprofileContent = () => {
@@ -55,6 +58,25 @@ const EditprofileContent = () => {
     if (typeof profileData?.links === "object") {
       dispatch(setLinks(Object.values(profileData?.links)));
     }
+    dispatch(setProfileDesign(profileData?.profileDesign));
+
+    if (profileData?.profileDesign?.backgroundImage) {
+      dispatch(
+        setProfileDesign({
+          backgroundImage: profileData?.profileDesign?.backgroundImage,
+        })
+      );
+    } else {
+      dispatch(
+        setProfileDesign({
+          backgroundImage:
+            "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1",
+        })
+      );
+    }
+
+    dispatch(setQrColor(profileData?.qrColor));
+    dispatch(setQrLogo(profileData?.qrLogo));
   }, [profileData?.id]);
 
   return (

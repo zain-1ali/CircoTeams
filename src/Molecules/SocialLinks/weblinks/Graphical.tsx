@@ -1,6 +1,7 @@
 import Image from "../../../Atoms/Image";
 import Text from "../../../Atoms/Text";
-import { useAppSelector } from "../../../Hooks/reduxHooks";
+// import { useAppSelector } from "../../../Hooks/reduxHooks";
+import { Link } from "../../../Types";
 import gi1 from "../../../assets/images/gi1.png";
 import gi2 from "../../../assets/images/gi2.png";
 import gi3 from "../../../assets/images/gi3.png";
@@ -8,8 +9,8 @@ import gi4 from "../../../assets/images/gi4.png";
 import gi5 from "../../../assets/images/gi5.png";
 import gi6 from "../../../assets/images/gi6.png";
 
-const Graphical = () => {
-  const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
+const Graphical: React.FC<Link> = (socialLink) => {
+  // const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
   const returnIconStyle = (style: string) => {
     if (style === "style1") {
       return gi1;

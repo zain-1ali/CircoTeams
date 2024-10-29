@@ -273,7 +273,7 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
         )}  */}
       </div>
       <div className="w-[35%] h-[100%] flex justify-center items-center">
-        <CardPreview />
+        <CardPreview isAuth={false} />
       </div>
     </div>
   );

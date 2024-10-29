@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { sidebarBtnProps } from "../Types";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";

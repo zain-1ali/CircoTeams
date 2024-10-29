@@ -4,11 +4,13 @@ import PrimaryLink from "../Molecules/SocialLinks/PrimaryLink";
 import { motion } from "framer-motion";
 import Weblink from "../Molecules/SocialLinks/Weblink";
 
-
 export const SocialLinks = () => {
   const starterLinks = useAppSelector((state) => state.authLinkHandler.links);
   const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
   console.log(socialLink?.name);
+  const linksData = useAppSelector((state) => state.profileHandler.links);
+
+  console.log(linksData);
 
   return (
     <div className="w-[100%] flex justify-center mt-4">
@@ -25,6 +27,32 @@ export const SocialLinks = () => {
                 <PrimaryLink {...link} />;
               </motion.div>
             )
+          );
+        })}
+
+        {linksData?.map((link) => {
+          return link?.linkID === 999 ? (
+            <Weblink {...link} />
+          ) : link?.isLinkHighlighted ? (
+            <div className="w-[100%]">
+              <motion.div
+                initial={{ opacity: 0, translateY: 10 }}
+                animate={{ opacity: 1, translateY: 0 }}
+                exit={{ opacity: 0, translateY: 10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {link?.name && <Highlighted {...link} />}
+              </motion.div>
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, translateY: 10 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              exit={{ opacity: 0, translateY: 10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              {link?.name && <PrimaryLink {...link} />}
+            </motion.div>
           );
         })}
 

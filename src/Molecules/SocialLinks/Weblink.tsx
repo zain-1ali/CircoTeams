@@ -6,7 +6,6 @@ import PrimaryLink from "./PrimaryLink";
 import ButtonLink from "./weblinks/Button";
 import Graphical from "./weblinks/Graphical";
 
-
 const Weblink: React.FC<Link> = (socialLink) => {
   return (
     <div
@@ -35,8 +34,8 @@ const Weblink: React.FC<Link> = (socialLink) => {
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
           {socialLink?.style === "style1" && <PrimaryLink {...socialLink} />}
-          {socialLink?.style === "style2" && <ButtonLink />}
-          {socialLink?.style === "style3" && <Graphical />}
+          {socialLink?.style === "style2" && <ButtonLink {...socialLink} />}
+          {socialLink?.style === "style3" && <Graphical {...socialLink} />}
         </motion.div>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ChangeEventHandler, ReactNode } from "react";
 
 export interface ImageProps {
   classes?: any;
@@ -37,7 +37,27 @@ export interface textProps {
 
 export interface inputProps {
   type?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string | number;
+  classes?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
+}
+
+export interface inputProps {
+  type?: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string | number;
+  classes?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
+}
+
+export interface textAreaProps {
+  type?: string;
+  onTextChange: ChangeEventHandler<HTMLTextAreaElement>;
   value?: string | number;
   classes?: string;
   placeholder?: string;
@@ -46,6 +66,12 @@ export interface inputProps {
 }
 
 export interface inputWithLabelProps extends inputProps {
+  label: string;
+  inputClasses: string;
+  labelClasses: string;
+}
+
+export interface textAreaWithLabelProps extends textAreaProps {
   label: string;
   inputClasses: string;
   labelClasses: string;
@@ -133,6 +159,8 @@ export interface phoneInputProps {
 export interface toggleAreaProps {
   text: string;
   width: string;
+  toggleChange: () => any;
+  toggleValue: boolean;
 }
 
 export interface colorSelectorProps {
@@ -150,6 +178,7 @@ export interface textBtnProps {
   text: string;
   btnText: string;
   width: string;
+  onClick: () => void;
 }
 
 export interface tableHeadProps {
@@ -265,6 +294,7 @@ export interface uploadIconProps {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removeImg: () => void;
   isBigImage?: boolean;
+  isThemeImg?: boolean;
 }
 
 export interface allLinksProps {
@@ -275,12 +305,16 @@ export interface addLinksProps extends allLinksProps {}
 
 export interface webLinksProps extends allLinksProps {}
 
+export interface cardPreview {
+  isAuth: boolean;
+}
+
 // profile interfaces
 
 export interface ProfileDesign {
   appIconColor: string;
   backgroundColor: string;
-  backgroundImage: string;
+  backgroundImage: string | null;
   backgroundOpacity: number;
   backgroundTheme: string;
   boxBackgroundColor: string;

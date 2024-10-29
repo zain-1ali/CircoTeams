@@ -40,12 +40,14 @@ const UserProfileCard: React.FC<prflCardProps> = ({
       </div>
       {!isCreatePrfl ? (
         <>
-          <ProfileTextualArea
-            name={profile?.firstName + " " + profile?.lastName}
-            job={profile?.jobTitle}
-            location={profile?.address}
-            company={profile?.company}
-          />
+          <div className="mt-[55px] w-[100%]">
+            <ProfileTextualArea
+              name={profile?.firstName + " " + profile?.lastName}
+              job={profile?.jobTitle}
+              location={profile?.address}
+              company={profile?.company}
+            />
+          </div>
 
           <div className="w-[100%] flex justify-center">
             <div className="w-[85%] flex justify-between mt-3">

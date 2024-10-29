@@ -2,10 +2,10 @@ import TableHeader from "../Molecules/TableHeader";
 import TableHeaderCell from "../Molecules/TableHeaderCell";
 import Sidebar from "../Organisms/Sidebar";
 import Table from "../Organisms/Table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const DevicesTemplate = () => {
-  let [selectedRows, setSelectedRows] = useState<string[]>([]); 
+  let [selectedRows, setSelectedRows] = useState<string[]>([]);
   const innerHeight: number = window.innerHeight;
   const headers = [
     <TableHeaderCell text="Device" width="30%" />,
@@ -14,7 +14,7 @@ const DevicesTemplate = () => {
   ];
 
   const handleRowSelect = (item: any | any[], isChecked: boolean) => {
-    console.log(item)
+    console.log(item);
     if (Array.isArray(item)) {
       // Handle array of data objects (e.g., from "select all")
       if (isChecked) {
@@ -27,7 +27,9 @@ const DevicesTemplate = () => {
       if (isChecked) {
         setSelectedRows((prev) => [...prev, item]); // Add the single row data object
       } else {
-        setSelectedRows((prev) => prev.filter((row) => row.id !== item.id)); // Remove the single row by its ID
+        setSelectedRows((prev) =>
+          prev.filter((row: any) => row.id !== item.id)
+        ); // Remove the single row by its ID
       }
     }
   };
@@ -43,7 +45,13 @@ const DevicesTemplate = () => {
             innerHeight <= 700 ? "h-[80%]" : "h-[83%]"
           }   bg-[white]  rounded-t-[20px] absolute bottom-0 flex justify-center  pt-4 pl-2 pr-2`}
         >
-          <Table headers={headers} type="devices" data = {[]} selectedRows={selectedRows} handleRowSelect = {handleRowSelect}/>
+          <Table
+            headers={headers}
+            type="devices"
+            data={[]}
+            selectedRows={selectedRows}
+            handleRowSelect={handleRowSelect}
+          />
         </div>
       </div>
     </div>

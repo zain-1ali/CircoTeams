@@ -2,9 +2,10 @@ import { hexToRGBA } from "../../../utils/hexToRGBA";
 import Image from "../../../Atoms/Image";
 // import Text from "../../../Atoms/Text";
 import { useAppSelector } from "../../../Hooks/reduxHooks";
+import { Link } from "../../../Types";
 
-const ButtonLink = () => {
-  const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
+const ButtonLink: React.FC<Link> = (socialLink) => {
+  // const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
   const profileData = useAppSelector((state) => state.profileHandler);
 
   const getBorderRadius = (style: string | undefined): string | undefined => {
@@ -77,9 +78,16 @@ const ButtonLink = () => {
       ["style9", "style10", "style11", "style12"].includes(weblinkStyle)
         ? "blur(5px)"
         : undefined,
-    backgroundColor: !["style9", "style10", "style11", "style12"].includes(
-      weblinkStyle || ""
-    )
+    backgroundColor: ![
+      "style5",
+      "style6",
+      "style7",
+      "style8",
+      "style9",
+      "style10",
+      "style11",
+      "style12",
+    ].includes(weblinkStyle || "")
       ? buttonBackgroundColor
       : "transparent",
     border: getBorderStyle(weblinkStyle, buttonBackgroundColor),

@@ -1,8 +1,8 @@
 import React from "react";
-import { inputProps } from "../Types";
+import { textAreaProps } from "../Types";
 
-const Textarea: React.FC<inputProps> = ({
-  onChange,
+const Textarea: React.FC<textAreaProps> = ({
+  onTextChange,
   value,
   classes,
   placeholder,
@@ -10,7 +10,7 @@ const Textarea: React.FC<inputProps> = ({
   return (
     <>
       <textarea
-        onChange={onChange}
+        onChange={onTextChange}
         value={value}
         className={classes}
         placeholder={placeholder}

@@ -52,7 +52,7 @@ const initialState: UserProfile = {
   profileDesign: {
     appIconColor: "#ffffff",
     backgroundColor: "#000000",
-    backgroundImage: "",
+    backgroundImage: "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1",
     backgroundOpacity: 98,
     backgroundTheme: "Card",
     boxBackgroundColor: "#ffffff",

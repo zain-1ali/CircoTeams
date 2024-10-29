@@ -304,7 +304,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
           <TextareaWithLabel
             type="text"
             label="Note"
-            onChange={(e) =>
+            onTextChange={(e) =>
               setConnectionData({ ...connectionData, message: e.target.value })
             }
             value={connectionData?.message}

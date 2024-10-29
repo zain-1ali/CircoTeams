@@ -6,7 +6,11 @@ import hi11 from "../assets/images/hi11.png";
 import hi12 from "../assets/images/hi12.png";
 
 // : React.FC<TableRowProps>
-const MembersTableRow = () => {
+const MembersTableRow: React.FC<any> = ({
+  data,
+  // handleRowSelect,
+  // isSelected,
+}) => {
   return (
     <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4">
       <Checkbox
@@ -17,6 +21,7 @@ const MembersTableRow = () => {
       <ImageWithTextCell
         containerClass="flex w-[200px] items-center gap-3"
         isAdmin={true}
+        data={data}
       />
       <IconWithTextCell
         icon={message}

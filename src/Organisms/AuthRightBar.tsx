@@ -10,7 +10,7 @@ const AuthRightBar = () => {
   return (
     <div className="h-[100%] w-[73%] bg-[#F7F7F8] flex justify-center items-center">
       {isSignupCreateProfile ? (
-        <CardPreview />
+        <CardPreview isAuth={true} />
       ) : (
         <Image src={authImg} classes="h-[532px] w-[517px] object-cover" />
       )}

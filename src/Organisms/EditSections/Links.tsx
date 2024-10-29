@@ -8,6 +8,7 @@ import LinkModal from "../Modal/LinkModal";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { resetLinkData } from "../../Redux/linkSlice";
 import { resetSocialLink } from "../../Redux/socialLinkSlice";
+import { toggleDirectMode, toggleLeadMode } from "../../Redux/ProfileSlice";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
@@ -22,8 +23,18 @@ const Links = () => {
   return (
     <div className="w-[96%] mt-6 overflow-y-scroll pb-4">
       <div className="w-[100%] flex justify-between items-center">
-        <ToggleArea text="Lead Capture Mode" width="w-[42%]" />
-        <ToggleArea text="One Link Mode" width="w-[33%]" />
+        <ToggleArea
+          text="Lead Capture Mode"
+          width="w-[42%]"
+          toggleValue={profileData?.leadMode}
+          toggleChange={() => dispatch(toggleLeadMode())}
+        />
+        <ToggleArea
+          text="One Link Mode"
+          width="w-[33%]"
+          toggleValue={profileData?.directMode}
+          toggleChange={() => dispatch(toggleDirectMode())}
+        />
         <Button
           text="Add Link"
           btnClasses="h-[41px] w-[22%] rounded-full text-white bg-[#2B6EF6] text-white text-[12px] font-[700] flex justify-center items-center"

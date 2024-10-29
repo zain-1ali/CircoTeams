@@ -19,7 +19,7 @@ export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,c
 
 
 
-export const getMultipleChilds = async (collectionName:string,orderBy:string,id:string,callBackFunc:any, setloading:any) => {
+export const getMultipleChilds = async (collectionName:string,orderBy:string,id:string | null,callBackFunc:any, setloading:any) => {
     setloading(true);
     const starCountRef = query(
       ref(db, collectionName),

@@ -34,11 +34,14 @@ const Table: React.FC<tableProps> = ({
       {/* Rendering for "members" type */}
       {type === "members" && (
         <>
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
+          {data?.map((item: any, index: any) => (
+            <MembersTableRow
+              key={index}
+              data={item}
+              handleRowSelect={handleRowSelect} // Pass handler to row
+              isSelected={selectedRows.some((row: any) => row.id === item.id)}
+            />
+          ))}
         </>
       )}
 
