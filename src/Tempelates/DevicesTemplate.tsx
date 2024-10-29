@@ -1,11 +1,46 @@
-import TableHeader from "../Molecules/TableHeader";
+import DevicesHeader from "../Molecules/DevicesHeader";
 import TableHeaderCell from "../Molecules/TableHeaderCell";
 import Sidebar from "../Organisms/Sidebar";
 import Table from "../Organisms/Table";
 import { useEffect, useState } from "react";
+import { getDevices } from "../Services/DeviceServices";
 
 const DevicesTemplate = () => {
+  let [allDevices, setAllDevices] = useState([]);
+  let [filteredDevices, setFilteredDevices] = useState([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]); 
+  const companyId = localStorage.getItem("circoCompanyUid") || "";
+  const applyFilterId = (id: string) => {
+    if(id == "")
+    {
+      setFilteredDevices(allDevices);
+    }
+    else{
+      setFilteredDevices(
+        allDevices.filter((item: any) => item?.userid === id)
+      );
+    }
+  };
+  const searchItem = (searchValue: string) => {
+    if (searchValue === "") {
+      setAllDevices(allDevices);
+    } else {
+      setAllDevices(
+        allDevices.filter((item: any) => 
+          item?.name?.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }
+  };
+  useEffect(() => {
+    getDevices(companyId , updateDevices);
+  }, [companyId]);
+
+const updateDevices = (devices: any) => {
+  setFilteredDevices(devices);
+  setAllDevices(devices);
+}
+
   const innerHeight: number = window.innerHeight;
   const headers = [
     <TableHeaderCell text="Device" width="30%" />,
@@ -36,7 +71,7 @@ const DevicesTemplate = () => {
     <div className="h-screen w-screen flex">
       <Sidebar />
       <div className="w-[83%] h-[100%] p-5 border bg-[#f6f6f6] relative">
-        <TableHeader number="" headerName="Devices" />
+        <DevicesHeader applyFilterId={applyFilterId} searchItem = {searchItem} selectedRows={selectedRows}  />
 
         <div
           className={`w-[96%]  ${

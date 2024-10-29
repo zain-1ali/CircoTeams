@@ -54,7 +54,14 @@ const Table: React.FC<tableProps> = ({ headers, type, data, selectedRows, handle
       {/* Rendering for "devices" type */}
       {type === "devices" && (
         <>
-          <DevicesTableRow />
+        {data?.map((item: any, index: any) => (
+            <DevicesTableRow
+              key={index}
+              data={item}
+              handleRowSelect={handleRowSelect} // Pass handler to row
+              isSelected={selectedRows.some((row) => row.id === item.id)}
+            />
+          ))}
           <DevicesTableRow />
           <DevicesTableRow />
           <DevicesTableRow />
