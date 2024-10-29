@@ -25,6 +25,7 @@ import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
 import ImageCropperModal from "../../Cropper";
+import { resetLinkData } from "../../../Redux/linkSlice";
 
 const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
     dispatch(setSocialLinklinkID(999));
     dispatch(setSocialLinkHighlightedDesc(""));
     dispatch(setSocialLinkImgUrl(""));
+    dispatch(resetLinkData());
   };
 
   const handleLoading = (value: boolean) => {
@@ -231,7 +233,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
         />
       </div>
       <div className="w-[35%] h-[100%] flex justify-center items-center">
-        <CardPreview />
+        <CardPreview isAuth={false} />
       </div>
     </div>
   );

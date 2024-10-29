@@ -5,13 +5,19 @@ import MembersTableRow from "../Molecules/MembersTableRow";
 import ConnectionTableRow from "../Molecules/ConnectionTableRow";
 import DevicesTableRow from "../Molecules/DevicesTableRow";
 
-const Table: React.FC<tableProps> = ({ headers, type, data, selectedRows, handleRowSelect }) => {
-  const allSelected = selectedRows.length === data.length;
+const Table: React.FC<tableProps> = ({
+  headers,
+  type,
+  data,
+  selectedRows,
+  handleRowSelect,
+}) => {
+  const allSelected = selectedRows?.length === data?.length;
 
   const handleSelectAll = (isChecked: boolean) => {
     if (isChecked) {
       const allItems = data; // Select all row data objects
-      handleRowSelect(allItems, true);  // Pass all items
+      handleRowSelect(allItems, true); // Pass all items
     } else {
       handleRowSelect([], false); // Deselect all rows
     }
@@ -23,17 +29,19 @@ const Table: React.FC<tableProps> = ({ headers, type, data, selectedRows, handle
         tableHeadCells={headers}
         allSelected={allSelected}
         onSelectAll={handleSelectAll} // Pass the select all handler
-        
       />
 
       {/* Rendering for "members" type */}
       {type === "members" && (
         <>
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
-          <MembersTableRow />
+          {data?.map((item: any, index: any) => (
+            <MembersTableRow
+              key={index}
+              data={item}
+              handleRowSelect={handleRowSelect} // Pass handler to row
+              isSelected={selectedRows.some((row: any) => row.id === item.id)}
+            />
+          ))}
         </>
       )}
 
@@ -45,7 +53,7 @@ const Table: React.FC<tableProps> = ({ headers, type, data, selectedRows, handle
               key={index}
               data={item}
               handleRowSelect={handleRowSelect} // Pass handler to row
-              isSelected={selectedRows.some((row) => row.id === item.id)}
+              isSelected={selectedRows.some((row: any) => row.id === item.id)}
             />
           ))}
         </>

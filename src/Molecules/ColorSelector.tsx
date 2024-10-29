@@ -2,7 +2,11 @@ import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import { colorSelectorProps } from "../Types";
 import i10 from "../assets/images/i10.png";
-const ColorSelector: React.FC<colorSelectorProps> = ({ colorType }) => {
+const ColorSelector: React.FC<colorSelectorProps> = ({
+  colorType,
+  handleChangeColor,
+  color,
+}) => {
   const colors: string[] = [
     "#000000",
     "#EB5757",
@@ -26,11 +30,14 @@ const ColorSelector: React.FC<colorSelectorProps> = ({ colorType }) => {
           src={i10}
           classes="h-[20px] w-[20px] object-cover cursor-pointer"
         />
-        {colors?.map((color) => {
+        {colors?.map((elm) => {
           return (
             <div
-              className={`h-[20px] w-[20px] rounded-full  cursor-pointer`}
-              style={{ backgroundColor: color }}
+              className={`h-[20px] w-[20px] rounded-full  cursor-pointer ${
+                elm === color && "border-[2px] border-primary"
+              }`}
+              style={{ backgroundColor: elm }}
+              onClick={() => handleChangeColor(elm)}
             ></div>
           );
         })}

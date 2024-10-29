@@ -28,7 +28,7 @@ export const addConnection = (data: any, cb: Function,showSuccess:any,showError:
         cb(); 
       })
       .catch((error) => {
-        console.log("the error",Error)
+        console.log("the error",error)
         showError("Error adding contact");
       });
   } else {

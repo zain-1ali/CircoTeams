@@ -13,3 +13,16 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+  .shadow-div::before {
+    @apply absolute bottom-0 left-0 right-0 z-[1];
+    content: '';
+    height: 45%; /* Adjust this value for how far up the shadow should go */
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.4), /* Start with a semi-transparent black */
+      rgba(0, 0, 0, 0)    /* Fade to fully transparent */
+    );
+    pointer-events: none; /* Make sure it doesn't block interactions */
+
+  }

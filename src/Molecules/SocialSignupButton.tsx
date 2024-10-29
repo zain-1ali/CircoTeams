@@ -11,10 +11,15 @@ const SocialSignupButton: React.FC<socialbuttonProps> = ({
   return (
     <>
       <Button
-        img={isGoogle ? google : microsoft}
+        icon={
+          isGoogle ? (
+            <img src={google} className="h-[20px] w-[20px] object-cover" />
+          ) : (
+            <img src={microsoft} className="h-[20px] w-[20px] object-cover" />
+          )
+        }
         text={isGoogle ? "Google" : "Microsoft"}
         btnClasses={btnClasses}
-        imgClasses="h-[20px] w-[20px] object-cover"
         onClick={() => func()}
       />
     </>

@@ -19,6 +19,7 @@ const LinkRepresenterBtn: React.FC<any> = ({ link }) => {
         />
       </div>
       <Button
+        text=""
         btnClasses="w-[48px] h-[32px] bg-[#ffffff] rounded-[100px] flex justify-center items-center"
         onClick={() => {}}
         icon={<IoMdAdd className="text-[#858585]" />}

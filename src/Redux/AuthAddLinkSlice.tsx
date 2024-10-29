@@ -26,6 +26,7 @@ const initialState: AuthLinksProps = {
       type: "",
       url: "",
       value: "",
+      iconStyle: "",
     },
 
     {
@@ -50,6 +51,7 @@ const initialState: AuthLinksProps = {
       type: "",
       url: "",
       value: "",
+      iconStyle: "",
     },
   ],
 };

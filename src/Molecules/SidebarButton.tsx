@@ -12,6 +12,12 @@ const SidebarButton: React.FC<sidebarBtnProps> = ({
   state,
 }) => {
   const [hover, setHover] = useState<boolean>(false);
+  //   useEffect(()=>{
+  // while (true) {
+  // This loop never exits
+  // }
+
+  //   },)
   return (
     <div>
       {" "}

@@ -8,9 +8,10 @@ const initialState: SocialLinkProps = {
     buttonImgUrl:"",
     email: "",
     graphicDisplayText: "",
-    graphicDisplayType:"",
+    graphicDisplayType:"style1",
     graphicImgUrl:"",
     graphicTextColor:"",
+    iconStyle:"style1",
     id:JSON.stringify(Date.now()),
     image:"",
     isLinkHighlighted:false,
@@ -59,11 +60,56 @@ export const socialLinkSlice = createSlice({
       setSocialLinkImgUrl: (state, action: PayloadAction<string | null>) => {
         state.link.linkImgUrl = action.payload;
       },
+      setWebLinkStyle: (state, action: PayloadAction<"style1"|"style2"|"style3">) => {
+        state.link.style = action.payload;
+      },
+      setBtnImageUrl: (state, action: PayloadAction<string | null>) => {
+        state.link.buttonImgUrl = action.payload;
+      },
+      setGraphicImgUrl: (state, action: PayloadAction<string>) => {
+        state.link.graphicImgUrl = action.payload;
+      },
+      setGraphicDisplayType: (state, action: PayloadAction<string>) => {
+        state.link.graphicDisplayType = action.payload;
+      },
+      setGraphicLinkIcon: (state, action: PayloadAction<string>) => {
+        state.link.iconStyle = action.payload;
+      },
+      setGraphicLinkTextColor: (state, action: PayloadAction<string>) => {
+        state.link.graphicTextColor = action.payload;
+      },
+      resetSocialLink: (state) => {
+        state.link.baseUrl= "",
+        state.link.buttonImgUrl="",
+        state.link.email= "",
+        state.link.graphicDisplayText= "",
+        state.link.graphicDisplayType="style1",
+        state.link.graphicImgUrl="",
+        state.link.graphicTextColor="",
+        state.link.id=JSON.stringify(Date.now()),
+        state.link.image="",
+        state.link.isLinkHighlighted=false,
+        state.link.linkHighlightDescription="",
+        state.link.linkID=0,
+        state.link.linkImgUrl="",
+        state.link.name="",
+        state.link.placeholder="",
+        state.link.shareable=true,
+        state.link.style="",
+        state.link.title="",
+        state.link.type="",
+        state.link.url="",
+        state.link.value="",
+        state.link.iconStyle=""
+      },
+      setGraphicDisplayText: (state, action: PayloadAction<string>) => {
+        state.link.graphicDisplayText = action.payload;
+      },
   },
 });
 
 // Export the actions
-export const { setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl } = socialLinkSlice.actions;
+export const { setGraphicLinkIcon,setBtnImageUrl,setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl,setWebLinkStyle,setGraphicImgUrl,setGraphicDisplayType,resetSocialLink,setGraphicDisplayText,setGraphicLinkTextColor } = socialLinkSlice.actions;
 
 export default socialLinkSlice.reducer;
 

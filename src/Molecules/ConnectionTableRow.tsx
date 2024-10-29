@@ -46,9 +46,9 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
   };
   
 
-  const handleModalSubmit = () => {
-    console.log("callback");
-  };
+  // const handleModalSubmit = () => {
+  //   console.log("callback");
+  // };
   const deleteRowCallback = () => {
     console.log("deleteRowCallback");
   };
@@ -109,7 +109,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
               justifyContent: 'center',
             }}
           >
-            <DownloadCsv data={[data] || []} />
+            <DownloadCsv data={data || []} />
           </MenuItem>
           <hr className="border-t border-gray-200" />
           <MenuItem

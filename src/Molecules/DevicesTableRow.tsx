@@ -13,6 +13,7 @@ const DevicesTableRow = () => {
         classes="h-[20px] w-[20px] border border-[#B3B3BF] rounded-[2px]"
       />
       <ImageWithTextCell
+        data={{}}
         containerClass="flex w-[30%] items-center gap-3"
         isAdmin={true}
       />

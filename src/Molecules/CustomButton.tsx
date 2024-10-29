@@ -14,7 +14,7 @@ const CustomButton: React.FC<buttonProps> = ({
       <Button
         onClick={() => onClick()}
         btnClasses={btnClasses}
-        text={text}
+        text={text || ""}
         icon={icon}
       />
     </>

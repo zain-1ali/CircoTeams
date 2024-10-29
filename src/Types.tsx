@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ChangeEventHandler, ReactNode } from "react";
 
 export interface ImageProps {
   classes?: any;
@@ -31,13 +31,33 @@ export interface authSidebarProps {
 }
 
 export interface textProps {
-  text: string;
+  text: string | undefined;
   classes: string;
 }
 
 export interface inputProps {
   type?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string | number;
+  classes?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
+}
+
+export interface inputProps {
+  type?: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string | number;
+  classes?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
+}
+
+export interface textAreaProps {
+  type?: string;
+  onTextChange: ChangeEventHandler<HTMLTextAreaElement>;
   value?: string | number;
   classes?: string;
   placeholder?: string;
@@ -51,9 +71,15 @@ export interface inputWithLabelProps extends inputProps {
   labelClasses: string;
 }
 
+export interface textAreaWithLabelProps extends textAreaProps {
+  label: string;
+  inputClasses: string;
+  labelClasses: string;
+}
+
 export interface selectProps {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  value?: string; 
+  value?: string;
   options: { value: string; label: string }[];
   classes?: string;
 }
@@ -133,10 +159,14 @@ export interface phoneInputProps {
 export interface toggleAreaProps {
   text: string;
   width: string;
+  toggleChange: () => any;
+  toggleValue: boolean;
 }
 
 export interface colorSelectorProps {
   colorType: string;
+  handleChangeColor: (color: string) => void;
+  color: string;
 }
 
 export interface tableHeaderProps {
@@ -148,6 +178,7 @@ export interface textBtnProps {
   text: string;
   btnText: string;
   width: string;
+  onClick: () => void;
 }
 
 export interface tableHeadProps {
@@ -159,19 +190,19 @@ export interface tableHeadProps {
 export interface tableProps {
   headers: ReactNode[];
   type: string;
-  data: [];
+  data: any[];
   selectedRows: string[]; // Array of selected row IDs
   handleRowSelect: (ids: string[], isChecked: boolean) => void;
 }
 
 export interface TableRowProps {
   data: any;
-  handleRowSelect: (id: string, isChecked: boolean) => void;
+  handleRowSelect: (id: string[], isChecked: boolean) => void;
   isSelected: boolean;
 }
 export interface ConnectionHeaderProps {
   applyFilterId: (id: string) => void;
-  searchItem : (id: string) => void;
+  searchItem: (id: string) => void;
   selectedRows: string[];
 }
 export interface iconWithTextProps {
@@ -183,7 +214,7 @@ export interface iconWithTextProps {
 export interface imageWithTextProps {
   containerClass: string;
   isAdmin: boolean;
-  data: any
+  data: any;
 }
 export interface FilterImageWithTextProps {
   imgUrl: string;
@@ -262,6 +293,8 @@ export interface uploadIconProps {
   isShare: boolean;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   removeImg: () => void;
+  isBigImage?: boolean;
+  isThemeImg?: boolean;
 }
 
 export interface allLinksProps {
@@ -272,12 +305,16 @@ export interface addLinksProps extends allLinksProps {}
 
 export interface webLinksProps extends allLinksProps {}
 
+export interface cardPreview {
+  isAuth: boolean;
+}
+
 // profile interfaces
 
 export interface ProfileDesign {
   appIconColor: string;
   backgroundColor: string;
-  backgroundImage: string;
+  backgroundImage: string | null;
   backgroundOpacity: number;
   backgroundTheme: string;
   boxBackgroundColor: string;
@@ -303,7 +340,8 @@ export interface Link {
   graphicDisplayText: string;
   graphicDisplayType: string;
   graphicImgUrl: string;
-  buttonImgUrl: string;
+  iconStyle: string;
+  buttonImgUrl: string | null;
   linkImgUrl: string | null;
   id: string;
   image?: string | number;

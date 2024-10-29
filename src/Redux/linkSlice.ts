@@ -18,9 +18,15 @@ export const singleLinkSlice = createSlice({
     setLinkData: (state, action: PayloadAction<Icon>) => {
       state.linkInfo = action.payload;
     },
+    resetLinkData: (state) => {
+      state.linkInfo.name ="";
+      state.linkInfo.img ="";
+      state.linkInfo.placeholder ="";
+      state.linkInfo.linkID =0;
+    },
   },
 });
 
-export const { setLinkData } = singleLinkSlice.actions;
+export const { setLinkData,resetLinkData } = singleLinkSlice.actions;
 
 export default singleLinkSlice.reducer;

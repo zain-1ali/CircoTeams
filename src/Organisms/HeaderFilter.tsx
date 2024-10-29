@@ -7,7 +7,7 @@ import { Menu } from "@mui/material";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import FilterImageWithTextCell from "../Molecules/FilterImageWithTextCell";
 import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
-import Loading from "./Loading";
+// import Loading from "./Loading";
 
 interface HeaderFilterProps {
   applyFilterId: (filterId: string) => void;
@@ -24,6 +24,7 @@ interface Profile {
 const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  console.log(loading);
 
   const getAllProfiles = (data: any) => {
     if (data) {
@@ -34,7 +35,13 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
   useEffect(() => {
-    getMultipleChilds("User/", "parentID", companyId, getAllProfiles, setLoading);
+    getMultipleChilds(
+      "User/",
+      "parentID",
+      companyId,
+      getAllProfiles,
+      setLoading
+    );
   }, [companyId]);
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -73,7 +80,10 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const handleApplyFilter = () => {
     handleClose();
     applyFilterId(
-      selectedOptions.teamId || selectedOptions.subteamId || selectedOptions.profileId || ""
+      selectedOptions.teamId ||
+        selectedOptions.subteamId ||
+        selectedOptions.profileId ||
+        ""
     );
   };
 
@@ -104,7 +114,6 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   return (
     <div>
       <div className="w-[100%] flex justify-between items-center">
-        
         <div className="flex items-center gap-2">
           <Button
             onClick={handleOpenFilter}
@@ -145,21 +154,28 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   onClick={() => toggleDropdown("profile")}
                 >
                   <p className="text-sm">My profile</p>
-                  <p>{dropdownOpen.profile ? <BsChevronUp /> : <BsChevronDown />}</p>
+                  <p>
+                    {dropdownOpen.profile ? <BsChevronUp /> : <BsChevronDown />}
+                  </p>
                 </div>
                 {dropdownOpen.profile && (
                   <div className="mt-1 flex flex-col">
                     {allProfiles
                       ?.filter((item) => item?.profileType === "self")
                       .map((item, index) => (
-                        <label key={index} className="flex items-center p-0 py-2">
+                        <label
+                          key={index}
+                          className="flex items-center p-0 py-2"
+                        >
                           <input
                             type="radio"
                             name="profile"
                             value={item.id}
                             className="mr-3"
                             checked={selectedOptions.profileId === item.id}
-                            onChange={() => handleSelectChange("profileId", item.id)}
+                            onChange={() =>
+                              handleSelectChange("profileId", item.id)
+                            }
                           />
                           <FilterImageWithTextCell
                             containerClass="flex w-[150px] items-center gap-3"
@@ -179,21 +195,28 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   onClick={() => toggleDropdown("team")}
                 >
                   <p className="text-sm">Team member</p>
-                  <p>{dropdownOpen.team ? <BsChevronUp /> : <BsChevronDown />}</p>
+                  <p>
+                    {dropdownOpen.team ? <BsChevronUp /> : <BsChevronDown />}
+                  </p>
                 </div>
                 {dropdownOpen.team && (
                   <div className="mt-1 flex flex-col">
                     {allProfiles
                       ?.filter((item) => item?.profileType === "team")
                       .map((item, index) => (
-                        <label key={index} className="flex items-center p-0 py-2">
+                        <label
+                          key={index}
+                          className="flex items-center p-0 py-2"
+                        >
                           <input
                             type="radio"
                             name="team"
                             value={item.id}
                             className="mr-3"
                             checked={selectedOptions.teamId === item.id}
-                            onChange={() => handleSelectChange("teamId", item.id)}
+                            onChange={() =>
+                              handleSelectChange("teamId", item.id)
+                            }
                           />
                           <FilterImageWithTextCell
                             containerClass="flex w-[150px] items-center gap-3"
@@ -213,7 +236,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   onClick={() => toggleDropdown("subteam")}
                 >
                   <p className="text-sm">Subteam</p>
-                  <p>{dropdownOpen.subteam ? <BsChevronUp /> : <BsChevronDown />}</p>
+                  <p>
+                    {dropdownOpen.subteam ? <BsChevronUp /> : <BsChevronDown />}
+                  </p>
                 </div>
                 {dropdownOpen.subteam && (
                   <div className="mt-1 flex flex-col">
@@ -225,7 +250,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                         value="Team A"
                         className="mr-3"
                         checked={selectedOptions.subteamId === "Team A"}
-                        onChange={() => handleSelectChange("subteamId", "Team A")}
+                        onChange={() =>
+                          handleSelectChange("subteamId", "Team A")
+                        }
                       />
                       Team A
                     </label>
@@ -236,7 +263,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                         value="Team B"
                         className="mr-3"
                         checked={selectedOptions.subteamId === "Team B"}
-                        onChange={() => handleSelectChange("subteamId", "Team B")}
+                        onChange={() =>
+                          handleSelectChange("subteamId", "Team B")
+                        }
                       />
                       Team B
                     </label>

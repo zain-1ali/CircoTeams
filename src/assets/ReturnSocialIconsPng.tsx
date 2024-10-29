@@ -48,6 +48,7 @@ import venmo from "./socialLink/venmo.png";
 import website from "./socialLink/link.png";
 import calendly from "./socialLink/calendly.png";
 import reviews from "./socialLink/review.png";
+import safari from "./socialLink/web.png";
 import { Icon, IconGroup } from "../Types";
 
 // Define icon arrays with the Icon type
@@ -389,6 +390,8 @@ export const returnPngIcons = (id: number): string | undefined => {
       return openSea;
     case 50:
       return zelle;
+    case 999:
+      return safari;
     default:
       return undefined; // Return undefined if no match is found
   }
