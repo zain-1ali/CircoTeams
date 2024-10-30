@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../Atoms/Button";
 import Text from "../Atoms/Text";
 import { CiSearch } from "react-icons/ci";
+import ConfirmModal from "../Organisms/Modal/ConfirmModal";
 import Input from "../Atoms/Input";
 import { TbFileExport } from "react-icons/tb";
 import {
@@ -24,8 +25,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   const [updatedRows, setUpdatedRows] = useState<any[]>([]);
   const [connectionModal, setConnectionModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  console.log(loading);
+  const [confirmModal, setConfirmModal] = useState<boolean>(false);
 
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
@@ -106,7 +106,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
           <Button
             text="Remove"
             btnClasses="w-[80px] h-[32px] rounded-[22px] text-[#FF4545] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
-            onClick={handleRemoveMultiple}
+            onClick={() => setConfirmModal(true)}
           />
         </div>
       </div>
@@ -129,6 +129,12 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
           data={[]}
         />
       )}
+      <ConfirmModal
+          open = {confirmModal}
+          onClose={() => setConfirmModal(false)}
+          onClick={handleRemoveMultiple}
+           confirmText="Are you sure to remove selected connections ?"
+        />
     </div>
   );
 };

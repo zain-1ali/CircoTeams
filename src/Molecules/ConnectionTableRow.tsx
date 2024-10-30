@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Checkbox from "../Atoms/Checkbox";
 import Text from "../Atoms/Text";
 import ImageWithTextCell from "../Molecules/ImageWithTextCell";
+import ConfirmModal from "../Organisms/Modal/ConfirmModal";
 import { TableRowProps } from "../Types";
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -12,6 +13,7 @@ import { timestampToDate, getSingleChildFromDb, removeSingleChildFromDb } from "
 const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, isSelected, }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   const [profileData, setProfileData] = useState<any>({});
 
@@ -109,11 +111,11 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
               justifyContent: 'center',
             }}
           >
-            <DownloadCsv data={data || []} />
+            <DownloadCsv data={[data] || []} />
           </MenuItem>
           <hr className="border-t border-gray-200" />
           <MenuItem
-            onClick={handleRemoveConnection}
+            onClick={() => {setDeleteModal(true), handleMenuClose()}}
             sx={{
               fontSize: '14px',
               textAlign: 'center',
@@ -129,6 +131,12 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
 
       {/* Connection Modal */}
       <ConnectionModal action ="update" isOpen={modalOpen} onClose={() => setModalOpen(false)} data={{ ...data, memberName, formatedDate }} />
+      <ConfirmModal
+          open = {deleteModal}
+          onClose={() => setDeleteModal(false)}
+          onClick={handleRemoveConnection}
+           confirmText="Are you sure to remove this connection ?"
+        />
     </>
   );
 };

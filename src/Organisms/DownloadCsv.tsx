@@ -10,6 +10,7 @@ interface DownloadCsvProps {
 
 const DownloadCsv: React.FC<DownloadCsvProps> = ({ data }) => {
   // Map the data into a CSV-friendly format
+  console.log(data);
   const csvData = data?.map((item: any) => ({
     Contact: item?.name || "",
     Email: item?.email || "",

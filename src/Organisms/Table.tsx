@@ -13,7 +13,6 @@ const Table: React.FC<tableProps> = ({
   handleRowSelect,
 }) => {
   const allSelected = selectedRows?.length === data?.length;
-
   const handleSelectAll = (isChecked: boolean) => {
     if (isChecked) {
       const allItems = data; // Select all row data objects
@@ -67,12 +66,9 @@ const Table: React.FC<tableProps> = ({
               key={index}
               data={item}
               handleRowSelect={handleRowSelect} // Pass handler to row
-              isSelected={selectedRows.some((row) => row.id === item.id)}
+              isSelected={selectedRows.some((row: any) => row.device.id === item.device.id)}
             />
           ))}
-          <DevicesTableRow />
-          <DevicesTableRow />
-          <DevicesTableRow />
         </>
       )}
     </div>

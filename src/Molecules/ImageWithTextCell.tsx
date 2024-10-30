@@ -11,7 +11,7 @@ const ImageWithTextCell: React.FC<imageWithTextProps> = ({
   return (
     <div className={containerClass}>
       <Image
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHdLZAJzeEA2iYjsrN4CEXrg8ATQ1tB04blQ&s"
+        src={data?.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHdLZAJzeEA2iYjsrN4CEXrg8ATQ1tB04blQ&s"}
         classes="h-[36px] w-[36px] rounded-full object-cover"
       />
         <Text text={data?.text} classes="font-[600] text-[14px]" />
