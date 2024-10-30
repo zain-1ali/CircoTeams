@@ -25,7 +25,9 @@ const Member = () => {
   };
 
   const getAllProfiles = (data: object) => {
-    const profiles = Object.values(data)?.[0];
+    const profiles = Object.values(data);
+    console.log(profiles);
+
     if (data && Array.isArray(profiles)) {
       setFilteredConnections((prev) => [...prev, ...profiles]);
     }
@@ -50,6 +52,8 @@ const Member = () => {
       setLoading
     );
   }, [companyId]);
+
+  console.log(filteredConnections);
 
   const handleRowSelect = (item: any | any[], isChecked: boolean) => {
     console.log(item);
@@ -80,9 +84,25 @@ const Member = () => {
     <TableHeaderCell text="Subteam" width="200px" />,
     <TableHeaderCell text="Template" width="200px" />,
   ];
+  const searchItem = (searchValue: string) => {
+    if (searchValue === "") {
+      setFilteredConnections(filteredConnections);
+    } else {
+      setFilteredConnections(
+        filteredConnections.filter((item: any) =>
+          item?.firstName?.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }
+  };
   return (
     <div className="w-[100%] h-[100%]">
-      <TableHeader number={78} headerName="Members" />
+      <TableHeader
+        number={78}
+        headerName="Members"
+        selectedRows={selectedRows}
+        searchItem={searchItem}
+      />
       <div className="mt-5">
         <Table
           headers={headers}

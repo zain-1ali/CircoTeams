@@ -52,7 +52,7 @@ const Table: React.FC<tableProps> = ({
             <ConnectionTableRow
               key={index}
               data={item}
-              handleRowSelect={handleRowSelect} // Pass handler to row
+              handleRowSelect={handleRowSelect}
               isSelected={selectedRows.some((row: any) => row.id === item.id)}
             />
           ))}

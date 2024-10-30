@@ -58,7 +58,7 @@ export const getMultipleChilds = async (collectionName:string,orderBy:string,id:
 }
 export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<string>, callBackFunc: () => void 
 ) => {
-  const promises = ids.map((id) => {
+  const promises = ids?.map((id) => {
     return remove(ref(db, `${collectionName}/${id}`)) 
       .catch((error) => {
         console.error("Error removing data:", error); 

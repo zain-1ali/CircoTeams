@@ -50,7 +50,7 @@ const initialData={
     },
     directMode: false,
     dob: "",
-    email: "",
+    email: data.email,
     fcmToken: "",
     firstName: data?.name,
     gender: "",

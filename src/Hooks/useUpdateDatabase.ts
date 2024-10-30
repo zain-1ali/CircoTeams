@@ -1,5 +1,5 @@
 import { update, ref } from "firebase/database";
-import { db } from "../firebase"; // Your firebase configuration
+import { db } from "../firebase"; 
 
 const useUpdateDatabase = <T extends Record<string, any>>() => {
   const updateDb = async (path: string, data: T): Promise<void> => {

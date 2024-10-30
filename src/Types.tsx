@@ -205,6 +205,13 @@ export interface ConnectionHeaderProps {
   searchItem: (id: string) => void;
   selectedRows: string[];
 }
+
+export interface MemberHeaderProps {
+  // applyFilterId: (id: string) => void;
+  // searchItem: (id: string) => void;
+  selectedRows: string[];
+}
+
 export interface iconWithTextProps {
   icon: string;
   text: string;
@@ -233,6 +240,8 @@ export interface radioProps {
 export interface pageHeadProps {
   headerName: string;
   number: string | number;
+  selectedRows?: string[];
+  searchItem?: (searchValue: string) => void;
 }
 
 export interface counterBoxProps {
