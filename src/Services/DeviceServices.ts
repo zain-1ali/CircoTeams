@@ -56,7 +56,7 @@ export const removeMultipleDevices = async (tagIds: Array<string>, callBackFunc:
         const tagEntry = tagData[tagKey];
         tagEntry.status = false;
         console.log(tagEntry);
-        // await update(ref(db, `/Tag/${tagKey}`), { status: false, username: null });
+        await update(ref(db, `/Tag/${tagKey}`), { status: false, username: null });
 
         if (tagEntry.username) {
           if (!userTagsMap[tagEntry.username]) {
@@ -83,7 +83,7 @@ export const removeMultipleDevices = async (tagIds: Array<string>, callBackFunc:
         );
 
         // Update the User table
-        // await update(ref(db, `/User/${userKey}`), { tagUid: updatedTagUid });
+        await update(ref(db, `/User/${userKey}`), { tagUid: updatedTagUid });
       }
     });
 

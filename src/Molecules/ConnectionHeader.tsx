@@ -20,7 +20,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   searchItem,
   selectedRows,
 }) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
   const [allProfiles, setAllProfiles] = useState<any[]>([]);
   const [updatedRows, setUpdatedRows] = useState<any[]>([]);
   const [connectionModal, setConnectionModal] = useState<boolean>(false);
@@ -41,7 +41,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
       "parentID",
       companyId,
       getAllProfiles,
-      setLoading
+      false //setLoading
     );
   }, [companyId]);
 
