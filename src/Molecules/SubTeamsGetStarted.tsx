@@ -4,7 +4,6 @@ import Button from "../Atoms/Button";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import { IoMdAdd } from "react-icons/io";
-import { SubTeamsGetStartedProps } from "../Types";
 import CustomModal from "../Organisms/Modal/Modal";
 import { useState } from "react";
 import CreateSubteam from "../Organisms/Modal/CreateSubteam";
@@ -15,6 +14,8 @@ const SubTeamsGetStarted = () => {
   const onClose = () => {
     setOpen(!open);
   };
+
+  console.log("test");
 
   const [loading, setLoading] = useState<boolean>(false);
 
