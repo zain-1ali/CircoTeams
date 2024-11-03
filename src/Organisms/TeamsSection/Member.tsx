@@ -16,11 +16,12 @@ const Member = () => {
   let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
   console.log(loading);
-  // const [allProfiles, setAllProfiles] = useState<any>([]);
+  const [allProfiles, setAllProfiles] = useState<any>([]);
 
   const getCompanyProfile = (data: any) => {
     if (data) {
       setFilteredConnections((prev) => [...prev, Object.values(data)?.[0]]);
+      setAllProfiles((prev: any) => [...prev, Object.values(data)?.[0]]);
     }
   };
 
@@ -30,6 +31,7 @@ const Member = () => {
 
     if (data && Array.isArray(profiles)) {
       setFilteredConnections((prev) => [...prev, ...profiles]);
+      setAllProfiles((prev: any) => [...prev, ...profiles]);
     }
   };
 
@@ -86,10 +88,10 @@ const Member = () => {
   ];
   const searchItem = (searchValue: string) => {
     if (searchValue === "") {
-      setFilteredConnections(filteredConnections);
+      setFilteredConnections(allProfiles);
     } else {
       setFilteredConnections(
-        filteredConnections.filter((item: any) =>
+        allProfiles?.filter((item: any) =>
           item?.firstName?.toLowerCase().includes(searchValue.toLowerCase())
         )
       );

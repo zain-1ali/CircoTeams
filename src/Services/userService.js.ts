@@ -113,8 +113,17 @@ if(credentials.email && credentials.password){
     localStorage.setItem("circoCompanyUid",user.uid)
     showSuccess("Login successfully")
     setTimeout(()=>{
+
       navigate("/myprofiles")
+      window.location.reload()
                 },1000)
+  }).catch((error)=>{
+    if(error.message==="Firebase: Error (auth/invalid-credential)."){
+      showError("Invalid credentials")
+    }
+    setLoading(false)
+console.log(error.message);
+
   })
 }else{
   showError("Email and Password are required to login")

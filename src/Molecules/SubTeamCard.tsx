@@ -11,21 +11,25 @@ import pw1 from "../assets/images/pw1.jpg";
 import { IoMdAdd } from "react-icons/io";
 import i16 from "../assets/images/i16.png";
 import i17 from "../assets/images/i17.png";
+import CustomModal from "../Organisms/Modal/Modal";
+import { useState } from "react";
+import ManageSubTeam from "../Organisms/Modal/ManageSubTeam";
 
-const SubTeamCard = () => {
+const SubTeamCard: React.FC<any> = ({ team }) => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <div className="w-[261px] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
       <div className="w-[100%] flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Radio classes="h-[15px] w-[15px]" />
-          <Text text="Management" classes="font-[600] text-[12px]" />
+          <Text text={team?.name} classes="font-[600] text-[12px]" />
         </div>
         <BsThreeDots className="text-[#CDCCD4] cursor-pointer text-lg" />
       </div>
       <div className="flex gap-[10px] mt-3">
         <Button
           btnClasses="w-[96px] h-[27px] bg-[#2B6EF6] rounded-[22px] font-[600] text-[10px] text-white"
-          onClick={() => {}}
+          onClick={() => setOpen(!open)}
           text="Manage"
         />
         <Button
@@ -66,6 +70,14 @@ const SubTeamCard = () => {
           <Text text="46" classes="font-[700] text-[10px] text-[#CDCCD4]" />
         </div>
       </div>
+
+      <CustomModal
+        open={open}
+        onClose={() => setOpen(false)}
+        style={{ height: "590px", width: "950px", borderRadius: 5, p: 4 }}
+      >
+        <ManageSubTeam onClose={() => setOpen(false)} team={team} />
+      </CustomModal>
     </div>
   );
 };

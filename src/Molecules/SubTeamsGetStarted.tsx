@@ -5,10 +5,21 @@ import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import { IoMdAdd } from "react-icons/io";
 import { SubTeamsGetStartedProps } from "../Types";
+import CustomModal from "../Organisms/Modal/Modal";
+import { useState } from "react";
+import CreateSubteam from "../Organisms/Modal/CreateSubteam";
 
-const SubTeamsGetStarted: React.FC<SubTeamsGetStartedProps> = ({
-  createTeam,
-}) => {
+const SubTeamsGetStarted = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const onClose = () => {
+    setOpen(!open);
+  };
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  console.log(loading);
+
   return (
     <div className="w-[100%] flex flex-col  items-center justify-center h-[100%]">
       <Image
@@ -26,7 +37,7 @@ const SubTeamsGetStarted: React.FC<SubTeamsGetStartedProps> = ({
       <Button
         text="Create Subteam"
         btnClasses="bg-[#2B6EF6] w-[256px] h-[56px] rounded-[50px] font-[600] text-[18px] text-white mt-4 flex justify-center items-center relative pl-4"
-        onClick={() => createTeam()}
+        onClick={() => setOpen(true)}
         icon={
           <IoMdAdd
             className="text-white absolute left-[17%]"
@@ -35,6 +46,14 @@ const SubTeamsGetStarted: React.FC<SubTeamsGetStartedProps> = ({
           />
         }
       />
+
+      <CustomModal
+        open={open}
+        onClose={() => setOpen(false)}
+        style={{ height: 180, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <CreateSubteam setLoading={setLoading} onClose={onClose} />
+      </CustomModal>
     </div>
   );
 };

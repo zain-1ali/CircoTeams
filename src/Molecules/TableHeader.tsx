@@ -10,6 +10,7 @@ import { CiSearch } from "react-icons/ci";
 import CustomModal from "../Organisms/Modal/Modal";
 import { removeMultipleChildFromDb } from "../Services/Constants";
 import CreateTeamProfile from "../Organisms/Modal/CreateTeamProfile";
+import CreateSubteam from "../Organisms/Modal/CreateSubteam";
 
 const TableHeader: React.FC<pageHeadProps> = ({
   headerName,
@@ -19,6 +20,11 @@ const TableHeader: React.FC<pageHeadProps> = ({
 }) => {
   const [warnText, setWarnText] = useState<string>("");
   const [sureModal, setSureModal] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const onClose = () => {
+    setOpen(!open);
+  };
   const deleteRowCallback = () => {};
   const handleRemoveMultiple = () => {
     const selectedIds = selectedRows?.map((row: any) => row.id) || [];
@@ -28,6 +34,11 @@ const TableHeader: React.FC<pageHeadProps> = ({
   const [creatTeamProfileModal, setTeamProfileModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    if (searchItem) searchItem(value);
+  };
 
   return (
     <div className="w-[100%]">
@@ -87,7 +98,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[143px] text-[12px] font-[600] text-white bg-[#2B6EF6]"
               text="Create New Subteam"
-              onClick={() => {}}
+              onClick={() => setOpen(true)}
             />
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
@@ -107,8 +118,8 @@ const TableHeader: React.FC<pageHeadProps> = ({
         <CiSearch className="text-[#B7B7B7] text-[24px]" />
         <Input
           classes="h-[95%] w-[80%] outline-none placeholder:text-[#B7B7B7] placeholder:font-[500] placeholder:text-[14px]"
-          value=""
-          onChange={searchItem ? (e) => searchItem(e.target.value) : () => {}}
+          value={searchValue}
+          onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by name, job title, email, template, or subteam"
         />
       </div>
@@ -116,15 +127,6 @@ const TableHeader: React.FC<pageHeadProps> = ({
         open={sureModal}
         onClose={() => setSureModal(false)}
         style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
-        // childProps={{
-        //   onclick: () =>
-        //     createSelfProfile(
-        //       companyProfile,
-        //       showError,
-        //       showSuccess,
-        //       setLoading
-        //     ),
-        // }}
       >
         <AreYouSure
           onClick={handleRemoveMultiple}
@@ -142,6 +144,14 @@ const TableHeader: React.FC<pageHeadProps> = ({
           onClose={() => setSureModal(false)}
           setLoading={setLoading}
         />
+      </CustomModal>
+
+      <CustomModal
+        open={open}
+        onClose={() => setOpen(false)}
+        style={{ height: 180, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <CreateSubteam setLoading={setLoading} onClose={onClose} />
       </CustomModal>
     </div>
   );

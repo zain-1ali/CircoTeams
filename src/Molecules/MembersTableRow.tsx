@@ -24,7 +24,10 @@ const MembersTableRow: React.FC<any> = ({
       <ImageWithTextCell
         containerClass="flex w-[200px] items-center gap-3"
         isAdmin={true}
-        data={data}
+        data={{
+          text: data?.firstName + " " + data?.lastName,
+          image: data?.profileUrl,
+        }}
       />
       <IconWithTextCell
         icon={message}

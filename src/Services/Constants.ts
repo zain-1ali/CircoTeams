@@ -21,29 +21,31 @@ export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,c
 
 export const getMultipleChilds = async (collectionName:string,orderBy:string,id:string | null,callBackFunc:any, setloading:any) => {
     setloading(true);
-    const starCountRef = query(
-      ref(db, collectionName),
-      orderByChild(orderBy),
-      equalTo(id)
-    );
-    onValue(starCountRef, async (snapshot) => {
-      const data = await snapshot.val();
-      if (data) {
-        callBackFunc(data);
-        console.log(data);
-        setloading(false);
-        console.log("testing data");
-      } else {
-        setloading(false);
-      }
-  
-      MediaKeyStatusMap;
-      // setmylist(Object.values(data));
-  
-      // setfiltered(Object.values(data));
-  
-      // updateStarCount(postElement, data);
-    });
+
+    try {
+      const starCountRef = query(
+        ref(db, collectionName),
+        orderByChild(orderBy),
+        equalTo(id)
+      );
+      onValue(starCountRef, async (snapshot) => {
+        const data = await snapshot.val();
+        if (data) {
+          console.log(orderBy,data);
+          callBackFunc(data);
+          console.log(data);
+          setloading(false);
+          // console.log("testing data");
+        } else {
+          console.log(orderBy,"data not found")
+          setloading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
   };
   export const removeSingleChildFromDb=(collectionName:string,id:any,callBackFunc:any)=>{
     
@@ -72,6 +74,11 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
       console.error("Error completing removal:", error); 
     });
 };
+
+
+
+
+
 
 
 

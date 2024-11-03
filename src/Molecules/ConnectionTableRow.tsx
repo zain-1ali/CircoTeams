@@ -7,9 +7,17 @@ import { Menu, MenuItem, IconButton } from "@mui/material";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import DownloadCsv from "../Organisms/DownloadCsv";
 import ConnectionModal from "../Molecules/ConnectionModal";
-import { timestampToDate, getSingleChildFromDb, removeSingleChildFromDb } from "../Services/Constants";
+import {
+  timestampToDate,
+  getSingleChildFromDb,
+  removeSingleChildFromDb,
+} from "../Services/Constants";
 
-const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, isSelected, }) => {
+const ConnectionTableRow: React.FC<TableRowProps> = ({
+  data,
+  handleRowSelect,
+  isSelected,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -21,13 +29,14 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
     }
   };
   useEffect(() => {
-    if(data?.userid)
-    {
+    if (data?.userid) {
       getSingleChildFromDb("User/", "id", data?.userid, getProfileData);
     }
   }, [data?.userid]);
 
-  const memberName = `${profileData?.firstName ?? ""} ${profileData?.lastName ?? ""}`;
+  const memberName = `${profileData?.firstName ?? ""} ${
+    profileData?.lastName ?? ""
+  }`;
   const formatedDate = timestampToDate(data?.date);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +53,6 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleRowSelect(data, e.target.checked);
   };
-  
 
   // const handleModalSubmit = () => {
   //   console.log("callback");
@@ -55,7 +63,9 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
   const handleRemoveConnection = () => {
     removeSingleChildFromDb("Contacts/", data?.id, deleteRowCallback);
   };
-// console.log(data);
+  // console.log(data);
+  console.log(data);
+
   return (
     <>
       <div className="w-[100%] h-[60px] rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 pr-4">
@@ -65,13 +75,26 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
           classes="h-[20px] w-[20px] border border-[#B3B3BF] rounded-[2px]"
         />
 
-        <ImageWithTextCell containerClass="flex w-[230px] items-center gap-3" isAdmin={false} data = {{
-          text: data?.name,
-          imageUrl: "",
-        }} />
-        <Text text={memberName} classes="font-[600] text-[#939393] text-[12px] w-[150px]" />
-        <Text text={formatedDate} classes="font-[600] text-[#939393] text-[12px] w-[150px]" />
-        <Text text={data?.message} classes="font-[600] text-[#939393] text-[12px] w-[300px]" />
+        <ImageWithTextCell
+          containerClass="flex w-[230px] items-center gap-3"
+          isAdmin={false}
+          data={{
+            text: data?.name,
+            imageUrl: "",
+          }}
+        />
+        <Text
+          text={memberName}
+          classes="font-[600] text-[#939393] text-[12px] w-[150px]"
+        />
+        <Text
+          text={formatedDate}
+          classes="font-[600] text-[#939393] text-[12px] w-[150px]"
+        />
+        <Text
+          text={data?.message}
+          classes="font-[600] text-[#939393] text-[12px] w-[300px]"
+        />
 
         {/* Three Dots Icon */}
         <IconButton onClick={handleMenuOpen}>
@@ -93,9 +116,9 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
           <MenuItem
             onClick={handleViewClick}
             sx={{
-              fontSize: '14px',
-              textAlign: 'center',
-              justifyContent: 'center', // Ensures the text is fully centered
+              fontSize: "14px",
+              textAlign: "center",
+              justifyContent: "center", // Ensures the text is fully centered
             }}
           >
             View
@@ -104,9 +127,9 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
           <MenuItem
             onClick={() => {}}
             sx={{
-              fontSize: '14px',
-              textAlign: 'center',
-              justifyContent: 'center',
+              fontSize: "14px",
+              textAlign: "center",
+              justifyContent: "center",
             }}
           >
             <DownloadCsv data={data || []} />
@@ -115,20 +138,23 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({ data, handleRowSelect, is
           <MenuItem
             onClick={handleRemoveConnection}
             sx={{
-              fontSize: '14px',
-              textAlign: 'center',
-              justifyContent: 'center',
+              fontSize: "14px",
+              textAlign: "center",
+              justifyContent: "center",
             }}
           >
             Remove
           </MenuItem>
-
-
         </Menu>
       </div>
 
       {/* Connection Modal */}
-      <ConnectionModal action ="update" isOpen={modalOpen} onClose={() => setModalOpen(false)} data={{ ...data, memberName, formatedDate }} />
+      <ConnectionModal
+        action="update"
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        data={{ ...data, memberName, formatedDate }}
+      />
     </>
   );
 };
