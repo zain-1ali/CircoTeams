@@ -4,7 +4,7 @@ import Sidebar from "../Organisms/Sidebar";
 import Table from "../Organisms/Table";
 import { useState } from "react";
 
-const DevicesTemplate = () => {
+const DevicesTemplate=()=>{
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
   const innerHeight: number = window.innerHeight;
   const headers = [

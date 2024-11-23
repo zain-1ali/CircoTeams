@@ -85,7 +85,7 @@ const handleRowSelect = (item: any | any[], isChecked: boolean) => {
             innerHeight <= 700 ? "h-[80%]" : "h-[83%]"
           }   bg-[white]  rounded-t-[20px] absolute bottom-0 flex justify-center  pt-4 pl-2 pr-2`}
         >
-          <Table headers={headers} type="connections" data ={filteredConnections}  selectedRows={selectedRows} handleRowSelect = {handleRowSelect} />
+          <Table headers={headers} type="connections" data={filteredConnections}  selectedRows={selectedRows} handleRowSelect = {handleRowSelect} />
         </div>
       </div>
     </div>

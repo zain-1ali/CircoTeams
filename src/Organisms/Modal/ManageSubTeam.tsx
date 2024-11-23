@@ -12,12 +12,16 @@ import { getMultipleChilds } from "../../Services/Constants";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import {
   addMembersToSubTeam,
+  removeMembersFromSubTeam,
   updateTeam,
 } from "../../Services/SubTeamsServices";
 import { RxCross1 } from "react-icons/rx";
+import DropDown from "../DropDown/DropDown";
+import ReasignTeam from "../DropDown/ReasignTeam";
 
 const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   // getting all child profiles
+  // console.log(team);
 
   const [teamName, setTeamName] = useState<string>("");
 
@@ -79,6 +83,8 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
     handleMemberRowSelect(data, e.target.checked);
   };
 
+  // console.log(selectedMemberRows);
+
   // getting all members
   const getAllProfiles = (data: any) => {
     if (data) {
@@ -134,6 +140,25 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
     return elm?.id;
   });
 
+  // getting all sub teams
+  const [subteams, setSubteams] = useState<any[]>([]);
+
+  const callBackFunc = (data: any) => {
+    setSubteams(Object.values(data));
+  };
+
+  useEffect(() => {
+    getMultipleChilds(
+      "SubTeams",
+      "companyId",
+      companyId,
+      callBackFunc,
+      setLoading
+    );
+  }, []);
+
+  console.log("sub teams", subteams);
+
   // ---------------------------------------Search functionality for All profiles--------------------------------------------
 
   let [filteredProfiles, setfilteredProfiles] = useState<any[]>([]);
@@ -144,7 +169,10 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
 
   useEffect(() => {
     const result = allProfiles?.filter((elm: any) => {
-      return elm?.firstName.toLowerCase().match(search.toLowerCase());
+      return (
+        elm?.firstName.toLowerCase().match(search.toLowerCase()) ||
+        elm?.lastName.toLowerCase().match(search.toLowerCase())
+      );
     });
 
     setfilteredProfiles(result);
@@ -160,15 +188,30 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
 
   useEffect(() => {
     const result = teamMembers?.filter((elm: any) => {
-      return elm?.firstName.toLowerCase().match(search.toLowerCase());
+      return (
+        elm?.firstName.toLowerCase().match(searchMembers.toLowerCase()) ||
+        elm?.lastName.toLowerCase().match(searchMembers.toLowerCase())
+      );
     });
 
     setfilteredMembers(result);
+    console.log("working");
   }, [searchMembers]);
 
   console.log(filteredMembers);
   console.log(teamMembers);
 
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu
+  };
+  const membersUid = selectedMemberRows?.map((member: any) => member?.id);
   return (
     <div className="w-[100%] h-[100%]">
       <Text text="Subteam Setting" classes="font-[600] text-[22px]" />
@@ -215,14 +258,54 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
                   placeholder="Search by name or info"
                 />
               </div>
-              <Button
-                btnClasses="h-[27px] w-[73px] bg-[#9CBDFF] rounded-[50px] text-white font-[600] text-[10px]"
-                onClick={() => {}}
-                text="Reassign"
-              />
+              <div
+                id="reassign-button"
+                aria-haspopup="listbox"
+                aria-controls="reassign-menu"
+                // onClick={() => handleOpenFilter()}
+              >
+                <Button
+                  btnClasses={`h-[27px] w-[73px] ${
+                    selectedMemberRows?.[0] ? "bg-primary" : "bg-[#9CBDFF]"
+                  } rounded-[50px] text-white font-[600] text-[10px]`}
+                  onClick={
+                    selectedMemberRows?.[0] ? handleOpenFilter : () => {}
+                  }
+                  text="Reassign"
+                />
+              </div>
+
+              <DropDown
+                id="reassign-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "reassign-button",
+                  role: "listbox",
+                }}
+              >
+                <ReasignTeam
+                  subteams={subteams}
+                  selectedMemberRows={selectedMemberRows}
+                  crntSubteam={team}
+                  onClose={handleClose}
+                />
+              </DropDown>
+
               <Button
                 btnClasses="h-[27px] w-[73px] bg-[#E9E9E9] rounded-[50px] text-[#FF2C2C] font-[600] text-[10px]"
-                onClick={() => {}}
+                onClick={() =>
+                  selectedMemberRows?.[0]
+                    ? removeMembersFromSubTeam(
+                        membersUid,
+                        team,
+                        showError,
+                        showSuccess,
+                        setLoading
+                      )
+                    : () => {}
+                }
                 text="Remove"
               />
             </div>

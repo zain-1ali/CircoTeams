@@ -76,12 +76,6 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
 };
 
 
-
-
-
-
-
-
   export const appendBucketPath = (path:string) => {
     let url = "";
     if (path !== "" && path !== undefined && path.startsWith("gs://")) {

@@ -50,18 +50,18 @@ const initialState: UserProfile = {
   proVersionExpiryDate: "",
   proVersionPurchaseDate: "",
   profileDesign: {
-    appIconColor: "#ffffff",
-    backgroundColor: "#000000",
+    appIconColor: "",
+    backgroundColor: "#ffffff",
     backgroundImage: "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1",
     backgroundOpacity: 98,
-    backgroundTheme: "Card",
+    backgroundTheme: "Classic",
     boxBackgroundColor: "#ffffff",
     boxTextColor: "#000000",
     hideCompanyLogo: false,
     hideSaveContact: false,
     highlightBoxStyle: "style2",
     profileFont: "3",
-    saveContactBackgroundColor: "#ffffff",
+    saveContactBackgroundColor: "#000000",
     saveContactStyle: "style4",
     saveContactTextColor: "#000000",
     weblinkButtonBackgroundColor: "#000000",
@@ -75,7 +75,7 @@ const initialState: UserProfile = {
   profileSelected: "",
   profileTitle: "",
   profileUrl: "",
-  qrColor: "#F2C84C",
+  qrColor: "#000000",
   qrLogo: "",
   subscription: "",
   tagUid: [],
@@ -128,6 +128,9 @@ export const profileSlice = createSlice({
     },
     setPlatform: (state, action: PayloadAction<string>) => {
       state.platform = action.payload;
+    },
+    setId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload;
     },
     setProfileTitle: (state, action: PayloadAction<string>) => {
       state.profileTitle = action.payload;
@@ -246,6 +249,12 @@ export const profileSlice = createSlice({
     setBoxStyle: (state, action: PayloadAction<string>) => {
       state.profileDesign.highlightBoxStyle = action.payload;
     },
+
+    // reset to initial state
+
+    resetState: (state) => {
+      Object.assign(state, initialState);
+    }
   }
 });
 
@@ -299,7 +308,9 @@ setWeblinkButtonBackgroundColor,
 setBoxStyle,
 setBoxTextColor,
 setBoxBackgroundColor,
-  setTagUid
+  setTagUid,
+  resetState,
+  setId
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

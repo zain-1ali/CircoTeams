@@ -19,6 +19,9 @@ const EditSidebar = () => {
   const profileEditSection = useAppSelector(
     (state) => state.profileEditSectionHandeler.profileEditSectionStage
   );
+  const profileTitle = useAppSelector(
+    (state) => state.profileHandler?.profileTitle
+  );
 
   console.log(profileEditSection);
 
@@ -49,22 +52,26 @@ const EditSidebar = () => {
           onClick={() => dispatch(setProfileEditSection(2))}
           state={profileEditSection === 2}
         />
-        <SidebarButton
-          icon={pfb5}
-          hoverIcon={hi10}
-          text="Share"
-          height="h-[40px]"
-          onClick={() => dispatch(setProfileEditSection(3))}
-          state={profileEditSection === 3}
-        />
-        <SidebarButton
-          icon={i8}
-          hoverIcon={hi9}
-          text="Settings"
-          height="h-[40px]"
-          onClick={() => dispatch(setProfileEditSection(4))}
-          state={profileEditSection === 4}
-        />
+        {profileTitle != "circoTemplate" && (
+          <SidebarButton
+            icon={pfb5}
+            hoverIcon={hi10}
+            text="Share"
+            height="h-[40px]"
+            onClick={() => dispatch(setProfileEditSection(3))}
+            state={profileEditSection === 3}
+          />
+        )}
+        {profileTitle != "circoTemplate" && (
+          <SidebarButton
+            icon={i8}
+            hoverIcon={hi9}
+            text="Settings"
+            height="h-[40px]"
+            onClick={() => dispatch(setProfileEditSection(4))}
+            state={profileEditSection === 4}
+          />
+        )}
       </div>
     </div>
   );

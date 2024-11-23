@@ -10,6 +10,7 @@ import SaveContactDesign from "../SaveContactDesign";
 import WebLinkDesign from "../WeblinkDesign";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import { useState } from "react";
+import { updateTemplateDesign } from "../../Services/TemplatesServices";
 
 const Design = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -75,15 +76,23 @@ const Design = () => {
         <Button
           text="Save"
           btnClasses="text-[12px] font-[600] text-white w-[138px] h-[37px] rounded-[88px] bg-[#2B6EF6]"
-          onClick={() =>
-            updateProfileDesign(
-              profileData?.profileDesign,
-              id,
-              showError,
-              showSuccess,
-              setLoading
-            )
-          }
+          onClick={() => {
+            profileData?.profileTitle === "circoTemplate"
+              ? updateTemplateDesign(
+                  profileData?.profileDesign,
+                  profileData?.id,
+                  showError,
+                  showSuccess,
+                  setLoading
+                )
+              : updateProfileDesign(
+                  profileData?.profileDesign,
+                  id,
+                  showError,
+                  showSuccess,
+                  setLoading
+                );
+          }}
         />
       </div>
     </div>

@@ -26,6 +26,7 @@ import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
 import ImageCropperModal from "../../Cropper";
 import { resetLinkData } from "../../../Redux/linkSlice";
+import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 
 const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   const dispatch = useAppDispatch();
@@ -209,14 +210,23 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
             }`}
             onClick={() =>
               socialLink?.value
-                ? addLinkToDb(
-                    socialLink,
-                    id,
-                    profileData?.links,
-                    showError,
-                    showSuccess,
-                    handleLoading
-                  )
+                ? profileData?.profileTitle === "circoTemplayte"
+                  ? addLinkToTemplate(
+                      socialLink,
+                      profileData?.id,
+                      profileData?.links,
+                      showError,
+                      showSuccess,
+                      handleLoading
+                    )
+                  : addLinkToDb(
+                      socialLink,
+                      id,
+                      profileData?.links,
+                      showError,
+                      showSuccess,
+                      handleLoading
+                    )
                 : () => {}
             }
             text="Save"

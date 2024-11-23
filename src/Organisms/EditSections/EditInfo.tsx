@@ -24,12 +24,12 @@ import useToastNotifications from "../../Hooks/useToastNotification";
 import { useState } from "react";
 import { updateProfileInfo } from "../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
+import { updateTemplateInfo } from "../../Services/TemplatesServices";
 
 const EditInfo = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const dispatch = useAppDispatch();
   const { id } = useParams();
-
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   const [imageType, setImageType] = useState<string>();
@@ -95,10 +95,21 @@ const EditInfo = () => {
 
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
-      <Text text="Basic Info" classes="font-[600] text-[15px]" />
+      <Text
+        text={
+          profileData?.profileTitle === "circoTemplate"
+            ? "Template Setting"
+            : "Basic Info"
+        }
+        classes="font-[600] text-[15px]"
+      />
       <InputWithLabel
         type="text"
-        label="Profile Name"
+        label={
+          profileData?.profileTitle === "circoTemplate"
+            ? "Template Name"
+            : "Profile Name"
+        }
         onChange={(e) => dispatch(setProfileName(e.target.value))}
         value={profileData?.profileName}
         inputClasses="h-[40px] w-[238px] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
@@ -134,28 +145,30 @@ const EditInfo = () => {
 
       <Text text="Profile Info" classes="font-[600] text-[15px] mt-5" />
 
-      <div className="flex justify-between">
-        <div className="w-[48%]">
-          <InputWithLabel
-            type="text"
-            label="First Name"
-            onChange={(e) => dispatch(setFirstName(e.target.value))}
-            value={profileData.firstName}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
-            labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
-          />
+      {profileData?.profileTitle != "circoTemplate" && (
+        <div className="flex justify-between">
+          <div className="w-[48%]">
+            <InputWithLabel
+              type="text"
+              label="First Name"
+              onChange={(e) => dispatch(setFirstName(e.target.value))}
+              value={profileData.firstName}
+              inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+              labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            />
+          </div>
+          <div className="w-[48%]">
+            <InputWithLabel
+              type="text"
+              label="Last Name"
+              onChange={(e) => dispatch(setLastName(e.target.value))}
+              value={profileData.lastName}
+              inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+              labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            />
+          </div>
         </div>
-        <div className="w-[48%]">
-          <InputWithLabel
-            type="text"
-            label="Last Name"
-            onChange={(e) => dispatch(setLastName(e.target.value))}
-            value={profileData.lastName}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
-            labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="flex justify-between mt-2">
         <div className="w-[48%]">
@@ -227,24 +240,41 @@ const EditInfo = () => {
           text="Save"
           btnClasses="text-[12px] font-[600] text-white w-[138px] h-[37px] rounded-[88px] bg-[#2B6EF6]"
           onClick={
-            () =>
-              updateProfileInfo(
-                {
-                  firstName: profileData?.firstName,
-                  lastName: profileData?.lastName,
-                  company: profileData?.company,
-                  address: profileData?.address,
-                  profileUrl: profileData?.profileUrl,
-                  logoUrl: profileData?.logoUrl,
-                  coverUrl: profileData?.coverUrl,
-                  jobTitle: profileData?.jobTitle,
-                  profileName: profileData.profileName,
-                },
-                id,
-                showError,
-                showSuccess,
-                setLoading
-              )
+            () => {
+              profileData?.profileTitle === "circoTemplate"
+                ? updateTemplateInfo(
+                    {
+                      company: profileData?.company,
+                      address: profileData?.address,
+                      profileUrl: profileData?.profileUrl,
+                      logoUrl: profileData?.logoUrl,
+                      coverUrl: profileData?.coverUrl,
+                      jobTitle: profileData?.jobTitle,
+                      profileName: profileData.profileName,
+                    },
+                    profileData?.id,
+                    showError,
+                    showSuccess,
+                    setLoading
+                  )
+                : updateProfileInfo(
+                    {
+                      firstName: profileData?.firstName,
+                      lastName: profileData?.lastName,
+                      company: profileData?.company,
+                      address: profileData?.address,
+                      profileUrl: profileData?.profileUrl,
+                      logoUrl: profileData?.logoUrl,
+                      coverUrl: profileData?.coverUrl,
+                      jobTitle: profileData?.jobTitle,
+                      profileName: profileData.profileName,
+                    },
+                    id,
+                    showError,
+                    showSuccess,
+                    setLoading
+                  );
+            }
             // console.log("working")
           }
         />

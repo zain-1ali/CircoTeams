@@ -1,9 +1,9 @@
-// import React from 'react'
-// import tempelates from "../assets/images/tempelates.png";
-// import Button from "../Atoms/Button";
-// import Image from "../Atoms/Image";
-// import Text from "../Atoms/Text";
-// import { IoMdAdd } from "react-icons/io";
+import React from "react";
+import tempelates from "../assets/images/tempelates.png";
+import Button from "../Atoms/Button";
+import Image from "../Atoms/Image";
+import Text from "../Atoms/Text";
+import { IoMdAdd } from "react-icons/io";
 import { SubTeamsGetStartedProps } from "../Types";
 
 const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
@@ -13,7 +13,7 @@ const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
 
   return (
     <div className="w-[100%] flex flex-col  items-center justify-center h-[100%]">
-      {/* <Image src={tempelates} classes="w-[655px] h-[307px] object-cover " />
+      <Image src={tempelates} classes="w-[655px] h-[307px] object-cover " />
       <Text
         text="No Template"
         classes="font-[600] text-[20px] text-center mt-2"
@@ -33,7 +33,7 @@ const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
             width={13}
           />
         }
-      /> */}
+      />
     </div>
   );
 };

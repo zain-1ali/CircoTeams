@@ -11,6 +11,7 @@ import CustomModal from "../Organisms/Modal/Modal";
 import { removeMultipleChildFromDb } from "../Services/Constants";
 import CreateTeamProfile from "../Organisms/Modal/CreateTeamProfile";
 import CreateSubteam from "../Organisms/Modal/CreateSubteam";
+import CreateTemplate from "../Organisms/Modal/CreateTemplate";
 
 const TableHeader: React.FC<pageHeadProps> = ({
   headerName,
@@ -22,6 +23,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
   const [sureModal, setSureModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+  const [openCreateTemplate, setOpenCreateTemplate] = useState<boolean>(false);
   const onClose = () => {
     setOpen(!open);
   };
@@ -89,7 +91,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
           <Button
             btnClasses="h-[32px] rounded-[22px] w-[143px] text-[12px] font-[600] text-white bg-[#2B6EF6]"
             text="Create New Template"
-            onClick={() => {}}
+            onClick={() => setOpenCreateTemplate(true)}
           />
         )}
 
@@ -152,6 +154,14 @@ const TableHeader: React.FC<pageHeadProps> = ({
         style={{ height: 180, width: 350, borderRadius: 5, p: 4 }}
       >
         <CreateSubteam setLoading={setLoading} onClose={onClose} />
+      </CustomModal>
+
+      <CustomModal
+        open={openCreateTemplate}
+        onClose={() => setOpenCreateTemplate(false)}
+        style={{ height: 180, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <CreateTemplate setLoading={setLoading} onClose={onClose} />
       </CustomModal>
     </div>
   );

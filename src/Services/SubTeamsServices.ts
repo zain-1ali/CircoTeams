@@ -21,7 +21,7 @@ companyId:data?.id
         setLoading(false)
         showError("Name shuold not be empty")
     }
-    }
+}
 
 
 
@@ -34,7 +34,7 @@ if(membersId?.length>0){
         ...membersId,
       ]).then(async () => {
         const updatePromises = membersId?.map(async (elm:string) => {
-          console.log("testing...");
+          // console.log("testing...");
         
             await update(ref(db, `User/${elm}`), {subTeamId:team?.id});
           
@@ -60,6 +60,57 @@ if(membersId?.length>0){
     showError("Please select atleast one member to add")  
     setLoading(false)
 }}
+
+
+
+export const reassignMembersToSubTeam=async(membersId:any,Newteam:any,crntTeam:any,showError:any,showSuccess:any,setLoading:any)=>{
+  try {
+    const crntTeamMembers=typeof crntTeam?.members==="object" ? Object?.values(crntTeam?.members) :[]
+   
+    const remainingMemebers = crntTeamMembers?.filter(id => !membersId.includes(id));
+    console.log(remainingMemebers);
+
+    await update(ref(db, `SubTeams/${crntTeam?.id}`), {members:remainingMemebers}).then(()=>{
+      addMembersToSubTeam(membersId,Newteam,showError,showSuccess,setLoading)
+  })
+    
+    //  
+  } catch (error) {
+   console.log(error);   
+  }
+
+}
+
+
+export const removeMembersFromSubTeam=async(membersId:any,crntTeam:any,showError:any,showSuccess:any,setLoading:any)=>{
+  try {
+    console.log(membersId);
+    
+    const crntTeamMembers=typeof crntTeam?.members==="object" ? Object?.values(crntTeam?.members) :[]
+   
+    const remainingMemebers = crntTeamMembers?.filter(id => !membersId.includes(id));
+    console.log(remainingMemebers);
+
+    await update(ref(db, `SubTeams/${crntTeam?.id}`), {members:remainingMemebers}).then(async()=>{
+      const updatePromises = membersId?.map(async (elm:string) => {
+        // console.log("testing...");
+          await update(ref(db, `User/${elm}`), {subTeamId:""});
+      });
+      try {
+        const updatedIds = await Promise.all(updatePromises);
+        console.log("Updated IDs:", updatedIds);
+        showSuccess("Members removed successfully");
+        setLoading(false)
+      } catch (error) {
+        console.error("Error updating objects:", error);
+      setLoading(false)
+      }
+  })
+  } catch (error) {
+   console.log(error); 
+   showError("Something went wrong")  
+  }
+}
 
 
 
