@@ -57,7 +57,7 @@ const Tempelates = () => {
             headerName="Template"
             searchItem={searchItem}
           />
-          <div className="w-[100%] flex justify-between mt-5">
+          <div className="w-[100%] flex justify-start gap-[5%] mt-5">
             {filteredTeams?.map((elm, i) => {
               return <TemplateCard key={i} data={elm} />;
             })}

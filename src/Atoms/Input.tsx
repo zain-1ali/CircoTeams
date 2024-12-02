@@ -9,6 +9,7 @@ const Input: React.FC<inputProps> = ({
   placeholder,
   disabled,
   maxLength,
+  style,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const Input: React.FC<inputProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         maxLength={maxLength}
+        style={style}
       />
     </>
   );

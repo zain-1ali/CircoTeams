@@ -134,6 +134,7 @@ export const updateProfileInfo=(data:any,id:string | undefined,showError:any,sho
 
 
 export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
+    console.log("link added to profile");
     if(data){
         set(ref(db, `User/${id}/links`),[...links,{...data}]).then(()=>{
             setLoading(false)

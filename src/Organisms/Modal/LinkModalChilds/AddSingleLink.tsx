@@ -210,7 +210,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
             }`}
             onClick={() =>
               socialLink?.value
-                ? profileData?.profileTitle === "circoTemplayte"
+                ? profileData?.profileTitle === "circoTemplate"
                   ? addLinkToTemplate(
                       socialLink,
                       profileData?.id,

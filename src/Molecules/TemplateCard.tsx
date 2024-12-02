@@ -24,6 +24,7 @@ import {
   setQrColor,
   setQrLogo,
 } from "../Redux/ProfileSlice";
+import AssignTemplate from "../Organisms/Modal/AssignTemplate";
 
 const TemplateCard: React.FC<any> = ({ data }) => {
   const [openEditTemplate, setopenEditTemplate] = useState(false);
@@ -72,6 +73,8 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     setopenEditTemplate(true);
   };
 
+  const [assignModal, setAssignModal] = useState<boolean>(false);
+
   return (
     <div className="w-[270px] h-[240px] bg-white shadow-md rounded-[23px] pt-2 flex flex-col items-center">
       <div className="w-[95%] border h-[130px] rounded-[18px]">
@@ -103,7 +106,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
         <Button
           text="Assign"
           btnClasses="font-[600] text-[12px] text-[#808080] w-[100px] h-[30px] border rounded-[22px] border-[#C9C9C9]"
-          onClick={() => {}}
+          onClick={() => setAssignModal(true)}
         />
       </div>
       <CustomModal
@@ -117,6 +120,19 @@ const TemplateCard: React.FC<any> = ({ data }) => {
         }}
       >
         <EditTemplate />
+      </CustomModal>
+
+      <CustomModal
+        open={assignModal}
+        onClose={() => setAssignModal(false)}
+        style={{
+          height: "500px",
+          width: "500px",
+          borderRadius: 5,
+          // p: 4,
+        }}
+      >
+        <AssignTemplate template={data} />
       </CustomModal>
     </div>
   );

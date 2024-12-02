@@ -43,6 +43,7 @@ export interface inputProps {
   placeholder?: string;
   disabled?: boolean;
   maxLength?: number;
+  style?: object;
 }
 
 export interface inputProps {

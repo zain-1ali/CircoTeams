@@ -50,6 +50,8 @@ export const updateTemplateDesign=(data:any,id:string | undefined,showError:any,
 
 
 export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
+    console.log("link added to template");
+    
     if(data){
         set(ref(db, `Template/${id}/links`),[...links,{...data}]).then(()=>{
             setLoading(false)
@@ -60,3 +62,41 @@ export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showErr
         })
     }
 }
+
+
+
+export const addMembersToTemplate=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any)=>{
+    const existingMembers= (typeof team?.members==="object" &&  Object.values(team?.members)) || []
+    if(membersId?.length>0){
+        setLoading(true)
+        await set(ref(db, `Template/${team?.id}/members/`), [
+            ...existingMembers,
+            ...membersId,
+          ]).then(async () => {
+            const updatePromises = membersId?.map(async (elm:string) => {
+              // console.log("testing...");
+            
+                await update(ref(db, `User/${elm}`), {templateId:team?.id});
+              
+            });
+    
+            try {
+              const updatedIds = await Promise.all(updatePromises);
+              console.log("Updated IDs:", updatedIds);
+              // Handle success, show success message, etc.
+              showSuccess("New members added successfully");
+              setLoading(false)
+            //   cb();
+            //   setMemberIds([]);
+            //   setMembers([]);
+            } catch (error) {
+              console.error("Error updating objects:", error);
+              // Handle error, show error message, etc.
+            //   toast.error("Error updating objects");
+            setLoading(false)
+            }
+          });
+    }else{
+        showError("Please select atleast one member to add")  
+        setLoading(false)
+    }}

@@ -154,7 +154,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
       companyId,
       callBackFunc,
       setLoading
-    );
+    );   
   }, []);
 
   console.log("sub teams", subteams);
