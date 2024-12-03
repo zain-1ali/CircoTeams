@@ -158,7 +158,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                 setPassword({
                   ...passwords,
                   password: e.target.value,
-                });
+                })
               }}
               value={passwords?.password}
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"

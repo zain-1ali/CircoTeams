@@ -4,32 +4,38 @@ import Input from "../../Atoms/Input";
 import Text from "../../Atoms/Text";
 import { RxCross2 } from "react-icons/rx";
 import useToastNotifications from "../../Hooks/useToastNotification";
+import { createMultipleProfiles } from "../../Services/ProfileServices";
 
 const AddMember = () => {
   const [email, setEmail] = useState<string>("");
   const [allEmails, setAllEmails] = useState<string[]>([]);
-  const {
-    //  showSuccess,
-    showError,
-  } = useToastNotifications();
+  const { showSuccess, showError } = useToastNotifications();
+  const companyId: string | null = localStorage.getItem("circoCompanyUid");
 
   const pushEmail = useCallback((mail: string): void => {
-    if (!allEmails?.includes(mail)) {
-      if (mail.trim()) {
-        setAllEmails((prev) => [...prev, mail]);
-        setEmail(""); // Clear the input after adding the email
-      }
-    } else {
-      showError("Duplicate emails are not allowd");
+    // if (!allEmails?.includes(mail)) {
+    if (mail.trim()) {
+      setAllEmails((prev) => [...prev, mail]);
+      setEmail(""); // Clear the input after adding the email
     }
   }, []);
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  console.log(loading);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent): void => {
       if (event.code === "Space" || event.key === " ") {
         event.preventDefault();
         console.log("Spacebar pressed!");
-        pushEmail(email);
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) return showError("Enter a valid email");
+        if (!allEmails?.includes(email)) {
+          pushEmail(email);
+        } else {
+          showError("Duplicate emails are not allowd");
+        }
       }
     },
     [email, pushEmail] // Ensure the callback depends on the latest `email`
@@ -105,7 +111,15 @@ const AddMember = () => {
         <Button
           btnClasses="w-[163px] h-[43px] bg-[#2B6EF6] rounded-[50px] font-[700] text-[16px] text-white"
           text="Add Members"
-          onClick={() => {}}
+          onClick={() =>
+            createMultipleProfiles(
+              allEmails,
+              showError,
+              showSuccess,
+              setLoading,
+              companyId
+            )
+          }
         />
       </div>
 

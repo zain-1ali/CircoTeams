@@ -24,7 +24,7 @@ export const SocialLinks = () => {
                 exit={{ opacity: 0, translateY: 10 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <PrimaryLink {...link} />;
+                <PrimaryLink {...link} />
               </motion.div>
             )
           );
