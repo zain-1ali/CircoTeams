@@ -212,7 +212,6 @@ if(emails?.length>0){
 console.log(error)
 
 if(error.message === "Firebase: Error (auth/email-already-in-use)."){
-  
 
     const starCountRef = query(
         ref(db, "User"),
@@ -221,6 +220,7 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
       );
       onValue(starCountRef, async (snapshot) => {
         const data = await snapshot.val();
+    
     if(data){
         update(ref(db, `User/${Object.keys(data)?.[0]}`),{parentID:companyId})
     }
@@ -258,6 +258,155 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
 }else{
     showError("Please add at least one eamil")  
 }
+}
+
+
+
+export const createMultipleProfilesCsv=async(emails:any[],showError:any,showSuccess:any,setLoading:any,companyId:string | null)=>{
+    if(emails?.length>0){
+        const initialData={
+            address: "",
+            bio: "",
+            company: "",
+            coverUrl: "",
+        
+            direct: {
+              baseUrl: "",
+              email: "",
+              graphicTextColor: "#ffffff",
+              id: "",
+              image: "",
+              isLinkHighlighted: false,
+              linkHighlightDescription: "",
+              linkID: 0,
+              name: "",
+              placeholder: "",
+              shareable: true,
+              textAlign: "",
+              title: "",
+              type: "",
+              value: ""
+            },
+            directMode: false,
+            dob: "",
+            email: "",
+            fcmToken: "",
+            firstName: "",
+            gender: "",
+            hideSaveContact: false,
+            id: "",
+            isProMatching: true,
+            isProVersion: true,
+            isTrialPeriod: false,
+            isVisible: true,
+            jobTitle: "",
+            lastName: "",
+            leadMode: false,
+            logoUrl: "",
+            name: "",
+            parentID: "",
+            phone: "",
+            platform: "",
+            proVersionExpiryDate: "",
+            proVersionPurchaseDate: "",
+            profileType:"team",
+            profileDesign: {
+              appIconColor: "#ffffff",
+              backgroundColor: "#000000",
+              backgroundImage: "",
+              backgroundOpacity: 98,
+              backgroundTheme: "Card",
+              boxBackgroundColor: "#ffffff",
+              boxTextColor: "#000000",
+              hideCompanyLogo: false,
+              hideSaveContact: false,
+              highlightBoxStyle: "style2",
+              profileFont: "3",
+              saveContactBackgroundColor: "#ffffff",
+              saveContactStyle: "style4",
+              saveContactTextColor: "#ffffff",
+              weblinkButtonBackgroundColor: "#ffffff",
+              weblinkButtonTextColor: "#ffffff",
+              weblinkStyle: "style12",
+              whiteProfileText: false,
+              whiteTextAndBorder: true
+            },
+            profileOn: 1,
+            profileSelected: "",
+            profileTitle: "",
+            profileUrl: "",
+            qrColor: "#F2C84C",
+            qrLogo: "",
+            subscription: "",
+            tagUid: [],
+            transactionId: "",
+            userName: "",
+            username: ""
+        }
+        const updatePromise=emails?.map(async(mail:any)=>{
+    if(mail?.email){
+        const password = Math.floor(100000 + Math.random() * 900000).toString();
+          
+        await createUserWithEmailAndPassword(auth,mail?.email,password).then(()=>{
+            const objectId=push(ref(db, `User/`),{...initialData,email:mail.email,parentID:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||""}).key
+            if(objectId){
+               update(ref(db, `User/${objectId}`),{id:objectId})
+            }
+        }).catch((error)=>{
+console.log(error)
+
+if(error.message === "Firebase: Error (auth/email-already-in-use)."){
+
+    const starCountRef = query(
+        ref(db, "User"),
+        orderByChild("email"),
+        equalTo(mail)
+      );
+      onValue(starCountRef, async (snapshot) => {
+        const data = await snapshot.val();
+    
+    if(data){
+        update(ref(db, `User/${Object.keys(data)?.[0]}`),{parentID:companyId})
+    }
+        console.log("data",data);
+        // console.log("testing data");
+        MediaKeyStatusMap;
+      });
+
+
+
+     
+    
+}
+        })
+    }else{
+        console.log("email not found");
+        
+    }
+         
+        })
+    
+        try {
+            const updatedIds = await Promise.all(updatePromise);
+            console.log("Updated IDs:", updatedIds);
+            // Handle success, show success message, etc.
+            showSuccess("New members added successfully");
+            setLoading(false)
+          //   cb();
+          //   setMemberIds([]);
+          //   setMembers([]);
+          } catch (error) {
+            console.error("Error updating objects:", error);
+            showError("Something went wrong") 
+            // Handle error, show error message, etc.
+          //   toast.error("Error updating objects");
+          setLoading(false)
+          }
+    
+    
+    }else{
+        showError("Please add at least one eamil")  
+    }
 }
 
 export const updateProfileInfo=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{

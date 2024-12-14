@@ -83,7 +83,7 @@ const MyProfilesContent = () => {
           text="My Team Profile"
           classes="font-[700] text-[24px] mt-[30px]"
         />
-        <div className="w-[100%] flex justify-start gap-[8%] mt-3 flex-wrap">
+        <div className="w-[100%] flex justify-start gap-[8%] gap-y-5 mt-3 flex-wrap">
           {allProfiles?.map((profile: any, i: any) => {
             if (profile?.profileType === "team") {
               return (

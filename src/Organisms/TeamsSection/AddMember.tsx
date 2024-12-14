@@ -4,7 +4,11 @@ import Input from "../../Atoms/Input";
 import Text from "../../Atoms/Text";
 import { RxCross2 } from "react-icons/rx";
 import useToastNotifications from "../../Hooks/useToastNotification";
-import { createMultipleProfiles } from "../../Services/ProfileServices";
+import {
+  createMultipleProfiles,
+  createMultipleProfilesCsv,
+} from "../../Services/ProfileServices";
+import Papa from "papaparse";
 
 const AddMember = () => {
   const [email, setEmail] = useState<string>("");
@@ -23,6 +27,16 @@ const AddMember = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   console.log(loading);
+
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+
+  const [csvData, setCsvData] = useState<unknown[]>([]);
+
+  console.log(csvFile);
+
+  // const convertCsvToArrayData = () => {};
+
+  console.log(csvData, "here is csv data");
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent): void => {
@@ -57,6 +71,35 @@ const AddMember = () => {
   };
 
   console.log(email);
+
+  const addMembersThroughCsv = () => {
+    if (!csvFile) {
+      console.error("No file selected. Please select a file before parsing.");
+      return;
+    }
+
+    Papa.parse(csvFile, {
+      header: true,
+      complete: async (result) => {
+        // result.data contains the array of objects
+        let theCsvData = result.data;
+        setCsvData(theCsvData);
+        setCsvFile(null);
+        if (theCsvData?.length > 0) {
+          createMultipleProfilesCsv(
+            theCsvData,
+            showError,
+            showSuccess,
+            setLoading,
+            companyId
+          );
+        } else {
+          showSuccess("data not found");
+          setCsvFile(null);
+        }
+      },
+    });
+};
 
   return (
     <div className="h-[100%] w-[100%] overflow-y-scroll pb-3">
@@ -143,24 +186,47 @@ const AddMember = () => {
         classes="font-[500] text-[12px] text-[#2B6EF6] underline cursor-pointer mt-[2px]"
       />
 
-      <div className="h-[158px] w-[72%]  rounded-[18px] border border-[#E4E4E4] border-dashed  flex flex-col justify-center items-center mt-5">
-        <span className="flex gap-[6px]">
+      <label htmlFor="csvSelector">
+        <div className="h-[158px] w-[72%]  rounded-[18px] border border-[#E4E4E4] border-dashed  flex flex-col justify-center items-center mt-5">
+          {!csvFile?.name && (
+            <span className="flex gap-[6px]">
+              <Text
+                classes="font-[500] text-[17px] text-[#2B6EF6]"
+                text="Select CSV or Excel  file"
+              />
+              <Text classes="font-[500] text-[17px]" text=" to upload" />
+            </span>
+          )}
           <Text
-            classes="font-[500] text-[17px] text-[#2B6EF6]"
-            text="Select CSV or Excel  file"
+            classes="font-[500] text-[17px] text-[#9B9B9B] mt-1"
+            text={
+              csvFile?.name
+                ? csvFile?.name
+                : `Must be .csv, .xls, or .xlsx file`
+            }
           />
-          <Text classes="font-[500] text-[17px]" text=" to upload" />
-        </span>
-        <Text
-          classes="font-[500] text-[17px] text-[#9B9B9B] mt-1"
-          text="Must be .csv, .xls, or .xlsx file"
-        />
-      </div>
+        </div>
+      </label>
+
+      <input
+        type="file"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        style={{ display: "none" }}
+        id="csvSelector"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            setCsvFile(file);
+          } else {
+            console.error("No file selected.");
+          }
+        }}
+      />
       <div className="w-[72%] flex justify-end mt-3">
         <Button
           btnClasses="w-[163px] h-[43px] bg-[#2B6EF6] rounded-[50px] font-[700] text-[16px] text-white"
           text="Add Members"
-          onClick={() => {}}
+          onClick={() => addMembersThroughCsv()}
         />
       </div>
     </div>

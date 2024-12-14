@@ -14,12 +14,6 @@ const CardPreview: React.FC<cardPreview> = ({ isAuth }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
   console.log(profileData?.profileDesign?.backgroundImage);
 
-  // const [slideIn, setSlideIn] = useState<boolean>(false);
-
-  // const handleModal = () => {
-  //   setSlideIn(!slideIn);
-  // };
-
   return (
     <div
       className={`w-[272px] flex justify-center  overflow-y-scroll absolute z-20 ${

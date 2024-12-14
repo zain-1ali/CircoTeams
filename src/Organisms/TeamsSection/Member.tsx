@@ -98,7 +98,7 @@ const Member = () => {
     }
   };
   return (
-    <div className="w-[100%] h-[100%]">
+    <div className="w-[100%] h-[100%] overflow-y-scroll">
       <TableHeader
         number={78}
         headerName="Members"

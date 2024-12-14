@@ -49,11 +49,11 @@ const Subteams = () => {
       {subteams?.[0]?.id ? (
         <div className="h-[100%] w-[100%]">
           <TableHeader
-            number={78}
+            number={subteams?.length}
             headerName="Subteams"
             searchItem={searchItem}
           />
-          <div className="w-[100%] flex justify-start mt-5 gap-7">
+          <div className="w-[100%] flex justify-start mt-5 gap-7 flex-wrap">
             {filteredTeams?.map((team, index) => {
               return <SubTeamCard team={team} key={index} />;
             })}
