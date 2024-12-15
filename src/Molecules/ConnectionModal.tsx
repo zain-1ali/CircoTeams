@@ -156,7 +156,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
                 inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
               />
-              {errors.name && (
+              {errors.name && !connectionData.name && (
                 <span className="text-red-500 text-xs">{errors.name}</span>
               )}
             </div>
@@ -224,7 +224,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.email && (
+            {errors.email && !connectionData.email && (
               <span className="text-red-500 text-xs">{errors.email}</span>
             )}
             {connectionData.email !== "" && (
@@ -248,10 +248,10 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.phone && (
+            {errors.phone && !connectionData.phone && (
               <span className="text-red-500 text-xs">{errors.phone}</span>
             )}
-            {connectionData.phone !== "" && (
+            {connectionData.phone && (
               <BsCopy
                 onClick={() => {
                   navigator.clipboard.writeText(connectionData.phone);
@@ -279,7 +279,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.company && (
+            {errors.company && !connectionData.company && (
               <span className="text-red-500 text-xs">{errors.company}</span>
             )}
           </div>
@@ -294,7 +294,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.job && (
+            {errors.job && !connectionData.job && (
               <span className="text-red-500 text-xs">{errors.job}</span>
             )}
           </div>

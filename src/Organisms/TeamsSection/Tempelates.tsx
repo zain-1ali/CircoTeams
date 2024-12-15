@@ -3,6 +3,7 @@ import TableHeader from "../../Molecules/TableHeader";
 import TemplateCard from "../../Molecules/TemplateCard";
 import TempelatesGetStarted from "../../Molecules/TempelatesGetStarted";
 import { getMultipleChilds } from "../../Services/Constants";
+import Loading from "../Loading";
 
 const Tempelates = () => {
   const [isTempelate, setisTempelate] = useState(false);
@@ -50,14 +51,16 @@ const Tempelates = () => {
 
   return (
     <div className="w-[100%] h-[100%]">
-      {isTempelate ? (
+      {loading ? (
+        <Loading bgColor="#F7F7F8" />
+      ) : templates?.[0]?.id ? (
         <div className="h-[100%] w-[100%]">
           <TableHeader
             number={3}
             headerName="Template"
             searchItem={searchItem}
           />
-          <div className="w-[100%] flex justify-start gap-[5%] mt-5">
+          <div className="w-[100%] h-[80%] flex justify-start gap-[5%] mt-5 flex-wrap overflow-y-scroll">
             {filteredTeams?.map((elm, i) => {
               return <TemplateCard key={i} data={elm} />;
             })}

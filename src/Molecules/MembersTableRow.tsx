@@ -16,13 +16,16 @@ const MembersTableRow: React.FC<any> = ({
   };
   return (
     <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4">
-      <Checkbox
-        checkValue={isSelected}
-        onChange={handleSelectedItem}
-        classes="h-[20px] w-[20px] border border-[#B3B3BF] rounded-[2px]"
-      />
+      <div className="w-[35px]">
+        <Checkbox
+          checkValue={isSelected}
+          onChange={handleSelectedItem}
+          classes="h-[20px] w-[20px] border border-[#B3B3BF] rounded-[2px]"
+        />
+      </div>
+
       <ImageWithTextCell
-        containerClass="flex w-[200px] items-center gap-3"
+        containerClass="flex w-[200px] items-center gap-3 "
         isAdmin={true}
         data={{
           text: data?.firstName + " " + data?.lastName,

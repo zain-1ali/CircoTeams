@@ -18,7 +18,7 @@ import ManageSubTeam from "../Organisms/Modal/ManageSubTeam";
 const SubTeamCard: React.FC<any> = ({ team }) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <div className="w-[261px] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
+    <div className="w-[30%] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
       <div className="w-[100%] flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Radio classes="h-[15px] w-[15px]" />

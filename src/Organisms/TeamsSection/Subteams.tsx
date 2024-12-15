@@ -4,6 +4,7 @@ import TableHeader from "../../Molecules/TableHeader";
 import SubTeamsGetStarted from "../../Molecules/SubTeamsGetStarted";
 import SubTeamCard from "../../Molecules/SubTeamCard";
 import { getMultipleChilds } from "../../Services/Constants";
+import Loading from "../Loading";
 
 const Subteams = () => {
   const [loading, setloading] = useState<boolean>(false);
@@ -46,7 +47,10 @@ const Subteams = () => {
 
   return (
     <div className="w-[100%] h-[100%]">
-      {subteams?.[0]?.id ? (
+      {/* {loading && <Loading bgColor="#F7F7F8" />} */}
+      {loading ? (
+        <Loading bgColor="#F7F7F8" />
+      ) : subteams?.[0]?.id ? (
         <div className="h-[100%] w-[100%]">
           <TableHeader
             number={subteams?.length}

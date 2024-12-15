@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import tempelates from "../assets/images/tempelates.png";
 import Button from "../Atoms/Button";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
 import { IoMdAdd } from "react-icons/io";
 import { SubTeamsGetStartedProps } from "../Types";
+import CustomModal from "../Organisms/Modal/Modal";
+import CreateTemplate from "../Organisms/Modal/CreateTemplate";
 
 const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
   createTeam,
 }) => {
   console.log(createTeam);
+
+  const [openCreateTemplate, setOpenCreateTemplate] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const handleOpenCreateTemplate = () => {
+    setOpenCreateTemplate(!loading);
+  };
+  console.log(loading);
 
   return (
     <div className="w-[100%] flex flex-col  items-center justify-center h-[100%]">
@@ -25,7 +34,7 @@ const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
       <Button
         text="Create Template"
         btnClasses="bg-[#2B6EF6] w-[256px] h-[56px] rounded-[50px] font-[600] text-[18px] text-white mt-4 flex justify-center items-center relative pl-4"
-        onClick={() => createTeam()}
+        onClick={() => handleOpenCreateTemplate()}
         icon={
           <IoMdAdd
             className="text-white absolute left-[17%]"
@@ -34,6 +43,17 @@ const TempelatesGetStarted: React.FC<SubTeamsGetStartedProps> = ({
           />
         }
       />
+
+      <CustomModal
+        open={openCreateTemplate}
+        onClose={() => setOpenCreateTemplate(false)}
+        style={{ height: 180, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <CreateTemplate
+          setLoading={setLoading}
+          onClose={handleOpenCreateTemplate}
+        />
+      </CustomModal>
     </div>
   );
 };

@@ -76,7 +76,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
   const [assignModal, setAssignModal] = useState<boolean>(false);
 
   return (
-    <div className="w-[270px] h-[240px] bg-white shadow-md rounded-[23px] pt-2 flex flex-col items-center">
+    <div className="w-[30%] h-[240px] bg-white shadow-md rounded-[23px] pt-2 flex flex-col items-center">
       <div className="w-[95%] border h-[130px] rounded-[18px]">
         <Image
           src={data?.coverUrl || bgPlchldr}

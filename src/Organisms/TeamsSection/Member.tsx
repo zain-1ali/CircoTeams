@@ -9,9 +9,6 @@ import {
 
 const Member = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
-  // const [companyProfile, setCompanyProfile] = useState<any>({});
-  // const [sureModal, setSureModal] = useState<boolean>(false);
-  // const [creatTeamProfileModal, setTeamProfileModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
