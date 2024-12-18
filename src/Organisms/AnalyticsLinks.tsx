@@ -1,8 +1,12 @@
 import Text from "../Atoms/Text";
 import { RiArrowDownSFill } from "react-icons/ri";
 import AnalyticsSingleLink from "../Molecules/AnalyticsSingleLink";
+import { useAppSelector } from "../Hooks/reduxHooks";
 
 const AnalyticsLinks = () => {
+  const analytics = useAppSelector((state) => state.analyticsHandeler);
+  console.log(analytics?.links);
+
   return (
     <div className="h-[100%] w-[100%] bg-white rounded-[20px] px-3 py-3">
       <div className="flex items-center gap-1">
@@ -13,10 +17,13 @@ const AnalyticsLinks = () => {
         <RiArrowDownSFill />
       </div>
       <div className="w-[100%] h-[90%] overflow-y-scroll">
+        {analytics?.links?.map((elm) => {
+          return <AnalyticsSingleLink link={elm}/>;
+        })}
+
+        {/* <AnalyticsSingleLink />
         <AnalyticsSingleLink />
-        <AnalyticsSingleLink />
-        <AnalyticsSingleLink />
-        <AnalyticsSingleLink />
+        <AnalyticsSingleLink /> */}
       </div>
     </div>
   );

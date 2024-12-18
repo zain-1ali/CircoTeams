@@ -10,7 +10,7 @@ import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
 // import Loading from "./Loading";
 
 interface HeaderFilterProps {
-  applyFilterId: (filterId: string) => void;
+  applyFilterId: (filterId: string,type:string) => void;
 }
 
 interface Profile {
@@ -24,6 +24,7 @@ interface Profile {
 const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectionType,setSelectionType]=useState<string>("user")
   console.log(loading);
 
   const getAllProfiles = (data: any) => {
@@ -75,6 +76,11 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       profileId: type === "profileId" ? value : "",
     };
     setSelectedOptions(updatedOptions);
+    if(type === "teamId" || type === "profileId"){
+      setSelectionType("user")
+    }else{
+      setSelectionType("subTeam")
+    }
   };
 
   const handleApplyFilter = () => {
@@ -83,7 +89,8 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       selectedOptions.teamId ||
         selectedOptions.subteamId ||
         selectedOptions.profileId ||
-        ""
+        "",
+        selectionType
     );
   };
 
@@ -94,7 +101,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       profileId: "",
     });
     handleClose();
-    applyFilterId("");
+    applyFilterId("","user");
   };
 
   const [dropdownOpen, setDropdownOpen] = useState({

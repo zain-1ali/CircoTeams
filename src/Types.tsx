@@ -202,7 +202,7 @@ export interface TableRowProps {
   isSelected: boolean;
 }
 export interface ConnectionHeaderProps {
-  applyFilterId: (id: string) => void;
+  applyFilterId: (id: string, type: string) => void;
   searchItem: (id: string) => void;
   selectedRows: string[];
 }
@@ -279,6 +279,24 @@ export interface reduxSignupCreateProfileState {
 
 export interface reduxEditSection {
   profileEditSectionStage: number;
+}
+
+export interface analyticsTypes {
+  links: object[] | any[];
+  pastMonthLeads: number;
+  pastMonthViews: number;
+  pastWeekLeads: number;
+  pastWeekViews: number;
+  todayLeads: number;
+  todayViews: number;
+  totalClickRate: number;
+  totalClicks: number;
+  totalLeads: number;
+  totalViews: number;
+  userid: string;
+  weeklyConnections: number[];
+  weeklyViews: number[];
+  recentConnections: any[];
 }
 
 export interface reduxTeamSection {

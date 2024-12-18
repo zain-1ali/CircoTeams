@@ -3,8 +3,9 @@ import Text from "../Atoms/Text";
 // import { HiFilter } from "react-icons/hi";
 import { LuCalendarDays } from "react-icons/lu";
 import HeaderFilter from "../Organisms/HeaderFilter";
+// import { useAppDispatch } from "../Hooks/reduxHooks";
 
-const AnalyticsHeader = () => {
+const AnalyticsHeader: React.FC<any> = ({ handleGetAnalytics }) => {
   return (
     <div className="w-[100%] flex justify-between items-center ">
       <Text text="Analytics" classes="font-[600] text-[18px]" />
@@ -15,7 +16,7 @@ const AnalyticsHeader = () => {
           onClick={() => {}}
           icon={<HiFilter className="absolute left-4 text-[16px]" />}
         /> */}
-        <HeaderFilter applyFilterId={() => {}} />
+        <HeaderFilter applyFilterId={handleGetAnalytics} />
         <Button
           text="Week to date"
           btnClasses="w-[131px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-5"
