@@ -54,7 +54,9 @@ const UserProfileCard: React.FC<prflCardProps> = ({
               <SquareIconBtn
                 btnClass="h-[50px] w-[50px] rounded-[12px] bg-[#F4F4F4] flex justify-center items-center cursor-pointer"
                 imgClass="h-[20px] w-[18px] object-cover"
-                action={() => {}}
+                action={() =>
+                  window.open(`https://circome.netlify.app/${profile?.id}`)
+                }
                 btnType={3}
               />
               <SquareIconBtn

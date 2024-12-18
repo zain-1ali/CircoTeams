@@ -132,7 +132,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
             sx={{
               marginTop: 1,
               "& .MuiPaper-root": {
-                borderRadius: "14px", // Tailwind equivalent of rounded-lg
+                borderRadius: "14px", 
               },
             }}
           >
