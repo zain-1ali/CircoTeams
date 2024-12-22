@@ -1,4 +1,4 @@
-import { push, ref, set, update } from "firebase/database"
+import { push, ref, remove, set, update } from "firebase/database"
 import { db } from "../firebase"
 
 export const createSubTeam=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
@@ -25,9 +25,10 @@ companyId:data?.id
 
 
 
-export const addMembersToSubTeam=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const addMembersToSubTeam=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
 const existingMembers= (typeof team?.members==="object" &&  Object.values(team?.members)) || []
 if(membersId?.length>0){
+
     setLoading(true)
     await set(ref(db, `SubTeams/${team?.id}/members/`), [
         ...existingMembers,
@@ -44,8 +45,11 @@ if(membersId?.length>0){
           const updatedIds = await Promise.all(updatePromises);
           console.log("Updated IDs:", updatedIds);
           // Handle success, show success message, etc.
+          if(independent){
           showSuccess("New members added successfully");
           setLoading(false)
+          }
+       
         //   cb();
         //   setMemberIds([]);
         //   setMembers([]);
@@ -73,8 +77,64 @@ export const reassignMembersToSubTeam=async(membersId:any,Newteam:any,crntTeam:a
     await update(ref(db, `SubTeams/${crntTeam?.id}`), {members:remainingMemebers}).then(()=>{
       addMembersToSubTeam(membersId,Newteam,showError,showSuccess,setLoading)
   })
+  
+  } catch (error) {
+   console.log(error);   
+  }
+
+}
+
+ 
+
+
+export const reassignMembersToSubTeamV2=async(membersId:any,Newteam:any,showError:any,showSuccess:any,setLoading:any)=>{
+  console.log("actual function called",membersId);
+  
+  if(membersId?.length===0){
+    showError("Please select atleast one member to add")  
+    setLoading(false)
+    return
+  }
+
+  if(!Newteam?.id){
+    showError("Please select a team to add members")  
+    setLoading(false)
+    return
+  }
+  try {
+const reassignPromises=membersId?.map(async(elm:any)=>{
+
+
+  if (!elm?.subTeamId){
+    addMembersToSubTeam([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+    return
     
-    //  
+  }
+  if(elm?.subTeamId===Newteam?.id){
+    return
+  }
+  const crntTeamMembers=typeof elm?.subTeamMembers==="object" ? Object?.values(elm?.subTeamMembers) :[]
+  const remainingMemebers = crntTeamMembers?.filter(id => id!==elm?.id);
+  console.log(remainingMemebers);
+
+  await update(ref(db, `SubTeams/${elm?.subTeamId}`), {members:remainingMemebers}).then(()=>{
+    addMembersToSubTeam([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+})
+})
+
+try {
+  const updatedIds = await Promise.all(reassignPromises);
+  console.log("Updated IDs:", updatedIds);
+  showSuccess("Members assigned successfully");
+  setLoading(false)
+} catch (error) {
+  console.error("Error updating objects:", error);
+setLoading(false)
+}
+   
+
+  
+  
   } catch (error) {
    console.log(error);   
   }
@@ -82,7 +142,7 @@ export const reassignMembersToSubTeam=async(membersId:any,Newteam:any,crntTeam:a
 }
 
 
-export const removeMembersFromSubTeam=async(membersId:any,crntTeam:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const removeMembersFromSubTeam=async(membersId:any,crntTeam:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
   try {
     console.log(membersId);
     
@@ -99,8 +159,11 @@ export const removeMembersFromSubTeam=async(membersId:any,crntTeam:any,showError
       try {
         const updatedIds = await Promise.all(updatePromises);
         console.log("Updated IDs:", updatedIds);
-        showSuccess("Members removed successfully");
-        setLoading(false)
+        if(independent){
+          showSuccess("Members removed successfully");
+          setLoading(false)
+        }
+       
       } catch (error) {
         console.error("Error updating objects:", error);
       setLoading(false)
@@ -110,6 +173,39 @@ export const removeMembersFromSubTeam=async(membersId:any,crntTeam:any,showError
    console.log(error); 
    showError("Something went wrong")  
   }
+}
+
+
+export const removeTeams=async(teams:any,showError:any,showSuccess:any,setLoading:any)=>{
+try {
+const removeTeamPromises=teams.map(async(elm:any)=>{
+  await remove(ref(db, `SubTeams/${elm?.id}`)).then(()=>{
+    if(elm?.members){
+      removeMembersFromSubTeam(Object.values(elm?.members),elm,showError,showSuccess,setLoading,false)
+    }
+  })
+})
+
+
+try {
+  const updatedIds = await Promise.all(removeTeamPromises);
+  console.log("Updated IDs:", updatedIds);
+  showSuccess("Teams removed successfully");
+  setLoading(false)
+} catch (error) {
+  console.log(error);
+  
+}
+
+
+
+
+
+
+} catch (error) {
+  console.log(error);
+  
+}
 }
 
 

@@ -426,6 +426,19 @@ export const updateProfileInfo=(data:any,id:string | undefined,showError:any,sho
 }
 
 
+export const updateLeadCapture=(leadMode:boolean,directMode:boolean,id:string | undefined)=>{
+    update(ref(db, `User/${id}`),{leadMode:leadMode}).then(()=>{
+        console.log("working well",id)
+if(directMode===true && leadMode===false){
+    update(ref(db, `User/${id}`),{directMode:!directMode})
+    
+}
+    }).catch((Error)=>{
+        console.log("the error",Error)
+    })
+}
+
+
 export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
     console.log("link added to profile");
     if(data){

@@ -2,7 +2,7 @@
 
 import Button from "../Atoms/Button";
 import Image from "../Atoms/Image";
-import Radio from "../Atoms/Radio";
+// import Radio from "../Atoms/Radio";
 import Text from "../Atoms/Text";
 import { BsThreeDots } from "react-icons/bs";
 import pm1 from "../assets/images/pm1.jpg";
@@ -14,14 +14,34 @@ import i17 from "../assets/images/i17.png";
 import CustomModal from "../Organisms/Modal/Modal";
 import { useState } from "react";
 import ManageSubTeam from "../Organisms/Modal/ManageSubTeam";
+import Checkbox from "../Atoms/Checkbox";
 
-const SubTeamCard: React.FC<any> = ({ team }) => {
+const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
   const [open, setOpen] = useState<boolean>(false);
+
+  const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleRowSelect(
+      {
+        ...team,
+      },
+      e.target.checked
+    );
+  };
   return (
     <div className="w-[30%] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
       <div className="w-[100%] flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <Radio classes="h-[15px] w-[15px]" />
+          <label className="inline-flex items-center cursor-pointer">
+            <Checkbox
+              checkValue={isChecked}
+              onChange={handleSelectedItem}
+              classes="appearance-none h-[15px] cursor-pointer w-[15px] rounded-full border border-gray-300 checked:bg-blue-500 transition-colors duration-300"
+            />
+          </label>
+          {/* <Radio
+            classes="h-[15px] w-[15px]"
+          
+          /> */}
           <Text text={team?.name} classes="font-[600] text-[12px]" />
         </div>
         <BsThreeDots className="text-[#CDCCD4] cursor-pointer text-lg" />

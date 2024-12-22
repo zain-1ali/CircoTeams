@@ -20,6 +20,8 @@ import {
   setProfileUrl,
   setQrColor,
   setQrLogo,
+  toggleDirectMode,
+  toggleLeadMode,
 } from "../Redux/ProfileSlice";
 
 const EditprofileContent = () => {
@@ -55,6 +57,8 @@ const EditprofileContent = () => {
     dispatch(setlogoUrl(profileData?.logoUrl));
     dispatch(setProfileName(profileData?.profileName));
     dispatch(setCompany(profileData?.company));
+    dispatch(toggleLeadMode(profileData?.leadMode));
+    dispatch(toggleDirectMode(profileData?.directMode));
     if (typeof profileData?.links === "object") {
       dispatch(setLinks(Object.values(profileData?.links)));
     }

@@ -4,6 +4,8 @@ import ImageWithTextCell from "../Molecules/ImageWithTextCell";
 import message from "../assets/images/message.png";
 import hi11 from "../assets/images/hi11.png";
 import hi12 from "../assets/images/hi12.png";
+import { useEffect, useState } from "react";
+import { getSingleChildFromDb } from "../Services/Constants";
 
 // : React.FC<TableRowProps>
 const MembersTableRow: React.FC<any> = ({
@@ -11,9 +13,48 @@ const MembersTableRow: React.FC<any> = ({
   handleRowSelect,
   isSelected,
 }) => {
+  const [subteamData, setSubteamData] = useState<any>({});
+  const [templateData, settemplateData] = useState<any>({});
+
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleRowSelect(data, e.target.checked);
+    handleRowSelect(
+      {
+        ...data,
+        subTeamMembers: subteamData?.members,
+      },
+      e.target.checked
+    );
   };
+
+  const getProfileData = (data: any) => {
+    if (data) {
+      setSubteamData(Object.values(data)?.[0]);
+    }
+  };
+
+  const getTemplateData = (data: any) => {
+    if (data) {
+      settemplateData(Object.values(data)?.[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.subTeamId) {
+      getSingleChildFromDb("SubTeams/", "id", data?.subTeamId, getProfileData);
+    }
+  }, [data?.subTeamId]);
+
+  useEffect(() => {
+    if (data?.templateId) {
+      getSingleChildFromDb(
+        "Template/",
+        "id",
+        data?.templateId,
+        getTemplateData
+      );
+    }
+  }, [data?.templateId]);
+
   return (
     <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4">
       <div className="w-[35px]">
@@ -39,12 +80,12 @@ const MembersTableRow: React.FC<any> = ({
       />
       <IconWithTextCell
         icon={hi11}
-        text="Sales Team"
+        text={subteamData?.name}
         iconClass="h-[14px] w-[14px] object-cover"
       />
       <IconWithTextCell
         icon={hi12}
-        text="Main Template"
+        text={templateData?.profileName}
         iconClass="h-[14px] w-[14px] object-cover"
       />
     </div>

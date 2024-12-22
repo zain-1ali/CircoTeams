@@ -236,12 +236,14 @@ export interface SubTeamsGetStartedProps {
 
 export interface radioProps {
   classes: string;
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface pageHeadProps {
   headerName: string;
   number: string | number;
-  selectedRows?: string[];
+  selectedRows?: any[];
   searchItem?: (searchValue: string) => void;
 }
 

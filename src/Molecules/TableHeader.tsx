@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Atoms/Button";
 import Image from "../Atoms/Image";
 import Input from "../Atoms/Input";
@@ -8,10 +8,18 @@ import { pageHeadProps } from "../Types";
 import i14 from "../assets/images/i14.png";
 import { CiSearch } from "react-icons/ci";
 import CustomModal from "../Organisms/Modal/Modal";
-import { removeMultipleChildFromDb } from "../Services/Constants";
+import {
+  getMultipleChilds,
+  removeMultipleChildFromDb,
+} from "../Services/Constants";
 import CreateTeamProfile from "../Organisms/Modal/CreateTeamProfile";
 import CreateSubteam from "../Organisms/Modal/CreateSubteam";
 import CreateTemplate from "../Organisms/Modal/CreateTemplate";
+import DropDown from "../Organisms/DropDown/DropDown";
+import ReasignTeam from "../Organisms/DropDown/ReasignTeam";
+import ReasignTemplate from "../Organisms/DropDown/ReasignTemplate";
+import { removeTeams } from "../Services/SubTeamsServices";
+import useToastNotifications from "../Hooks/useToastNotification";
 
 const TableHeader: React.FC<pageHeadProps> = ({
   headerName,
@@ -24,6 +32,61 @@ const TableHeader: React.FC<pageHeadProps> = ({
   const [searchValue, setSearchValue] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const [openCreateTemplate, setOpenCreateTemplate] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
+  const [subteams, setSubteams] = useState<any[]>([]);
+  const [templates, setTemplates] = useState<any[]>([]);
+  const companyId: string | null = localStorage.getItem("circoCompanyUid");
+
+  const callBackFunc = (data: any) => {
+    setSubteams(Object.values(data));
+  };
+
+  const callBackFunc2 = (data: any) => {
+    setTemplates(Object.values(data));
+  };
+
+  const handleOpenTemplateFilter = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const { showError, showSuccess } = useToastNotifications();
+
+  const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
+
+  useEffect(() => {
+    getMultipleChilds(
+      "SubTeams",
+      "companyId",
+      companyId,
+      callBackFunc,
+      setLoading
+    );
+  }, []);
+
+  useEffect(() => {
+    getMultipleChilds(
+      "Template",
+      "parentID",
+      companyId,
+      callBackFunc2,
+      setLoading
+    );
+  }, []);
+
+  const openSubTeam = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu
+  };
+
+  const openTemplate = Boolean(anchorEl2);
+  const handleCloseTemplate = () => {
+    setAnchorEl2(null);
+  };
   const onClose = () => {
     setOpen(!open);
   };
@@ -61,16 +124,64 @@ const TableHeader: React.FC<pageHeadProps> = ({
               text="Add Member"
               onClick={() => setTeamProfileModal(true)}
             />
-            <Button
-              btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
-              text="Assign Template"
-              onClick={() => {}}
-            />
-            <Button
-              btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
-              text="Assign to Subteam"
-              onClick={() => {}}
-            />
+            <div
+              id="reassignTemp-button"
+              aria-haspopup="listbox"
+              aria-controls="reassignTemp-menu"
+            >
+              <Button
+                btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
+                text="Assign Template"
+                onClick={handleOpenTemplateFilter}
+              />
+            </div>
+
+            <DropDown
+              id="reassignTemp-menu"
+              anchorEl={anchorEl2}
+              open={openTemplate}
+              onClose={handleCloseTemplate}
+              MenuListProps={{
+                "aria-labelledby": "reassignTemp-button",
+                role: "listbox",
+              }}
+            >
+              <ReasignTemplate
+                templates={templates}
+                selectedMemberRows={selectedRows}
+                crntTemplate={null}
+                onClose={handleCloseTemplate}
+              />
+            </DropDown>
+            <div
+              id="reassign-button"
+              aria-haspopup="listbox"
+              aria-controls="reassign-menu"
+            >
+              <Button
+                btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
+                text="Assign to Subteam"
+                onClick={handleOpenFilter}
+              />
+            </div>
+
+            <DropDown
+              id="reassign-menu"
+              anchorEl={anchorEl}
+              open={openSubTeam}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "reassign-button",
+                role: "listbox",
+              }}
+            >
+              <ReasignTeam
+                subteams={subteams}
+                selectedMemberRows={selectedRows}
+                crntSubteam={null}
+                onClose={handleClose}
+              />
+            </DropDown>
             <div
               onClick={() => {
                 if (Array.isArray(selectedRows) && selectedRows?.length > 0) {
@@ -102,15 +213,41 @@ const TableHeader: React.FC<pageHeadProps> = ({
               text="Create New Subteam"
               onClick={() => setOpen(true)}
             />
-            <Button
-              btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
-              text="Assign Template"
-              onClick={() => {}}
-            />
+            <div
+              id="reassignTemp-button"
+              aria-haspopup="listbox"
+              aria-controls="reassignTemp-menu"
+            >
+              <Button
+                btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9] text-[#808080]"
+                text="Assign Template"
+                onClick={handleOpenTemplateFilter}
+              />
+            </div>
+
+            <DropDown
+              id="reassignTemp-menu"
+              anchorEl={anchorEl2}
+              open={openTemplate}
+              onClose={handleCloseTemplate}
+              MenuListProps={{
+                "aria-labelledby": "reassignTemp-button",
+                role: "listbox",
+              }}
+            >
+              <ReasignTemplate
+                templates={templates}
+                selectedMemberRows={selectedRows}
+                crntTemplate={null}
+                onClose={handleCloseTemplate}
+              />
+            </DropDown>
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] bg-[#F9F9F9]  text-red-500"
               text="Remove Subteam"
-              onClick={() => {}}
+              onClick={() =>
+                removeTeams(selectedRows, showError, showSuccess, setLoading)
+              }
             />
           </div>
         )}
@@ -145,6 +282,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
         <CreateTeamProfile
           onClose={() => setSureModal(false)}
           setLoading={setLoading}
+          loading={loading}
         />
       </CustomModal>
 

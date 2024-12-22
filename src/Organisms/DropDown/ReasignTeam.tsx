@@ -3,12 +3,15 @@ import Button from "../../Atoms/Button";
 // import Radio from "../../Atoms/Radio";
 import Text from "../../Atoms/Text";
 import { useState } from "react";
-import { reassignMembersToSubTeam } from "../../Services/SubTeamsServices";
+import {
+  reassignMembersToSubTeam,
+  reassignMembersToSubTeamV2,
+} from "../../Services/SubTeamsServices";
 import useToastNotifications from "../../Hooks/useToastNotification";
 
 const ReasignTeam: React.FC<{
   subteams: any[];
-  selectedMemberRows: any[];
+  selectedMemberRows: any[] | undefined;
   crntSubteam: any;
   onClose: () => void;
 }> = ({ subteams, selectedMemberRows, crntSubteam, onClose }) => {
@@ -119,14 +122,22 @@ const ReasignTeam: React.FC<{
             text="Reassign"
             btnClasses="bg-primary rounded-full w-[95%] h-[35px] text-white font-[700] text-[13px]"
             onClick={() =>
-              reassignMembersToSubTeam(
-                membersUid,
-                selectedTeam,
-                crntSubteam,
-                showError,
-                showSuccess,
-                setLoading
-              )
+              crntSubteam
+                ? reassignMembersToSubTeam(
+                    membersUid,
+                    selectedTeam,
+                    crntSubteam,
+                    showError,
+                    showSuccess,
+                    setLoading
+                  )
+                : reassignMembersToSubTeamV2(
+                    selectedMemberRows,
+                    selectedTeam,
+                    showError,
+                    showSuccess,
+                    setLoading
+                  )
             }
           />
           <Button

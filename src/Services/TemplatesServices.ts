@@ -65,7 +65,7 @@ export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showErr
 
 
 
-export const addMembersToTemplate=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const addMembersToTemplate=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
     const existingMembers= (typeof team?.members==="object" &&  Object.values(team?.members)) || []
     if(membersId?.length>0){
         setLoading(true)
@@ -84,8 +84,10 @@ export const addMembersToTemplate=async(membersId:any,team:any,showError:any,sho
               const updatedIds = await Promise.all(updatePromises);
               console.log("Updated IDs:", updatedIds);
               // Handle success, show success message, etc.
+              if(independent){ 
               showSuccess("New members added successfully");
               setLoading(false)
+              }
             //   cb();
             //   setMemberIds([]);
             //   setMembers([]);
@@ -100,3 +102,57 @@ export const addMembersToTemplate=async(membersId:any,team:any,showError:any,sho
         showError("Please select atleast one member to add")  
         setLoading(false)
     }}
+
+
+export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showError:any,showSuccess:any,setLoading:any)=>{
+      
+      if(membersId?.length===0){
+        showError("Please select atleast one member to add")  
+        setLoading(false)
+        return
+      }
+    
+      if(!Newteam?.id){
+        showError("Please select a template to add members")  
+        setLoading(false)
+        return
+      }
+      try {
+    const reassignPromises=membersId?.map(async(elm:any)=>{
+    
+    
+      if (!elm?.templateId){
+        addMembersToTemplate([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+        return
+        
+      }
+      if(elm?.templateId===Newteam?.id){
+        return
+      }
+      const crntTeamMembers=typeof elm?.TemplateMembers==="object" ? Object?.values(elm?.TemplateMembers) :[]
+      const remainingMemebers = crntTeamMembers?.filter(id => id!==elm?.id);
+      console.log(remainingMemebers);
+    
+      await update(ref(db, `Template/${elm?.templateId}`), {members:remainingMemebers}).then(()=>{
+        addMembersToTemplate([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+    })
+    })
+    
+    try {
+      const updatedIds = await Promise.all(reassignPromises);
+      console.log("Updated IDs:", updatedIds);
+      showSuccess("Members assigned successfully");
+      setLoading(false)
+    } catch (error) {
+      console.error("Error updating objects:", error);
+    setLoading(false)
+    }
+       
+    
+      
+      
+      } catch (error) {
+       console.log(error);   
+      }
+    
+    }

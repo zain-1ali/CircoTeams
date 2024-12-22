@@ -136,6 +136,7 @@ const MyProfilesContent = () => {
         <CreateTeamProfile
           onClose={() => setSureModal(false)}
           setLoading={setLoading}
+          loading={loading}
         />
       </CustomModal>
 

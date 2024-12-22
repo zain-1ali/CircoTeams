@@ -3,12 +3,14 @@ import InputWithLabel from "../../Molecules/InputWithLabel";
 import Button from "../../Atoms/Button";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import { createTeamsProfile } from "../../Services/ProfileServices";
+
 // import { createTeamsProfile } from "../../Services/ProfileServices";
 
 const CreateTeamProfile: React.FC<{
   onClose: () => void;
   setLoading: any;
-}> = ({ setLoading, onClose }) => {
+  loading: boolean;
+}> = ({ setLoading, onClose, loading }) => {
   const { showError, showSuccess } = useToastNotifications();
   const [data, setData] = useState({
     name: "",
@@ -37,20 +39,24 @@ const CreateTeamProfile: React.FC<{
         <Button
           text="Cancel"
           onClick={onClose}
-          btnClasses="h-[40px] w-[120px] border rounded-md"
+          btnClasses={`h-[40px] w-[120px] border rounded-md `}
         />
         <Button
           text="Create"
           onClick={() => {
-            createTeamsProfile(
-              { ...data, id: companyId },
-              showError,
-              showSuccess,
-              setLoading
-            ),
+            loading
+              ? () => {}
+              : createTeamsProfile(
+                  { ...data, id: companyId },
+                  showError,
+                  showSuccess,
+                  setLoading
+                ),
               onClose();
           }}
-          btnClasses="h-[40px] w-[120px] border rounded-md bg-[#2B6EF6] text-white"
+          btnClasses={`h-[40px] w-[120px] border rounded-md bg-[#2B6EF6] text-white ${
+            loading ? "opacity-[50%]" : "opacity-[100%]"
+          }`}
         />
       </div>
     </div>

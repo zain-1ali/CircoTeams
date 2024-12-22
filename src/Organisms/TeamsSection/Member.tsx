@@ -12,6 +12,8 @@ const Member = () => {
   const [loading, setLoading] = useState<boolean>(false);
   let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
+  console.log(selectedRows);
+
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
 
@@ -97,7 +99,7 @@ const Member = () => {
   return (
     <div className="w-[100%] h-[100%] overflow-y-scroll">
       <TableHeader
-        number={78}
+        number={allProfiles?.length || 0}
         headerName="Members"
         selectedRows={selectedRows}
         searchItem={searchItem}

@@ -8,11 +8,18 @@ import LinkModal from "../Modal/LinkModal";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { resetLinkData } from "../../Redux/linkSlice";
 import { resetSocialLink } from "../../Redux/socialLinkSlice";
-import { toggleDirectMode, toggleLeadMode } from "../../Redux/ProfileSlice";
+import {
+  toggleDirectMode,
+  // ,
+  //  toggleLeadMode
+} from "../../Redux/ProfileSlice";
+import { useParams } from "react-router-dom";
+import { updateLeadCapture } from "../../Services/ProfileServices";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const { id } = useParams();
   console.log(window.innerHeight);
   const profileData = useAppSelector((state) => state.profileHandler);
   const handleCloseLinkModal = () => {
@@ -27,7 +34,13 @@ const Links = () => {
           text="Lead Capture Mode"
           width="w-[42%]"
           toggleValue={profileData?.leadMode}
-          toggleChange={() => dispatch(toggleLeadMode())}
+          toggleChange={() =>
+            updateLeadCapture(
+              profileData?.leadMode,
+              profileData?.directMode,
+              id
+            )
+          }
         />
         <ToggleArea
           text="One Link Mode"
