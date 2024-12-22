@@ -1,14 +1,37 @@
-import { toast } from 'react-hot-toast';
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const useToastNotifications = () => {
-  // Function to display a success toast
+  const [isToastActive, setIsToastActive] = useState(false);
+
   const showSuccess = (message: string) => {
-    toast.success(message);
+    if (isToastActive) return; 
+
+    setIsToastActive(true);
+    const toastId = toast.success(message, {
+      duration: 3000,
+    });
+
+    
+    setTimeout(() => {
+      setIsToastActive(false);
+      toast.dismiss(toastId); 
+    }, 3000);
   };
 
-  // Function to display an error toast
   const showError = (message: string) => {
-    toast.error(message);
+    if (isToastActive) return; 
+
+    setIsToastActive(true);
+    const toastId = toast.error(message, {
+      duration: 3000,
+    });
+
+   
+    setTimeout(() => {
+      setIsToastActive(false);
+      toast.dismiss(toastId); 
+    }, 3000);
   };
 
   return { showSuccess, showError };

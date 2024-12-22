@@ -12,7 +12,7 @@ const Table: React.FC<tableProps> = ({
   selectedRows,
   handleRowSelect,
 }) => {
-  const allSelected = selectedRows?.length === data?.length;
+  const allSelected = selectedRows?.length === data?.length && data?.length > 0;
 
   const handleSelectAll = (isChecked: boolean) => {
     if (isChecked) {

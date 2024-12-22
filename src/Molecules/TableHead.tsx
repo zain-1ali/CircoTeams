@@ -7,6 +7,8 @@ const TableHead: React.FC<tableHeadProps> = ({
   allSelected,
   onSelectAll,
 }) => {
+  console.log(allSelected, "allSelected");
+
   return (
     <div className="w-[100%] flex  items-center justify-between pl-4">
       <div className="w-[35px]">

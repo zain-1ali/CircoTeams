@@ -120,6 +120,7 @@ const initialData={
 
 export const createMultipleProfiles=async(emails:string[],showError:any,showSuccess:any,setLoading:any,companyId:string | null)=>{
 if(emails?.length>0){
+    setLoading(true)
     const initialData={
         address: "",
         bio: "",

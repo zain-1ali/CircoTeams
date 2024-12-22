@@ -21,8 +21,6 @@ interface ConnectionModalProps {
   action: string;
 }
 
-const { showSuccess, showError } = useToastNotifications();
-
 const ConnectionModal: React.FC<ConnectionModalProps> = ({
   action,
   isOpen,
@@ -30,6 +28,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
   data,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { showSuccess, showError } = useToastNotifications();
 
   const [connectionData, setConnectionData] = useState({
     name: data?.name || "",

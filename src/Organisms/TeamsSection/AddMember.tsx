@@ -99,7 +99,7 @@ const AddMember = () => {
         }
       },
     });
-};
+  };
 
   return (
     <div className="h-[100%] w-[100%] overflow-y-scroll pb-3">
@@ -152,16 +152,20 @@ const AddMember = () => {
 
       <div className="w-[72%] flex justify-end mt-3">
         <Button
-          btnClasses="w-[163px] h-[43px] bg-[#2B6EF6] rounded-[50px] font-[700] text-[16px] text-white"
+          btnClasses={`w-[163px] h-[43px] bg-[#2B6EF6] rounded-[50px] ${
+            loading ? "opacity-[50%]" : "opacity-[100%]"
+          } font-[700] text-[16px] text-white`}
           text="Add Members"
           onClick={() =>
-            createMultipleProfiles(
-              allEmails,
-              showError,
-              showSuccess,
-              setLoading,
-              companyId
-            )
+            loading
+              ? () => {}
+              : createMultipleProfiles(
+                  allEmails,
+                  showError,
+                  showSuccess,
+                  setLoading,
+                  companyId
+                )
           }
         />
       </div>
