@@ -100,27 +100,31 @@ const LayoutDesign = () => {
           );
         })}
       </div>
-      <div className="w-[100%]">
-        <UploadIcon
-          imgSrc={layoutBg}
-          isShare={false}
-          handleFileChange={handleFileChange}
-          removeImg={() => {}}
-          isThemeImg={true}
-        />
-      </div>
+      {profileDesign?.backgroundTheme === "Custom" && (
+        <div className="w-[100%]">
+          <UploadIcon
+            imgSrc={layoutBg}
+            isShare={false}
+            handleFileChange={handleFileChange}
+            removeImg={() => {}}
+            isThemeImg={true}
+          />
+        </div>
+      )}
 
-      <div className="mt-6">
-        <ColorSelector
-          colorType="Background Color"
-          color={profileDesign?.backgroundColor}
-          handleChangeColor={handleChangeAppBgColor}
-        />
-      </div>
+      {profileDesign?.backgroundTheme !== "Custom" && (
+        <div className="mt-6">
+          <ColorSelector
+            colorType="Background Color"
+            color={profileDesign?.backgroundColor}
+            handleChangeColor={handleChangeAppBgColor}
+          />
+        </div>
+      )}
       <div className="flex mt-4 items-center gap-3">
         <Text
           text="Whiten Profile Text"
-          classes="text-[#8D8D8D] text-[12px] font-[600]  "
+          classes="text-[#8D8D8D] text-[12px] font-[600]"
         />
         <IOSSwitch
           onChange={() =>

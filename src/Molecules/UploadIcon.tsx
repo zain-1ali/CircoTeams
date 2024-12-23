@@ -66,12 +66,14 @@ const UploadIcon: React.FC<uploadIconProps> = ({
             style={{ display: "none" }}
             onChange={(e) => handleFileChange(e)}
           />
-          <div
-            className="h-[32px] w-[32px] border border-[#DADADA] flex justify-center items-center rounded-full cursor-pointer"
-            onClick={() => removeImg()}
-          >
-            <TfiTrash className="text-[#9D9D9D] text-[15px]" />
-          </div>
+          {!isThemeImg && (
+            <div
+              className="h-[32px] w-[32px] border border-[#DADADA] flex justify-center items-center rounded-full cursor-pointer"
+              onClick={() => removeImg()}
+            >
+              <TfiTrash className="text-[#9D9D9D] text-[15px]" />
+            </div>
+          )}
         </div>
       </div>
     </div>
