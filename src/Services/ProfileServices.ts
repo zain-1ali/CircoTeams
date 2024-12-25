@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, push, query, ref, set, update } from "firebase/database"
+import { equalTo, get, onValue, orderByChild, push, query, ref, set, update } from "firebase/database"
 import { auth, db } from "../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 // import { Link } from "../Types"
@@ -520,7 +520,7 @@ export const updateLinkShareAble = async (
     //   }
     //   MediaKeyStatusMap;
     // });
-  };
+};
 
 
 export const updateDirect=(id:string | undefined,setDirect:any,link:any,directMode:boolean)=>{
@@ -562,4 +562,59 @@ export const updateProfileDesign=(data:any,id:string | undefined,showError:any,s
         })
     }
 }
+
+
+export const updateUserName = async (
+    username: string,
+    id: string | undefined,
+    showError: any,
+    showSuccess: any,
+    setLoading: any
+  ) => {
+    if (!username) {
+      showError("Username should not be empty");
+      return;
+    }
+  
+    const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
+    if (!usernameRegex.test(username)) {
+      showError("Username should be 3-15 characters long and can only contain letters, numbers, underscores, and hyphens");
+      return;
+    }
+  
+    try {
+      setLoading(true);
+  
+      const starCountRef = query(
+        ref(db, "User"),
+        orderByChild("username"),
+        equalTo(username)
+      );
+  
+      // Use get() for a one-time read
+      const snapshot = await get(starCountRef);
+      const data = snapshot.val();
+  
+      if (data && Object.keys(data)[0] !== id) {
+        showError("Username already exists");
+      } else {
+        await update(ref(db, `User/${id}`), { username });
+        showSuccess("Username updated successfully");
+      }
+    } catch (error) {
+      console.error("Error updating username:", error);
+      showError("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  export const updateTextWhiteStatus=(id:string | undefined,whiteTextAndBorder:boolean,setState:any)=>{
+    update(ref(db, `User/${id}/profileDesign`),{whiteTextAndBorder:!whiteTextAndBorder}).then(()=>{
+        setState(!whiteTextAndBorder)
+    })
+    
+  }
 

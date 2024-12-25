@@ -1,7 +1,9 @@
 import { Box, Slide } from "@mui/material";
 import { RxCross1 } from "react-icons/rx";
-import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
-import { toggleLeadMode } from "../Redux/ProfileSlice";
+import { 
+  // useAppDispatch, 
+  useAppSelector } from "../Hooks/reduxHooks";
+// import { toggleLeadMode } from "../Redux/ProfileSlice";
 
 const LeadFormSlider = () => {
   const style = {
@@ -29,7 +31,7 @@ const LeadFormSlider = () => {
 
   const profileData = useAppSelector((state) => state.profileHandler);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   return (
     <Slide
@@ -46,7 +48,7 @@ const LeadFormSlider = () => {
             <RxCross1
               className="text-xl cursor-pointer"
               onClick={() => {
-                dispatch(toggleLeadMode());
+                // dispatch(toggleLeadMode());
               }}
             />
           </div>

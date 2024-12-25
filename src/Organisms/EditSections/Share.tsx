@@ -88,7 +88,7 @@ const Share = () => {
         classes="font-[600] text-[12px] text-[#8D8D8D] mt-3"
       />
       <TextButton
-        text="http://www.circo.me/username"
+        text="http://www.circo.me/"
         btnText="Save"
         width="w-[416px] mt-2"
         onClick={() =>

@@ -1,8 +1,11 @@
 import { LuRepeat } from "react-icons/lu";
 // import Button from "../Atoms/Button";
-import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
+import {
+  // useAppDispatch,
+  useAppSelector,
+} from "../Hooks/reduxHooks";
 import { hexToRGBA } from "../utils/hexToRGBA";
-import { toggleLeadMode } from "../Redux/ProfileSlice";
+// import { toggleLeadMode } from "../Redux/ProfileSlice";
 
 const ProfileButtonsArea = () => {
   const profileData = useAppSelector(
@@ -15,7 +18,7 @@ const ProfileButtonsArea = () => {
 
   console.log(saveBtnStyle);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   return (
     <div className="w-[100%] flex justify-center mt-2 items-center relative">
@@ -110,7 +113,9 @@ const ProfileButtonsArea = () => {
                 color: saveContactTextColor,
               }
         }
-        onClick={() => dispatch(toggleLeadMode())}
+        onClick={
+          () => {} // dispatch(toggleLeadMode())
+        }
       >
         <LuRepeat
           className="text-white h-[12px] w-[12px]"

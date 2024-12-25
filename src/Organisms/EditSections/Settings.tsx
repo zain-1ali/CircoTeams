@@ -4,13 +4,18 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import TextButton from "../../Molecules/TextButton";
 import ToggleArea from "../../Molecules/ToggleArea";
 import {
+  setDirect,
   setProfileDesign,
   toggleDirectMode,
   toggleLeadMode,
 } from "../../Redux/ProfileSlice";
 import {
-  updateProfileDesign,
-  updateProfileInfo,
+  updateDirectMode,
+  updateLeadCapture,
+  // updateProfileDesign,
+  // updateProfileInfo,
+  updateTextWhiteStatus,
+  updateUserName,
 } from "../../Services/ProfileServices";
 import { useState } from "react";
 import useToastNotifications from "../../Hooks/useToastNotification";
@@ -31,31 +36,39 @@ const Settings = () => {
           classes="font-[600] text-[13px] text-[#818194]"
         />
         <TextButton
-          text="kevinjin"
+          text=""
           btnText="Save"
           width="w-[238px]"
-          onClick={() =>
-            updateProfileInfo(
-              {
-                leadMode: profileData.leadMode,
-                directMode: profileData?.directMode,
-              },
-              id,
-              showError,
-              () =>
-                updateProfileDesign(
-                  {
-                    hideCompanyLogo: profileData.profileDesign.hideCompanyLogo,
-                    whiteTextAndBorder:
-                      profileData.profileDesign.whiteTextAndBorder,
-                  },
-                  id,
-                  showError,
-                  showSuccess,
-                  setLoading
-                ),
-              setLoading
-            )
+          onClick={
+            () =>
+              updateUserName(
+                profileData?.username,
+                id,
+                showError,
+                showSuccess,
+                setLoading
+              )
+            // updateProfileInfo(
+            //   {
+            //     leadMode: profileData.leadMode,
+            //     directMode: profileData?.directMode,
+            //   },
+            //   id,
+            //   showError,
+            //   () =>
+            //     updateProfileDesign(
+            //       {
+            //         hideCompanyLogo: profileData.profileDesign.hideCompanyLogo,
+            //         whiteTextAndBorder:
+            //           profileData.profileDesign.whiteTextAndBorder,
+            //       },
+            //       id,
+            //       showError,
+            //       showSuccess,
+            //       setLoading
+            //     ),
+            //   setLoading
+            // )
           }
         />
       </div>
@@ -65,13 +78,32 @@ const Settings = () => {
           text="Lead Capture Mode"
           width="w-[340px]"
           toggleValue={profileData?.leadMode}
-          toggleChange={() => dispatch(toggleLeadMode())}
+          toggleChange={() =>
+            updateLeadCapture(
+              profileData.leadMode,
+              profileData.directMode,
+              id,
+              (mode: boolean) => dispatch(toggleLeadMode(mode)),
+              (mode: boolean) => dispatch(toggleDirectMode(mode))
+            )
+          }
         />
         <ToggleArea
           text="One Link Mode"
           width="w-[340px]"
           toggleValue={profileData?.directMode}
-          toggleChange={() => dispatch(toggleDirectMode())}
+          toggleChange={() =>
+            updateDirectMode(
+              profileData?.directMode,
+              id,
+              (mode: boolean) => dispatch(toggleDirectMode(mode)),
+              (mode: any) => dispatch(setDirect(mode)),
+              (mode: boolean) => dispatch(toggleLeadMode(mode)),
+              profileData?.links?.[0],
+              profileData?.links?.length,
+              profileData.leadMode
+            )
+          }
         />
         <ToggleArea
           text="Hide Your Company Logo"
@@ -90,11 +122,15 @@ const Settings = () => {
           width="w-[340px]"
           toggleValue={profileData.profileDesign.whiteTextAndBorder}
           toggleChange={() =>
-            dispatch(
-              setProfileDesign({
-                whiteTextAndBorder:
-                  !profileData.profileDesign.whiteTextAndBorder,
-              })
+            updateTextWhiteStatus(
+              id,
+              profileData.profileDesign.whiteTextAndBorder,
+              (data: boolean) =>
+                dispatch(
+                  setProfileDesign({
+                    whiteTextAndBorder: data,
+                  })
+                )
             )
           }
         />
