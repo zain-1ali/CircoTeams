@@ -426,16 +426,112 @@ export const updateProfileInfo=(data:any,id:string | undefined,showError:any,sho
 }
 
 
-export const updateLeadCapture=(leadMode:boolean,directMode:boolean,id:string | undefined)=>{
-    update(ref(db, `User/${id}`),{leadMode:leadMode}).then(()=>{
-        console.log("working well",id)
+export const updateLeadCapture=(leadMode:boolean,directMode:boolean,id:string | undefined,setState:any,setState2:any)=>{
+    console.log("lead capture mode",leadMode);
+    
+    update(ref(db, `User/${id}`),{leadMode:!leadMode}).then(()=>{
+        setState(!leadMode)
+        console.log("working well",directMode)
 if(directMode===true && leadMode===false){
-    update(ref(db, `User/${id}`),{directMode:!directMode})
+    update(ref(db, `User/${id}`),{directMode:!directMode}).then(()=>{
+        setState2(!directMode)
+    })
     
 }
     }).catch((Error)=>{
         console.log("the error",Error)
     })
+}
+
+
+
+export const updateDirectMode=(directMode:boolean,id:string | undefined,setState:any,setState2:any,setState3:any,firstLink:any,linkLength:any,leadMode:boolean)=>{
+    // console.log("direct mode",directMode);
+    if(linkLength<1){
+        return
+    }
+    update(ref(db, `User/${id}`),{directMode:!directMode}).then(()=>{
+        if(directMode===false && leadMode===true){
+            update(ref(db, `User/${id}`),{leadMode:!leadMode}).then(()=>{
+                setState3(!leadMode)
+            })
+            
+        }
+        setState(!directMode)
+        update(ref(db, `User/${id}`),{direct:firstLink}).then(()=>{
+            setState2(firstLink)
+
+
+           
+        })
+        console.log("working well")
+    }).catch((Error)=>{
+        console.log("the error",Error)
+    })
+}
+
+
+export const updateLinkShareAble = async (
+    id:string,
+    linkID:string,
+    shareable:boolean,
+    link:any,
+    setLinks:any
+  ) => {
+    // shareable,allLinks
+    // Find the index of the object with the given ID
+    const objectIndex = link?.findIndex((obj:any) => obj.id === linkID);
+  
+    // Check if the object exists
+    if (objectIndex !== -1) {
+      // Create a copy of the object
+      const updatedObject = { ...link[objectIndex] };
+  
+      // Update the value of the desired property
+      updatedObject.shareable = !shareable;
+  
+      // Create a new array with the updated object
+      const updatedArray = [...link];
+      updatedArray[objectIndex] = updatedObject;
+      set(ref(db, `User/${id}/links/`), [...updatedArray]).then(async () => {
+        setLinks([...updatedArray]);
+      });
+    }
+  
+    // const starCountRef = query(
+    //   ref(db, `/Users/${id}/links`),
+    //   orderByChild("linkID"),
+    //   equalTo(linkID)
+    // );
+    // onValue(starCountRef, async (snapshot) => {
+    //   const data = await snapshot.val();
+    //   // cb(Object.values(data));
+    //   console.log(data);
+    //   console.log(Object.keys(data)[0]);
+    //   if (data) {
+    //     let index = Object.keys(data)[0];
+  
+    //     update(ref(db, `Users/${id}/links/${index}`), {
+    //       shareable: !shareable,
+    //     }).then(() => {
+    //       // toast.success("Link deleted successfuly");
+    //       // cb();
+    //     });
+    //   }
+    //   MediaKeyStatusMap;
+    // });
+  };
+
+
+export const updateDirect=(id:string | undefined,setDirect:any,link:any,directMode:boolean)=>{
+    if(directMode===false){
+        return
+
+    }
+        update(ref(db, `User/${id}`),{direct:link}).then(()=>{
+            setDirect(link)
+        })
+        console.log("working well")
 }
 
 

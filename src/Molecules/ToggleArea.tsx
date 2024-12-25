@@ -14,7 +14,11 @@ const ToggleArea: React.FC<toggleAreaProps> = ({
       className={`h-[41px] ${width} border rounded-full border-[#DADADA] flex justify-between items-center pl-3 pr-3`}
     >
       <Text text={text} classes="font-[600] text-[13px] text-[#818194]" />
-      <IOSSwitch onChange={toggleChange} value={toggleValue} />
+      <IOSSwitch
+        onChange={toggleChange}
+        // value={toggleValue}
+        checked={toggleValue}
+      />
     </div>
   );
 };

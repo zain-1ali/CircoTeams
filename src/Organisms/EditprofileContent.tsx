@@ -10,6 +10,7 @@ import {
   setAddress,
   setCompany,
   setCoverUrl,
+  setDirect,
   setFirstName,
   setJobTitle,
   setLastName,
@@ -43,8 +44,6 @@ const EditprofileContent = () => {
     getSingleChildFromDb("User/", "id", id, getProfileData);
   }, [id]);
 
-  console.log(profileData);
-
   // setting redux states
 
   useEffect(() => {
@@ -59,6 +58,8 @@ const EditprofileContent = () => {
     dispatch(setCompany(profileData?.company));
     dispatch(toggleLeadMode(profileData?.leadMode));
     dispatch(toggleDirectMode(profileData?.directMode));
+    dispatch(setDirect(profileData?.direct));
+    console.log(profileData?.leadMode);
     if (typeof profileData?.links === "object") {
       dispatch(setLinks(Object.values(profileData?.links)));
     }

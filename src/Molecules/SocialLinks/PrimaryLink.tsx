@@ -8,7 +8,10 @@ const PrimaryLink: React.FC<Link> = (link) => {
   console.log(link.name);
 
   return (
-    <div className="w-[65px] h-[60px]  flex flex-col items-center transition-opacity duration-500 ease-in-out">
+    <div
+      className="w-[65px] h-[60px]  flex flex-col items-center transition-opacity duration-500 ease-in-out"
+      style={{ display: link?.shareable === false ? "none" : undefined }}
+    >
       <Image
         src={link?.linkImgUrl || returnPngIcons(link?.linkID)}
         classes="h-[45px] w-[45px] rounded-[9px]"

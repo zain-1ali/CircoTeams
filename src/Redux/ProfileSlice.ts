@@ -161,8 +161,8 @@ export const profileSlice = createSlice({
     },
     
     // Boolean states
-    toggleDirectMode: (state) => {
-      state.directMode = !state.directMode;
+    toggleDirectMode: (state,action: PayloadAction<boolean>) => {
+      state.directMode =action.payload;
     },
     toggleIsProMatching: (state) => {
       state.isProMatching = !state.isProMatching;
@@ -170,17 +170,19 @@ export const profileSlice = createSlice({
     toggleIsProVersion: (state) => {
       state.isProVersion = !state.isProVersion;
     },
-    toggleIsTrialPeriod: (state) => {
-      state.isTrialPeriod = !state.isTrialPeriod;
+    toggleIsTrialPeriod: (state,action: PayloadAction<boolean>) => {
+      state.isTrialPeriod = action.payload;
     },
-    toggleIsVisible: (state) => {
-      state.isVisible = !state.isVisible;
+    toggleIsVisible: (state,action: PayloadAction<boolean>) => {
+      state.isVisible = action.payload;
     },
-    toggleHideSaveContact: (state) => {
-      state.hideSaveContact = !state.hideSaveContact;
+    toggleHideSaveContact: (state,action: PayloadAction<boolean>) => {
+      state.hideSaveContact = action.payload;
     },
-    toggleLeadMode: (state) => {
-      state.leadMode = !state.leadMode;
+    toggleLeadMode: (state,action: PayloadAction<boolean>) => {
+      console.log(action.payload,"leadmode");
+      
+      state.leadMode = action.payload;
     },
 
     // Complex state updates
