@@ -13,15 +13,20 @@ import hi3 from "../assets/images/hi3.png";
 import hi5 from "../assets/images/hi5.png";
 import hi6 from "../assets/images/hi6.png";
 import { useNavigate } from "react-router-dom";
+import Button from "../Atoms/Button";
+import UserAvatar from "../Molecules/UserAvatar";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const currentPath: string = window.location.pathname;
+  const innerHeight = window.innerHeight;
+  console.log(innerHeight, "innerHeight");
+
   return (
-    <div className="h-[100%] w-[17%] border bg-white flex justify-center items-center">
-      <div className="h-[95%] w-[92%]  flex flex-col items-center">
+    <div className="h-[100%] w-[17%]  bg-white flex justify-center items-center">
+      <div className="max-h-[95%] h-[95%] w-[92%]  flex flex-col items-center  overflow-y-scroll">
         <Logo Imgclasses="h-[50px] w-[50px] object-cover" containerClasses="" />
-        <div className="mt-8 w-[100%] flex flex-col gap-4 h-[60%] overflow-y-scroll">
+        <div className="mt-8 w-[100%] flex flex-col gap-4  ">
           <SidebarButton
             icon={i1}
             hoverIcon={hi1}
@@ -66,6 +71,21 @@ const Sidebar = () => {
             onClick={() => navigate("/support")}
             state={currentPath === "/support"}
           />
+        </div>
+        <div
+          className={`min-h-[161px]  max-h-[161px] rounded-[20px] w-[95%] bg-[#f0f7ff] mt-[30px] flex justify-center relative ${
+            innerHeight < 700 ? "" : "mt-[30px]"
+          }`}
+        >
+          <Button
+            btnClasses="w-[138px] h-[33px] bg-primary rounded-[10px] text-white text-[12px] font-[600] absolute bottom-4"
+            text="Upgrade Now"
+            onClick={() => {}}
+          />
+        </div>
+
+        <div className="w-[95%]  flex justify-between mt-5">
+          <UserAvatar />
         </div>
       </div>
     </div>
