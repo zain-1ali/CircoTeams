@@ -236,7 +236,7 @@ export const media: Icon[] = [
     baseUrl: "",
   },
   {
-    name: "Embedded Video(Youtube Viemo API)",
+    name: "Embedded Video",
     img: embdvdo,
     placeholder: "Embedded Video link*",
     linkID: 25,
@@ -250,7 +250,7 @@ export const media: Icon[] = [
     baseUrl: "",
   },
   {
-    name: "Embedded Songs(Spotify, SoundCloud, Apple Music API)",
+    name: "Embedded Songs",
     img: itunes,
     placeholder: "Embedded Songs Link*",
     linkID: 27,

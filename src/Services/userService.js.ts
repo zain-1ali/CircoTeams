@@ -132,7 +132,7 @@ console.log(error.message);
 }
 
 
-export const logoutUser=async(navigate:any)=>{
+export const logoutUser=async()=>{
   auth.signOut().then(()=>{
     // navigate("/")
     localStorage.removeItem("circoCompanyUid")

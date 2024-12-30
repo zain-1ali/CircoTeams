@@ -19,7 +19,13 @@ const Classic = () => {
           />
         </div>
       </div>
-      <div className="w-[100%] mt-[55px]">
+      <div
+        className={`w-[100%] mt-[55px] ${
+          profileData.profileDesign.whiteTextAndBorder
+            ? "text-white"
+            : "text-black"
+        }`}
+      >
         <ProfileTextualArea
           name={profileData?.firstName + " " + profileData?.lastName}
           job={profileData.jobTitle}

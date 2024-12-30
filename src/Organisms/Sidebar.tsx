@@ -125,7 +125,7 @@ const Sidebar = () => {
           style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
         >
           <AreYouSure
-            onClick={() => logoutUser(navigate)}
+            onClick={() => logoutUser()}
             onClose={() => setSureModal(false)}
             text="Are you sure you want to logout?"
           />

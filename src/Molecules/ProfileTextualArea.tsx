@@ -1,5 +1,5 @@
 import Text from "../Atoms/Text";
-import { useAppSelector } from "../Hooks/reduxHooks";
+// import { useAppSelector } from "../Hooks/reduxHooks";
 import { prfTextsProps } from "../Types";
 
 const ProfileTextualArea: React.FC<prfTextsProps> = ({
@@ -8,15 +8,9 @@ const ProfileTextualArea: React.FC<prfTextsProps> = ({
   location,
   company,
 }) => {
-  const profileData = useAppSelector((state) => state.profileHandler);
+  // const profileData = useAppSelector((state) => state.profileHandler);
   return (
-    <div
-      className={`w-[100%] flex flex-col items-center  h-[80px] ${
-        profileData.profileDesign.whiteTextAndBorder
-          ? "text-white"
-          : "text-black"
-      }`}
-    >
+    <div className={`w-[100%] flex flex-col items-center  h-[80px]`}>
       <Text
         classes="text-[15px] font-[700] w-[80%] text-center"
         text={name === "undefined undefined" ? "" : name}

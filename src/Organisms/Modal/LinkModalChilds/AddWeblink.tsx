@@ -99,10 +99,14 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
             />
             <Button
               btnClasses={`w-[116px] h-[33px] bg-[#2B6EF6] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[white] ${
-                socialLink?.value ? "opacity-[100%]" : "opacity-[50%]"
+                socialLink?.value &&
+                (socialLink?.title || socialLink?.graphicDisplayText)
+                  ? "opacity-[100%]"
+                  : "opacity-[50%]"
               }`}
               onClick={() =>
-                socialLink?.value
+                socialLink?.value &&
+                (socialLink?.title || socialLink?.graphicDisplayText)
                   ? addLinkToDb(
                       socialLink,
                       id,
