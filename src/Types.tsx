@@ -127,6 +127,7 @@ export interface prflCardProps {
   isCreatePrfl?: boolean;
   profile?: any;
   onClick?: any;
+  handleQrModal?: any;
 }
 
 export interface profileCardProps {

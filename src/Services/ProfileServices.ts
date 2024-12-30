@@ -618,3 +618,17 @@ export const updateUserName = async (
     
   }
 
+
+
+  export const toggleLogo=(id:string | undefined,hideCompanyLogo:boolean,setState:any)=>{
+    update(ref(db, `User/${id}/profileDesign`),{hideCompanyLogo:!hideCompanyLogo}).then(()=>{
+        console.log("working well");
+        console.log(hideCompanyLogo);
+        console.log(id);
+        
+        
+        setState(!hideCompanyLogo)
+    })
+    
+  }
+

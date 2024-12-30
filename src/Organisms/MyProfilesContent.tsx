@@ -8,11 +8,14 @@ import { createSelfProfile } from "../Services/ProfileServices";
 import useToastNotifications from "../Hooks/useToastNotification";
 import Loading from "./Loading";
 import CreateTeamProfile from "./Modal/CreateTeamProfile";
+import Qr from "./Modal/Qr";
 
 const MyProfilesContent = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [companyProfile, setCompanyProfile] = useState<any>({});
   const [sureModal, setSureModal] = useState<boolean>(false);
+  const [qrModal, setQrModal] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<string>("");
   const [creatTeamProfileModal, setTeamProfileModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
@@ -52,13 +55,22 @@ const MyProfilesContent = () => {
 
   const { showError, showSuccess } = useToastNotifications();
 
+  const handleQrModal = (id: string) => {
+    setQrModal(true);
+    setSelectedId(id);
+  };
+
   return (
     <div className="h-[100%] w-[83%] bg-[#F7F7F8] flex justify-center relative">
       <div className="w-[95%]  h-[96%] overflow-y-scroll">
         <Text text="My Profiles" classes="font-[700] text-[24px] mt-[30px]" />
         <div className="w-[100%] flex justify-start gap-[8%] mt-3 flex-wrap gap-y-6">
           {companyProfile?.id && (
-            <UserProfileCard isCreatePrfl={false} profile={companyProfile} />
+            <UserProfileCard
+              isCreatePrfl={false}
+              profile={companyProfile}
+              handleQrModal={handleQrModal}
+            />
           )}
 
           {allProfiles?.map((profile: any, i: any) => {
@@ -68,6 +80,7 @@ const MyProfilesContent = () => {
                   isCreatePrfl={false}
                   profile={profile}
                   key={i}
+                  handleQrModal={handleQrModal}
                 />
               );
             }
@@ -91,6 +104,7 @@ const MyProfilesContent = () => {
                   isCreatePrfl={false}
                   profile={profile}
                   key={i}
+                  handleQrModal={handleQrModal}
                 />
               );
             }
@@ -138,6 +152,14 @@ const MyProfilesContent = () => {
           setLoading={setLoading}
           loading={loading}
         />
+      </CustomModal>
+
+      <CustomModal
+        open={qrModal}
+        onClose={() => setQrModal(false)}
+        style={{ height: "300px", width: "300px", borderRadius: 5, p: 4 }}
+      >
+        <Qr userId={selectedId} />
       </CustomModal>
 
       {loading && <Loading bgColor="#F7F7F8" />}

@@ -12,6 +12,7 @@ const UserProfileCard: React.FC<prflCardProps> = ({
   isCreatePrfl,
   profile,
   onClick,
+  handleQrModal,
 }) => {
   const navigate = useNavigate();
   return (
@@ -68,7 +69,7 @@ const UserProfileCard: React.FC<prflCardProps> = ({
               <SquareIconBtn
                 btnClass="h-[50px] w-[50px] rounded-[12px] bg-[#F4F4F4] flex justify-center items-center cursor-pointer"
                 imgClass="h-[20px] w-[20px] object-cover"
-                action={() => {}}
+                action={() => handleQrModal(profile?.id)}
                 btnType={1}
               />
             </div>

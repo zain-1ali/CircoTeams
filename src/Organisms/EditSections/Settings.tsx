@@ -10,6 +10,7 @@ import {
   toggleLeadMode,
 } from "../../Redux/ProfileSlice";
 import {
+  toggleLogo,
   updateDirectMode,
   updateLeadCapture,
   // updateProfileDesign,
@@ -110,10 +111,15 @@ const Settings = () => {
           width="w-[340px]"
           toggleValue={profileData?.profileDesign.hideCompanyLogo}
           toggleChange={() =>
-            dispatch(
-              setProfileDesign({
-                hideCompanyLogo: !profileData.profileDesign.hideCompanyLogo,
-              })
+            toggleLogo(
+              id,
+              profileData?.profileDesign.hideCompanyLogo,
+              (data: boolean) =>
+                dispatch(
+                  setProfileDesign({
+                    hideCompanyLogo: data,
+                  })
+                )
             )
           }
         />

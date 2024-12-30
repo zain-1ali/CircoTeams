@@ -56,8 +56,8 @@ const Profile_QrContainer = () => {
               enableCORS={true}
               fgColor={profileData.qrColor || "black"}
               logoOpacity={0.6}
-              logoWidth={90}
-              logoHeight={90}
+              logoWidth={50}
+              logoHeight={50}
               // eyeRadius={10}
             />
           </div>

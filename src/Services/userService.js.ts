@@ -130,3 +130,15 @@ console.log(error.message);
   showError("Email and Password are required to login")
 }
 }
+
+
+export const logoutUser=async(navigate:any)=>{
+  auth.signOut().then(()=>{
+    // navigate("/")
+    localStorage.removeItem("circoCompanyUid")
+    window.location.reload()
+   
+  }).catch((error)=>{
+    console.log(error.message);
+  })
+}

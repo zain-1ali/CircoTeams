@@ -134,7 +134,7 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
             <div className="w-[100px] rounded-r-[10px] bg-[#FAFAFB] h-[40px] mt-1 flex justify-center items-center">
               <Button
                 btnClasses="w-[73px] h-[28px] rounded-[50px] bg-[#B6EDFF] text-white font-[500] text-[12px] flex justify-center items-center relative pl-2"
-                onClick={() => {}}
+                onClick={() => window.open(socialLink?.value)}
                 icon={<RxExternalLink className="absolute left-3" />}
                 text="View"
               />

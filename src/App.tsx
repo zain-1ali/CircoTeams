@@ -65,9 +65,9 @@ function App() {
           <Route
             path="/myprofiles"
             element={
-              // <RequireAuth>
-              <MyProfiles />
-              // </RequireAuth>
+              <RequireAuth>
+                <MyProfiles />
+              </RequireAuth>
             }
           />
           <Route
