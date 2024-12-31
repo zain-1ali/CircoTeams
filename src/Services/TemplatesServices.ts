@@ -104,7 +104,7 @@ export const addMembersToTemplate=async(membersId:any,team:any,showError:any,sho
     }}
 
 
-export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
       
       if(membersId?.length===0){
         showError("Please select atleast one member to add")  
@@ -141,8 +141,10 @@ export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showErr
     try {
       const updatedIds = await Promise.all(reassignPromises);
       console.log("Updated IDs:", updatedIds);
+      if(independent){
       showSuccess("Members assigned successfully");
       setLoading(false)
+      }
     } catch (error) {
       console.error("Error updating objects:", error);
     setLoading(false)
@@ -156,3 +158,43 @@ export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showErr
       }
     
     }
+
+
+
+export const assignSubTeamToTemplate=async(subTeams:any,template:any,showError:any,showSuccess:any,setLoading:any)=>{
+
+if(subTeams?.length===0){
+    showError("Please select atleast one sub team to add")  
+    setLoading(false)
+    return
+}
+
+
+const subTeamsPromises=subTeams?.map(async(elm:any)=>{
+    if(elm?.templateId===template?.id){
+        return
+    }
+    const crntTeamMembers=typeof elm?.TemplateMembers==="object" ? Object?.values(elm?.TemplateMembers):[]
+    await update(ref(db, `SubTeams/${elm?.id}`), {templateId:template?.id}).then(()=>{
+        reassignMembersToTemplateV2(crntTeamMembers,template,showError,showSuccess,setLoading,false)
+    })
+
+  
+    
+})
+
+ try {
+      const updatedIds = await Promise.all(subTeamsPromises);
+      console.log("Updated IDs:", updatedIds);
+     
+      showSuccess("Template assigned successfully");
+      setLoading(false)
+    } catch (error) {
+      console.error("Error updating objects:", error);
+    setLoading(false)
+    }
+
+
+
+
+}

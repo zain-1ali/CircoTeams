@@ -246,7 +246,7 @@ export const media: Icon[] = [
     name: "Text",
     img: text2,
     placeholder: "Text*",
-    linkID: 25,
+    linkID: 26,
     baseUrl: "",
   },
   {
@@ -354,6 +354,10 @@ export const returnPngIcons = (id: number): string | undefined => {
       return spotify;
     case 24:
       return applemusic;
+    case 25:
+      return embdvdo;
+    case 26:
+      return text2;
     case 29:
       return gallery;
     case 27:

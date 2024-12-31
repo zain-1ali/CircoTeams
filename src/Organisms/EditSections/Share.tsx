@@ -77,7 +77,7 @@ const Share = () => {
             imgSrc={profileData.qrLogo || junk1}
             isShare={true}
             handleFileChange={handleFileChange}
-            removeImg={() => {}}
+            removeImg={() => dispatch(setQrLogo(""))}
           />
         </div>
       </div>

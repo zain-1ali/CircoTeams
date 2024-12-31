@@ -8,14 +8,18 @@ import { useState } from "react";
 //   reassignMembersTotemplateV2,
 // } from "../../Services/templatesServices";
 import useToastNotifications from "../../Hooks/useToastNotification";
-import { reassignMembersToTemplateV2 } from "../../Services/TemplatesServices";
+import {
+  assignSubTeamToTemplate,
+  reassignMembersToTemplateV2,
+} from "../../Services/TemplatesServices";
 
 const ReasignTemplate: React.FC<{
   templates: any[];
   selectedMemberRows: any[] | undefined;
   crntTemplate: any;
   onClose: () => void;
-}> = ({ templates, selectedMemberRows, crntTemplate, onClose }) => {
+  isSubTeam?: boolean;
+}> = ({ templates, selectedMemberRows, crntTemplate, onClose, isSubTeam }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
   const [selectedTemplate, setSelectedTemplate] = useState<object>({});
   const handleSelectTemplate = (templateId: string) => {
@@ -26,14 +30,34 @@ const ReasignTemplate: React.FC<{
     setSelectedTemplate(selectedtemplate);
   };
 
-//   const membersUid = selectedMemberRows?.map((member) => member?.id);
-//     console.log(selectedTeamId);
+  //   const membersUid = selectedMemberRows?.map((member) => member?.id);
+  //     console.log(selectedTeamId);
 
   const [loading, setLoading] = useState<boolean>(false);
 
   console.log(loading);
 
   const { showError, showSuccess } = useToastNotifications();
+
+  const handleSubmit = () => {
+    if (isSubTeam) {
+      assignSubTeamToTemplate(
+        selectedMemberRows,
+        selectedTemplate,
+        showError,
+        showSuccess,
+        setLoading
+      );
+    } else {
+      reassignMembersToTemplateV2(
+        selectedMemberRows,
+        selectedTemplate,
+        showError,
+        showSuccess,
+        setLoading
+      );
+    }
+  };
 
   return (
     <>
@@ -78,13 +102,7 @@ const ReasignTemplate: React.FC<{
                   //       showSuccess,
                   //       setLoading
                   //     )
-                  reassignMembersToTemplateV2(
-                    selectedMemberRows,
-                    selectedTemplate,
-                    showError,
-                    showSuccess,
-                    setLoading
-                  )
+                  handleSubmit()
             }
           />
           <Button

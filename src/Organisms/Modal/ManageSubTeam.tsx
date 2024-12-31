@@ -18,6 +18,7 @@ import {
 import { RxCross1 } from "react-icons/rx";
 import DropDown from "../DropDown/DropDown";
 import ReasignTeam from "../DropDown/ReasignTeam";
+import ReasignTemplate from "../DropDown/ReasignTemplate";
 
 const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   // getting all child profiles
@@ -31,6 +32,33 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   const [allProfiles, setAllProfiles] = useState<any>([]);
   // const [notMembers, setNotMembers] = useState<any>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
+  const [templates, setTemplates] = useState<any[]>([]);
+
+  const handleOpenTemplateFilter = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const openTemplate = Boolean(anchorEl2);
+  const handleCloseTemplate = () => {
+    setAnchorEl2(null);
+  };
+
+  const callBackFunc2 = (data: any) => {
+    setTemplates(Object.values(data));
+  };
+
+  useEffect(() => {
+    getMultipleChilds(
+      "Template",
+      "parentID",
+      companyId,
+      callBackFunc2,
+      setLoading
+    );
+  }, []);
 
   // getting Team members
 
@@ -154,7 +182,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
       companyId,
       callBackFunc,
       setLoading
-    );   
+    );
   }, []);
 
   console.log("sub teams", subteams);
@@ -230,13 +258,38 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
             text="Template"
             classes="font-[600] text-[14px] text-[#8D8D8D]"
           />
-          <div className="w-[100%] h-[40px] rounded-[10px] bg-[#FAFAFB] p-3 flex items-center justify-between">
+          <button
+            className="w-[100%] h-[40px] rounded-[10px] bg-[#FAFAFB] p-3 flex items-center justify-between outline-none"
+            id="reassignTemp-button"
+            aria-haspopup="listbox"
+            aria-controls="reassignTemp-menu"
+            onClick={handleOpenTemplateFilter}
+          >
             <Text
               text="No Template Selected"
               classes="font-[600] text-[12px] text-[#030229]"
             />
             <IoIosArrowDown />
-          </div>
+          </button>
+
+          <DropDown
+            id="reassignTemp-menu"
+            anchorEl={anchorEl2}
+            open={openTemplate}
+            onClose={handleCloseTemplate}
+            MenuListProps={{
+              "aria-labelledby": "reassignTemp-button",
+              role: "listbox",
+            }}
+          >
+            <ReasignTemplate
+              templates={templates}
+              selectedMemberRows={[team]}
+              crntTemplate={null}
+              onClose={handleCloseTemplate}
+              isSubTeam={true}
+            />
+          </DropDown>
         </div>
       </div>
 
