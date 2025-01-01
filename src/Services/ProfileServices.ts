@@ -569,7 +569,9 @@ export const updateUserName = async (
     id: string | undefined,
     showError: any,
     showSuccess: any,
-    setLoading: any
+    setLoading: any,
+    independent:boolean=true,
+    cb:any=()=>{}
   ) => {
     if (!username) {
       showError("Username should not be empty");
@@ -599,7 +601,12 @@ export const updateUserName = async (
         showError("Username already exists");
       } else {
         await update(ref(db, `User/${id}`), { username });
-        showSuccess("Username updated successfully");
+
+        if(independent){
+            showSuccess("Username updated successfully");
+        }else{
+            cb()
+        }
       }
     } catch (error) {
       console.error("Error updating username:", error);

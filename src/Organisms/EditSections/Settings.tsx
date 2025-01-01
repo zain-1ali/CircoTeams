@@ -47,7 +47,8 @@ const Settings = () => {
                 id,
                 showError,
                 showSuccess,
-                setLoading
+                setLoading,
+                
               )
             // updateProfileInfo(
             //   {

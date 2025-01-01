@@ -8,7 +8,10 @@ import UploadIcon from "../../Molecules/UploadIcon";
 import { setQrColor, setQrLogo } from "../../Redux/ProfileSlice";
 import junk1 from "../../assets/images/junk1.png";
 import ImageCropperModal from "../Cropper";
-import { updateProfileInfo } from "../../Services/ProfileServices";
+import {
+  updateProfileInfo,
+  updateUserName,
+} from "../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../Hooks/useToastNotification";
 
@@ -92,12 +95,20 @@ const Share = () => {
         btnText="Save"
         width="w-[416px] mt-2"
         onClick={() =>
-          updateProfileInfo(
-            { qrColor: profileData?.qrColor, qrLogo: profileData.qrLogo },
+          updateUserName(
+            profileData?.username,
             id,
             showError,
             showSuccess,
-            setLoading
+            setLoading,
+            false,
+            updateProfileInfo(
+              { qrColor: profileData?.qrColor, qrLogo: profileData.qrLogo },
+              id,
+              showError,
+              showSuccess,
+              setLoading
+            )
           )
         }
       />
