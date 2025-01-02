@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Text from "../../../Atoms/Text";
 import Button from "../../../Atoms/Button";
 import { CiSearch } from "react-icons/ci";
@@ -56,6 +56,10 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const dispatch = useAppDispatch();
   const [selectedLink, setSelectedLink] = React.useState<string>("All");
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<
+    { name: string; links: Icon[] }[]
+  >([]);
   const changeModeToAddLink = (link: Icon) => {
     console.log(link);
 
@@ -99,6 +103,30 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
     }
   }, [selectedLink]);
 
+  const handleSearch = () => {
+    if (!searchQuery.trim()) {
+      setLinkDataToMap([...allLinks]);
+      return;
+    }
+
+    const results: { name: string; links: Icon[] }[] = [];
+    allLinks.forEach((group) => {
+      group.links.forEach((icon) => {
+        if (icon.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+          results.push({ name: group.name, links: [icon] });
+        }
+      });
+    });
+
+    setLinkDataToMap(results);
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchQuery]);
+
+  console.log(searchResults, "searchResults");
+
   return (
     <div className="w-[100%] h-[100%] pb-4">
       <Text text="Add Link" classes="font-[600] text-[22px]" />
@@ -122,8 +150,8 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
           <Input
             placeholder="Search"
             classes="placeholder:text-[#B7B7B7] bg-transparent border-none outline-none w-[70%] "
-            value=""
-            onChange={() => {}}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
