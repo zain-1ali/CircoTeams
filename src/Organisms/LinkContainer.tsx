@@ -1,3 +1,4 @@
+import Button from "../Atoms/Button";
 import IOSSwitch from "../Atoms/CustomToggleBtn";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
@@ -45,21 +46,27 @@ const LinkContainer: React.FC<any> = ({
           classes="font-[600] text-[14px] w-[50%]"
         />
       </div>
-
-      {!directMode && (
-        <IOSSwitch
-          checked={link?.shareable}
-          onChange={() =>
-            updateLinkShareAble(
-              id,
-              link.id,
-              link?.shareable,
-              links,
-              (mode: any) => dispatch(setLinks(mode))
-            )
-          }
+      <div className="flex items-center gap-3">
+        <Button
+          btnClasses="h-[30px] w-[60px] bg-primary text-white text-[12px] font-[700] flex justify-center items-center rounded-full outline-none focus:outline-none"
+          onClick={() => {}}
+          text="Edit"
         />
-      )}
+        {!directMode && (
+          <IOSSwitch
+            checked={link?.shareable}
+            onChange={() =>
+              updateLinkShareAble(
+                id,
+                link.id,
+                link?.shareable,
+                links,
+                (mode: any) => dispatch(setLinks(mode))
+              )
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };

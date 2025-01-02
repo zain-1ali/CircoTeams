@@ -28,7 +28,13 @@ import ImageCropperModal from "../../Cropper";
 import { resetLinkData } from "../../../Redux/linkSlice";
 import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 
-const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
+const AddSingleLink: React.FC<webLinksProps> = ({
+  changeLinkMode,
+  linkToEdit,
+  linkIndex,
+}) => {
+  console.log(linkIndex);
+
   const dispatch = useAppDispatch();
   const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
@@ -36,6 +42,21 @@ const AddSingleLink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
+
+  useEffect(() => {
+    if (linkToEdit) {
+      dispatch(setSocialLinkValue(linkToEdit?.value || ""));
+      dispatch(setSocialLinkTitle(linkToEdit?.title || ""));
+      dispatch(setSocialLinkIsHighlighted(linkToEdit?.isLinkHighlighted));
+      dispatch(setSocialLinkName(linkToEdit?.name));
+      dispatch(setSocialLinkBaseurl(linkToEdit?.baseUrl));
+      dispatch(setSocialLinklinkID(linkToEdit?.linkID));
+      dispatch(
+        setSocialLinkHighlightedDesc(linkToEdit?.linkHighlightDescription)
+      );
+      dispatch(setSocialLinkImgUrl(linkToEdit?.linkImgUrl));
+    }
+  }, [linkToEdit]);
 
   const handleCancelbtn = () => {
     changeLinkMode("allLinks");

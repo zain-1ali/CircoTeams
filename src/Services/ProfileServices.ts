@@ -548,6 +548,25 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
     }
 }
 
+export const updateLink=(id:string | undefined,linkData:any,links:any ,showError:any,showSuccess:any,setLoading:any)=>{
+    setLoading(true);
+    const objectIndex = links?.findIndex((obj:any) => obj.id === linkData?.id);
+    if (objectIndex !== -1) {
+    //   const updatedObject = { ...links[objectIndex] };
+    //   const updatedArray = [...links];
+    //   updatedArray[objectIndex] = { ...updatedObject, ...linkData };
+      update(ref(db, `User/${id}/links/${objectIndex}`),{...linkData}).then(async () => {
+        console.log("Link updated successfully");
+        showSuccess("Link updated successfully");
+        setLoading(false);
+      }).catch((error) => {
+        console.log(error);
+        setLoading(false);
+        showError("Something went wrong");
+      });
+    }
+}
+
 
 export const updateProfileDesign=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
     if(data){

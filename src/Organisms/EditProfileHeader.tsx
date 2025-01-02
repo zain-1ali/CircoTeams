@@ -65,7 +65,7 @@ const EditProfileHeader = () => {
   }, [companyProfile?.id]);
 
   const handleCopy = (text: any) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText("https://circome.netlify.app/" + text);
     showSuccess("Copied to clipboard");
   };
 
