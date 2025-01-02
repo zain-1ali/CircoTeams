@@ -11,11 +11,13 @@ import {
   setCompany,
   setCoverUrl,
   setDirect,
+  setEmail,
   setFirstName,
   setJobTitle,
   setLastName,
   setLinks,
   setlogoUrl,
+  setPhone,
   setProfileDesign,
   setProfileName,
   setProfileUrl,
@@ -61,13 +63,15 @@ const EditprofileContent = () => {
     dispatch(toggleDirectMode(profileData?.directMode));
     dispatch(setUsername(profileData?.username));
     dispatch(setDirect(profileData?.direct));
+    dispatch(setEmail(profileData?.email));
+    dispatch(setPhone(profileData?.phone));
     console.log(profileData?.leadMode);
-    if (typeof profileData?.links === "object"){
+    if (typeof profileData?.links === "object") {
       dispatch(setLinks(Object.values(profileData?.links)));
     }
     dispatch(setProfileDesign(profileData?.profileDesign));
 
-    if (profileData?.profileDesign?.backgroundImage){
+    if (profileData?.profileDesign?.backgroundImage) {
       dispatch(
         setProfileDesign({
           backgroundImage: profileData?.profileDesign?.backgroundImage,
@@ -86,6 +90,20 @@ const EditprofileContent = () => {
     dispatch(setQrLogo(profileData?.qrLogo));
   }, [profileData?.id]);
 
+  const handleCancel = () => {
+    dispatch(setFirstName(profileData?.firstName));
+    dispatch(setLastName(profileData?.lastName));
+    dispatch(setJobTitle(profileData?.jobTitle));
+    dispatch(setAddress(profileData?.address));
+    dispatch(setProfileUrl(profileData?.profileUrl));
+    dispatch(setCoverUrl(profileData?.coverUrl));
+    dispatch(setlogoUrl(profileData?.logoUrl));
+    dispatch(setProfileName(profileData?.profileName));
+    dispatch(setCompany(profileData?.company));
+    dispatch(setEmail(profileData?.email));
+    dispatch(setPhone(profileData?.phone));
+  };
+
   return (
     <div className="w-[83%] h-[100%] bg-[#F7F7F8] flex justify-center">
       <div className="w-[95%] relative ">
@@ -96,7 +114,7 @@ const EditprofileContent = () => {
           }  bg-[white] absolute bottom-2 rounded-[20px]`}
         >
           <EditSidebar />
-          <EditContainer />
+          <EditContainer handleCancel={handleCancel}/>
           <Profile_QrContainer />
         </div>
       </div>

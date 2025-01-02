@@ -15,6 +15,7 @@ import {
   setJobTitle,
   setLastName,
   setlogoUrl,
+  setPhone,
   setProfileName,
   setProfileUrl,
 } from "../../Redux/ProfileSlice";
@@ -26,7 +27,7 @@ import { updateProfileInfo } from "../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import { updateTemplateInfo } from "../../Services/TemplatesServices";
 
-const EditInfo = () => {
+const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const dispatch = useAppDispatch();
   const { id } = useParams();
@@ -214,9 +215,10 @@ const EditInfo = () => {
             type="text"
             label="Email"
             onChange={() => {}}
-            value=""
+            value={profileData.email}
             inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            disabled={true}
           />
         </div>
         <div className="w-[48%]">
@@ -224,8 +226,9 @@ const EditInfo = () => {
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             flagBtnHeight="40px"
             flagBtnWidth="50px"
-            inputClasses="w-[90%] h-[40px] outline-none pl-2 bg-[#F7F7F8] rounded-md"
-            onChange={() => {}}
+            inputClasses="w-[90%] h-[40px] outline-none pl-2 bg-[#F7F7F8] rounded-r-md"
+            value={profileData.phone}
+            onChange={(data: any) => dispatch(setPhone(data))}
           />
         </div>
       </div>
@@ -234,7 +237,7 @@ const EditInfo = () => {
         <Button
           text="Cancel"
           btnClasses="text-[12px] font-[600] text-[#646464] w-[63px] h-[37px] rounded-[88px] bg-[#F0F0F0]"
-          onClick={() => {}}
+          onClick={() => handleCancel()}
         />
         <Button
           text="Save"
@@ -268,6 +271,7 @@ const EditInfo = () => {
                       coverUrl: profileData?.coverUrl || "",
                       jobTitle: profileData?.jobTitle || "",
                       profileName: profileData.profileName || "",
+                      phone: profileData.phone || "",
                     },
                     id,
                     showError,

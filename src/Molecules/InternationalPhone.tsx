@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { phoneInputProps } from "../Types";
@@ -7,11 +7,22 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   labelClasses = "font-[400] text-[15px] w-[100%] mt-5",
   flagBtnHeight = "47px",
   flagBtnWidth = "50px",
-  inputClasses = "w-[90%] h-[47px] outline-none pl-2 bg-[#F7F7F8] rounded-md",
+  inputClasses = "w-[70%] h-[47px] outline-none pl-2 bg-[#F7F7F8] rounded-md",
   value,
   onChange,
 }) => {
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("1");
+  const [phoneNum, setPhoneNum] = useState("");
+  useEffect(() => {
+    onChange(phone + " " + phoneNum);
+  }, [phoneNum, phone]);
+
+  useEffect(() => {
+    setPhone(value?.split(" ")[0] || "1");
+    setPhoneNum(value?.split(" ")[1] || "");
+  }, [value]);
+  console.log(phone);
+  console.log(value);
 
   return (
     <div className="">
@@ -86,16 +97,21 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
             dropdownClass="mydrop"
           />
         </div>
-        <input
-          type="tel"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={
-            flagBtnHeight === "47px" ? "Enter your phone number" : ""
-          }
-          className={inputClasses}
-          //   style={{ marginLeft: "10px", border: "1px solid black" }}
-        />
+        <div className="flex items-center">
+          <div className="w-[21%] h-[40px] bg-[#F7F7F8] rounded-l-md flex justify-center items-center">
+            +{phone}
+          </div>
+          <input
+            type="tel"
+            value={phoneNum}
+            onChange={(e) => setPhoneNum(e.target.value)}
+            placeholder={
+              flagBtnHeight === "47px" ? "Enter your phone number" : ""
+            }
+            className={inputClasses}
+            //   style={{ marginLeft: "10px", border: "1px solid black" }}
+          />
+        </div>
       </div>
     </div>
   );

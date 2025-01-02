@@ -57,9 +57,6 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const [selectedLink, setSelectedLink] = React.useState<string>("All");
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<
-    { name: string; links: Icon[] }[]
-  >([]);
   const changeModeToAddLink = (link: Icon) => {
     console.log(link);
 
@@ -125,7 +122,6 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
     handleSearch();
   }, [searchQuery]);
 
-  console.log(searchResults, "searchResults");
 
   return (
     <div className="w-[100%] h-[100%] pb-4">

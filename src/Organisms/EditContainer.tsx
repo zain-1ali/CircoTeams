@@ -5,14 +5,14 @@ import Links from "./EditSections/Links";
 import Settings from "./EditSections/Settings";
 import Share from "./EditSections/Share";
 
-const EditContainer = () => {
+const EditContainer:React.FC<any> = ({handleCancel}) => {
   const profileEditSection = useAppSelector(
     (state) => state.profileEditSectionHandeler.profileEditSectionStage
   );
   return (
     <div className="w-[53%] h-[100%]  flex justify-center">
       {profileEditSection === 0 ? (
-        <EditInfo />
+        <EditInfo handleCancel={handleCancel}/>
       ) : profileEditSection === 1 ? (
         <Links />
       ) : profileEditSection === 2 ? (
