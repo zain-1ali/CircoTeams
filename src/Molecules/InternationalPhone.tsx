@@ -7,7 +7,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   labelClasses = "font-[400] text-[15px] w-[100%] mt-5",
   flagBtnHeight = "47px",
   flagBtnWidth = "50px",
-  inputClasses = "w-[70%] h-[47px] outline-none pl-2 bg-[#F7F7F8] rounded-md",
+  inputClasses = "w-[80%] h-[40px] outline-none pl-2 bg-[#F7F7F8] ml-[-2px] rounded-[4px]",
   value,
   onChange,
 }) => {
