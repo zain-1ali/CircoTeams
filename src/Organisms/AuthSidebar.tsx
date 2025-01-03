@@ -17,6 +17,8 @@ import { setEmail, setFirstName, setLastName } from "../Redux/ProfileSlice";
 import { LoginUser } from "../Services/userService.js";
 import useToastNotifications from "../Hooks/useToastNotification.js";
 import { CircularProgress } from "@mui/material";
+import { IoEyeSharp } from "react-icons/io5";
+import { AiFillEyeInvisible } from "react-icons/ai";
 
 const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
   const innerHeight: number = window.innerHeight;
@@ -29,6 +31,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
     password: "",
     confirmPassword: "",
   });
+
+  const [isBoxChecked, setIsBoxChecked] = useState<boolean>(false);
 
   // pre-typed redux hooks
   const isSignupCreateProfile = useAppSelector(
@@ -46,7 +50,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
   const { showSuccess, showError } = useToastNotifications();
 
   const [loading, setLoading] = useState<boolean>(false);
-
+  let [showPass, setShowPass] = useState(false);
+  let [showPass2, setShowPass2] = useState(false);
   const permitToGoForward = () => {
     if (isSignin) {
       if (email && passwords?.password) {
@@ -59,7 +64,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
         email &&
         passwords?.password &&
         passwords?.confirmPassword &&
-        firstName
+        firstName &&
+        isBoxChecked
       ) {
         return true;
       } else {
@@ -125,9 +131,10 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <InputWithLabel
                     type="text"
                     label="First Name"
+                    placeholder="David"
                     onChange={(e) => dispatch(setFirstName(e.target.value))}
                     value={firstName}
-                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     labelClasses="font-[400] text-[15px] w-[100%] mt-2"
                   />
                 </div>
@@ -135,9 +142,10 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <InputWithLabel
                     type="text"
                     label="Last Name"
+                    placeholder="Ryan"
                     onChange={(e) => dispatch(setLastName(e.target.value))}
                     value={lastName}
-                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     labelClasses="font-[400] text-[15px] w-[100%] mt-2"
                   />
                 </div>
@@ -147,13 +155,17 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
               type="text"
               label="Email Address"
               onChange={(e) => dispatch(setEmail(e.target.value))}
+              placeholder="example@gmail.com"
               value={email}
-              inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+              inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               labelClasses="font-[400] text-[15px] w-[100%] mt-2"
             />
+            <div className="w-[100%] relative">
+            
             <InputWithLabel
-              type="password"
+              type={showPass ? "text" : "password"}
               label="Password"
+              placeholder="******"
               onChange={(e) => {
                 setPassword({
                   ...passwords,
@@ -161,14 +173,28 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                 })
               }}
               value={passwords?.password}
-              inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+              inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               labelClasses="font-[400] text-[15px] w-[100%] mt-3"
             />
+            {showPass ? (
+              <IoEyeSharp
+                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                onClick={() => setShowPass(false)}
+              />
+            ) : (
+              <AiFillEyeInvisible
+                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                onClick={() => setShowPass(true)}
+              />
+            )}
+            </div>
 
             {!isSignin && (
+              <div className="w-[100%] relative">
               <InputWithLabel
-                type="password"
+                type={showPass2 ? "text" : "password"}
                 label="Confirm Password"
+                placeholder="******"
                 onChange={(e) => {
                   setPassword({
                     ...passwords,
@@ -176,21 +202,45 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   });
                 }}
                 value={passwords?.confirmPassword}
-                inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+                inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 labelClasses="font-[400] text-[15px] w-[100%] mt-3"
               />
+              {showPass2 ? (
+              <IoEyeSharp
+                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                onClick={() => setShowPass2(false)}
+              />
+            ) : (
+              <AiFillEyeInvisible
+                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                onClick={() => setShowPass2(true)}
+              />
+            )}
+            </div>
             )}
             <div className="w-[100%] flex justify-between mt-2 items-center">
-              <CheckboxWithText
-                text={
-                  isSignin
-                    ? "Remember me"
-                    : "By creating an account you agree to the terms of use and our privacy policy."
-                }
-                state={false}
-                func={() => {}}
-                isSignin={isSignin}
-              />
+            <CheckboxWithText
+              text={
+                isSignin ? (
+                  "Remember me"
+                ) : (
+                  <>
+                    By creating an account you agree to the{" "}
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                      terms of use
+                    </a>{" "}
+                    and our{" "}
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                      privacy policy
+                    </a>.
+                  </>
+                )
+              }
+              state={isBoxChecked}
+              func={() => setIsBoxChecked(!isBoxChecked)}
+              isSignin={isSignin}
+            />
+
               {isSignin && (
                 <Button
                   onClick={() => {}}
@@ -222,13 +272,13 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                   <CircularProgress sx={{ color: "#ffffff" }} size={30} />
                 )
               }
-              btnClasses={`bg-primary text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-4 ${
-                permitToGoForward() === false && "opacity-[50%]"
+              btnClasses={`bg-primary text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-6 ${
+                permitToGoForward() === false && "opacity-[50%] pointer-events-none"
               }`}
             />
 
             <div
-              className={`w-[100%] flex justify-center items-center gap-1 ${
+              className={`w-[100%] flex justify-center items-center gap-1 mb-5 ${
                 innerHeight <= 700 ? "mt-2" : "mt-3"
               }`}
             >

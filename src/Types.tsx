@@ -94,7 +94,7 @@ export interface checkboxProps extends inputProps {
 }
 
 export interface checkboxTextProps {
-  text: string;
+  text: any;
   state: boolean;
   func: () => void;
   isSignin?: boolean | undefined;

@@ -31,25 +31,28 @@ const SignupCreateProofileStage1 = () => {
       <InputWithLabel
         type="text"
         label="Company"
+        placeholder="Company Name"
         onChange={(e) => dispatch(setCompany(e.target.value))}
         value={company}
-        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
       <InputWithLabel
         type="text"
         label="Job Title"
+        placeholder="Job Title"
         onChange={(e) => dispatch(setJobTitle(e.target.value))}
         value={jobTitle}
-        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
       <InputWithLabel
         type="text"
         label="Location"
+        placeholder="Location"
         onChange={(e) => dispatch(setAddress(e.target.value))}
         value={address}
-        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1"
+        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
       <CustomButton

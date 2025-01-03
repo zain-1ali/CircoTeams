@@ -11,6 +11,7 @@ const InputWithLabel: React.FC<inputWithLabelProps> = ({
   labelClasses,
   maxLength,
   disabled = false,
+  placeholder,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const InputWithLabel: React.FC<inputWithLabelProps> = ({
         onChange={onChange}
         classes={inputClasses}
         value={value}
+        placeholder={placeholder}
         maxLength={maxLength}
         disabled={disabled}
       />

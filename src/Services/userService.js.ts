@@ -119,8 +119,12 @@ if(credentials.email && credentials.password){
       window.location.reload()
                 },1000)
   }).catch((error)=>{
+    
     if(error.message==="Firebase: Error (auth/invalid-credential)."){
       showError("Invalid credentials")
+    }
+    else if(error.message==="Firebase: Error (auth/invalid-email)."){
+      showError("Invalid email")
     }
     setLoading(false)
 console.log(error.message);
