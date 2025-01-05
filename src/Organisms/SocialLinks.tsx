@@ -7,10 +7,11 @@ import Weblink from "../Molecules/SocialLinks/Weblink";
 export const SocialLinks = () => {
   const starterLinks = useAppSelector((state) => state.authLinkHandler.links);
   const socialLink = useAppSelector((state) => state?.socialLinkHandler.link);
-  console.log(socialLink?.name);
+  console.log(socialLink?.linkID);
   const linksData = useAppSelector((state) => state.profileHandler.links);
+  console.log(socialLink?.id, "here is id");
 
-  console.log(linksData);
+  const ifAddeed = linksData?.some((elm) => socialLink?.id === elm?.id);
 
   return (
     <div className="w-[100%] flex justify-center mt-4">
@@ -30,7 +31,9 @@ export const SocialLinks = () => {
           );
         })}
 
-        {linksData?.map((link) => {
+        {linksData?.map((singlelink) => {
+          const link =
+            socialLink?.id === singlelink?.id ? socialLink : singlelink;
           return link?.linkID === 999 ? (
             <Weblink {...link} />
           ) : link?.isLinkHighlighted ? (
@@ -56,29 +59,30 @@ export const SocialLinks = () => {
           );
         })}
 
-        {socialLink?.linkID === 999 ? (
-          <Weblink {...socialLink} />
-        ) : socialLink?.isLinkHighlighted ? (
-          <div className="w-[100%]">
+        {!ifAddeed &&
+          (socialLink?.linkID === 999 ? (
+            <Weblink {...socialLink} />
+          ) : socialLink?.isLinkHighlighted ? (
+            <div className="w-[100%]">
+              <motion.div
+                initial={{ opacity: 0, translateY: 10 }}
+                animate={{ opacity: 1, translateY: 0 }}
+                exit={{ opacity: 0, translateY: 10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {socialLink?.name && <Highlighted {...socialLink} />}
+              </motion.div>
+            </div>
+          ) : (
             <motion.div
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
               exit={{ opacity: 0, translateY: 10 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              {socialLink?.name && <Highlighted {...socialLink} />}
+              {socialLink?.name && <PrimaryLink {...socialLink} />}
             </motion.div>
-          </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, translateY: 10 }}
-            animate={{ opacity: 1, translateY: 0 }}
-            exit={{ opacity: 0, translateY: 10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            {socialLink?.name && <PrimaryLink {...socialLink} />}
-          </motion.div>
-        )}
+          ))}
       </div>
     </div>
   );

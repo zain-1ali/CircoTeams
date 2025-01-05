@@ -105,11 +105,14 @@ export const socialLinkSlice = createSlice({
       setGraphicDisplayText: (state, action: PayloadAction<string>) => {
         state.link.graphicDisplayText = action.payload;
       },
+      updateAllSocialLinkValues: (state, action: PayloadAction<SocialLinkProps["link"]>) => {
+        state.link = { ...action.payload };
+      },
   },
 });
 
 // Export the actions
-export const { setGraphicLinkIcon,setBtnImageUrl,setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl,setWebLinkStyle,setGraphicImgUrl,setGraphicDisplayType,resetSocialLink,setGraphicDisplayText,setGraphicLinkTextColor } = socialLinkSlice.actions;
+export const { setGraphicLinkIcon,setBtnImageUrl,setSocialLinkValue, setSocialLinkTitle,setSocialLinkIsHighlighted,setSocialLinkHighlightedDesc,setSocialLinkName,setSocialLinkBaseurl,setSocialLinklinkID,setSocialLinkImgUrl,setWebLinkStyle,setGraphicImgUrl,setGraphicDisplayType,resetSocialLink,setGraphicDisplayText,setGraphicLinkTextColor,updateAllSocialLinkValues } = socialLinkSlice.actions;
 
 export default socialLinkSlice.reducer;
 

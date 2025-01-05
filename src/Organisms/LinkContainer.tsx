@@ -14,6 +14,7 @@ const LinkContainer: React.FC<any> = ({
   directMode,
   id,
   links,
+  setLinkToEdit,
 }) => {
   const dispatch = useAppDispatch();
   return (
@@ -42,14 +43,14 @@ const LinkContainer: React.FC<any> = ({
           classes="h-[36px] w-[36px] object-cover"
         />
         <Text
-          text={link.name || link.title}
+          text={link.title || link.name}
           classes="font-[600] text-[14px] w-[50%]"
         />
       </div>
       <div className="flex items-center gap-3">
         <Button
           btnClasses="h-[30px] w-[60px] bg-primary text-white text-[12px] font-[700] flex justify-center items-center rounded-full outline-none focus:outline-none"
-          onClick={() => {}}
+          onClick={() => setLinkToEdit(link)}
           text="Edit"
         />
         {!directMode && (

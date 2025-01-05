@@ -20,7 +20,7 @@ import {
   setSocialLinkValue,
 } from "../../../Redux/socialLinkSlice";
 import { motion } from "framer-motion";
-import { addLinkToDb } from "../../../Services/ProfileServices";
+import { addLinkToDb, updateLink } from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
@@ -30,33 +30,31 @@ import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 
 const AddSingleLink: React.FC<webLinksProps> = ({
   changeLinkMode,
-  linkToEdit,
-  linkIndex,
+  linkEdit = false,
 }) => {
-  console.log(linkIndex);
-
   const dispatch = useAppDispatch();
   const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const profileData = useAppSelector((state) => state.profileHandler);
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(loading);
 
-  useEffect(() => {
-    if (linkToEdit) {
-      dispatch(setSocialLinkValue(linkToEdit?.value || ""));
-      dispatch(setSocialLinkTitle(linkToEdit?.title || ""));
-      dispatch(setSocialLinkIsHighlighted(linkToEdit?.isLinkHighlighted));
-      dispatch(setSocialLinkName(linkToEdit?.name));
-      dispatch(setSocialLinkBaseurl(linkToEdit?.baseUrl));
-      dispatch(setSocialLinklinkID(linkToEdit?.linkID));
-      dispatch(
-        setSocialLinkHighlightedDesc(linkToEdit?.linkHighlightDescription)
-      );
-      dispatch(setSocialLinkImgUrl(linkToEdit?.linkImgUrl));
-    }
-  }, [linkToEdit]);
+  // useEffect(() => {
+  //   if (linkToEdit) {
+  //     console.log(linkToEdit);
+
+  //     dispatch(setSocialLinkValue(linkToEdit?.value || ""));
+  //     dispatch(setSocialLinkTitle(linkToEdit?.title || ""));
+  //     dispatch(setSocialLinkIsHighlighted(linkToEdit?.isLinkHighlighted));
+  //     dispatch(setSocialLinkName(linkToEdit?.name));
+  //     dispatch(setSocialLinkBaseurl(linkToEdit?.baseUrl));
+  //     dispatch(setSocialLinklinkID(linkToEdit?.linkID));
+  //     dispatch(
+  //       setSocialLinkHighlightedDesc(linkToEdit?.linkHighlightDescription)
+  //     );
+  //     dispatch(setSocialLinkImgUrl(linkToEdit?.linkImgUrl));
+  //   }
+  // }, [linkToEdit]);
 
   const handleCancelbtn = () => {
     changeLinkMode("allLinks");
@@ -84,9 +82,12 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   };
 
   useEffect(() => {
-    dispatch(setSocialLinkName(linkInfo?.name));
-    dispatch(setSocialLinkBaseurl(linkInfo.baseUrl));
-    dispatch(setSocialLinklinkID(linkInfo.linkID));
+    if (!linkEdit) {
+      // console.log("it is working");
+      dispatch(setSocialLinkName(linkInfo?.name));
+      dispatch(setSocialLinkBaseurl(linkInfo.baseUrl));
+      dispatch(setSocialLinklinkID(linkInfo.linkID));
+    }
   }, [linkInfo]);
 
   const { showError, showSuccess } = useToastNotifications();
@@ -126,6 +127,29 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       setOpen(false);
     });
   };
+  console.log(socialLink?.linkID, "linkID");
+
+  const handleAddLinkToDb = () => {
+    if (socialLink?.placeholder) {
+      updateLink(
+        { ...socialLink },
+        id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+    } else {
+      addLinkToDb(
+        { ...socialLink, placeholder: linkInfo?.placeholder },
+        id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+    }
+  };
 
   return (
     <div className="w-[100%] h-[100%] flex">
@@ -140,7 +164,10 @@ const AddSingleLink: React.FC<webLinksProps> = ({
         </div> */}
         <div className="mt-10">
           <UploadIcon
-            imgSrc={socialLink?.linkImgUrl || returnPngIcons(linkInfo.linkID)}
+            imgSrc={
+              socialLink?.linkImgUrl ||
+              returnPngIcons(linkInfo.linkID || socialLink?.linkID || 999)
+            }
             isShare={false}
             handleFileChange={handleFileChange}
             removeImg={() => dispatch(setSocialLinkImgUrl(""))}
@@ -151,7 +178,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
           <div>
             <InputWithLabel
               type="text"
-              label={linkInfo?.placeholder}
+              label={linkInfo?.placeholder || socialLink?.placeholder || ""}
               onChange={(e) => dispatch(setSocialLinkValue(e.target.value))}
               value={socialLink?.value}
               inputClasses="w-[265px] h-[40px] bg-[#FAFAFB] rounded-[10px] outline-none mt-1 pl-2"
@@ -233,22 +260,23 @@ const AddSingleLink: React.FC<webLinksProps> = ({
               socialLink?.value
                 ? profileData?.profileTitle === "circoTemplate"
                   ? addLinkToTemplate(
-                      socialLink,
+                      { ...socialLink, placeholder: linkInfo?.placeholder },
                       profileData?.id,
                       profileData?.links,
                       showError,
                       showSuccess,
                       handleLoading
                     )
-                  : addLinkToDb(
-                      socialLink,
-                      id,
-                      profileData?.links,
-                      showError,
-                      showSuccess,
-                      handleLoading
-                    )
-                : () => {}
+                  : handleAddLinkToDb()
+                : // addLinkToDb(
+                  //     { ...socialLink, placeholder: linkInfo?.placeholder },
+                  //     id,
+                  //     profileData?.links,
+                  //     showError,
+                  //     showSuccess,
+                  //     handleLoading
+                  //   )
+                  () => {}
             }
             text="Save"
           />

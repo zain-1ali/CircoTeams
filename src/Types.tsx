@@ -330,8 +330,7 @@ export interface uploadIconProps {
 
 export interface allLinksProps {
   changeLinkMode: (type: string) => void;
-  linkToEdit?: Link | null;
-  linkIndex?: number;
+  linkEdit?: boolean;
 }
 
 export interface addLinksProps extends allLinksProps {}

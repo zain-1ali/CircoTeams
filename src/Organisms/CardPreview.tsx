@@ -18,6 +18,20 @@ const CardPreview: React.FC<cardPreview> = ({ isAuth }) => {
     <div
       className={`w-[272px] flex justify-center  overflow-y-scroll absolute z-20 ${
         innerHeight <= 700 && isAuth ? "h-[589px]" : "h-[589px]"
+      } ${
+        profileData?.profileDesign?.profileFont === "1"
+          ? "inika"
+          : profileData?.profileDesign?.profileFont === "2"
+          ? "gugi"
+          : profileData?.profileDesign?.profileFont === "3"
+          ? "gothic"
+          : profileData?.profileDesign?.profileFont === "4"
+          ? "marckScript"
+          : profileData?.profileDesign?.profileFont === "5"
+          ? "chivo"
+          : profileData?.profileDesign?.profileFont === "6"
+          ? "sf"
+          : "sf"
       }  border rounded-[26px] shadow-lg`}
       style={{ backgroundColor: profileData?.profileDesign?.backgroundColor }}
     >

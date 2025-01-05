@@ -5,6 +5,7 @@ import Image from "../../Atoms/Image";
 import { Link } from "../../Types";
 import { hexToRGBA } from "../../utils/hexToRGBA";
 import { useAppSelector } from "../../Hooks/reduxHooks";
+import { returnWhiteIcons } from "../../assets/ReturnWhiteIcons";
 
 const Highlighted: React.FC<Link> = (link) => {
   const profileDesign = useAppSelector(
@@ -12,6 +13,7 @@ const Highlighted: React.FC<Link> = (link) => {
   );
   const highlightBoxStyle = profileDesign.highlightBoxStyle;
   const boxBackgroundColor = profileDesign.boxBackgroundColor;
+  const appIconColor = profileDesign?.appIconColor;
   return (
     <div
       className="w-[100%] h-[80px]  rounded-[17px]  flex items-center px-4 gap-3 "
@@ -45,10 +47,23 @@ const Highlighted: React.FC<Link> = (link) => {
             }
       }
     >
-      <Image
-        src={link?.linkImgUrl || returnPngIcons(link?.linkID)}
-        classes="h-[45px] w-[45px] rounded-[9px]"
-      />
+      {appIconColor ? (
+        <div
+          className="h-[45px] w-[45px] rounded-[9px] flex justify-center items-center"
+          style={{ backgroundColor: profileDesign?.appIconColor }}
+        >
+          {returnWhiteIcons({
+            id: link?.linkID,
+            appcolor: appIconColor,
+            size: 30,
+          })}
+        </div>
+      ) : (
+        <Image
+          src={link?.linkImgUrl || returnPngIcons(link?.linkID)}
+          classes="h-[45px] w-[45px] rounded-[9px]"
+        />
+      )}
       <div>
         <p
           className="font-[700] text-[10px]"

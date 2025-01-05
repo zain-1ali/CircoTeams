@@ -60,7 +60,7 @@ const initialState: UserProfile = {
     hideCompanyLogo: false,
     hideSaveContact: false,
     highlightBoxStyle: "style2",
-    profileFont: "3",
+    profileFont: "1",
     saveContactBackgroundColor: "#000000",
     saveContactStyle: "style4",
     saveContactTextColor: "#000000",

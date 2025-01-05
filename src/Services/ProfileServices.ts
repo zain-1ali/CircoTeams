@@ -537,8 +537,9 @@ export const updateDirect=(id:string | undefined,setDirect:any,link:any,directMo
 
 export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
     console.log("link added to profile");
+    const existingLinks=Array.isArray(links) ? links :[]
     if(data){
-        set(ref(db, `User/${id}/links`),[...links,{...data}]).then(()=>{
+        set(ref(db, `User/${id}/links`),[...existingLinks,{...data}]).then(()=>{
             setLoading(false)
             showSuccess("Link added sucessfully")
         }).catch((Error)=>{
@@ -548,7 +549,7 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
     }
 }
 
-export const updateLink=(id:string | undefined,linkData:any,links:any ,showError:any,showSuccess:any,setLoading:any)=>{
+export const updateLink=(linkData:any,id:string | undefined,links:any ,showError:any,showSuccess:any,setLoading:any)=>{
     setLoading(true);
     const objectIndex = links?.findIndex((obj:any) => obj.id === linkData?.id);
     if (objectIndex !== -1) {

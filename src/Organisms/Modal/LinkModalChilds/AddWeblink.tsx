@@ -27,7 +27,7 @@ import {
   setWebLinkStyle,
 } from "../../../Redux/socialLinkSlice";
 // import { motion } from "framer-motion";
-import { addLinkToDb } from "../../../Services/ProfileServices";
+import { addLinkToDb, updateLink } from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 // import { useUploadFile } from "../../../Hooks/useUploadFile";
@@ -36,8 +36,12 @@ import Image from "../../../Atoms/Image";
 import Icon from "../../WebLinkMode/Icon";
 import ImageMode from "../../WebLinkMode/Image";
 import ButtonMode from "../../WebLinkMode/Button";
+import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 
-const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
+const AddWeblink: React.FC<webLinksProps> = ({
+  changeLinkMode,
+  linkEdit = false,
+}) => {
   const dispatch = useAppDispatch();
   // const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
@@ -82,8 +86,34 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
   };
 
   useEffect(() => {
-    handleWebLinkMode("style1");
+    if (!linkEdit) {
+      handleWebLinkMode("style1");
+    }
   }, []);
+
+  const ifAddeed = profileData.links?.some((elm) => socialLink?.id === elm?.id);
+
+  const handleAddLinkToDb = () => {
+    if (ifAddeed) {
+      updateLink(
+        socialLink,
+        id,
+        profileData.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+    } else {
+      addLinkToDb(
+        socialLink,
+        id,
+        profileData.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+    }
+  };
 
   return (
     <div className="w-[100%] h-[100%] flex">
@@ -107,14 +137,16 @@ const AddWeblink: React.FC<webLinksProps> = ({ changeLinkMode }) => {
               onClick={() =>
                 socialLink?.value &&
                 (socialLink?.title || socialLink?.graphicDisplayText)
-                  ? addLinkToDb(
-                      socialLink,
-                      id,
-                      profileData.links,
-                      showError,
-                      showSuccess,
-                      handleLoading
-                    )
+                  ? profileData?.profileTitle === "circoTemplate"
+                    ? addLinkToTemplate(
+                        socialLink,
+                        id,
+                        profileData.links,
+                        showError,
+                        showSuccess,
+                        handleLoading
+                      )
+                    : handleAddLinkToDb()
                   : () => {}
               }
               text="Save"

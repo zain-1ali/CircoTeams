@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo:ital@0;1&family=Didact+Gothic&family=Gugi&family=Inika:wght@400;700&family=Marck+Script&display=swap');
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./fonts/sfPro.OTF') format('opentype'); /* Adjust the font file path and format as needed */
+  /* Add more font-face rules for different font weights and styles if required */
+}
+
+@font-face {
+  font-family: 'Gerogia';
+  src: url('./fonts/georgia.ttf') format('opentype'); /* Adjust the font file path and format as needed */
+  /* Add more font-face rules for different font weights and styles if required */
+}
+*{
+  margin: 0;
+  padding: 0; 
+}
+.sf{
+  font-family: 'SF Pro Display', sans-serif;
+}
+.inika{
+  font-family: 'Inika', sans-serif;
+}
+
+.chivo{
+  font-family: 'Chivo', sans-serif;
+}
+
+.gothic{
+  font-family: 'Didact Gothic', sans-serif;
+}
+.gugi{
+  font-family: 'Gugi', sans-serif;
+}
+.marckScript{
+  /* font-family: 'Marck Script', sans-serif; */
+  font-family: 'Georgia', sans-serif;
+}
+
+.sfbold{
+  font-family: 'SF Pro Bold', sans-serif;
+}
+
+.georgia{
+  font-family: 'Georgia', sans-serif;
+}

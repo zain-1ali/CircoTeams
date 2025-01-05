@@ -18,6 +18,8 @@ const Design = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
 
+  
+
   console.log(loading);
 
   // const handleCropComplete = (croppedImage: string) => {

@@ -7,7 +7,10 @@ import { useState } from "react";
 import LinkModal from "../Modal/LinkModal";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { resetLinkData } from "../../Redux/linkSlice";
-import { resetSocialLink } from "../../Redux/socialLinkSlice";
+import {
+  resetSocialLink,
+  updateAllSocialLinkValues,
+} from "../../Redux/socialLinkSlice";
 import {
   setDirect,
   toggleDirectMode,
@@ -20,9 +23,13 @@ import {
   updateDirectMode,
   updateLeadCapture,
 } from "../../Services/ProfileServices";
+import AddSingleLink from "../Modal/LinkModalChilds/AddSingleLink";
+import AddWeblink from "../Modal/LinkModalChilds/AddWeblink";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
+  const [editLinkModal, setEditLinkModal] = useState<boolean>(false);
+  const [editLinkWebModal, setEditWebLinkModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   console.log(window.innerHeight);
@@ -32,6 +39,26 @@ const Links = () => {
     dispatch(resetSocialLink());
     setLinkModal(false);
   };
+
+  const handleCloseEditLinkModal = () => {
+    setEditLinkModal(false);
+    dispatch(resetSocialLink());
+  };
+  const handleOpenEditLinkModal = (link: any) => {
+    if (link?.linkID === 999) {
+      dispatch(updateAllSocialLinkValues(link));
+      setEditWebLinkModal(true);
+    } else {
+      dispatch(updateAllSocialLinkValues(link));
+      setEditLinkModal(true);
+    }
+  };
+
+  const handleCloseEditWebLinkModal = () => {
+    setEditWebLinkModal(false);
+    dispatch(resetSocialLink());
+  };
+
   console.log(profileData.leadMode, "leadmode2");
 
   return (
@@ -85,6 +112,7 @@ const Links = () => {
                 directMode={profileData?.directMode}
                 id={id}
                 links={profileData?.links}
+                setLinkToEdit={handleOpenEditLinkModal}
               />
             );
           })
@@ -93,11 +121,30 @@ const Links = () => {
             No links to show
           </div>
         )}
-        {/* // <LinkContainer />
-        // <LinkContainer />
-        // <LinkContainer /> */}
       </div>
 
+      {/* Modal use for edit the link  */}
+      <CustomModal
+        open={editLinkModal}
+        onClose={() => handleCloseEditLinkModal()}
+        style={{ height: 595, width: 956, borderRadius: "33px", p: 4 }}
+      >
+        <AddSingleLink
+          changeLinkMode={handleCloseEditLinkModal}
+          linkEdit={true}
+        />
+      </CustomModal>
+
+      {/* Modal use for edit the web link  */}
+      <CustomModal
+        open={editLinkWebModal}
+        onClose={() => handleCloseEditWebLinkModal()}
+        style={{ height: 595, width: 956, borderRadius: "33px", p: 4 }}
+      >
+        <AddWeblink changeLinkMode={handleCloseEditLinkModal} linkEdit={true} />
+      </CustomModal>
+
+      {/* Modal use for add the link  */}
       <CustomModal
         open={linkModal}
         onClose={() => handleCloseLinkModal()}

@@ -22,13 +22,22 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
       {" "}
       <Text text={colorType} classes="font-[600] text-[12px] text-[#8D8D8D]" />
       <div
-        className={`flex items-center ${
+        className={`flex items-center relative ${
           colorType === "App Icon Color" ? "gap-[7px]" : "gap-[15px]"
         } h-[40px]`}
       >
-        <Image
-          src={i10}
-          classes="h-[20px] w-[20px] object-cover cursor-pointer"
+        <label htmlFor="colorSelect">
+          <Image
+            src={i10}
+            classes="h-[20px] w-[20px] object-cover cursor-pointer"
+          />
+        </label>
+        <input
+          type="color"
+          style={{ display: "none" }}
+          className="absolute bottom-0 left-0"
+          id="colorSelect"
+          onChange={(e) => handleChangeColor(e.target.value)}
         />
         {colors?.map((elm) => {
           return (
