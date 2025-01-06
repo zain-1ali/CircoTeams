@@ -15,9 +15,25 @@ import CustomModal from "../Organisms/Modal/Modal";
 import { useState } from "react";
 import ManageSubTeam from "../Organisms/Modal/ManageSubTeam";
 import Checkbox from "../Atoms/Checkbox";
+import DropDown from "../Organisms/DropDown/DropDown";
+import SubTeamDropDown from "../Organisms/DropDown/SubTeamDropDown";
+import { removeTeams } from "../Services/SubTeamsServices";
+import useToastNotifications from "../Hooks/useToastNotification";
 
 const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  console.log(loading);
+
+  const handleOpenFonts = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
+  const { showError, showSuccess } = useToastNotifications();
+  const openFonts = Boolean(anchorEl);
+  const handleCloseFont = () => {
+    setAnchorEl(null); // Close the menu
+  };
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleRowSelect(
@@ -26,6 +42,10 @@ const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
       },
       e.target.checked
     );
+  };
+
+  const handleDelete = () => {
+    removeTeams([team], showError, showSuccess, setLoading);
   };
   return (
     <div className="w-[30%] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
@@ -44,7 +64,27 @@ const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
           /> */}
           <Text text={team?.name} classes="font-[600] text-[12px]" />
         </div>
-        <BsThreeDots className="text-[#CDCCD4] cursor-pointer text-lg" />
+        <button
+          id="reassign-button"
+          aria-haspopup="listbox"
+          aria-controls="reassign-menu"
+          onClick={handleOpenFonts}
+        >
+          <BsThreeDots className="text-[#CDCCD4] cursor-pointer text-lg" />
+        </button>
+
+        <DropDown
+          id="reassign-menu"
+          anchorEl={anchorEl}
+          open={openFonts}
+          onClose={handleCloseFont}
+          MenuListProps={{
+            "aria-labelledby": "reassign-button",
+            role: "listbox",
+          }}
+        >
+          <SubTeamDropDown handleDelete={handleDelete} />
+        </DropDown>
       </div>
       <div className="flex gap-[10px] mt-3">
         <Button

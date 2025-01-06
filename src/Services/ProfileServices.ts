@@ -597,9 +597,12 @@ export const updateUserName = async (
       showError("Username should not be empty");
       return;
     }
+
+   
+    
   
     const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
-    if (!usernameRegex.test(username)) {
+    if (!usernameRegex.test(username)){
       showError("Username should be 3-15 characters long and can only contain letters, numbers, underscores, and hyphens");
       return;
     }
@@ -617,6 +620,9 @@ export const updateUserName = async (
       const snapshot = await get(starCountRef);
       const data = snapshot.val();
   
+// console.log(Object.keys(data)[0],"here is id");
+
+
       if (data && Object.keys(data)[0] !== id) {
         showError("Username already exists");
       } else {

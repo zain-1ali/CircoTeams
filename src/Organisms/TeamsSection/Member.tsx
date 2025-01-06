@@ -17,20 +17,56 @@ const Member = () => {
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
 
+  // const getCompanyProfile = (data: any) => {
+  //   if (data) {
+  //     setFilteredConnections((prev) => [...prev, Object.values(data)?.[0]]);
+  //     setAllProfiles((prev: any) => [...prev, Object.values(data)?.[0]]);
+  //   }
+  // };
+
+  // const getAllProfiles = (data: object) => {
+  //   const profiles = Object.values(data);
+  //   console.log(profiles);
+
+  //   if (data && Array.isArray(profiles)) {
+  //     setFilteredConnections((prev) => [...prev, ...profiles]);
+  //     setAllProfiles((prev: any) => [...prev, ...profiles]);
+  //   }
+  // };
+
   const getCompanyProfile = (data: any) => {
-    if (data) {
-      setFilteredConnections((prev) => [...prev, Object.values(data)?.[0]]);
-      setAllProfiles((prev: any) => [...prev, Object.values(data)?.[0]]);
-    }
+    console.log(data);
+
+    // if (data) {
+    //   const profile: any = Object.values(data)?.[0];
+    //   setFilteredConnections((prev) =>
+    //     prev.some((item) => item.id === profile?.id) ? prev : [...prev, profile]
+    //   );
+    //   setAllProfiles((prev: any) =>
+    //     prev.some((item: any) => item.id === profile?.id)
+    //       ? prev
+    //       : [...prev, profile]
+    //   );
+    // }
   };
 
   const getAllProfiles = (data: object) => {
     const profiles = Object.values(data);
-    console.log(profiles);
-
     if (data && Array.isArray(profiles)) {
-      setFilteredConnections((prev) => [...prev, ...profiles]);
-      setAllProfiles((prev: any) => [...prev, ...profiles]);
+      // setFilteredConnections((prev) =>
+      //   [...prev, ...profiles].filter(
+      //     (item, index, self) =>
+      //       index === self.findIndex((t) => t.id === item.id)
+      //   )
+      // );
+      setFilteredConnections(profiles);
+      // setAllProfiles((prev: any) =>
+      //   [...prev, ...profiles].filter(
+      //     (item, index, self) =>
+      //       index === self.findIndex((t) => t.id === item.id)
+      //   )
+      // );
+      setAllProfiles(profiles);
     }
   };
 

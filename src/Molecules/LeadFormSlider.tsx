@@ -1,8 +1,9 @@
 import { Box, Slide } from "@mui/material";
-import { RxCross1 } from "react-icons/rx";
-import { 
-  // useAppDispatch, 
-  useAppSelector } from "../Hooks/reduxHooks";
+// import { RxCross1 } from "react-icons/rx";
+import {
+  // useAppDispatch,
+  useAppSelector,
+} from "../Hooks/reduxHooks";
 // import { toggleLeadMode } from "../Redux/ProfileSlice";
 
 const LeadFormSlider = () => {
@@ -44,17 +45,17 @@ const LeadFormSlider = () => {
           className={`h-[100%] w-[100%] overflow-y-scroll scrollbar-hide flex flex-col rounded-t-[30px] items-center  bg-white shadow-2xl`}
           //   style={{ marginRight: screenWidth >= 900 ? "15px" : "0px" }}
         >
-          <div className="w-[92%] flex justify-end mt-[15px]">
+          {/* <div className="w-[92%] flex justify-end mt-[15px]">
             <RxCross1
               className="text-xl cursor-pointer"
               onClick={() => {
                 // dispatch(toggleLeadMode());
               }}
             />
-          </div>
+          </div> */}
           <>
             <div
-              className="w-[100%]  flex justify-center"
+              className="w-[100%]  flex justify-center mt-3"
               style={{
                 // fontFamily: "Inter",
                 fontSize: "26px",

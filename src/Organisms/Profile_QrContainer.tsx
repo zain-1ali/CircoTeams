@@ -36,7 +36,9 @@ const Profile_QrContainer = () => {
           />
 
           <QRCode
-            value={`https://www.test.com`}
+            value={`https://circome.netlify.app/${
+              profileData?.username || profileData?.id
+            }`}
             size={200}
             logoImage={profileData.qrLogo}
             fgColor={profileData.qrColor || "black"}
@@ -50,7 +52,9 @@ const Profile_QrContainer = () => {
           <div style={{ display: "none" }}>
             <QRCode
               id="qrCodeEl"
-              value={`https://www.test.com`}
+              value={`https://circome.netlify.app/${
+                profileData?.username || profileData?.id
+              }`}
               size={200}
               logoImage={profileData.qrLogo}
               enableCORS={true}

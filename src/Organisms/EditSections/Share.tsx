@@ -102,13 +102,14 @@ const Share = () => {
             showSuccess,
             setLoading,
             false,
-            updateProfileInfo(
-              { qrColor: profileData?.qrColor, qrLogo: profileData.qrLogo },
-              id,
-              showError,
-              showSuccess,
-              setLoading
-            )
+            () =>
+              updateProfileInfo(
+                { qrColor: profileData?.qrColor, qrLogo: profileData.qrLogo },
+                id,
+                showError,
+                showSuccess,
+                setLoading
+              )
           )
         }
       />
