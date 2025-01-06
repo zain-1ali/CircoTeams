@@ -18,8 +18,6 @@ const Design = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
 
-  
-
   console.log(loading);
 
   // const handleCropComplete = (croppedImage: string) => {
@@ -79,7 +77,7 @@ const Design = () => {
           text="Save"
           btnClasses="text-[12px] font-[600] text-white w-[138px] h-[37px] rounded-[88px] bg-[#2B6EF6]"
           onClick={() => {
-            profileData?.profileTitle === "circoTemplate"
+            profileData?.profileType === "circoTemplate"
               ? updateTemplateDesign(
                   profileData?.profileDesign,
                   profileData?.id,

@@ -37,7 +37,6 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-
   console.log(loading);
 
   const handleFileChange = (
@@ -245,16 +244,19 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           btnClasses="text-[12px] font-[600] text-white w-[138px] h-[37px] rounded-[88px] bg-[#2B6EF6]"
           onClick={
             () => {
-              profileData?.profileTitle === "circoTemplate"
+              profileData?.profileType === "circoTemplate"
                 ? updateTemplateInfo(
                     {
-                      company: profileData?.company,
-                      address: profileData?.address,
-                      profileUrl: profileData?.profileUrl,
-                      logoUrl: profileData?.logoUrl,
-                      coverUrl: profileData?.coverUrl,
-                      jobTitle: profileData?.jobTitle,
-                      profileName: profileData.profileName,
+                      firstName: profileData?.firstName || "",
+                      lastName: profileData?.lastName || "",
+                      company: profileData?.company || "",
+                      address: profileData?.address || "",
+                      profileUrl: profileData?.profileUrl || "",
+                      logoUrl: profileData?.logoUrl || "",
+                      coverUrl: profileData?.coverUrl || "",
+                      jobTitle: profileData?.jobTitle || "",
+                      profileName: profileData.profileName || "",
+                      phone: profileData.phone || "",
                     },
                     profileData?.id,
                     showError,

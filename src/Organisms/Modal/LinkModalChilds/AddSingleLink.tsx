@@ -258,7 +258,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
             }`}
             onClick={() =>
               socialLink?.value
-                ? profileData?.profileTitle === "circoTemplate"
+                ? profileData?.profileType === "circoTemplate"
                   ? addLinkToTemplate(
                       { ...socialLink, placeholder: linkInfo?.placeholder },
                       profileData?.id,

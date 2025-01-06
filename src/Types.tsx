@@ -432,6 +432,7 @@ export interface UserProfile {
   profileOn: number;
   profileSelected: string;
   profileTitle: string;
+  profileType: string;
   profileUrl: string | null;
   qrColor: string;
   qrLogo: string;

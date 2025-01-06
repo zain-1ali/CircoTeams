@@ -20,6 +20,7 @@ import {
   setProfileDesign,
   setProfileName,
   setProfileTitle,
+  setProfileType,
   setProfileUrl,
   setQrColor,
   setQrLogo,
@@ -42,6 +43,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     dispatch(setProfileName(templateData?.profileName));
     dispatch(setCompany(templateData?.company));
     dispatch(setProfileTitle(templateData?.profileTitle));
+    dispatch(setProfileType(templateData?.profileType));
     if (typeof templateData?.links === "object") {
       dispatch(setLinks(Object.values(templateData?.links)));
     } else {

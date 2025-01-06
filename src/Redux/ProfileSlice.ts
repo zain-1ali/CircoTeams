@@ -74,6 +74,7 @@ const initialState: UserProfile = {
   profileOn: 1,
   profileSelected: "",
   profileTitle: "",
+  profileType:"",
   profileUrl: "",
   qrColor: "#000000",
   qrLogo: "",
@@ -134,6 +135,9 @@ export const profileSlice = createSlice({
     },
     setProfileTitle: (state, action: PayloadAction<string>) => {
       state.profileTitle = action.payload;
+    },
+    setProfileType: (state, action: PayloadAction<string>) => {
+      state.profileType = action.payload;
     },
     setProfileUrl: (state, action: PayloadAction<string | null>) => {
       state.profileUrl = action.payload;
@@ -312,7 +316,8 @@ setBoxTextColor,
 setBoxBackgroundColor,
   setTagUid,
   resetState,
-  setId
+  setId,
+  setProfileType
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

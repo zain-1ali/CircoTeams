@@ -20,7 +20,7 @@ const EditSidebar = () => {
     (state) => state.profileEditSectionHandeler.profileEditSectionStage
   );
   const profileTitle = useAppSelector(
-    (state) => state.profileHandler?.profileTitle
+    (state) => state.profileHandler?.profileType
   );
 
   console.log(profileEditSection);

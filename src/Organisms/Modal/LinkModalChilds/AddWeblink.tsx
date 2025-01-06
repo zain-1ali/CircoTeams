@@ -137,7 +137,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
               onClick={() =>
                 socialLink?.value &&
                 (socialLink?.title || socialLink?.graphicDisplayText)
-                  ? profileData?.profileTitle === "circoTemplate"
+                  ? profileData?.profileType === "circoTemplate"
                     ? addLinkToTemplate(
                         socialLink,
                         id,
