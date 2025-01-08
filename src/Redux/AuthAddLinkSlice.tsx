@@ -41,7 +41,7 @@ const initialState: AuthLinksProps = {
       image: "",
       isLinkHighlighted: false,
       linkHighlightDescription: "",
-      linkID: 1,
+      linkID: 3,
       linkImgUrl: "",
       name: "Email",
       placeholder: "",
@@ -62,10 +62,10 @@ export const profileSlice = createSlice({
   initialState,
   reducers: {
     setSocialEmail: (state, action: PayloadAction<string>) => {
-      state.links[0].value = action.payload;
+      state.links[1].value = action.payload;
     },
     setSocialCall: (state, action: PayloadAction<string>) => {
-      state.links[1].value = action.payload;
+      state.links[0].value = action.payload;
     },
   },
 });

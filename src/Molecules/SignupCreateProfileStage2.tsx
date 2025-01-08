@@ -27,7 +27,7 @@ const SignupCreateProfileStage2 = () => {
         type="text"
         label="Email"
         onChange={(e) => dispatch(setSocialEmail(e.target.value))}
-        value={authLinks[0].value}
+        value={authLinks[1].value}
         inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       />
@@ -40,7 +40,7 @@ const SignupCreateProfileStage2 = () => {
         labelClasses="font-[400] text-[15px] w-[100%] mt-4"
       /> */}
       <InternationalPhone
-        value={authLinks[1].value}
+        value={authLinks[0].value}
         onChange={handleChangePhone}
       />
 

@@ -14,7 +14,11 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   const [phone, setPhone] = useState("1");
   const [phoneNum, setPhoneNum] = useState("");
   useEffect(() => {
-    onChange(phone + " " + phoneNum);
+    if (phoneNum) {
+      onChange(phone + " " + phoneNum);
+    } else {
+      onChange("");
+    }
   }, [phoneNum, phone]);
 
   useEffect(() => {

@@ -68,7 +68,7 @@ const initialState: UserProfile = {
     weblinkButtonTextColor: "#ffffff",
     weblinkStyle: "style5",
     whiteProfileText: false,
-    whiteTextAndBorder: true
+    whiteTextAndBorder: false
   },
   profileName:"",
   profileOn: 1,

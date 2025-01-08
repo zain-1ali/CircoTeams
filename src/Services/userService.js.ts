@@ -15,7 +15,7 @@ setLoading(true)
           setLoading(false)
           setTimeout(()=>{
 navigate("/myprofiles")
-// window.location.reload()
+window.location.reload()
           },1000)
           console.log("Account Created Successfuly")
         })

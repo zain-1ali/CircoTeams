@@ -10,9 +10,9 @@ import Analytics from "./Pages/Analytics";
 import Devices from "./Pages/Devices";
 import Support from "./Pages/Support";
 import { Toaster } from "react-hot-toast";
-import { ReactNode, useEffect } from "react";
+import { ReactNode,useEffect } from "react";
 
-function App() {
+function App(){
   interface RequireAuthProps {
     children: ReactNode;
   }

@@ -13,6 +13,8 @@ export const SocialLinks = () => {
 
   const ifAddeed = linksData?.some((elm) => socialLink?.id === elm?.id);
 
+  console.log(starterLinks);
+
   return (
     <div className="w-[100%] flex justify-center mt-4">
       <div className="w-[90%] flex justify-evenly flex-wrap  items-center gap-y-2">
