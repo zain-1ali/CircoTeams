@@ -17,6 +17,7 @@ import {
   setLastName,
   setLinks,
   setlogoUrl,
+  setPhone,
   setProfileDesign,
   setProfileName,
   setProfileTitle,
@@ -31,6 +32,8 @@ const TemplateCard: React.FC<any> = ({ data }) => {
   const [openEditTemplate, setopenEditTemplate] = useState(false);
   const dispatch = useAppDispatch();
   const innerHeight = window.innerWidth;
+
+  
   const setTemplateData = (templateData: any) => {
     dispatch(setFirstName(templateData?.firstName));
     dispatch(setLastName(templateData?.lastName));
@@ -38,6 +41,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     dispatch(setAddress(templateData?.address));
     dispatch(setProfileUrl(templateData?.profileUrl));
     dispatch(setId(templateData?.id));
+    dispatch(setPhone(templateData?.phone));
     dispatch(setCoverUrl(templateData?.coverUrl));
     dispatch(setlogoUrl(templateData?.logoUrl));
     dispatch(setProfileName(templateData?.profileName));

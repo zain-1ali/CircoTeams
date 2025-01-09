@@ -22,7 +22,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   }, [phoneNum, phone]);
 
   useEffect(() => {
-    setPhone(value?.split(" ")[0] || "1");
+    value?.split(" ")?.[0] && setPhone(value?.split(" ")?.[0]);
     setPhoneNum(value?.split(" ")[1] || "");
   }, [value]);
   console.log(phone);

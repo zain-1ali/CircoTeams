@@ -21,7 +21,8 @@ export const createTemplate=(data:any,showError:any,showSuccess:any,setLoading:a
 export const updateTemplateInfo=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
     console.log("template")
     if(data){
-        console.log("inner")
+
+        console.log(data,"inner")
         update(ref(db, `Template/${id}`),{...data}).then(()=>{
             setLoading(false)
             showSuccess("Information updated sucessfully")
