@@ -15,7 +15,7 @@ import {
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../Hooks/useToastNotification";
 
-const Share = () => {
+const  Share = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const dispatch = useAppDispatch();
   const handleChangeAppIconColor = (color: string) => {

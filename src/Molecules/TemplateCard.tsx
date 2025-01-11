@@ -33,8 +33,11 @@ const TemplateCard: React.FC<any> = ({ data }) => {
   const dispatch = useAppDispatch();
   const innerHeight = window.innerWidth;
 
-  
+  console.log(data?.phone, "<>>>><<<<<<>>>>>>><<<<<<<<>>");
+
   const setTemplateData = (templateData: any) => {
+    console.log(templateData?.phone, ")))))(((((((");
+
     dispatch(setFirstName(templateData?.firstName));
     dispatch(setLastName(templateData?.lastName));
     dispatch(setJobTitle(templateData?.jobTitle));

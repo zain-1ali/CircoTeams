@@ -12,6 +12,7 @@ import hi2 from "../assets/images/hi2.png";
 import hi3 from "../assets/images/hi3.png";
 import hi5 from "../assets/images/hi5.png";
 import hi6 from "../assets/images/hi6.png";
+import lamp from "../assets/images/lamp.png";
 import logout from "../assets/images/logout.png";
 import { useNavigate } from "react-router-dom";
 import Button from "../Atoms/Button";
@@ -101,6 +102,10 @@ const Sidebar = () => {
             innerHeight < 700 ? "" : "mt-[30px]"
           }`}
         >
+          <Image
+            src={lamp}
+            classes="h-[150px] w-[150px] absolute top-[-25px]"
+          />
           <Button
             btnClasses="w-[138px] h-[33px] bg-primary rounded-[10px] text-white text-[12px] font-[600] absolute bottom-4"
             text="Upgrade Now"

@@ -8,6 +8,7 @@ const ContactUsOptions: React.FC<contactOptionsProps> = ({
   heading,
   text,
   btnText,
+  onClick
 }) => {
   return (
     <div className="w-[419px] h-[100px] bg-white rounded-[13px] shadow-md px-5 flex items-center pt-0 border">
@@ -34,7 +35,7 @@ const ContactUsOptions: React.FC<contactOptionsProps> = ({
         <Button
           text={btnText}
           btnClasses="w-[82px] h-[32px] rounded-full bg-[#2B6EF6] font-[600] text-[14px] text-white"
-          onClick={() => {}}
+          onClick={() => onClick()}
         />
       </div>
     </div>

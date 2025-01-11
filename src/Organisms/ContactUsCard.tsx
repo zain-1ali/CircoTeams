@@ -17,6 +17,7 @@ const ContactUsCard = () => {
           heading="Email us"
           text="support@getcirco.com"
           btnText="Email"
+          onClick={() => window.open("mailto:support@getcirco.com")}
         />
 
         <ContactUsOptions
@@ -24,6 +25,11 @@ const ContactUsCard = () => {
           heading="Support Documents"
           text="Find answers on our support page"
           btnText="View"
+          onClick={() =>
+            window.open(
+              "https://drive.google.com/file/d/1dq-tNNq5vwfy15IPAgbt_AjmLGZK8FGa/view"
+            )
+          }
         />
       </div>
     </div>

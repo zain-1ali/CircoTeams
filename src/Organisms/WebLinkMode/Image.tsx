@@ -21,6 +21,23 @@ import gi6 from "../../assets/images/gi6.png";
 const ImageMode = () => {
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const dispatch = useAppDispatch();
+  const returnIconStyle = (style: string) => {
+    if (style === "style1") {
+      return gi1;
+    } else if (style === "style2") {
+      return gi2;
+    } else if (style === "style3") {
+      return gi3;
+    } else if (style === "style4") {
+      return gi4;
+    } else if (style === "style5") {
+      return gi5;
+    } else if (style === "style6") {
+      return gi6;
+    }
+  };
+
+  // console.log(socialLink?.graphicImgUrl,"here is my link");
 
   const { uploadFile } = useUploadFile();
 
@@ -81,7 +98,20 @@ const ImageMode = () => {
             onClick={() => dispatch(setGraphicDisplayType("style1"))}
           >
             <div className="w-[141px] h-[79px] border rounded-[10px] border-[#D7D7D7] flex justify-center items-center  relative overflow-hidden shadow-div">
-              <Image src={windowImg} classes={"h-[21px] w-[21px]"} />
+              <div className="h-[20px] w-[20px] rounded-full bg-[#00000040] absolute top-2 right-2 flex justify-center items-center">
+                <Image
+                  src={returnIconStyle(socialLink.iconStyle)}
+                  classes="filter invert brightness-0 h-[10px] object-cover"
+                />
+              </div>
+              <Image
+                src={socialLink?.graphicImgUrl || windowImg}
+                classes={
+                  socialLink?.graphicImgUrl
+                    ? "w-[141px] h-[79px] object-cover rounded-[10px]"
+                    : "h-[21px] w-[21px]"
+                }
+              />
               <Text
                 text="Text on image"
                 classes={`text-white z-10 font-[700] text-[8px] absolute bottom-[6px]`}
@@ -97,7 +127,20 @@ const ImageMode = () => {
             onClick={() => dispatch(setGraphicDisplayType("style2"))}
           >
             <div className="w-[141px] h-[79px] border rounded-[10px] border-[#D7D7D7] flex justify-center items-center relative">
-              <Image src={windowImg} classes={"h-[21px] w-[21px]"} />
+              <div className="h-[20px] w-[20px] rounded-full bg-[#00000040] absolute top-2 right-2 flex justify-center items-center">
+                <Image
+                  src={returnIconStyle(socialLink.iconStyle)}
+                  classes="filter invert brightness-0 h-[10px] object-cover"
+                />
+              </div>
+              <Image
+                src={socialLink?.graphicImgUrl || windowImg}
+                classes={
+                  socialLink?.graphicImgUrl
+                    ? "w-[141px] h-[79px] object-cover rounded-[10px]"
+                    : "h-[21px] w-[21px]"
+                }
+              />
               <Text
                 text="Text on image"
                 classes="text-black font-[700] text-[8px] absolute bottom-[-16px]"

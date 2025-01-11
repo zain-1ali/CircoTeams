@@ -13,7 +13,10 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
 }) => {
   const [phone, setPhone] = useState("1");
   const [phoneNum, setPhoneNum] = useState("");
+  // const valueSplit = value?.split(" ");
+
   useEffect(() => {
+    // alert(value)
     if (phoneNum) {
       onChange(phone + " " + phoneNum);
     } else {
@@ -23,7 +26,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
 
   useEffect(() => {
     value?.split(" ")?.[0] && setPhone(value?.split(" ")?.[0]);
-    setPhoneNum(value?.split(" ")[1] || "");
+    value?.split(" ")?.[1] && setPhoneNum(value?.split(" ")?.[1]);
   }, [value]);
   console.log(phone);
   console.log(value);

@@ -29,8 +29,9 @@ const Graphical: React.FC<Link> = (socialLink) => {
   return (
     <div
       className={`w-[100%] h-[115px] rounded-[17px] border flex justify-center items-center ${
-        socialLink?.graphicDisplayType === "style1" &&
-        "shadow-div relative overflow-hidden"
+        socialLink?.graphicDisplayType === "style1"
+          ? "shadow-div relative overflow-hidden"
+          : "mb-4"
       }`}
       style={{
         display: socialLink?.shareable === false ? "none" : "",
@@ -40,7 +41,7 @@ const Graphical: React.FC<Link> = (socialLink) => {
         // marginBottom: elm?.graphicDisplayType === "style2" ? "30px" : "0px",
       }}
     >
-      <div className="h-[20px] w-[20px] rounded-full bg-[#00000040] absolute top-2 right-2 flex justify-center items-center">
+      <div className="h-[20px] w-[20px] rounded-full bg-[#00000040] absolute top-2 right-2 flex justify-center items-center ">
         <Image
           src={returnIconStyle(socialLink.iconStyle)}
           classes="filter invert brightness-0 h-[10px] object-cover"

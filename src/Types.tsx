@@ -260,6 +260,7 @@ export interface contactOptionsProps {
   heading: string;
   text: string;
   btnText: string;
+  onClick: () => void;
 }
 
 export interface prfTextsProps {
