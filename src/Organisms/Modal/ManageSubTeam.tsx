@@ -34,6 +34,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
   const [templates, setTemplates] = useState<any[]>([]);
+  const [crntTemplate, setCrntTemplate] = useState<any>(null);
 
   const handleOpenTemplateFilter = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -48,6 +49,14 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
 
   const callBackFunc2 = (data: any) => {
     setTemplates(Object.values(data));
+    if (data) {
+      const crntTmplt = Object.values(data)?.find((obj: any) => {
+        return obj.id === team?.templateId;
+      });
+      if (crntTmplt) {
+        setCrntTemplate(crntTmplt);
+      }
+    }
   };
 
   useEffect(() => {
@@ -59,6 +68,8 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
       setLoading
     );
   }, []);
+
+  console.log(crntTemplate);
 
   // getting Team members
 
@@ -266,7 +277,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
             onClick={handleOpenTemplateFilter}
           >
             <Text
-              text="No Template Selected"
+              text={crntTemplate?.profileName || "No Template Selected"}
               classes="font-[600] text-[12px] text-[#030229]"
             />
             <IoIosArrowDown />
@@ -285,7 +296,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
             <ReasignTemplate
               templates={templates}
               selectedMemberRows={[team]}
-              crntTemplate={null}
+              crntTemplate={crntTemplate}
               onClose={handleCloseTemplate}
               isSubTeam={true}
             />

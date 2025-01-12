@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setProfileCreationStage } from "../Redux/SignupSlice";
 import InternationalPhone from "./InternationalPhone";
 import { setSocialCall, setSocialEmail } from "../Redux/AuthAddLinkSlice";
+import Button from "../Atoms/Button";
 
 const SignupCreateProfileStage2 = () => {
   const dispatch = useAppDispatch();
@@ -51,6 +52,15 @@ const SignupCreateProfileStage2 = () => {
         }}
         btnClasses="bg-[#2B6EF6] text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-6"
       />
+      <div className="w-[100%] flex justify-center mt-[30px]">
+        <Button
+          btnClasses="font-[700] text-primary outline-none background-none"
+          text="Skip"
+          onClick={() => {
+            dispatch(setProfileCreationStage(2));
+          }}
+        />
+      </div>
     </div>
   );
 };

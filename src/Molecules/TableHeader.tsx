@@ -240,6 +240,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
                 selectedMemberRows={selectedRows}
                 crntTemplate={null}
                 onClose={handleCloseTemplate}
+                isSubTeam={true}
               />
             </DropDown>
             <Button

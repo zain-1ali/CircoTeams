@@ -1,4 +1,4 @@
-import { push, ref, set, update } from "firebase/database"
+import { equalTo, get, orderByChild, push, query, ref, set, update } from "firebase/database"
 import { db } from "../firebase"
 
 export const createTemplate=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
@@ -67,6 +67,8 @@ export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showErr
 
 
 export const addMembersToTemplate=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
+  console.log(membersId,"yyyyyyyyyyytttttttttttttttt");
+  
     const existingMembers= (typeof team?.members==="object" &&  Object.values(team?.members)) || []
     if(membersId?.length>0){
         setLoading(true)
@@ -130,7 +132,7 @@ export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showErr
       if(elm?.templateId===Newteam?.id){
         return
       }
-      const crntTeamMembers=typeof elm?.TemplateMembers==="object" ? Object?.values(elm?.TemplateMembers) :[]
+      const crntTeamMembers=typeof Newteam?.members==="object" ? Object?.values(Newteam?.members) :[]
       const remainingMemebers = crntTeamMembers?.filter(id => id!==elm?.id);
       console.log(remainingMemebers);
     
@@ -175,9 +177,26 @@ const subTeamsPromises=subTeams?.map(async(elm:any)=>{
     if(elm?.templateId===template?.id){
         return
     }
-    const crntTeamMembers=typeof elm?.TemplateMembers==="object" ? Object?.values(elm?.TemplateMembers):[]
+    const crntTeamMembers=typeof elm?.members==="object" ? Object?.values(elm?.members):[]
+    console.log(crntTeamMembers,"@@@@@@@@@@@@@@@@@@@");
+    
     await update(ref(db, `SubTeams/${elm?.id}`), {templateId:template?.id}).then(()=>{
-        reassignMembersToTemplateV2(crntTeamMembers,template,showError,showSuccess,setLoading,false)
+       const starCountRef = query(
+              ref(db, "User"),
+              orderByChild("subTeamId"),
+              equalTo(elm?.id)
+            );
+
+            get(starCountRef).then((snapshot)=>{
+              const data = snapshot.val();
+              if(data){
+                const teamMembers=Object.values(data)
+                reassignMembersToTemplateV2(teamMembers,template,showError,showSuccess,setLoading,false)
+              }
+           
+            });
+           
+    
     })
 
   

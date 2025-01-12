@@ -78,7 +78,9 @@ const ReasignTemplate: React.FC<{
                   control={<Radio />}
                   label={template?.profileName}
                   style={{
-                    display:
+                    opacity:
+                      template?.id === crntTemplate?.id ? "50%" : undefined,
+                    pointerEvents:
                       template?.id === crntTemplate?.id ? "none" : undefined,
                   }}
                 />
@@ -92,17 +94,18 @@ const ReasignTemplate: React.FC<{
             text="Reassign"
             btnClasses="bg-primary rounded-full w-[95%] h-[35px] text-white font-[700] text-[13px]"
             onClick={() =>
-              crntTemplate
-                ? () => {}
-                : //   reassignMembersTotemplate(
-                  //       membersUid,
-                  //       selectedTeam,
-                  //       crnttemplate,
-                  //       showError,
-                  //       showSuccess,
-                  //       setLoading
-                  //     )
-                  handleSubmit()
+              // crntTemplate
+              //   ? () => {}
+              //   :
+              //   reassignMembersTotemplate(
+              //       membersUid,
+              //       selectedTeam,
+              //       crnttemplate,
+              //       showError,
+              //       showSuccess,
+              //       setLoading
+              //     )
+              handleSubmit()
             }
           />
           <Button
