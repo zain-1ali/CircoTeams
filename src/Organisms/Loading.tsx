@@ -4,7 +4,7 @@ import { LoadingProps } from "../Types";
 const Loading: React.FC<LoadingProps> = ({ bgColor }) => {
   return (
     <div
-      className="h-[100%] w-[100%] flex justify-center items-center absolute"
+      className="h-[100%] w-[100%] flex justify-center items-center absolute z-[21]"
       style={{ backgroundColor: bgColor }}
     >
       <CircularProgress sx={{ color: "#2B6EF6" }} />

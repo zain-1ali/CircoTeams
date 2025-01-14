@@ -11,6 +11,7 @@ import Devices from "./Pages/Devices";
 import Support from "./Pages/Support";
 import { Toaster } from "react-hot-toast";
 import { ReactNode,useEffect } from "react";
+import ResetPassword from "./Pages/ResetPassword";
 
 function App(){
   interface RequireAuthProps {
@@ -62,6 +63,7 @@ function App(){
             }
           />
           <Route path="/register" element={<Signup />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route
             path="/myprofiles"
             element={

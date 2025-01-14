@@ -1,5 +1,5 @@
 // import { UserProfile } from "firebase/auth"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "../firebase"
 import { ref, update } from "firebase/database"
 
@@ -146,3 +146,18 @@ export const logoutUser=async()=>{
     console.log(error.message);
   })
 }
+export const SendResetLink = (email:any, showError:any,showSuccess:any, setEmailCallback:any) => {
+  
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setEmailCallback();
+        showSuccess("An email have been sent to you, please verify to change password");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Firebase: Error (auth/user-not-found).") {
+          showError("Email not found.")
+        }
+      });
+};
+

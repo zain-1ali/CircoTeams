@@ -3,11 +3,14 @@ import SelectProfileDropdownButton from "../Molecules/SelectProfileDropdownButto
 import SquareIconBtn from "../Molecules/SquareIconBtn";
 import DropDown from "./DropDown/DropDown";
 import Profiles from "./DropDown/Profiles";
-import { getMultipleChilds, getSingleChildFromDb } from "../Services/Constants";
+import { getMultipleChilds, getSingleChildFromDb, DeleteProfileByApi } from "../Services/Constants";
 import CustomModal from "./Modal/Modal";
 import Qr from "./Modal/Qr";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../Hooks/useToastNotification";
+import AreYouSure from "./Modal/AreYouSure";
+import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const EditProfileHeader = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
@@ -16,7 +19,7 @@ const EditProfileHeader = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { showSuccess } = useToastNotifications();
-  console.log(loading);
+  // console.log(loading);
   const { id } = useParams();
   const [allProfiles, setAllProfiles] = useState<any>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -46,6 +49,19 @@ const EditProfileHeader = () => {
     setSelectedId(id);
   };
 
+  const navigate = useNavigate();
+  const deleteProfileCallback = (status:any) => {
+    if(status)
+    {
+      navigate("/myprofiles")
+    }
+    setLoading(false);
+  };
+  const handleDeleteProfile = () => {
+    setLoading(true);
+    DeleteProfileByApi(selectedId, deleteProfileCallback);
+  };
+
   // getting company profile
   useEffect(() => {
     getSingleChildFromDb("/User", "id", companyId, getCompanyProfile);
@@ -69,8 +85,13 @@ const EditProfileHeader = () => {
     showSuccess("Copied to clipboard");
   };
 
+  const [warnText, setWarnText] = useState<string>("");
+  const [sureModal, setSureModal] = useState<boolean>(false);
+
   return (
-    <div className="w-[100%]  flex justify-between mt-3">
+    loading ? ( <Loading bgColor="#F7F7F8" /> ) 
+    : ( <div className="w-[100%]  flex justify-between mt-3">
+      
       <button
         id="profiles-button"
         aria-haspopup="listbox"
@@ -118,7 +139,12 @@ const EditProfileHeader = () => {
         <SquareIconBtn
           btnClass="h-[50px] w-[50px] rounded-[12px] bg-[#F4F4F4] flex justify-center items-center cursor-pointer bg-white"
           imgClass="h-[20px] w-[20px] object-cover"
-          action={() => {}}
+          action={() => {
+            setSelectedId(id || "");
+            setWarnText('Are you sure to delete this profile?');
+            setSureModal(true)
+          }}
+          
           btnType={6}
         />
       </div>
@@ -129,7 +155,18 @@ const EditProfileHeader = () => {
       >
         <Qr userId={selectedId} />
       </CustomModal>
-    </div>
+      <CustomModal
+        open={sureModal}
+        onClose={() => setSureModal(false)}
+        style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <AreYouSure
+          onClick={handleDeleteProfile}
+          onClose={() => setSureModal(false)}
+          text={warnText}
+        />
+      </CustomModal>
+    </div>)
   );
 };
 

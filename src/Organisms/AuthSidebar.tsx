@@ -14,13 +14,13 @@ import SignupCreateProfileStage2 from "../Molecules/SignupCreateProfileStage2";
 import SignupCreateProfileStage3 from "../Molecules/SignupCreateProfileStage3";
 import { useState } from "react";
 import { setEmail, setFirstName, setLastName } from "../Redux/ProfileSlice";
-import { LoginUser } from "../Services/userService.js";
+import { LoginUser, SendResetLink } from "../Services/userService.js";
 import useToastNotifications from "../Hooks/useToastNotification.js";
 import { CircularProgress } from "@mui/material";
 import { IoEyeSharp } from "react-icons/io5";
 import { AiFillEyeInvisible } from "react-icons/ai";
 
-const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
+const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
   const innerHeight: number = window.innerHeight;
   const navigate = useNavigate();
   interface Passwords {
@@ -59,7 +59,15 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
       } else {
         return false;
       }
-    } else {
+    }
+    else if (isReset) {
+      if (email) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+     else {
       if (
         email &&
         passwords?.password &&
@@ -99,7 +107,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
         </div>
 
         <Text
-          text={isSignin ? "Log in" : "Sign up"}
+          text={isReset ? "Reset Password" : isSignin ? "Log in" : "Sign up"}
           classes={`${
             isSignin ? "text-[25px]" : "text-[22px]"
           } font-[600] mt-3`}
@@ -107,18 +115,22 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
 
         {!isSignupCreateProfile ? (
           <>
+           {!isReset && (
+            <>
             <div className="w-[100%] flex justify-between mt-6">
-              <SocialSignupButton
-                isGoogle={true}
-                btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2 text-[16px] font-[400]"
-                func={() => {}}
-              />
-              <SocialSignupButton
-                isGoogle={false}
-                btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2  text-[16px] font-[400]"
-                func={() => {}}
-              />
+            <SocialSignupButton
+              isGoogle={true}
+              btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2 text-[16px] font-[400]"
+              func={() => {}}
+            />
+            <SocialSignupButton
+              isGoogle={false}
+              btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2  text-[16px] font-[400]"
+              func={() => {}}
+            />
             </div>
+          
+           
 
             <div className="w-[100%] flex justify-between items-center mt-4">
               <div className="w-[45%] h-[2px] bg-[#F7F7F8]"></div>
@@ -151,6 +163,11 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                 </div>
               </div>
             )}
+              </>
+          )}
+{ isReset && (
+ <> <br /><br /> </>
+)}
             <InputWithLabel
               type="text"
               label="Email Address"
@@ -160,33 +177,35 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               labelClasses="font-[400] text-[15px] w-[100%] mt-2"
             />
+         { !isReset && (
+            <>
             <div className="w-[100%] relative">
             
-            <InputWithLabel
-              type={showPass ? "text" : "password"}
-              label="Password"
-              placeholder="******"
-              onChange={(e) => {
-                setPassword({
-                  ...passwords,
-                  password: e.target.value,
-                })
-              }}
-              value={passwords?.password}
-              inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              labelClasses="font-[400] text-[15px] w-[100%] mt-3"
-            />
-            {showPass ? (
-              <IoEyeSharp
-                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                onClick={() => setShowPass(false)}
+              <InputWithLabel
+                type={showPass ? "text" : "password"}
+                label="Password"
+                placeholder="******"
+                onChange={(e) => {
+                  setPassword({
+                    ...passwords,
+                    password: e.target.value,
+                  })
+                }}
+                value={passwords?.password}
+                inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                labelClasses="font-[400] text-[15px] w-[100%] mt-3"
               />
-            ) : (
-              <AiFillEyeInvisible
-                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                onClick={() => setShowPass(true)}
-              />
-            )}
+              {showPass ? (
+                <IoEyeSharp
+                  className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                  onClick={() => setShowPass(false)}
+                />
+              ) : (
+                <AiFillEyeInvisible
+                  className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                  onClick={() => setShowPass(true)}
+                />
+              )}
             </div>
 
             {!isSignin && (
@@ -243,13 +262,14 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
 
               {isSignin && (
                 <Button
-                  onClick={() => {}}
+                onClick={() => navigate("/reset-password")}
                   text="Reset Password?"
                   btnClasses="outline-none bg-none border-none text-[#2B6EF6] text-[14px] font-[400]"
                 />
               )}
             </div>
-
+            </>
+          )}
             <CustomButton
               text={isSignin ? (loading ? "" : "Log in") : "Continue"}
               onClick={
@@ -263,6 +283,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                             navigate,
                             setLoading
                           )
+                        : isReset
+                        ? SendResetLink(email, showError, showSuccess, () => dispatch(setEmail("")))
                         : dispatch(setStartProfileCreation(true));
                     }
                   : () => {}
@@ -286,6 +308,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin }) => {
                 text={
                   isSignin
                     ? "Don't have account yet?"
+                    : isReset ? "Go back to"
                     : "Already have an account?"
                 }
                 classes="font-[400] text-[16px]"

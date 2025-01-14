@@ -28,6 +28,7 @@ export interface socialbuttonProps {
 
 export interface authSidebarProps {
   isSignin?: boolean;
+  isReset?: boolean;
 }
 
 export interface textProps {

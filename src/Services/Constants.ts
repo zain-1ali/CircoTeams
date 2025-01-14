@@ -1,6 +1,7 @@
 import { equalTo, onValue, orderByChild, query, ref, remove } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
+import axios from "axios";
 
 export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,callBackFunc:any)=>{
     const starCountRef = query(
@@ -58,6 +59,29 @@ export const getMultipleChilds = async (collectionName:string,orderBy:string,id:
   });
 
 }
+export const DeleteProfileByApi = async (id: any, callBackFunc: any) => {
+  try {
+    if (!id) {
+      throw new Error("ID is required to delete the profile.");
+    }
+    const response = await axios.post(`https://wallet.circo.me/api/deleteAccount`, {
+       id: id,
+       token:"12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj" 
+      });
+    if (response.status === 200) {
+      console.log("Profile deleted successfully:", response.data);
+      callBackFunc(true);
+    } else {
+      console.error("Failed to delete profile:", response);
+      callBackFunc(false);
+    }
+  } catch (error: any) {
+    console.error("Error while deleting the profile:", error.message || error);
+    callBackFunc(false);
+  }
+};
+
+
 export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<string>, callBackFunc: () => void 
 ) => {
   const promises = ids?.map((id) => {
