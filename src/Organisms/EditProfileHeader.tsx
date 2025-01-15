@@ -67,7 +67,7 @@ const EditProfileHeader = () => {
     getSingleChildFromDb("/User", "id", companyId, getCompanyProfile);
   }, []);
 
-  console.log(companyProfile);
+  // console.log(companyProfile);
 
   // getting all child profiles
   useEffect(() => {
@@ -141,7 +141,7 @@ const EditProfileHeader = () => {
           imgClass="h-[20px] w-[20px] object-cover"
           action={() => {
             setSelectedId(id || "");
-            setWarnText('Are you sure to delete this profile?');
+            setWarnText( companyId == id ? 'By deleting this profile, all company data will be remove from circo teams ?' : 'Are you sure to delete this profile?');
             setSureModal(true)
           }}
           

@@ -10,6 +10,7 @@ import i6 from "../assets/images/i6.png";
 import hi1 from "../assets/images/hi1.png";
 import hi2 from "../assets/images/hi2.png";
 import hi3 from "../assets/images/hi3.png";
+import hi4 from "../assets/images/hi4.png";
 import hi5 from "../assets/images/hi5.png";
 import hi6 from "../assets/images/hi6.png";
 import lamp from "../assets/images/lamp.png";
@@ -77,7 +78,7 @@ const Sidebar = () => {
           />
           <SidebarButton
             icon={i4}
-            hoverIcon={i4}
+            hoverIcon={hi4}
             text="Analytics"
             onClick={() => navigate("/analytics")}
             state={currentPath === "/analytics"}

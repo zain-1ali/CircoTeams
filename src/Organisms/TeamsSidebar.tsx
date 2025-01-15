@@ -6,6 +6,7 @@ import i2 from "../assets/images/i2.png";
 
 import hi11 from "../assets/images/hi11.png";
 import hi12 from "../assets/images/hi12.png";
+import hi13 from "../assets/images/hi13.png";
 import hi2 from "../assets/images/hi2.png";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../Hooks/reduxHooks";
@@ -40,13 +41,13 @@ const TeamsSidebar = () => {
           icon={i12}
           hoverIcon={hi12}
           text="Templates"
-          height="h-[40px]"
+          height="h-[30px]"
           onClick={() => dispatch(setTeamSection(2))}
           state={teamSectionStage === 2}
         />
         <SidebarButton
           icon={i13}
-          hoverIcon={i13}
+          hoverIcon={hi13}
           text="Add Member"
           height="h-[40px]"
           onClick={() => dispatch(setTeamSection(3))}

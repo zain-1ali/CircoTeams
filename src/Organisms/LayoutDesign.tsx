@@ -39,8 +39,6 @@ const LayoutDesign = () => {
     dispatch(setBackgroundColor(color));
   };
   const profileData = useAppSelector((state) => state.profileHandler);
-  console.log("this is image:", profileData?.profileDesign.backgroundImage);
-
   const layoutBg =
     profileData?.profileDesign.backgroundImage ||
     "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1";
@@ -68,7 +66,6 @@ const LayoutDesign = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleCropComplete = (croppedImage: string) => {
     const uniqueTime = Date.now();
     setUploadLoading(true);
@@ -126,11 +123,13 @@ const LayoutDesign = () => {
           text="Whiten Profile Text"
           classes="text-[#8D8D8D] text-[12px] font-[600]"
         />
-        <IOSSwitch
+        <IOSSwitch 
           onChange={() =>
-            dispatch(setwhitenText(!profileDesign.whiteProfileText))
+            dispatch(setProfileDesign({
+              whiteTextAndBorder: !profileData.profileDesign.whiteTextAndBorder,
+            }))
           }
-          value={profileDesign.whiteProfileText}
+          checked={profileData.profileDesign.whiteTextAndBorder}
         />
       </div>
 
