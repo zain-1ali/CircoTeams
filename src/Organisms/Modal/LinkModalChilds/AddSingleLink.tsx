@@ -20,13 +20,15 @@ import {
   setSocialLinkValue,
 } from "../../../Redux/socialLinkSlice";
 import { motion } from "framer-motion";
-import { addLinkToDb, updateLink } from "../../../Services/ProfileServices";
+import { addLinkToDb, updateLink, deleteLinkFromDb } from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
 import ImageCropperModal from "../../Cropper";
 import { resetLinkData } from "../../../Redux/linkSlice";
 import { addLinkToTemplate } from "../../../Services/TemplatesServices";
+import CustomModal from "../Modal";
+import AreYouSure from "../AreYouSure";
 
 const AddSingleLink: React.FC<webLinksProps> = ({
   changeLinkMode,
@@ -96,8 +98,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
-
-  console.log(loading);
+  const [sureModal, setSureModal] = useState<boolean>(false);
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -150,14 +151,37 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       );
     }
   };
+  const handleDeleteLink = (linkID:any) => {
+    console.log(linkID);
+      deleteLinkFromDb(
+        linkID,
+        id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+  };
 
   return (
     <div className="w-[100%] h-[100%] flex">
       <div className="h-[100%] w-[65%] border-r">
+        <div className="flex w-[95%] justify-between">
         <BiArrowBack
           className="text-2xl text-[#929292] cursor-pointer"
           onClick={() => handleCancelbtn()}
         />
+        {linkEdit && (
+          <Button
+          btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
+          onClick={ () =>  setSureModal(true)}
+          text="Delete"
+        />
+
+        )}
+         
+        </div>
+        
         {/* <div className="flex">
           <Image classes="h-[72px] w-[72px] " src={returnPngIcons(2)} />
           <div className=""></div>
@@ -294,6 +318,17 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       <div className="w-[35%] h-[100%] flex justify-center items-center">
         <CardPreview isAuth={false} />
       </div>
+      <CustomModal
+        open={sureModal}
+        onClose={() => setSureModal(false)}
+        style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <AreYouSure
+          onClick={() => handleDeleteLink(socialLink.linkID)}
+          onClose={() => setSureModal(false)}
+          text={"Are You sure to delete this link ?"}
+        />
+      </CustomModal>
     </div>
   );
 };

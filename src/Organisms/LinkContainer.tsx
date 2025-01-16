@@ -49,7 +49,7 @@ const LinkContainer: React.FC<any> = ({
       </div>
       <div className="flex items-center gap-3">
         <Button
-          btnClasses="h-[30px] w-[60px] bg-primary text-white text-[12px] font-[700] flex justify-center items-center rounded-full outline-none focus:outline-none"
+          btnClasses="h-[20px] w-[45px] bg-primary text-white text-[11px] font-[700] flex justify-center items-center rounded-full outline-none focus:outline-none"
           onClick={() => setLinkToEdit(link)}
           text="Edit"
         />

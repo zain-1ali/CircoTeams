@@ -22,11 +22,13 @@ const FontSelector = () => {
       return "SF Pro";
     }
   };
+  
+  
   return (
     <div>
       <Text
         text="Profile Font"
-        classes="font-[600] text-[12px] text-[#8D8D8D]"
+        classes="font-[600] text-[12px] text-left text-[#8D8D8D]"
       />
       <div className="w-[238px] h-[40px] rounded-[10px] border border-[#DCDCDC] flex justify-between items-center pl-2 pr-2 mt-[2px]">
         <Text

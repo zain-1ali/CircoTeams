@@ -549,6 +549,32 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
     }
 }
 
+export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any) => {
+    console.log("Deleting link with ID:", linkID);
+    if (!id || !links) {
+      showError("Something went wrong while removing the link");
+      return;
+    }
+    setLoading(true);
+    
+    const updatedLinks = Array.isArray(links)
+      ? links.filter((link: any) => link.linkID !== linkID)
+      : [];
+  
+    set(ref(db, `User/${id}/links`), updatedLinks)
+      .then(() => {
+        setLoading(false);
+        showSuccess("Link removed successfully");
+      })
+      .catch((error) => {
+        setLoading(false);
+        showError("Something went wrong while removing the link");
+        console.error("Error removing link:", error);
+      });
+  };
+  
+
+
 export const updateLink=(linkData:any,id:string | undefined,links:any ,showError:any,showSuccess:any,setLoading:any)=>{
     setLoading(true);
     const objectIndex = links?.findIndex((obj:any) => obj.id === linkData?.id);

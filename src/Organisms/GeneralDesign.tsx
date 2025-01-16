@@ -30,7 +30,7 @@ const GeneralDesign = () => {
     dispatch(setFont(font));
     handleCloseFont();
   };
-
+  console.log(profileDesign.profileFont);
   return (
     <div className="w-[100%] flex justify-between items-center h-[104px] rounded-[20px] bg-[#F9F9F9] pl-4 pr-4 mt-1">
       <button
@@ -53,7 +53,7 @@ const GeneralDesign = () => {
           role: "listbox",
         }}
       >
-        <Fonts handleSelectFont={handleFontSelect} />
+        <Fonts handleSelectFont={handleFontSelect} ActiveFont = {profileDesign.profileFont} />
       </DropDown>
 
       <ColorSelector

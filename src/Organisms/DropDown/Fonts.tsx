@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Text from "../../Atoms/Text";
 
-const Fonts: FC<any> = ({ handleSelectFont }) => {
+const Fonts: FC<any> = ({ handleSelectFont, ActiveFont }) => {
   const fonts = [
     { name: "Inika", id: "1" },
     { name: "Gugi", id: "2" },
@@ -18,11 +18,14 @@ const Fonts: FC<any> = ({ handleSelectFont }) => {
         {fonts?.map((elm) => {
           return (
             <div
-              className="cursor-pointer mt-2"
-              onClick={() => handleSelectFont(elm?.id)}
-            >
-              <Text classes="text-[15px] font-[500]" text={elm?.name} />
-            </div>
+            className="cursor-pointer mt-0"
+            onClick={() => handleSelectFont(elm?.id)}
+          >
+            <Text
+              classes={`text-[15px] font-[500] px-2 py-1 ${ActiveFont === elm?.id ? 'bg-[#e0e4e9]' : 'bg-white'}`}
+              text={elm?.name}
+            />
+          </div>
           );
         })}
       </div>
