@@ -13,6 +13,8 @@ import { RxExternalLink } from "react-icons/rx";
 import web from "../../../assets/socialLink/web.png";
 import weblinkgraphic from "../../../assets/images/weblinkgraphic2.jpeg";
 import weblinkgrafic from "../../../assets/images/weblinkgraphic.png";
+import CustomModal from "../Modal";
+import AreYouSure from "../AreYouSure";
 
 import {
   setGraphicDisplayText,
@@ -27,7 +29,7 @@ import {
   setWebLinkStyle,
 } from "../../../Redux/socialLinkSlice";
 // import { motion } from "framer-motion";
-import { addLinkToDb, updateLink } from "../../../Services/ProfileServices";
+import { addLinkToDb, updateLink, deleteLinkFromDb } from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 // import { useUploadFile } from "../../../Hooks/useUploadFile";
@@ -49,7 +51,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
-
+  const [sureModal, setSureModal] = useState<boolean>(false);
   console.log(socialLink);
 
   const handleCancelbtn = () => {
@@ -115,6 +117,18 @@ const AddWeblink: React.FC<webLinksProps> = ({
     }
   };
 
+  const handleDeleteLink = (linkID:any) => {
+    console.log(linkID);
+      deleteLinkFromDb(
+        linkID,
+        id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading
+      );
+  };
+
   return (
     <div className="w-[100%] h-[100%] flex">
       <div className="h-[100%] w-[65%] border-r">
@@ -122,6 +136,14 @@ const AddWeblink: React.FC<webLinksProps> = ({
           <Text classes="font-[600] text-[22px]" text="Web Link" />
 
           <div className="flex gap-4 ">
+            {linkEdit && (
+              <Button
+              btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
+              onClick={ () =>  setSureModal(true)}
+              text="Delete"
+            />
+
+            )}
             <Button
               btnClasses="w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]"
               onClick={() => handleCancelbtn()}
@@ -311,6 +333,17 @@ const AddWeblink: React.FC<webLinksProps> = ({
       <div className="w-[35%] h-[100%] flex justify-center items-center">
         <CardPreview isAuth={false} />
       </div>
+      <CustomModal
+        open={sureModal}
+        onClose={() => setSureModal(false)}
+        style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <AreYouSure
+          onClick={() => handleDeleteLink(socialLink.linkID)}
+          onClose={() => setSureModal(false)}
+          text={"Are You sure to delete this link ?"}
+        />
+      </CustomModal>
     </div>
   );
 };
