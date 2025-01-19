@@ -15,7 +15,7 @@ import {
   setBackgroundColor,
   setProfileDesign,
   setTheme,
-  setwhitenText,
+  // setwhitenText,
 } from "../Redux/ProfileSlice";
 import ImageCropperModal from "./Cropper";
 const LayoutDesign = () => {

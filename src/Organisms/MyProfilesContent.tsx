@@ -9,6 +9,8 @@ import useToastNotifications from "../Hooks/useToastNotification";
 import Loading from "./Loading";
 import CreateTeamProfile from "./Modal/CreateTeamProfile";
 import Qr from "./Modal/Qr";
+import { useAppDispatch } from "../Hooks/reduxHooks";
+import { setProfileDesign } from "../Redux/ProfileSlice";
 
 const MyProfilesContent = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
@@ -20,7 +22,7 @@ const MyProfilesContent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
-
+  const dispatch = useAppDispatch();
   const getCompanyProfile = (data: any) => {
     if (data) {
       setCompanyProfile(Object.values(data)?.[0]);
@@ -36,6 +38,7 @@ const MyProfilesContent = () => {
   // getting company profile
   useEffect(() => {
     getSingleChildFromDb("/User", "id", companyId, getCompanyProfile);
+    dispatch(setProfileDesign({ whiteTextAndBorder: false }));
   }, []);
 
   console.log(companyProfile);

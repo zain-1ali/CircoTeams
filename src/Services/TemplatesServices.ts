@@ -4,7 +4,7 @@ import { db } from "../firebase"
 export const createTemplate=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
     if(data?.profileName){
         setLoading(true)
-     const objectId=push(ref(db, `Template/`),{...data,profileType:"circoTemplate"}).key
+     const objectId=push(ref(db, `Template/`),{...data,profileType:"circoTemplate",profilePictureLock:false,coverLock:false,logoLock:false,jobLock:false,companyLock:false,locationLock:false,emailLock:false,phoneLock:false}).key
      if(objectId){
         update(ref(db, `Template/${objectId}`),{id:objectId}).then(()=>{
             setLoading(false)

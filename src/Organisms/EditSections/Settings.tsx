@@ -26,7 +26,7 @@ const Settings = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
-  // console.log(loading);
+  console.log(loading);
 
   const { showSuccess, showError } = useToastNotifications();
   return (
@@ -47,8 +47,7 @@ const Settings = () => {
                 id,
                 showError,
                 showSuccess,
-                setLoading,
-                
+                setLoading
               )
             // updateProfileInfo(
             //   {

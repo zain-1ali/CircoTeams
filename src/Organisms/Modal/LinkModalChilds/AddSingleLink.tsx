@@ -40,6 +40,8 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   const profileData = useAppSelector((state) => state.profileHandler);
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
+  console.log(loading);
+  
 
   // useEffect(() => {
   //   if (linkToEdit) {

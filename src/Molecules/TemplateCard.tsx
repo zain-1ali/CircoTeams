@@ -8,6 +8,7 @@ import EditTemplate from "../Organisms/Modal/EditTemplate";
 import { useState } from "react";
 import { useAppDispatch } from "../Hooks/reduxHooks";
 import {
+  resetState,
   setAddress,
   setCompany,
   setCoverUrl,
@@ -27,16 +28,26 @@ import {
   setQrLogo,
 } from "../Redux/ProfileSlice";
 import AssignTemplate from "../Organisms/Modal/AssignTemplate";
+import {
+  setCompanyLock,
+  setCoverLock,
+  setEmailLock,
+  setJobLock,
+  setLocationLock,
+  setLogoLock,
+  setPhoneLock,
+  setProfileLock,
+} from "../Redux/TemplateLockedSlice";
 
 const TemplateCard: React.FC<any> = ({ data }) => {
   const [openEditTemplate, setopenEditTemplate] = useState(false);
   const dispatch = useAppDispatch();
   const innerHeight = window.innerWidth;
 
-  console.log(data?.phone, "<>>>><<<<<<>>>>>>><<<<<<<<>>");
+  // console.log(data?.phone, "<>>>><<<<<<>>>>>>><<<<<<<<>>");
 
   const setTemplateData = (templateData: any) => {
-    console.log(templateData?.phone, ")))))(((((((");
+    // console.log(templateData?.phone, ")))))(((((((");
 
     dispatch(setFirstName(templateData?.firstName));
     dispatch(setLastName(templateData?.lastName));
@@ -72,14 +83,35 @@ const TemplateCard: React.FC<any> = ({ data }) => {
         })
       );
     }
-
     dispatch(setQrColor(templateData?.qrColor));
     dispatch(setQrLogo(templateData?.qrLogo));
+    dispatch(setProfileLock(templateData?.profilePictureLock));
+    dispatch(setLogoLock(templateData?.logoLock));
+    dispatch(setCoverLock(templateData?.coverLock));
+    dispatch(setJobLock(templateData?.jobLock));
+    dispatch(setCompanyLock(templateData?.companyLock));
+    dispatch(setLocationLock(templateData?.locationLock));
+    dispatch(setPhoneLock(templateData?.phoneLock));
+    dispatch(setEmailLock(templateData?.setEmailLock));
   };
 
   const openEditTemplatePanel = () => {
     setTemplateData(data);
+
     setopenEditTemplate(true);
+  };
+
+  const handleCloseEditTemplate = () => {
+    dispatch(resetState());
+    dispatch(setProfileLock(false));
+    dispatch(setLogoLock(false));
+    dispatch(setCoverLock(false));
+    dispatch(setJobLock(false));
+    dispatch(setCompanyLock(false));
+    dispatch(setLocationLock(false));
+    dispatch(setPhoneLock(false));
+    dispatch(setEmailLock(false));
+    setopenEditTemplate(false);
   };
 
   const [assignModal, setAssignModal] = useState<boolean>(false);
@@ -120,7 +152,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
       </div>
       <CustomModal
         open={openEditTemplate}
-        onClose={() => setopenEditTemplate(false)}
+        onClose={() => handleCloseEditTemplate()}
         style={{
           height: innerHeight > 700 ? "86%" : "83%",
           width: "83%",

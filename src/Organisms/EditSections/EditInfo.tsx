@@ -26,9 +26,21 @@ import { useState } from "react";
 import { updateProfileInfo } from "../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import { updateTemplateInfo } from "../../Services/TemplatesServices";
+import {
+  setCompanyLock,
+  setCoverLock,
+  setEmailLock,
+  setJobLock,
+  setLocationLock,
+  setLogoLock,
+  setProfileLock,
+} from "../../Redux/TemplateLockedSlice";
 
 const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
+  const templateLockedData = useAppSelector(
+    (state) => state.templateLockedHandeler
+  );
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [open, setOpen] = useState<boolean>(false);
@@ -94,6 +106,17 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
 
   console.log(profileData);
 
+  console.log(templateLockedData, "here is the data");
+
+  // dispatch(setProfileLock(templateLockedData?.profilePictureLock));
+  // dispatch(setLogoLock(templateLockedData?.logoLock));
+  // dispatch(setCoverLock(templateLockedData?.coverLock));
+  // dispatch(setJobLock(templateLockedData?.jobLock));
+  // dispatch(setCompanyLock(templateLockedData?.companyLock));
+  // dispatch(setLocationLock(templateLockedData?.locationLock));
+  // dispatch(setPhoneLock(templateLockedData?.phoneLock));
+  // dispatch(setPhoneLock(templateLockedData?.setEmailLock));
+
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
       <Text
@@ -107,7 +130,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
       <InputWithLabel
         type="text"
         label={
-          profileData?.profileTitle === "circoTemplate"
+          profileData?.profileType === "circoTemplate"
             ? "Template Name"
             : "Profile Name"
         }
@@ -125,6 +148,15 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
+          isTemplate={profileData?.profileType === "circoTemplate"}
+          locked={templateLockedData?.profilePictureLock}
+          changeLockedStatus={() =>
+            dispatch(setProfileLock(!templateLockedData?.profilePictureLock))
+          }
+          disabled={
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.profilePictureLock
+          }
         />
         <ImageSelecter
           text="Cover Image"
@@ -133,6 +165,15 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           imgClasses="h-[91px] rounded-[10px] w-[174px]  mt-2"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
+          isTemplate={profileData?.profileType === "circoTemplate"}
+          locked={templateLockedData?.coverLock}
+          changeLockedStatus={() =>
+            dispatch(setCoverLock(!templateLockedData?.coverLock))
+          }
+          disabled={
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.coverLock
+          }
         />
         <ImageSelecter
           text="Logo"
@@ -141,13 +182,29 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
+          isTemplate={profileData?.profileType === "circoTemplate"}
+          locked={templateLockedData?.logoLock}
+          changeLockedStatus={() =>
+            dispatch(setLogoLock(!templateLockedData?.logoLock))
+          }
+          disabled={
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.logoLock
+          }
         />
       </div>
 
-      <Text text="Profile Info" classes="font-[600] text-[15px] mt-5" />
+      <Text
+        text={
+          profileData?.profileType === "circoTemplate"
+            ? "Template Info"
+            : "Profile Info"
+        }
+        classes="font-[600] text-[15px] mt-5"
+      />
 
-      {profileData?.profileTitle != "circoTemplate" && (
-        <div className="flex justify-between">
+      {profileData?.profileType != "circoTemplate" && (
+        <div className="flex justify-between ">
           <div className="w-[48%]">
             <InputWithLabel
               type="text"
@@ -178,8 +235,21 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             label="Job Title"
             onChange={(e) => dispatch(setJobTitle(e.target.value))}
             value={profileData.jobTitle}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+            inputClasses={`h-[40px] ${
+              profileData?.profileType === "circoTemplate"
+                ? "w-[80%] rounded-l-[10px]"
+                : "w-[100%] rounded-[10px]"
+            }  bg-[#FAFAFB] outline-none pl-2 mt-[2px]`}
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            isTemplate={profileData?.profileType === "circoTemplate"}
+            locked={templateLockedData?.jobLock}
+            disabled={
+              profileData?.profileType != "circoTemplate" &&
+              templateLockedData?.jobLock
+            }
+            changeLockedStatus={() =>
+              dispatch(setJobLock(!templateLockedData?.jobLock))
+            }
           />
         </div>
         <div className="w-[48%]">
@@ -188,8 +258,21 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             label="Company"
             onChange={(e) => dispatch(setCompany(e.target.value))}
             value={profileData.company}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+            inputClasses={`h-[40px] ${
+              profileData?.profileType === "circoTemplate"
+                ? "w-[80%] rounded-l-[10px]"
+                : "w-[100%] rounded-[10px]"
+            }  bg-[#FAFAFB] outline-none pl-2 mt-[2px]`}
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            isTemplate={profileData?.profileType === "circoTemplate"}
+            locked={templateLockedData?.companyLock}
+            disabled={
+              profileData?.profileType != "circoTemplate" &&
+              templateLockedData?.companyLock
+            }
+            changeLockedStatus={() =>
+              dispatch(setCompanyLock(!templateLockedData?.companyLock))
+            }
           />
         </div>
       </div>
@@ -201,8 +284,21 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             label="Location"
             onChange={(e) => dispatch(setAddress(e.target.value))}
             value={profileData.address}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+            inputClasses={`h-[40px] ${
+              profileData?.profileType === "circoTemplate"
+                ? "w-[80%] rounded-l-[10px]"
+                : "w-[100%] rounded-[10px]"
+            }  bg-[#FAFAFB] outline-none pl-2 mt-[2px]`}
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+            isTemplate={profileData?.profileType === "circoTemplate"}
+            locked={templateLockedData?.locationLock}
+            disabled={
+              profileData?.profileType != "circoTemplate" &&
+              templateLockedData?.locationLock
+            }
+            changeLockedStatus={() =>
+              dispatch(setLocationLock(!templateLockedData?.locationLock))
+            }
           />
         </div>
       </div>
@@ -216,9 +312,18 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             label="Email"
             onChange={() => {}}
             value={profileData.email}
-            inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+            inputClasses={`h-[40px] ${
+              profileData?.profileType === "circoTemplate"
+                ? "w-[80%] rounded-l-[10px]"
+                : "w-[100%] rounded-[10px]"
+            }  bg-[#FAFAFB] outline-none pl-2 mt-[2px]`}
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             disabled={true}
+            isTemplate={profileData?.profileType === "circoTemplate"}
+            locked={templateLockedData?.emailLock}
+            changeLockedStatus={() =>
+              dispatch(setEmailLock(!templateLockedData?.emailLock))
+            }
           />
         </div>
         <div className="w-[48%]">
@@ -257,6 +362,15 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
                       jobTitle: profileData?.jobTitle || "",
                       profileName: profileData.profileName || "",
                       phone: profileData.phone || "",
+                      profilePictureLock:
+                        templateLockedData?.profilePictureLock || false,
+                      logoLock: templateLockedData?.logoLock || false,
+                      coverLock: templateLockedData?.coverLock || false,
+                      jobLock: templateLockedData?.jobLock || false,
+                      companyLock: templateLockedData?.companyLock || false,
+                      locationLock: templateLockedData?.locationLock || false,
+                      phoneLock: templateLockedData?.phoneLock || false,
+                      emailLock: templateLockedData?.emailLock || false,
                     },
                     profileData?.id,
                     showError,

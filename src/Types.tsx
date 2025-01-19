@@ -71,6 +71,9 @@ export interface inputWithLabelProps extends inputProps {
   label: string;
   inputClasses: string;
   labelClasses: string;
+  isTemplate?: boolean;
+  locked?: boolean;
+  changeLockedStatus?: () => void;
 }
 
 export interface textAreaWithLabelProps extends textAreaProps {
@@ -148,6 +151,10 @@ export interface imageSelectProps {
     event: React.ChangeEvent<HTMLInputElement>,
     imgType: string
   ) => void;
+  isTemplate?: boolean;
+  locked?: boolean;
+  changeLockedStatus?: () => void;
+  disabled?: boolean;
 }
 
 export interface phoneInputProps {
@@ -269,6 +276,8 @@ export interface prfTextsProps {
   job: string;
   location: string;
   company: string;
+  isCard?: boolean;
+  logo?: string;
 }
 
 export interface LoadingProps {
