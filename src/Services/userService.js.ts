@@ -1,7 +1,7 @@
 // import { UserProfile } from "firebase/auth"
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { auth, db } from "../firebase"
-import { ref, update } from "firebase/database"
+import { equalTo, get, orderByChild, query, ref, update } from "firebase/database"
 import axios from "axios";
 
 export const createNewUser = async (
@@ -117,4 +117,56 @@ export const SendResetLink = (email: any, showError: any, showSuccess: any, setE
       }
     });
 };
+
+export const handleSignUpGoogle = (profileData:any,showError: any, showSuccess: any, navigate: any, setLoading: any) => {
+
+  console.log('into the func')
+  setLoading(true)
+const provider = new GoogleAuthProvider();
+
+signInWithPopup(auth, provider).then(async(response:any) => {
+  console.log(response._tokenResponse.email);
+  const responseData=response?._tokenResponse
+  
+   const starCountRef = query(
+        ref(db, "User"),
+        orderByChild("email"),
+        equalTo(responseData?.email)
+      );
+      const snapshot = await get(starCountRef);
+      const data = snapshot.val();
+      console.log(data);
+      
+  if (!data) {
+    console.log(responseData?.photoUrl);
+    
+      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign}).then(()=>{
+        showSuccess('Sign in with Google')
+        console.log("we are here---------",responseData?.localId);
+        
+        setLoading(false)
+        localStorage.setItem("circoCompanyUid", responseData?.localId)
+        setTimeout(() => {
+
+          navigate("/myprofiles")
+          window.location.reload()
+        }, 1000)
+          })
+  }else{
+    showSuccess('Sign in with Google')
+      setLoading(false)
+      console.log("no we are here---------");
+      localStorage.setItem("circoCompanyUid", responseData?.localId)
+      setTimeout(() => {
+
+        navigate("/myprofiles")
+        window.location.reload()
+      }, 1000)
+  }
+}).catch((error) => {
+  console.log(error)
+  showError("Something went wrong")
+})
+
+}
 

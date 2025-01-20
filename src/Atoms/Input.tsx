@@ -22,6 +22,7 @@ const Input: React.FC<inputProps> = ({
         disabled={disabled}
         maxLength={maxLength}
         style={style}
+        autoComplete="off"
       />
     </>
   );

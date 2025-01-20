@@ -14,7 +14,11 @@ import SignupCreateProfileStage2 from "../Molecules/SignupCreateProfileStage2";
 import SignupCreateProfileStage3 from "../Molecules/SignupCreateProfileStage3";
 import { useState } from "react";
 import { setEmail, setFirstName, setLastName } from "../Redux/ProfileSlice";
-import { LoginUser, SendResetLink } from "../Services/userService.js";
+import {
+  handleSignUpGoogle,
+  LoginUser,
+  SendResetLink,
+} from "../Services/userService.js";
 import useToastNotifications from "../Hooks/useToastNotification.js";
 import { CircularProgress } from "@mui/material";
 import { IoEyeSharp } from "react-icons/io5";
@@ -23,6 +27,7 @@ import { AiFillEyeInvisible } from "react-icons/ai";
 const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
   const innerHeight: number = window.innerHeight;
   const navigate = useNavigate();
+  const profileData = useAppSelector((state) => state.profileHandler);
   interface Passwords {
     password: string;
     confirmPassword: string;
@@ -50,6 +55,9 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
   const { showSuccess, showError } = useToastNotifications();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [gloading, setGLoading] = useState<boolean>(false);
+  console.log(gloading);
+
   let [showPass, setShowPass] = useState(false);
   let [showPass2, setShowPass2] = useState(false);
   const permitToGoForward = () => {
@@ -59,15 +67,13 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
       } else {
         return false;
       }
-    }
-    else if (isReset) {
+    } else if (isReset) {
       if (email) {
         return true;
       } else {
         return false;
       }
-    }
-     else {
+    } else {
       if (
         email &&
         passwords?.password &&
@@ -115,59 +121,69 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
 
         {!isSignupCreateProfile ? (
           <>
-           {!isReset && (
-            <>
-            <div className="w-[100%] flex justify-between mt-6">
-            <SocialSignupButton
-              isGoogle={true}
-              btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2 text-[16px] font-[400]"
-              func={() => {}}
-            />
-            <SocialSignupButton
-              isGoogle={false}
-              btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2  text-[16px] font-[400]"
-              func={() => {}}
-            />
-            </div>
-          
-           
+            {!isReset && (
+              <>
+                <div className="w-[100%] flex justify-between mt-6">
+                  <SocialSignupButton
+                    isGoogle={true}
+                    btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2 text-[16px] font-[400]"
+                    func={() =>
+                      handleSignUpGoogle(
+                        profileData,
+                        showError,
+                        showSuccess,
+                        navigate,
+                        setGLoading
+                      )
+                    }
+                  />
+                  <SocialSignupButton
+                    isGoogle={false}
+                    btnClasses="w-[47%] rounded-md outline-none border-none h-[50px] bg-[#F7F7F8] flex justify-center items-center gap-2  text-[16px] font-[400]"
+                    func={() => {}}
+                  />
+                </div>
 
-            <div className="w-[100%] flex justify-between items-center mt-4">
-              <div className="w-[45%] h-[2px] bg-[#F7F7F8]"></div>
-              <Text text={"Or"} classes="font-[600] text-[16px]" />
-              <div className="w-[45%] h-[2px] bg-[#F7F7F8]"></div>
-            </div>
-            {!isSignin && (
-              <div className="w-[100%] flex justify-between">
-                <div className="w-[47%]">
-                  <InputWithLabel
-                    type="text"
-                    label="First Name"
-                    placeholder="David"
-                    onChange={(e) => dispatch(setFirstName(e.target.value))}
-                    value={firstName}
-                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    labelClasses="font-[400] text-[15px] w-[100%] mt-2"
-                  />
+                <div className="w-[100%] flex justify-between items-center mt-4">
+                  <div className="w-[45%] h-[2px] bg-[#F7F7F8]"></div>
+                  <Text text={"Or"} classes="font-[600] text-[16px]" />
+                  <div className="w-[45%] h-[2px] bg-[#F7F7F8]"></div>
                 </div>
-                <div className="w-[47%]">
-                  <InputWithLabel
-                    type="text"
-                    label="Last Name"
-                    placeholder="Ryan"
-                    onChange={(e) => dispatch(setLastName(e.target.value))}
-                    value={lastName}
-                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    labelClasses="font-[400] text-[15px] w-[100%] mt-2"
-                  />
-                </div>
-              </div>
-            )}
+                {!isSignin && (
+                  <div className="w-[100%] flex justify-between">
+                    <div className="w-[47%]">
+                      <InputWithLabel
+                        type="text"
+                        label="First Name"
+                        placeholder="David"
+                        onChange={(e) => dispatch(setFirstName(e.target.value))}
+                        value={firstName}
+                        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        labelClasses="font-[400] text-[15px] w-[100%] mt-2"
+                      />
+                    </div>
+                    <div className="w-[47%]">
+                      <InputWithLabel
+                        type="text"
+                        label="Last Name"
+                        placeholder="Ryan"
+                        onChange={(e) => dispatch(setLastName(e.target.value))}
+                        value={lastName}
+                        inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        labelClasses="font-[400] text-[15px] w-[100%] mt-2"
+                      />
+                    </div>
+                  </div>
+                )}
               </>
-          )}
-{ isReset && (
- <> <br /><br /> </>
-)}
+            )}
+            {isReset && (
+              <>
+                {" "}
+                <br />
+                <br />{" "}
+              </>
+            )}
             <InputWithLabel
               type="text"
               label="Email Address"
@@ -177,99 +193,109 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               labelClasses="font-[400] text-[15px] w-[100%] mt-2"
             />
-         { !isReset && (
-            <>
-            <div className="w-[100%] relative">
-            
-              <InputWithLabel
-                type={showPass ? "text" : "password"}
-                label="Password"
-                placeholder="******"
-                onChange={(e) => {
-                  setPassword({
-                    ...passwords,
-                    password: e.target.value,
-                  })
-                }}
-                value={passwords?.password}
-                inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                labelClasses="font-[400] text-[15px] w-[100%] mt-3"
-              />
-              {showPass ? (
-                <IoEyeSharp
-                  className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                  onClick={() => setShowPass(false)}
-                />
-              ) : (
-                <AiFillEyeInvisible
-                  className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                  onClick={() => setShowPass(true)}
-                />
-              )}
-            </div>
+            {!isReset && (
+              <>
+                <div className="w-[100%] relative">
+                  <InputWithLabel
+                    type={showPass ? "text" : "password"}
+                    label="Password"
+                    placeholder="******"
+                    onChange={(e) => {
+                      setPassword({
+                        ...passwords,
+                        password: e.target.value,
+                      });
+                    }}
+                    value={passwords?.password}
+                    inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    labelClasses="font-[400] text-[15px] w-[100%] mt-3"
+                  />
+                  {showPass ? (
+                    <IoEyeSharp
+                      className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                      onClick={() => setShowPass(false)}
+                    />
+                  ) : (
+                    <AiFillEyeInvisible
+                      className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                      onClick={() => setShowPass(true)}
+                    />
+                  )}
+                </div>
 
-            {!isSignin && (
-              <div className="w-[100%] relative">
-              <InputWithLabel
-                type={showPass2 ? "text" : "password"}
-                label="Confirm Password"
-                placeholder="******"
-                onChange={(e) => {
-                  setPassword({
-                    ...passwords,
-                    confirmPassword: e.target.value,
-                  });
-                }}
-                value={passwords?.confirmPassword}
-                inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                labelClasses="font-[400] text-[15px] w-[100%] mt-3"
-              />
-              {showPass2 ? (
-              <IoEyeSharp
-                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                onClick={() => setShowPass2(false)}
-              />
-            ) : (
-              <AiFillEyeInvisible
-                className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
-                onClick={() => setShowPass2(true)}
-              />
-            )}
-            </div>
-            )}
-            <div className="w-[100%] flex justify-between mt-2 items-center">
-            <CheckboxWithText
-              text={
-                isSignin ? (
-                  "Remember me"
-                ) : (
-                  <>
-                    By creating an account you agree to the{" "}
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                      terms of use
-                    </a>{" "}
-                    and our{" "}
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                      privacy policy
-                    </a>.
-                  </>
-                )
-              }
-              state={isBoxChecked}
-              func={() => setIsBoxChecked(!isBoxChecked)}
-              isSignin={isSignin}
-            />
+                {!isSignin && (
+                  <div className="w-[100%] relative">
+                    <InputWithLabel
+                      type={showPass2 ? "text" : "password"}
+                      label="Confirm Password"
+                      placeholder="******"
+                      onChange={(e) => {
+                        setPassword({
+                          ...passwords,
+                          confirmPassword: e.target.value,
+                        });
+                      }}
+                      value={passwords?.confirmPassword}
+                      inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      labelClasses="font-[400] text-[15px] w-[100%] mt-3"
+                    />
+                    {showPass2 ? (
+                      <IoEyeSharp
+                        className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                        onClick={() => setShowPass2(false)}
+                      />
+                    ) : (
+                      <AiFillEyeInvisible
+                        className="absolute right-4 bottom-[12px] text-[20px] cursor-pointer text-[#7d7d91]"
+                        onClick={() => setShowPass2(true)}
+                      />
+                    )}
+                  </div>
+                )}
+                <div className="w-[100%] flex justify-between mt-2 items-center">
+                  <CheckboxWithText
+                    text={
+                      isSignin ? (
+                        "Remember me"
+                      ) : (
+                        <>
+                          By creating an account you agree to the{" "}
+                          <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            terms of use
+                          </a>{" "}
+                          and our{" "}
+                          <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 underline"
+                          >
+                            privacy policy
+                          </a>
+                          .
+                        </>
+                      )
+                    }
+                    state={isBoxChecked}
+                    func={() => setIsBoxChecked(!isBoxChecked)}
+                    isSignin={isSignin}
+                  />
 
-              {isSignin && (
-                <Button
-                onClick={() => navigate("/reset-password")}
-                  text="Reset Password?"
-                  btnClasses="outline-none bg-none border-none text-[#2B6EF6] text-[14px] font-[400]"
-                />
-              )}
-            </div>
-            </>
-          )}
+                  {isSignin && (
+                    <Button
+                      onClick={() => navigate("/reset-password")}
+                      text="Reset Password?"
+                      btnClasses="outline-none bg-none border-none text-[#2B6EF6] text-[14px] font-[400]"
+                    />
+                  )}
+                </div>
+              </>
+            )}
             <CustomButton
               text={isSignin ? (loading ? "" : "Log in") : "Continue"}
               onClick={
@@ -284,7 +310,9 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                             setLoading
                           )
                         : isReset
-                        ? SendResetLink(email, showError, showSuccess, () => dispatch(setEmail("")))
+                        ? SendResetLink(email, showError, showSuccess, () =>
+                            dispatch(setEmail(""))
+                          )
                         : dispatch(setStartProfileCreation(true));
                     }
                   : () => {}
@@ -295,7 +323,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                 )
               }
               btnClasses={`bg-primary text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-6 ${
-                permitToGoForward() === false && "opacity-[50%] pointer-events-none"
+                permitToGoForward() === false &&
+                "opacity-[50%] pointer-events-none"
               }`}
             />
 
@@ -308,7 +337,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                 text={
                   isSignin
                     ? "Don't have account yet?"
-                    : isReset ? "Go back to"
+                    : isReset
+                    ? "Go back to"
                     : "Already have an account?"
                 }
                 classes="font-[400] text-[16px]"
