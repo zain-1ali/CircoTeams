@@ -3,7 +3,11 @@ import SelectProfileDropdownButton from "../Molecules/SelectProfileDropdownButto
 import SquareIconBtn from "../Molecules/SquareIconBtn";
 import DropDown from "./DropDown/DropDown";
 import Profiles from "./DropDown/Profiles";
-import { getMultipleChilds, getSingleChildFromDb, DeleteProfileByApi } from "../Services/Constants";
+import {
+  getMultipleChilds,
+  getSingleChildFromDb,
+  //  DeleteProfileByApi
+} from "../Services/Constants";
 import CustomModal from "./Modal/Modal";
 import Qr from "./Modal/Qr";
 import { useParams } from "react-router-dom";
@@ -11,6 +15,8 @@ import useToastNotifications from "../Hooks/useToastNotification";
 import AreYouSure from "./Modal/AreYouSure";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
+import { useAppSelector } from "../Hooks/reduxHooks";
+import { deleteSingleChild } from "../Services/userService.js";
 
 const EditProfileHeader = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
@@ -18,9 +24,10 @@ const EditProfileHeader = () => {
   const [qrModal, setQrModal] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { showSuccess } = useToastNotifications();
+  const { showSuccess, showError } = useToastNotifications();
   // console.log(loading);
   const { id } = useParams();
+  const profileData = useAppSelector((state) => state.profileHandler);
   const [allProfiles, setAllProfiles] = useState<any>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,16 +57,22 @@ const EditProfileHeader = () => {
   };
 
   const navigate = useNavigate();
-  const deleteProfileCallback = (status:any) => {
-    if(status)
-    {
-      navigate("/myprofiles")
+  const deleteProfileCallback = (status: any) => {
+    if (status) {
+      navigate("/myprofiles");
     }
     setLoading(false);
   };
   const handleDeleteProfile = () => {
     setLoading(true);
-    DeleteProfileByApi(selectedId, deleteProfileCallback);
+    deleteSingleChild(
+      profileData,
+      showError,
+      showSuccess,
+      navigate,
+      setLoading
+    );
+    // DeleteProfileByApi(selectedId, deleteProfileCallback);
   };
 
   // getting company profile
@@ -88,10 +101,10 @@ const EditProfileHeader = () => {
   const [warnText, setWarnText] = useState<string>("");
   const [sureModal, setSureModal] = useState<boolean>(false);
 
-  return (
-    loading ? ( <Loading bgColor="#F7F7F8" /> ) 
-    : ( <div className="w-[100%]  flex justify-between mt-3">
-      
+  return loading ? (
+    <Loading bgColor="#F7F7F8" />
+  ) : (
+    <div className="w-[100%]  flex justify-between mt-3">
       <button
         id="profiles-button"
         aria-haspopup="listbox"
@@ -141,10 +154,13 @@ const EditProfileHeader = () => {
           imgClass="h-[20px] w-[20px] object-cover"
           action={() => {
             setSelectedId(id || "");
-            setWarnText( companyId == id ? 'By deleting this profile, all company data will be remove from circo teams ?' : 'Are you sure to delete this profile?');
-            setSureModal(true)
+            setWarnText(
+              companyId == id
+                ? "By deleting this profile, all company data will be remove from circo teams ?"
+                : "Are you sure to delete this profile?"
+            );
+            setSureModal(true);
           }}
-          
           btnType={6}
         />
       </div>
@@ -166,7 +182,7 @@ const EditProfileHeader = () => {
           text={warnText}
         />
       </CustomModal>
-    </div>)
+    </div>
   );
 };
 

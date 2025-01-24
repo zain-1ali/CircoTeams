@@ -11,14 +11,30 @@ import WebLinkDesign from "../WeblinkDesign";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import { useState } from "react";
 import { updateTemplateDesign } from "../../Services/TemplatesServices";
+import Image from "../../Atoms/Image";
+import lockedIcon from "../../assets/images/locked.png";
+import unlockedIcon from "../../assets/images/unlocked.png";
+import { useDispatch } from "react-redux";
+import {
+  setGeneralStyleLock,
+  sethighlightBoxStyleLock,
+  setLayoutStyleLock,
+  setsaveContactStyleLock,
+  setWebLinkStyleLock,
+} from "../../Redux/TemplateLockedSlice";
 
 const Design = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
-
+  const templateLockedData: any = useAppSelector(
+    (state) => state.templateLockedHandeler
+  );
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
 
   console.log(loading);
+
+  console.log(templateLockedData, "here is locked way");
 
   // const handleCropComplete = (croppedImage: string) => {
   //   const uniqueTime = Date.now();
@@ -50,23 +66,169 @@ const Design = () => {
   //   }
   // };
   const { showSuccess, showError } = useToastNotifications();
+  const isTemplate = profileData?.profileType === "circoTemplate";
 
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
-      <Text text="General" classes="font-[600] text-[15px]" />
-      <GeneralDesign />
-      <Text text="Layout Style" classes="font-[600] text-[15px] mt-6" />
-      <LayoutDesign />
-      <Text text="Save Contact Style" classes="font-[600] text-[15px] mt-6" />
-      <SaveContactDesign />
-      <Text
-        text="Web Link Button Style"
-        classes="font-[600] text-[15px] mt-6"
-      />
-      <WebLinkDesign />
-      <Text text="Highlight Box Style" classes="font-[600] text-[15px] mt-6" />
-      <HighlightedLinkDesign />
+      <div className="flex items-center gap-3">
+        <Text text="General" classes="font-[600] text-[15px]" />
+        {isTemplate && (
+          <div
+            onClick={() =>
+              dispatch(
+                setGeneralStyleLock(!templateLockedData?.generalStyleLock)
+              )
+            }
+          >
+            <Image
+              classes="h-[17px] w-[17px] cursor-pointer"
+              src={
+                templateLockedData?.generalStyleLock ? lockedIcon : unlockedIcon
+              }
+            />
+          </div>
+        )}
+      </div>
 
+      <div
+        style={{
+          pointerEvents:
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.generalStyleLock
+              ? "none"
+              : undefined,
+        }}
+      >
+        <GeneralDesign />
+      </div>
+      <div className="flex items-center gap-3 mt-6">
+        <Text text="Layout Style" classes="font-[600] text-[15px] " />
+        {isTemplate && (
+          <div
+            onClick={() =>
+              dispatch(setLayoutStyleLock(!templateLockedData?.layoutStyleLock))
+            }
+          >
+            <Image
+              classes="h-[17px] w-[17px] cursor-pointer"
+              src={
+                templateLockedData?.layoutStyleLock ? lockedIcon : unlockedIcon
+              }
+            />
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          pointerEvents:
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.layoutStyleLock
+              ? "none"
+              : undefined,
+        }}
+      >
+        <LayoutDesign />
+      </div>
+      <div className="flex items-center gap-3 mt-6">
+        <Text text="Save Contact Style" classes="font-[600] text-[15px] " />
+        {isTemplate && (
+          <div
+            onClick={() =>
+              dispatch(
+                setsaveContactStyleLock(
+                  !templateLockedData?.saveContactStyleLock
+                )
+              )
+            }
+          >
+            <Image
+              classes="h-[17px] w-[17px] cursor-pointer"
+              src={
+                templateLockedData?.saveContactStyleLock
+                  ? lockedIcon
+                  : unlockedIcon
+              }
+            />
+          </div>
+        )}
+      </div>
+      <div
+        style={{
+          pointerEvents:
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.saveContactStyleLock
+              ? "none"
+              : undefined,
+        }}
+      >
+        <SaveContactDesign />
+      </div>
+      <div className="flex items-center gap-3 mt-6">
+        <Text text="Web Link Button Style" classes="font-[600] text-[15px] " />
+        {isTemplate && (
+          <div
+            onClick={() =>
+              dispatch(
+                setWebLinkStyleLock(!templateLockedData?.webLinkStyleLock)
+              )
+            }
+          >
+            <Image
+              classes="h-[17px] w-[17px] cursor-pointer"
+              src={
+                templateLockedData?.webLinkStyleLock ? lockedIcon : unlockedIcon
+              }
+            />
+          </div>
+        )}
+      </div>
+      <div
+        style={{
+          pointerEvents:
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.webLinkStyleLock
+              ? "none"
+              : undefined,
+        }}
+      >
+        <WebLinkDesign />
+      </div>
+      <div className="flex items-center gap-3 mt-6">
+        <Text text="Highlight Box Style" classes="font-[600] text-[15px] " />
+        {isTemplate && (
+          <div
+            onClick={() =>
+              dispatch(
+                sethighlightBoxStyleLock(
+                  !templateLockedData?.highlightBoxStyleLock
+                )
+              )
+            }
+          >
+            <Image
+              classes="h-[17px] w-[17px] cursor-pointer"
+              src={
+                templateLockedData?.highlightBoxStyleLock
+                  ? lockedIcon
+                  : unlockedIcon
+              }
+            />
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          pointerEvents:
+            profileData?.profileType != "circoTemplate" &&
+            templateLockedData?.highlightBoxStyleLock
+              ? "none"
+              : undefined,
+        }}
+      >
+        <HighlightedLinkDesign />
+      </div>
       <div className="w-[100%] flex justify-end mt-5 gap-4">
         <Button
           text="Cancel"
@@ -80,6 +242,19 @@ const Design = () => {
             profileData?.profileType === "circoTemplate"
               ? updateTemplateDesign(
                   profileData?.profileDesign,
+                  {
+                    generalStyleLock:
+                      templateLockedData?.generalStyleLock || false,
+                    layoutStyleLock:
+                      templateLockedData?.layoutStyleLock || false,
+                    saveContactStyleLock:
+                      templateLockedData?.saveContactStyleLock || false,
+                    webLinkStyleLock:
+                      templateLockedData?.webLinkStyleLock || false,
+                    highlightBoxStyleLock:
+                      templateLockedData?.highlightBoxStyleLock || false,
+                  },
+
                   profileData?.id,
                   showError,
                   showSuccess,

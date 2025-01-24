@@ -103,11 +103,81 @@ const EditprofileContent = () => {
       dispatch(setDirect(templateData?.direct));
       dispatch(setEmail(templateData?.email));
       dispatch(setPhone(templateData?.phone));
-      console.log(templateData?.leadMode);
+      // console.log(templateData?.leadMode);
       if (typeof templateData?.links === "object") {
         dispatch(setLinks(Object.values(templateData?.links)));
       }
-      dispatch(setProfileDesign(templateData?.profileDesign));
+
+    
+      dispatch(
+        setProfileDesign({
+          appIconColor: templateData?.generalStyleLock
+            ? templateData?.profileDesign?.appIconColor
+            : profileData?.profileDesign?.appIconColor,
+
+          backgroundColor: templateData?.layoutStyleLock
+            ? templateData?.profileDesign?.backgroundColor
+            : profileData?.profileDesign?.backgroundColor,
+
+          backgroundImage: templateData?.layoutStyleLock
+            ? templateData?.profileDesign?.backgroundImage
+            : profileData?.profileDesign?.backgroundImage,
+
+          backgroundOpacity: 98,
+
+          backgroundTheme: templateData?.layoutStyleLock
+            ? templateData?.profileDesign?.backgroundTheme
+            : profileData?.profileDesign?.backgroundTheme,
+
+          boxBackgroundColor: templateData?.highlightBoxStyleLock
+            ? templateData?.profileDesign?.boxBackgroundColor
+            : profileData?.profileDesign?.boxBackgroundColor,
+
+          boxTextColor: templateData?.highlightBoxStyleLock
+            ? templateData?.profileDesign?.boxTextColor
+            : profileData?.profileDesign?.boxTextColor,
+
+          hideCompanyLogo: false,
+          hideSaveContact: false,
+
+          highlightBoxStyle: templateData?.highlightBoxStyleLock
+            ? templateData?.profileDesign?.highlightBoxStyle
+            : profileData?.profileDesign?.highlightBoxStyle,
+
+          profileFont: templateData?.generalStyleLock
+            ? templateData?.profileDesign?.profileFont
+            : profileData?.profileDesign?.profileFont,
+
+          saveContactBackgroundColor: templateData?.saveContactStyleLock
+            ? templateData?.profileDesign?.saveContactStyle
+            : profileData?.profileDesign?.saveContactStyle,
+
+          saveContactStyle: templateData?.saveContactStyleLock
+            ? templateData?.profileDesign?.saveContactStyle
+            : profileData?.profileDesign?.saveContactStyle,
+
+          saveContactTextColor: templateData?.saveContactStyleLock
+            ? templateData?.profileDesign?.saveContactTextColor
+            : profileData?.profileDesign?.saveContactTextColor,
+
+          weblinkButtonBackgroundColor: templateData?.webLinkStyleLock
+            ? templateData?.profileDesign?.weblinkButtonBackgroundColor
+            : profileData?.profileDesign?.weblinkButtonBackgroundColor,
+
+          weblinkButtonTextColor: templateData?.webLinkStyleLock
+            ? templateData?.profileDesign?.weblinkButtonTextColor
+            : profileData?.profileDesign?.weblinkButtonTextColor,
+
+          weblinkStyle: templateData?.webLinkStyleLock
+            ? templateData?.profileDesign?.weblinkStyle
+            : profileData?.profileDesign?.weblinkStyle,
+
+          whiteProfileText: false,
+          whiteTextAndBorder: templateData?.layoutStyleLock
+            ? templateData?.profileDesign?.whiteTextAndBorder
+            : profileData?.profileDesign?.whiteTextAndBorder,
+        })
+      );
 
       if (templateData?.profileDesign?.backgroundImage) {
         dispatch(

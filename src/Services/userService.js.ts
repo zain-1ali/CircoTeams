@@ -1,7 +1,7 @@
 // import { UserProfile } from "firebase/auth"
 import { createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { auth, db } from "../firebase"
-import { equalTo, get, orderByChild, query, ref, update } from "firebase/database"
+import { equalTo, get, onValue, orderByChild, query, ref, update } from "firebase/database"
 import axios from "axios";
 
 export const createNewUser = async (
@@ -61,7 +61,6 @@ export const createNewUser = async (
   }
 };
 
-
 export const LoginUser = async (credentials: any, showError: any, showSuccess: any, navigate: any, setLoading: any) => {
   if (credentials.email && credentials.password) {
     setLoading(true)
@@ -91,7 +90,6 @@ export const LoginUser = async (credentials: any, showError: any, showSuccess: a
     showError("Email and Password are required to login")
   }
 }
-
 
 export const logoutUser = async () => {
   auth.signOut().then(() => {
@@ -169,4 +167,74 @@ signInWithPopup(auth, provider).then(async(response:any) => {
 })
 
 }
+const baseUrl=import.meta.env.VITE_API_BASE_URL
+export const deleteSingleChild = (user:any, showError:any,showSuccess:any,navigate:any,setLoading:any) => {
+  console.log("api start working......");
+  axios
+    .post(`${baseUrl}/deleteAccount`, {
+     id: user.id,
+      token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+    })
+    .then((res) => {
+      if(res?.data.status){
 
+        if(user?.subTeamId){
+          const starCountRef = query(
+            ref(db, "/SubTeams"),
+            orderByChild("id"),
+            equalTo(user?.subTeamId)
+          );
+          onValue(starCountRef, async (snapshot) => {
+            const data = await snapshot.val();
+            if (data) {
+              const theData:any = Object.values(data)?.[0];
+
+              const arrayWithoutDeletedUser = Object.values(
+                theData?.members
+              )?.filter((elm) => {
+                return elm != user?.id;
+              });
+
+              update(ref(db, `SubTeams/${user?.id}`), {
+                members: arrayWithoutDeletedUser,
+              });
+            }
+          });
+        }
+
+        if(user?.templateId){
+          const starCountRef = query(
+            ref(db, "/Template"),
+            orderByChild("id"),
+            equalTo(user?.templateId)
+          );
+          onValue(starCountRef, async (snapshot) => {
+            const data = await snapshot.val();
+            if (data) {
+              const theData:any = Object.values(data)?.[0];
+
+              const arrayWithoutDeletedUser = Object.values(
+                theData?.members
+              )?.filter((elm) => {
+                return elm != user?.id;
+              });
+
+              update(ref(db, `Template/${user?.id}`), {
+                members: arrayWithoutDeletedUser,
+              });
+            }
+          });
+        }
+        showSuccess("Profile deleted successfuly")
+setLoading(false)
+        setTimeout(()=>{
+navigate("/myprofiles")
+        },3000)
+      }
+      console.log("the response", res);
+    })
+    .catch((err) => {
+      console.log(err);
+      showError("something went wrong")
+    });
+};

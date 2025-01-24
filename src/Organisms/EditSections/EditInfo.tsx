@@ -108,14 +108,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
 
   console.log(templateLockedData, "here is the data");
 
-  // dispatch(setProfileLock(templateLockedData?.profilePictureLock));
-  // dispatch(setLogoLock(templateLockedData?.logoLock));
-  // dispatch(setCoverLock(templateLockedData?.coverLock));
-  // dispatch(setJobLock(templateLockedData?.jobLock));
-  // dispatch(setCompanyLock(templateLockedData?.companyLock));
-  // dispatch(setLocationLock(templateLockedData?.locationLock));
-  // dispatch(setPhoneLock(templateLockedData?.phoneLock));
-  // dispatch(setPhoneLock(templateLockedData?.setEmailLock));
+  
 
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
@@ -162,7 +155,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           text="Cover Image"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
           image={profileData?.coverUrl || upldCover}
-          imgClasses="h-[91px] rounded-[10px] w-[174px]  mt-2"
+          imgClasses="h-[91px] rounded-[10px] w-[174px] mt-2"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
           isTemplate={profileData?.profileType === "circoTemplate"}

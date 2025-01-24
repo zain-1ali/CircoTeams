@@ -35,10 +35,10 @@ export const updateTemplateInfo=(data:any,id:string | undefined,showError:any,sh
 }
 
 
-export const updateTemplateDesign=(data:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
+export const updateTemplateDesign=(data:any,lockData:any,id:string | undefined,showError:any,showSuccess:any,setLoading:any)=>{
     if(data){
         console.log("inner")
-        update(ref(db, `Template/${id}/profileDesign`),{...data}).then(()=>{
+        update(ref(db, `Template/${id}/`),{profileDesign:{...data},...lockData}).then(()=>{
             setLoading(false)
             showSuccess("Information updated sucessfully")
             console.log("working well")

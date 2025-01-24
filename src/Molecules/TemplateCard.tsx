@@ -32,11 +32,16 @@ import {
   setCompanyLock,
   setCoverLock,
   setEmailLock,
+  setGeneralStyleLock,
+  sethighlightBoxStyleLock,
   setJobLock,
+  setLayoutStyleLock,
   setLocationLock,
   setLogoLock,
   setPhoneLock,
   setProfileLock,
+  setsaveContactStyleLock,
+  setWebLinkStyleLock,
 } from "../Redux/TemplateLockedSlice";
 
 const TemplateCard: React.FC<any> = ({ data }) => {
@@ -93,6 +98,12 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     dispatch(setLocationLock(templateData?.locationLock));
     dispatch(setPhoneLock(templateData?.phoneLock));
     dispatch(setEmailLock(templateData?.setEmailLock));
+
+    dispatch(setGeneralStyleLock(templateData?.generalStyleLock));
+    dispatch(setLayoutStyleLock(templateData?.layoutStyleLock));
+    dispatch(setsaveContactStyleLock(templateData?.saveContactStyleLock));
+    dispatch(setWebLinkStyleLock(templateData?.webLinkStyleLock));
+    dispatch(sethighlightBoxStyleLock(templateData?.highlightBoxStyleLock));
   };
 
   const openEditTemplatePanel = () => {
