@@ -57,12 +57,12 @@ const EditProfileHeader = () => {
   };
 
   const navigate = useNavigate();
-  const deleteProfileCallback = (status: any) => {
-    if (status) {
-      navigate("/myprofiles");
-    }
-    setLoading(false);
-  };
+  // const deleteProfileCallback = (status: any) => {
+  //   if (status) {
+  //     navigate("/myprofiles");
+  //   }
+  //   setLoading(false);
+  // };
   const handleDeleteProfile = () => {
     setLoading(true);
     deleteSingleChild(
