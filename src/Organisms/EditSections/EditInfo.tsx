@@ -35,6 +35,9 @@ import {
   setLogoLock,
   setProfileLock,
 } from "../../Redux/TemplateLockedSlice";
+import ProfileNameSelector from "../../Molecules/ProfileNameSelector";
+import DropDown from "../DropDown/DropDown";
+import ProfileNames from "../DropDown/ProfileNames";
 
 const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -108,7 +111,16 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
 
   console.log(templateLockedData, "here is the data");
 
-  
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleOpenNames = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
+
+  const openNames = Boolean(anchorEl);
+  const handleCloseNames = () => {
+    setAnchorEl(null); // Close the menu
+  };
 
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
@@ -120,18 +132,48 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         }
         classes="font-[600] text-[15px]"
       />
-      <InputWithLabel
-        type="text"
-        label={
-          profileData?.profileType === "circoTemplate"
-            ? "Template Name"
-            : "Profile Name"
-        }
-        onChange={(e) => dispatch(setProfileName(e.target.value))}
-        value={profileData?.profileName}
-        inputClasses="h-[40px] w-[238px] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
-        labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
-      />
+      {profileData?.profileType === "circoTemplate" ? (
+        <InputWithLabel
+          type="text"
+          label={
+            profileData?.profileType === "circoTemplate"
+              ? "Template Name"
+              : "Profile Name"
+          }
+          onChange={(e) => dispatch(setProfileName(e.target.value))}
+          value={profileData?.profileName}
+          inputClasses="h-[40px] w-[238px] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
+          labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
+        />
+      ) : (
+        <>
+          <button
+            id="reassign-button"
+            aria-haspopup="listbox"
+            aria-controls="reassign-menu"
+            onClick={handleOpenNames}
+            className="outline-none"
+          >
+            <ProfileNameSelector />
+          </button>
+
+          <DropDown
+            id="reassign-menu"
+            anchorEl={anchorEl}
+            open={openNames}
+            onClose={handleCloseNames}
+            MenuListProps={{
+              "aria-labelledby": "reassign-button",
+              role: "listbox",
+            }}
+          >
+            <ProfileNames
+              handleSelectName={(data: any) => dispatch(setProfileName(data))}
+              ActiveName={profileData?.profileName}
+            />
+          </DropDown>
+        </>
+      )}
 
       <div className="flex justify-start gap-[10%] mt-5">
         <ImageSelecter

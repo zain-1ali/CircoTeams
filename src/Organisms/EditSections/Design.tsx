@@ -68,6 +68,7 @@ const Design = () => {
   const { showSuccess, showError } = useToastNotifications();
   const isTemplate = profileData?.profileType === "circoTemplate";
 
+
   return (
     <div className="w-[94%] mt-6 overflow-y-scroll pb-4">
       <div className="flex items-center gap-3">
@@ -93,9 +94,10 @@ const Design = () => {
       <div
         style={{
           pointerEvents:
-            profileData?.profileType != "circoTemplate" &&
+          !isTemplate &&
             templateLockedData?.generalStyleLock
-              ? "none"
+              ? 
+              "none"
               : undefined,
         }}
       >

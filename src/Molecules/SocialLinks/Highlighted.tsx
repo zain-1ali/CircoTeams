@@ -52,11 +52,18 @@ const Highlighted: React.FC<Link> = (link) => {
           className="h-[45px] w-[45px] rounded-[9px] flex justify-center items-center"
           style={{ backgroundColor: profileDesign?.appIconColor }}
         >
-          {returnWhiteIcons({
-            id: link?.linkID,
-            appcolor: appIconColor,
-            size: 30,
-          })}
+          {!link?.linkImgUrl ? (
+            returnWhiteIcons({
+              id: link?.linkID,
+              appcolor: appIconColor,
+              size: 30,
+            })
+          ) : (
+            <Image
+              src={link?.linkImgUrl}
+              classes="h-[45px] w-[45px] rounded-[9px]"
+            />
+          )}
         </div>
       ) : (
         <Image
@@ -72,7 +79,7 @@ const Highlighted: React.FC<Link> = (link) => {
           {link.title || link.name}
         </p>
         <p
-          className="font-[400] text-[8px] mt-[2px]"
+          className="font-[400] text-[8px] mt-[2px] max-w-[200px] w-[100%]"
           style={{ color: profileDesign.boxTextColor }}
         >
           {link?.linkHighlightDescription}

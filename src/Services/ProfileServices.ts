@@ -535,12 +535,13 @@ export const updateDirect=(id:string | undefined,setDirect:any,link:any,directMo
 }
 
 
-export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any,updateLink:any)=>{
     console.log("link added to profile");
     const existingLinks=Array.isArray(links) ? links :[]
     if(data){
         set(ref(db, `User/${id}/links`),[...existingLinks,{...data}]).then(()=>{
             setLoading(false)
+            updateLink(existingLinks,data)
             showSuccess("Link added sucessfully")
         }).catch((Error)=>{
             showError("Something went wrong")
@@ -549,7 +550,7 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
     }
 }
 
-export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any) => {
+export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any,setRemainingLink:any) => {
     console.log("Deleting link with ID:", linkID);
     if (!id || !links) {
       showError("Something went wrong while removing the link");
@@ -558,12 +559,13 @@ export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any
     setLoading(true);
     
     const updatedLinks = Array.isArray(links)
-      ? links.filter((link: any) => link.linkID !== linkID)
+      ? links.filter((link: any) => link.id !== linkID)
       : [];
   
     set(ref(db, `User/${id}/links`), updatedLinks)
       .then(() => {
         setLoading(false);
+        setRemainingLink(updatedLinks)
         showSuccess("Link removed successfully");
       })
       .catch((error) => {
@@ -592,6 +594,26 @@ export const updateLink=(linkData:any,id:string | undefined,links:any ,showError
         showError("Something went wrong");
       });
     }
+}
+
+
+export const updateTemplateLink=(linkData:any,id:string | undefined,links:any ,showError:any,showSuccess:any,setLoading:any)=>{
+  setLoading(true);
+  const objectIndex = links?.findIndex((obj:any) => obj.id === linkData?.id);
+  if (objectIndex !== -1) {
+  //   const updatedObject = { ...links[objectIndex] };
+  //   const updatedArray = [...links];
+  //   updatedArray[objectIndex] = { ...updatedObject, ...linkData };
+    update(ref(db, `Template/${id}/links/${objectIndex}`),{...linkData}).then(async () => {
+      console.log("Link updated successfully");
+      showSuccess("Link updated successfully");
+      setLoading(false);
+    }).catch((error) => {
+      console.log(error);
+      setLoading(false);
+      showError("Something went wrong");
+    });
+  }
 }
 
 

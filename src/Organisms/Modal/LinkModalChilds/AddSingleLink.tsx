@@ -1,5 +1,8 @@
 import { BiArrowBack } from "react-icons/bi";
-import { returnPngIcons } from "../../../assets/ReturnSocialIconsPng";
+import {
+  returnPngIcons,
+  validateLink,
+} from "../../../assets/ReturnSocialIconsPng";
 import UploadIcon from "../../../Molecules/UploadIcon";
 import CardPreview from "../../CardPreview";
 import { webLinksProps } from "../../../Types";
@@ -20,7 +23,12 @@ import {
   setSocialLinkValue,
 } from "../../../Redux/socialLinkSlice";
 import { motion } from "framer-motion";
-import { addLinkToDb, updateLink, deleteLinkFromDb } from "../../../Services/ProfileServices";
+import {
+  addLinkToDb,
+  updateLink,
+  deleteLinkFromDb,
+  updateTemplateLink,
+} from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
@@ -29,6 +37,7 @@ import { resetLinkData } from "../../../Redux/linkSlice";
 import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 import CustomModal from "../Modal";
 import AreYouSure from "../AreYouSure";
+import { setLinks } from "../../../Redux/ProfileSlice";
 
 const AddSingleLink: React.FC<webLinksProps> = ({
   changeLinkMode,
@@ -41,7 +50,6 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
-  
 
   // useEffect(() => {
   //   if (linkToEdit) {
@@ -133,6 +141,11 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   console.log(socialLink?.linkID, "linkID");
 
   const handleAddLinkToDb = () => {
+    if (!validateLink(socialLink?.linkID, socialLink?.value)) {
+      showError("!Invalid Link");
+      return;
+    }
+
     if (socialLink?.placeholder) {
       updateLink(
         { ...socialLink },
@@ -149,41 +162,74 @@ const AddSingleLink: React.FC<webLinksProps> = ({
         profileData?.links,
         showError,
         showSuccess,
-        handleLoading
+        handleLoading,
+        (oldLinks: any, newLink: any) => {
+          dispatch(setLinks([...oldLinks, newLink]));
+        }
       );
     }
   };
-  const handleDeleteLink = (linkID:any) => {
-    console.log(linkID);
-      deleteLinkFromDb(
-        linkID,
+
+  const handleAddLinkToTemplate = () => {
+    if (!validateLink(socialLink?.linkID, socialLink?.value)) {
+      showError("!Invalid Link");
+      return;
+    }
+    if (socialLink?.placeholder) {
+      updateTemplateLink(
+        { ...socialLink },
         id,
         profileData?.links,
         showError,
         showSuccess,
         handleLoading
       );
+    } else {
+      addLinkToTemplate(
+        { ...socialLink, placeholder: linkInfo?.placeholder },
+        profileData?.id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading,
+        (oldLinks: any, newLink: any) => {
+          dispatch(setLinks([...oldLinks, newLink]));
+        }
+      );
+    }
+  };
+  const handleDeleteLink = (linkID: any) => {
+    console.log(linkID);
+    deleteLinkFromDb(
+      linkID,
+      id,
+      profileData?.links,
+      showError,
+      showSuccess,
+      handleLoading,
+      (remainingLink: any) => {
+        dispatch(setLinks(remainingLink));
+      }
+    );
   };
 
   return (
     <div className="w-[100%] h-[100%] flex">
       <div className="h-[100%] w-[65%] border-r">
         <div className="flex w-[95%] justify-between">
-        <BiArrowBack
-          className="text-2xl text-[#929292] cursor-pointer"
-          onClick={() => handleCancelbtn()}
-        />
-        {linkEdit && (
-          <Button
-          btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
-          onClick={ () =>  setSureModal(true)}
-          text="Delete"
-        />
-
-        )}
-         
+          <BiArrowBack
+            className="text-2xl text-[#929292] cursor-pointer"
+            onClick={() => handleCancelbtn()}
+          />
+          {linkEdit && (
+            <Button
+              btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
+              onClick={() => setSureModal(true)}
+              text="Delete"
+            />
+          )}
         </div>
-        
+
         {/* <div className="flex">
           <Image classes="h-[72px] w-[72px] " src={returnPngIcons(2)} />
           <div className=""></div>
@@ -285,14 +331,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
             onClick={() =>
               socialLink?.value
                 ? profileData?.profileType === "circoTemplate"
-                  ? addLinkToTemplate(
-                      { ...socialLink, placeholder: linkInfo?.placeholder },
-                      profileData?.id,
-                      profileData?.links,
-                      showError,
-                      showSuccess,
-                      handleLoading
-                    )
+                  ? handleAddLinkToTemplate()
                   : handleAddLinkToDb()
                 : // addLinkToDb(
                   //     { ...socialLink, placeholder: linkInfo?.placeholder },
@@ -326,7 +365,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
         style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
       >
         <AreYouSure
-          onClick={() => handleDeleteLink(socialLink.linkID)}
+          onClick={() => handleDeleteLink(socialLink.id)}
           onClose={() => setSureModal(false)}
           text={"Are You sure to delete this link ?"}
         />

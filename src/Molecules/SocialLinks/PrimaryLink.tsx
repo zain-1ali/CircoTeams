@@ -20,11 +20,18 @@ const PrimaryLink: React.FC<Link> = (link) => {
           className="h-[45px] w-[45px] rounded-[9px] flex justify-center items-center"
           style={{ backgroundColor: profileData?.profileDesign?.appIconColor }}
         >
-          {returnWhiteIcons({
-            id: link?.linkID,
-            appcolor: appIconColor,
-            size: 30,
-          })}
+          {!link?.linkImgUrl ? (
+            returnWhiteIcons({
+              id: link?.linkID,
+              appcolor: appIconColor,
+              size: 30,
+            })
+          ) : (
+            <Image
+              src={link?.linkImgUrl}
+              classes="h-[45px] w-[45px] rounded-[9px]"
+            />
+          )}
         </div>
       ) : (
         <Image

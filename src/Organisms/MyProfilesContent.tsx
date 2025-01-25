@@ -63,10 +63,30 @@ const MyProfilesContent = () => {
     setSelectedId(id);
   };
 
+  const returnProfilesLenth = (type: string) => {
+    if (type === "self") {
+      return (
+        allProfiles?.filter((profile: any) => profile?.profileType === "self")
+          .length + 1
+      );
+    } else {
+      return allProfiles?.filter(
+        (profile: any) => profile?.profileType === "team"
+      ).length;
+    }
+  };
+
   return (
     <div className="h-[100%] w-[83%] bg-[#F7F7F8] flex justify-center relative">
       <div className="w-[95%]  h-[96%] overflow-y-scroll">
-        <Text text="My Profiles" classes="font-[700] text-[24px] mt-[30px]" />
+        <div className="flex  mt-[30px] gap-2">
+          <Text text="My Profiles" classes="font-[700] text-[24px]" />
+          <Text
+            text={`(${returnProfilesLenth("self")})`}
+            classes="font-[600] text-[12px] text-[#B5B5B5] mt-3"
+          />
+        </div>
+
         <div className="w-[100%] flex justify-start gap-[8%] mt-3 flex-wrap gap-y-6">
           {companyProfile?.id && (
             <UserProfileCard
@@ -95,10 +115,14 @@ const MyProfilesContent = () => {
           />
         </div>
 
-        <Text
-          text="My Team Profile"
-          classes="font-[700] text-[24px] mt-[30px]"
-        />
+        <div className="flex  mt-[30px] gap-2">
+          <Text text="My Team Profile" classes="font-[700] text-[24px]" />
+          <Text
+            text={`(${returnProfilesLenth("team")})`}
+            classes="font-[600] text-[12px] text-[#B5B5B5] mt-3"
+          />
+        </div>
+
         <div className="w-[100%] flex justify-start gap-[8%] gap-y-5 mt-3 flex-wrap">
           {allProfiles?.map((profile: any, i: any) => {
             if (profile?.profileType === "team") {

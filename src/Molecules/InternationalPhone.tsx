@@ -109,7 +109,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
             +{phone}
           </div>
           <input
-            type="tel"
+            type="number"
             value={phoneNum}
             onChange={(e) => setPhoneNum(e.target.value)}
             placeholder={

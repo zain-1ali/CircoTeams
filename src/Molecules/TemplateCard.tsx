@@ -67,14 +67,14 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     dispatch(setCompany(templateData?.company));
     dispatch(setProfileTitle(templateData?.profileTitle));
     dispatch(setProfileType(templateData?.profileType));
-    if (typeof templateData?.links === "object") {
+    if (typeof templateData?.links === "object"){
       dispatch(setLinks(Object.values(templateData?.links)));
     } else {
       dispatch(setLinks([]));
     }
     dispatch(setProfileDesign(templateData?.profileDesign));
 
-    if (templateData?.profileDesign?.backgroundImage) {
+    if (templateData?.profileDesign?.backgroundImage){
       dispatch(
         setProfileDesign({
           backgroundImage: templateData?.profileDesign?.backgroundImage,

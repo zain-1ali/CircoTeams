@@ -51,8 +51,14 @@ const Sidebar = () => {
   return (
     <div className="h-[100%] w-[17%]  bg-white flex justify-center items-center">
       <div className="max-h-[95%] h-[95%] w-[92%]  flex flex-col items-center  overflow-y-scroll">
-        <Logo Imgclasses="h-[50px] w-[50px] object-cover" containerClasses="" />
-        <div className="mt-8 w-[100%] flex flex-col gap-4  ">
+        <div onClick={() => navigate("/myprofiles")}>
+          <Logo
+            Imgclasses="h-[50px] w-[50px] object-cover cursor-pointer"
+            containerClasses=""
+          />
+        </div>
+
+        <div className="mt-8 w-[100%] flex flex-col gap-4">
           <SidebarButton
             icon={i1}
             hoverIcon={hi1}

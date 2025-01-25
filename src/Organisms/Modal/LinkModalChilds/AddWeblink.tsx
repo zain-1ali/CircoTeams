@@ -15,6 +15,12 @@ import weblinkgraphic from "../../../assets/images/weblinkgraphic2.jpeg";
 import weblinkgrafic from "../../../assets/images/weblinkgraphic.png";
 import CustomModal from "../Modal";
 import AreYouSure from "../AreYouSure";
+import gi1 from "../../../assets/images/gi1.png";
+import gi2 from "../../../assets/images/gi2.png";
+import gi3 from "../../../assets/images/gi3.png";
+import gi4 from "../../../assets/images/gi4.png";
+import gi5 from "../../../assets/images/gi5.png";
+import gi6 from "../../../assets/images/gi6.png";
 
 import {
   setGraphicDisplayText,
@@ -25,11 +31,16 @@ import {
   setSocialLinklinkID,
   setSocialLinkName,
   setSocialLinkTitle,
-  setSocialLinkValue,
+  setSocialLinkUrl,
   setWebLinkStyle,
 } from "../../../Redux/socialLinkSlice";
 // import { motion } from "framer-motion";
-import { addLinkToDb, updateLink, deleteLinkFromDb } from "../../../Services/ProfileServices";
+import {
+  addLinkToDb,
+  updateLink,
+  deleteLinkFromDb,
+  updateTemplateLink,
+} from "../../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 // import { useUploadFile } from "../../../Hooks/useUploadFile";
@@ -39,6 +50,9 @@ import Icon from "../../WebLinkMode/Icon";
 import ImageMode from "../../WebLinkMode/Image";
 import ButtonMode from "../../WebLinkMode/Button";
 import { addLinkToTemplate } from "../../../Services/TemplatesServices";
+import { validateLink } from "../../../assets/ReturnSocialIconsPng";
+import { setLinks } from "../../../Redux/ProfileSlice";
+
 
 const AddWeblink: React.FC<webLinksProps> = ({
   changeLinkMode,
@@ -56,7 +70,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
 
   const handleCancelbtn = () => {
     changeLinkMode("allLinks");
-    dispatch(setSocialLinkValue(""));
+    dispatch(setSocialLinkUrl(""));
     dispatch(setSocialLinkTitle(""));
     dispatch(setSocialLinkIsHighlighted(false));
     dispatch(setSocialLinkName(""));
@@ -69,7 +83,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
   const handleLoading = (value: boolean) => {
     setLoading(value);
     changeLinkMode("allLinks");
-    dispatch(setSocialLinkValue(""));
+    dispatch(setSocialLinkUrl(""));
     dispatch(setSocialLinkTitle(""));
     dispatch(setSocialLinkIsHighlighted(false));
     dispatch(setSocialLinkName(""));
@@ -96,6 +110,10 @@ const AddWeblink: React.FC<webLinksProps> = ({
   const ifAddeed = profileData.links?.some((elm) => socialLink?.id === elm?.id);
 
   const handleAddLinkToDb = () => {
+    if (!validateLink(socialLink?.linkID, socialLink?.url)) {
+      showError("!Invalid Link");
+      return;
+    }
     if (ifAddeed) {
       updateLink(
         socialLink,
@@ -112,23 +130,73 @@ const AddWeblink: React.FC<webLinksProps> = ({
         profileData.links,
         showError,
         showSuccess,
-        handleLoading
+        handleLoading,
+        (oldLinks: any, newLink: any) => {
+          dispatch(setLinks([...oldLinks, newLink]));
+        }
       );
     }
   };
 
-  const handleDeleteLink = (linkID:any) => {
-    console.log(linkID);
-      deleteLinkFromDb(
-        linkID,
+  const handleAddLinkToTemplate = () => {
+    if (!validateLink(socialLink?.linkID, socialLink?.value)) {
+      showError("!Invalid Link");
+      return;
+    }
+    if (socialLink?.placeholder) {
+      updateTemplateLink(
+        { ...socialLink },
         id,
         profileData?.links,
         showError,
         showSuccess,
         handleLoading
       );
+    } else {
+      addLinkToTemplate(
+        { ...socialLink },
+        profileData?.id,
+        profileData?.links,
+        showError,
+        showSuccess,
+        handleLoading,
+        (oldLinks: any, newLink: any) => {
+          dispatch(setLinks([...oldLinks, newLink]));
+        }
+      );
+    }
   };
 
+  const handleDeleteLink = (linkID: any) => {
+    console.log(linkID);
+    deleteLinkFromDb(
+      linkID,
+      id,
+      profileData?.links,
+      showError,
+      showSuccess,
+      handleLoading,
+      (remainingLink: any) => {
+        dispatch(setLinks(remainingLink));
+      }
+    );
+  };
+
+  const returnIconStyle = (style: string) => {
+    if (style === "style1") {
+      return gi1;
+    } else if (style === "style2") {
+      return gi2;
+    } else if (style === "style3") {
+      return gi3;
+    } else if (style === "style4") {
+      return gi4;
+    } else if (style === "style5") {
+      return gi5;
+    } else if (style === "style6") {
+      return gi6;
+    }
+  };
   return (
     <div className="w-[100%] h-[100%] flex">
       <div className="h-[100%] w-[65%] border-r">
@@ -138,11 +206,10 @@ const AddWeblink: React.FC<webLinksProps> = ({
           <div className="flex gap-4 ">
             {linkEdit && (
               <Button
-              btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
-              onClick={ () =>  setSureModal(true)}
-              text="Delete"
-            />
-
+                btnClasses={`w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]`}
+                onClick={() => setSureModal(true)}
+                text="Delete"
+              />
             )}
             <Button
               btnClasses="w-[87px] h-[33px] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[#BBBBBB]"
@@ -151,23 +218,16 @@ const AddWeblink: React.FC<webLinksProps> = ({
             />
             <Button
               btnClasses={`w-[116px] h-[33px] bg-[#2B6EF6] border border-[#E2E2E2] rounded-[66px] text-[12px] font-[600] text-[white] ${
-                socialLink?.value &&
+                socialLink?.url &&
                 (socialLink?.title || socialLink?.graphicDisplayText)
                   ? "opacity-[100%]"
                   : "opacity-[50%]"
               }`}
               onClick={() =>
-                socialLink?.value &&
+                socialLink?.url &&
                 (socialLink?.title || socialLink?.graphicDisplayText)
                   ? profileData?.profileType === "circoTemplate"
-                    ? addLinkToTemplate(
-                        socialLink,
-                        id,
-                        profileData.links,
-                        showError,
-                        showSuccess,
-                        handleLoading
-                      )
+                    ? handleAddLinkToTemplate()
                     : handleAddLinkToDb()
                   : () => {}
               }
@@ -177,13 +237,13 @@ const AddWeblink: React.FC<webLinksProps> = ({
         </div>
 
         <div className="w-[100%]  mt-3">
-          <div className="w-[416px] flex items-end ">
+          <div className="w-[416px] flex items-end">
             <div>
               <InputWithLabel
                 type="text"
                 label="Web URL"
-                onChange={(e) => dispatch(setSocialLinkValue(e.target.value))}
-                value={socialLink?.value}
+                onChange={(e) => dispatch(setSocialLinkUrl(e.target.value))}
+                value={socialLink?.url}
                 inputClasses="w-[316px] h-[40px] bg-[#FAFAFB] rounded-l-[10px] outline-none mt-1 pl-2"
                 labelClasses="font-[600] text-[12px] text-[#8D8D8D]"
               />
@@ -278,7 +338,13 @@ const AddWeblink: React.FC<webLinksProps> = ({
               }`}
               onClick={() => handleWebLinkMode("style3")}
             >
-              <div className="relative flex justify-center ">
+              <div className="relative flex justify-center">
+              <div className="h-[16px] w-[16px] rounded-full bg-[#00000040] absolute top-1 right-1  flex justify-center items-center">
+                  <Image
+                    src={returnIconStyle(socialLink.iconStyle)}
+                    classes="filter invert brightness-0 h-[8px] object-cover"
+                  />
+                </div>
                 <Text
                   text="Visit my site"
                   classes="text-[8px] font-[400] text-white absolute bottom-1"
@@ -339,7 +405,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
         style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
       >
         <AreYouSure
-          onClick={() => handleDeleteLink(socialLink.linkID)}
+          onClick={() => handleDeleteLink(socialLink.id)}
           onClose={() => setSureModal(false)}
           text={"Are You sure to delete this link ?"}
         />

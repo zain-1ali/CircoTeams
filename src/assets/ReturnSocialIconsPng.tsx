@@ -400,3 +400,97 @@ export const returnPngIcons = (id: number): string | undefined => {
       return undefined; // Return undefined if no match is found
   }
 };
+
+// Define the validation rule type
+type ValidationRule = {
+  linkID: number;
+  validate: (value: string) => boolean;
+};
+
+// Validation rules based on linkID
+const linkValidationRules: ValidationRule[] = [
+  {
+    linkID: 2, // Call
+    validate: (value: string) => /^[0-9]{10,15}$/.test(value), // Validate phone numbers (E.164 format)
+  },
+  {
+    linkID: 3, // Email
+    validate: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), // Validate email format
+  },
+  {
+    linkID: 4, // Text (Phone Number)
+    validate: (value: string) => /^[0-9]{10,15}$/.test(value),
+  },
+  {
+    linkID: 5, // WhatsApp
+    validate: (value: string) => /^[0-9]{10,15}$/.test(value),
+  },
+  {
+    linkID: 11, // Instagram
+    validate: (value: string) => /^[a-zA-Z0-9._]{1,30}$/.test(value), // Validate Instagram username
+  },
+  {
+    linkID: 12, // LinkedIn
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/.test(value), // Validate LinkedIn URL
+  },
+  {
+    linkID: 13, // TikTok
+    validate: (value: string) => /^[a-zA-Z0-9._]{1,30}$/.test(value), // Validate TikTok username
+  },
+  {
+    linkID: 14, // Facebook
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?facebook\.com\/.*$/.test(value), // Validate Facebook profile link
+  },
+  {
+    linkID: 17, // Twitter
+    validate: (value: string) => /^[a-zA-Z0-9_]{1,15}$/.test(value), // Validate Twitter username
+  },
+  {
+    linkID: 18, // Pinterest
+    validate: (value: string) => /^[a-zA-Z0-9._]{1,30}$/.test(value), // Validate Pinterest username
+  },
+  {
+    linkID: 15, // Snapchat
+    validate: (value: string) => /^[a-zA-Z0-9._]{1,30}$/.test(value), // Validate Snapchat username
+  },
+  {
+    linkID: 16, // YouTube
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?youtube\.com\/.*$/.test(value), // Validate YouTube URL
+  },
+  {
+    linkID: 21, // Website
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 999, // Website
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 31, // Cash App
+    validate: (value: string) => /^\$[a-zA-Z0-9]{1,20}$/.test(value), // Validate Cash App username
+  },
+  {
+    linkID: 32, // PayPal
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?paypal\.me\/.*$/.test(value), // Validate PayPal.me link
+  },
+  {
+    linkID: 33, // Venmo
+    validate: (value: string) => /^@[a-zA-Z0-9_]{1,15}$/.test(value), // Validate Venmo username
+  },
+];
+
+// Function to validate a link or value based on linkID
+export const validateLink = (linkID: number, value: any): boolean => {
+  const rule = linkValidationRules.find((r) => r.linkID === linkID);
+  if (!rule) {
+    console.warn(`No validation rule found for linkID: ${linkID}`);
+    return false;
+  }
+  return rule.validate(value);
+};

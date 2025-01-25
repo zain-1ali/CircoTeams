@@ -27,6 +27,22 @@ import {
   toggleDirectMode,
   toggleLeadMode,
 } from "../Redux/ProfileSlice";
+import {
+  setCompanyLock,
+  setCoverLock,
+  setEmailLock,
+  setGeneralStyleLock,
+  sethighlightBoxStyleLock,
+  setJobLock,
+  setLayoutStyleLock,
+  setLocationLock,
+  setLogoLock,
+  setPhoneLock,
+  setProfileLock,
+  setsaveContactStyleLock,
+  setWebLinkStyleLock,
+} from "../Redux/TemplateLockedSlice";
+import { setProfileEditSection } from "../Redux/EditSectionsSlice";
 
 const EditprofileContent = () => {
   const innerHeight: number = window.innerHeight;
@@ -55,6 +71,20 @@ const EditprofileContent = () => {
       const templateData: any = Object.values(templatesData)?.[0];
 
       // console.log(templateData, "here is refined");
+
+      dispatch(setCoverLock(templateData?.coverLock));
+      dispatch(setLogoLock(templateData?.logoLock));
+      dispatch(setProfileLock(templateData?.profilePictureLock));
+      dispatch(setJobLock(templateData?.jobLock));
+      dispatch(setCompanyLock(templateData?.companyLock));
+      dispatch(setLocationLock(templateData?.locationLock));
+      dispatch(setEmailLock(templateData?.emailLock));
+      dispatch(setPhoneLock(templateData?.phoneLock));
+      dispatch(setGeneralStyleLock(templateData?.generalStyleLock));
+      dispatch(setLayoutStyleLock(templateData?.layoutStyleLock));
+      dispatch(setsaveContactStyleLock(templateData?.saveContactStyleLock));
+      dispatch(setWebLinkStyleLock(templateData?.webLinkStyleLock));
+      dispatch(sethighlightBoxStyleLock(templateData?.highlightBoxStyleLock));
 
       dispatch(
         setJobTitle(
@@ -108,7 +138,6 @@ const EditprofileContent = () => {
         dispatch(setLinks(Object.values(templateData?.links)));
       }
 
-    
       dispatch(
         setProfileDesign({
           appIconColor: templateData?.generalStyleLock
@@ -149,8 +178,8 @@ const EditprofileContent = () => {
             : profileData?.profileDesign?.profileFont,
 
           saveContactBackgroundColor: templateData?.saveContactStyleLock
-            ? templateData?.profileDesign?.saveContactStyle
-            : profileData?.profileDesign?.saveContactStyle,
+            ? templateData?.profileDesign?.saveContactBackgroundColor
+            : profileData?.profileDesign?.saveContactBackgroundColor,
 
           saveContactStyle: templateData?.saveContactStyleLock
             ? templateData?.profileDesign?.saveContactStyle
@@ -179,26 +208,27 @@ const EditprofileContent = () => {
         })
       );
 
-      if (templateData?.profileDesign?.backgroundImage) {
-        dispatch(
-          setProfileDesign({
-            backgroundImage: templateData?.profileDesign?.backgroundImage,
-          })
-        );
-      } else {
-        dispatch(
-          setProfileDesign({
-            backgroundImage:
-              "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1",
-          })
-        );
-      }
+      // if (templateData?.profileDesign?.backgroundImage) {
+      //   dispatch(
+      //     setProfileDesign({
+      //       backgroundImage: templateData?.profileDesign?.backgroundImage,
+      //     })
+      //   );
+      // } else {
+      //   dispatch(
+      //     setProfileDesign({
+      //       backgroundImage:
+      //         "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/pexels-egos68-1906658.jpg?alt=media&token=727feb95-1b77-4190-a273-38db9710e9d1",
+      //     })
+      //   );
+      // }
     }
   };
 
   // setting redux states
 
   useEffect(() => {
+    dispatch(setProfileEditSection(0))
     if (profileData?.templateId) {
       dispatch(setFirstName(profileData?.firstName));
       dispatch(setLastName(profileData?.lastName));

@@ -1,6 +1,7 @@
 import { equalTo, get, orderByChild, push, query, ref, set, update } from "firebase/database"
 import { db } from "../firebase"
 
+
 export const createTemplate=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
     if(data?.profileName){
         setLoading(true)
@@ -50,13 +51,14 @@ export const updateTemplateDesign=(data:any,lockData:any,id:string | undefined,s
 }
 
 
-export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showError:any,showSuccess:any,setLoading:any,updateLinks:any)=>{
     console.log("link added to template");
     
     if(data){
         set(ref(db, `Template/${id}/links`),[...links,{...data}]).then(()=>{
             setLoading(false)
             showSuccess("Link added sucessfully")
+            updateLinks(links,data)
         }).catch((Error)=>{
             showError("Something went wrong")
             console.log("the error",Error)
