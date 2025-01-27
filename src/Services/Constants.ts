@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, query, ref, remove, set } from "firebase/database";
+import { equalTo, onValue, orderByChild, query, ref, remove } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
 import axios from "axios";
