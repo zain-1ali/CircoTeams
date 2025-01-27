@@ -182,6 +182,9 @@ export interface colorSelectorProps {
 export interface tableHeaderProps {
   text: string;
   width: string;
+  keyName?: string;
+  data?: any[];
+  setData?: (data: any[]) => void;
 }
 
 export interface textBtnProps {

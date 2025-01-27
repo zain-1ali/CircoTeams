@@ -40,59 +40,6 @@ const ReasignTeam: React.FC<{
       <div className="h-[270px] w-[270px] p-3 rounded-[18px] overflow-hidden">
         <Text classes="text-[14px] font-[700]" text="Reassign to:" />
         <div className="w-[100%] h-[160px] overflow-y-scroll">
-          {/* <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div>
-
-          <div className="w-[100%] flex mt-4 gap-2">
-            <Radio classes="h-[20px] w-[20px]" />
-            <Text
-              text="Marketing"
-              classes="text-[15px] font-[500] text-[#636363]"
-            />
-          </div> */}
-
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             // defaultValue="female"

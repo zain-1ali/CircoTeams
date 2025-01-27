@@ -116,10 +116,34 @@ const Member = () => {
   // console.log(allProfiles);
 
   const headers = [
-    <TableHeaderCell text="Name" width="200px" />,
-    <TableHeaderCell text="Email" width="200px" />,
-    <TableHeaderCell text="Subteam" width="200px" />,
-    <TableHeaderCell text="Template" width="200px" />,
+    <TableHeaderCell
+      text="Name"
+      width="200px"
+      keyName="firstName"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Email"
+      width="200px"
+      keyName="email"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Subteam"
+      width="200px"
+      keyName="subTeamId"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Template"
+      width="200px"
+      keyName="templateId"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
   ];
   const searchItem = (searchValue: string) => {
     if (searchValue === "") {

@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, query, ref, remove } from "firebase/database";
+import { equalTo, onValue, orderByChild, query, ref, remove, set } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
 import axios from "axios";
@@ -17,8 +17,6 @@ export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,c
         MediaKeyStatusMap;
       });
 }
-
-
 
 export const getMultipleChilds = async (collectionName:string,orderBy:string,id:string | null,callBackFunc:any, setloading:any) => {
     setloading(true);
@@ -127,6 +125,46 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
   
     return formattedDate;
   };
+
+
+
+
+  export const  sortArrayByKey=(
+    array: any[],
+    key: string,
+    sortingType: string,
+    setSortedData:any
+  )=> {
+    
+
+    console.log(array,key,sortingType);
+    
+    const sortedArray = array.slice().sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+  
+      // Handle "a to z" and "z to a"
+      if (sortingType === "a to z" || sortingType === "z to a") {
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          const comparison = aValue.localeCompare(bValue);
+          return sortingType === "a to z" ? comparison : -comparison;
+        }
+      }
+  
+      // Handle "oldest" and "newest"
+      if (sortingType === "oldest" || sortingType === "newest") {
+        const aDate = new Date(aValue);
+        const bDate = new Date(bValue);
+        if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
+          return sortingType === "oldest" ? aDate.getTime() - bDate.getTime() : bDate.getTime() - aDate.getTime();
+        }
+      }
+  
+      return 0; // Default to no sorting if conditions don't match
+    });
+  
+    setSortedData(sortedArray);
+  }
   
 
 

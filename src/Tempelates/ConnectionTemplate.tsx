@@ -67,10 +67,34 @@ const ConnectionTemplate = () => {
 
   const innerHeight: number = window.innerHeight;
   const headers = [
-    <TableHeaderCell text="Connections" width="150px" />,
-    <TableHeaderCell text="Connected with" width="150px" />,
-    <TableHeaderCell text="Date" width="150px" />,
-    <TableHeaderCell text="Note" width="300px" />,
+    <TableHeaderCell
+      text="Connections"
+      width="150px"
+      keyName="name"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Connected with"
+      width="150px"
+      keyName="connectedWith"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Date"
+      width="150px"
+      keyName="date"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
+    <TableHeaderCell
+      text="Note"
+      width="300px"
+      keyName="message"
+      data={filteredConnections}
+      setData={setFilteredConnections}
+    />,
   ];
   return (
     <div className="h-screen w-screen flex">
