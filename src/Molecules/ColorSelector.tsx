@@ -8,14 +8,29 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
   color,
 }) => {
   const colors: string[] = [
-    "#000000",
-    "#EB5757",
-    "#F2994A",
-    "#F2C94C",
-    "#219653",
-    "#2F80ED",
-    "#9B51E0",
+    "#000",
+    "#ff474c",
+    "#ff9441",
+    "#fdc64a",
+    "#00985a",
+    "#0082ed",
+    "#a64ddf"
   ];
+
+
+
+  // const colors: string[] = [
+  //   "#000000",
+  //   "#EB5757",
+  //   "#F2994A",
+  //   "#F2C94C",
+  //   "#219653",
+  //   "#2F80ED",
+   
+  //   "#9B51E0",
+  // ];
+
+  
 
   return (
     <div>

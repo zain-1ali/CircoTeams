@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, query, ref, remove } from "firebase/database";
+import { equalTo, onValue, orderByChild, query, ref, remove, set } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
 import axios from "axios";
@@ -165,6 +165,27 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
   
     setSortedData(sortedArray);
   }
+
+
+
+
+ export const handleDragEnd = (result :any , data:any ,setData:any,id:any) => {
+  
+    if (!result.destination) {
+      return;
+    }
+    const updatedItems = [...data];
+    const [movedItem] = updatedItems.splice(result.source.index, 1);
+    updatedItems.splice(result.destination.index, 0, movedItem);
+    // dispatch(Addlinks(updatedItems))
+    setData(updatedItems);
+
+    set(ref(db, `User/${id}/links/`), [...updatedItems]).then(() => {
+      console.log("Data updated successfully");
+    }).catch((error) => {
+      console.error("Error updating data:", error);
+    });
+  };
   
 
 

@@ -7,12 +7,14 @@ import { useState } from "react";
 import LinkModal from "../Modal/LinkModal";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { resetLinkData } from "../../Redux/linkSlice";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   resetSocialLink,
   updateAllSocialLinkValues,
 } from "../../Redux/socialLinkSlice";
 import {
   setDirect,
+  setLinks,
   toggleDirectMode,
   toggleLeadMode,
   // ,
@@ -25,6 +27,7 @@ import {
 } from "../../Services/ProfileServices";
 import AddSingleLink from "../Modal/LinkModalChilds/AddSingleLink";
 import AddWeblink from "../Modal/LinkModalChilds/AddWeblink";
+import { handleDragEnd } from "../../Services/Constants";
 
 const Links = () => {
   const [linkModal, setLinkModal] = useState<boolean>(false);
@@ -60,6 +63,15 @@ const Links = () => {
   };
 
   console.log(profileData.leadMode, "leadmode2");
+
+  const handleDrag = (result: any) => {
+    handleDragEnd(
+      result,
+      profileData.links,
+      (data: any) => dispatch(setLinks(data)),
+      id
+    );
+  };
 
   return (
     <div className="w-[96%] mt-6 overflow-y-scroll pb-4">
@@ -102,27 +114,48 @@ const Links = () => {
           icon={<IoIosAdd className="text-xl " />}
         />
       </div>
-      <div className="w-[100%] mt-10 h-[83%] flex flex-col gap-4 overflow-y-scroll">
-        {profileData.links && profileData.links.length > 0 ? (
-          profileData?.links?.map((link) => {
-            return (
-              <LinkContainer
-                link={link}
-                direct={profileData?.direct}
-                directMode={profileData?.directMode}
-                id={id}
-                links={profileData?.links}
-                setLinkToEdit={handleOpenEditLinkModal}
-              />
-            );
-          })
-        ) : (
-          <div className="w-[100%] h-[100%] flex justify-center items-center">
-            No links to show
-          </div>
-        )}
-      </div>
 
+      <DragDropContext onDragEnd={handleDrag}>
+        <Droppable droppableId="droppable" direction="vertical">
+          {(provided) => (
+            <div
+              className="w-[100%]  mt-10 h-[83%] flex flex-col gap-4 overflow-y-scroll"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {profileData.links && profileData.links.length > 0 ? (
+                profileData?.links?.map((link, i) => {
+                  return (
+                    <Draggable key={link.id} draggableId={link.id} index={i}>
+                      {(provided) => (
+                        <div
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                          className="w-[100%]"
+                        >
+                          <LinkContainer
+                            link={link}
+                            direct={profileData?.direct}
+                            directMode={profileData?.directMode}
+                            id={id}
+                            links={profileData?.links}
+                            setLinkToEdit={handleOpenEditLinkModal}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })
+              ) : (
+                <div className="w-[100%] h-[100%] flex justify-center items-center">
+                  No links to show
+                </div>
+              )}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       {/* Modal use for edit the link  */}
       <CustomModal
         open={editLinkModal}
