@@ -5,6 +5,7 @@ import SubTeamsGetStarted from "../../Molecules/SubTeamsGetStarted";
 import SubTeamCard from "../../Molecules/SubTeamCard";
 import { getMultipleChilds } from "../../Services/Constants";
 import Loading from "../Loading";
+import { getConnections } from "../../Services/ConnectionServices";
 
 const Subteams = () => {
   const [loading, setloading] = useState<boolean>(false);
@@ -13,11 +14,12 @@ const Subteams = () => {
 
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [subteams, setSubteams] = useState<any[]>([]);
+  const [connections, setConnections] = useState<any[]>([]);
 
   // SEARCH FUNCTIONALITY
 
   let [filteredTeams, setFilteredTeams] = useState<any[]>([]);
-  const searchItem = (searchValue: string) => { 
+  const searchItem = (searchValue: string) => {
     if (searchValue === "") {
       setFilteredTeams(subteams);
     } else {
@@ -46,6 +48,10 @@ const Subteams = () => {
     );
   }, []);
 
+  useEffect(() => {
+    getConnections(companyId, setConnections);
+  }, [companyId]);
+
   const handleRowSelect = (item: any, isChecked: boolean) => {
     // Handle a single data object (e.g., from individual row selection)
     if (isChecked) {
@@ -57,7 +63,7 @@ const Subteams = () => {
 
   console.log(selectedTeams);
 
-  return(
+  return (
     <div className="w-[100%] h-[100%]">
       {/* {loading && <Loading bgColor="#F7F7F8" />} */}
       {loading ? (
@@ -78,6 +84,7 @@ const Subteams = () => {
                   key={index}
                   isChecked={selectedTeams?.some((elm) => elm?.id === team?.id)}
                   handleRowSelect={handleRowSelect}
+                  connections={connections}
                 />
               );
             })}

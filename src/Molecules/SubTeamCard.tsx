@@ -20,7 +20,12 @@ import SubTeamDropDown from "../Organisms/DropDown/SubTeamDropDown";
 import { removeTeams } from "../Services/SubTeamsServices";
 import useToastNotifications from "../Hooks/useToastNotification";
 
-const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
+const SubTeamCard: React.FC<any> = ({
+  team,
+  isChecked,
+  handleRowSelect,
+  connections,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -46,6 +51,19 @@ const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
 
   const handleDelete = () => {
     removeTeams([team], showError, showSuccess, setLoading);
+  };
+
+  const returnConnectionsLength = () => {
+    if (team?.members) {
+      const connectionsLength = team?.members?.map((member: any) => {
+        return connections.filter(
+          (connection: any) => connection?.userid === member
+        );
+      });
+      return connectionsLength?.length;
+    } else {
+      return 0;
+    }
   };
   return (
     <div className="w-[30%] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
@@ -122,12 +140,18 @@ const SubTeamCard: React.FC<any> = ({ team, isChecked, handleRowSelect }) => {
       <div className="w-[76px] flex justify-between mt-4">
         <div className="flex items-center gap-1 cursor-pointer">
           <Image src={i16} classes="h-[14px] w-[14px]" />
-          <Text text="3" classes="font-[700] text-[10px] text-[#CDCCD4]" />
+          <Text
+            text={team?.members?.length || 0}
+            classes="font-[700] text-[10px] text-[#CDCCD4]"
+          />
         </div>
 
         <div className="flex items-center gap-1 cursor-pointer">
           <Image src={i17} classes="h-[15px] w-[15px]" />
-          <Text text="46" classes="font-[700] text-[10px] text-[#CDCCD4]" />
+          <Text
+            text={returnConnectionsLength()}
+            classes="font-[700] text-[10px] text-[#CDCCD4]"
+          />
         </div>
       </div>
 

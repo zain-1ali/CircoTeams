@@ -21,6 +21,8 @@ const ConnectionTemplate = () => {
   };
 
   const applyFilterId = (id: string, type: string) => {
+    console.log(id, "this is id for filter");
+
     if (type === "user") {
       if (id == "") {
         setFilteredConnections(allConnections);
