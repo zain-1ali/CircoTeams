@@ -5,20 +5,22 @@ import Image from "../Atoms/Image";
 // import Radio from "../Atoms/Radio";
 import Text from "../Atoms/Text";
 import { BsThreeDots } from "react-icons/bs";
-import pm1 from "../assets/images/pm1.jpg";
-import pm2 from "../assets/images/pm2.jpg";
-import pw1 from "../assets/images/pw1.jpg";
+import pm1 from "../assets/images/profilePlchldr.png";
+// import pm2 from "../assets/images/pm2.jpg";
+// import pw1 from "../assets/images/pw1.jpg";
 import { IoMdAdd } from "react-icons/io";
 import i16 from "../assets/images/i16.png";
 import i17 from "../assets/images/i17.png";
 import CustomModal from "../Organisms/Modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ManageSubTeam from "../Organisms/Modal/ManageSubTeam";
 import Checkbox from "../Atoms/Checkbox";
 import DropDown from "../Organisms/DropDown/DropDown";
 import SubTeamDropDown from "../Organisms/DropDown/SubTeamDropDown";
 import { removeTeams } from "../Services/SubTeamsServices";
 import useToastNotifications from "../Hooks/useToastNotification";
+import { getMultipleChilds } from "../Services/Constants";
+import ReasignTemplate from "../Organisms/DropDown/ReasignTemplate";
 
 const SubTeamCard: React.FC<any> = ({
   team,
@@ -65,6 +67,54 @@ const SubTeamCard: React.FC<any> = ({
       return 0;
     }
   };
+  const companyId: string | null = localStorage.getItem("circoCompanyUid");
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
+  const openTemplate = Boolean(anchorEl2);
+  const handleCloseTemplate = () => {
+    setAnchorEl2(null);
+  };
+
+  useEffect(() => {
+    getMultipleChilds(
+      "Template",
+      "parentID",
+      companyId,
+      callBackFunc2,
+      setLoading
+    );
+
+    getMultipleChilds(
+      "User",
+      "subTeamId",
+      team?.id,
+      callBackFunc,
+      setLoading
+    );
+  }, []);
+
+
+  const callBackFunc = (data: any) => {
+    setTeamMembers(Object.values(data));
+  };
+
+  const callBackFunc2 = (data: any) => {
+    setTemplates(Object.values(data));
+  };
+
+  const returnCrntTemplate = () => {
+    return templates?.filter(
+      (template: any) => template?.id === team?.templateId
+    )?.[0];
+  };
+
+  const handleOpenTemplateFilter = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
   return (
     <div className="w-[30%] h-[154px] bg-[#FFFFFF] rounded-[16px] shadow-lg p-3">
       <div className="w-[100%] flex justify-between items-center">
@@ -110,28 +160,67 @@ const SubTeamCard: React.FC<any> = ({
           onClick={() => setOpen(!open)}
           text="Manage"
         />
-        <Button
-          btnClasses="w-[96px] h-[27px] bg-[#9CBDFF] rounded-[22px] font-[600] text-[9px] text-white"
-          onClick={() => {}}
-          text="Assign Template"
-        />
+
+        <div
+          id="reassignTemp-button"
+          aria-haspopup="listbox"
+          aria-controls="reassignTemp-menu"
+        >
+          <Button
+            btnClasses="w-[96px] h-[27px] bg-[#9CBDFF] rounded-[22px] font-[600] text-[9px] text-white"
+            text="Assign Template"
+            onClick={handleOpenTemplateFilter}
+          />
+        </div>
+
+        <DropDown
+          id="reassignTemp-menu"
+          anchorEl={anchorEl2}
+          open={openTemplate}
+          onClose={handleCloseTemplate}
+          MenuListProps={{
+            "aria-labelledby": "reassignTemp-button",
+            role: "listbox",
+          }}
+        >
+          <ReasignTemplate
+            templates={templates}
+            selectedMemberRows={[team]}
+            crntTemplate={returnCrntTemplate() || null}
+            onClose={handleCloseTemplate}
+            isSubTeam={true}
+          />
+        </DropDown>
       </div>
       <div className="w-[100%] h-[30px]">
         <div className="flex mt-3 relative">
-          <Image
-            src={pw1}
+          {teamMembers?.map((member: any, i: number) => {
+            return (
+              <Image
+                key={i}
+                src={member?.profileUrl || pm1}
+                classes={`h-[28px] w-[28px] rounded-full object-cover absolute left-[${i * 6}%]`}
+              />
+            );
+          })
+        }
+          {/* <Image
+          src={pw1}
             classes="h-[28px] w-[28px] rounded-full object-cover absolute "
-          />
-          <Image
+         />
+           <Image
             src={pm2}
             classes="h-[28px] w-[28px] rounded-full object-cover absolute left-[6%]"
           />
           <Image
             src={pm1}
             classes="h-[28px] w-[28px] rounded-full object-cover absolute left-[12%]"
-          />
+          />  */}
 
-          <div className="h-[28px] w-[28px] bg-[#26C0E2] flex justify-center items-center rounded-full absolute left-[18%] cursor-pointer">
+          <div
+            className="h-[28px] w-[28px] bg-[#26C0E2] flex justify-center items-center rounded-full absolute left-[18%] cursor-pointer"
+            onClick={() => setOpen(true)}
+          >
             <IoMdAdd className="text-white " />
           </div>
         </div>

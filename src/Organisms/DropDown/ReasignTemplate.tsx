@@ -20,6 +20,8 @@ const ReasignTemplate: React.FC<{
   onClose: () => void;
   isSubTeam?: boolean;
 }> = ({ templates, selectedMemberRows, crntTemplate, onClose, isSubTeam }) => {
+  console.log(crntTemplate, "here is the current template");
+
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
   const [selectedTemplate, setSelectedTemplate] = useState<object>({});
   const handleSelectTemplate = (templateId: string) => {

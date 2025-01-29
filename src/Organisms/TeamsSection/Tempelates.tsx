@@ -64,9 +64,6 @@ const Tempelates = () => {
             {filteredTeams?.map((elm, i) => {
               return <TemplateCard key={i} data={elm} />;
             })}
-
-            {/* <TemplateCard />
-            <TemplateCard /> */}
           </div>
         </div>
       ) : (

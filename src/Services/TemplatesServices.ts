@@ -71,7 +71,7 @@ export const addLinkToTemplate=(data:any,id:string | undefined,links:any,showErr
 export const addMembersToTemplate=async(membersId:any,team:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
   console.log(membersId,"yyyyyyyyyyytttttttttttttttt");
   
-    const existingMembers= (typeof team?.members==="object" &&  Object.values(team?.members)) || []
+    const existingMembers= ( team?.members &&  Object.values(team?.members)) || []
     if(membersId?.length>0){
         setLoading(true)
         await set(ref(db, `Template/${team?.id}/members/`), [
@@ -127,7 +127,7 @@ export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showErr
     
     
       if (!elm?.templateId){
-        addMembersToTemplate([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+        addMembersToTemplate([...membersId?.map((usr:any)=>usr?.id)],Newteam,showError,showSuccess,setLoading,false)
         return
         
       }
@@ -139,7 +139,9 @@ export const reassignMembersToTemplateV2=async(membersId:any,Newteam:any,showErr
       console.log(remainingMemebers);
     
       await update(ref(db, `Template/${elm?.templateId}`), {members:remainingMemebers}).then(()=>{
-        addMembersToTemplate([elm?.id],Newteam,showError,showSuccess,setLoading,false)
+        console.log(elm?.id,"counter working");
+        
+        addMembersToTemplate([...membersId?.map((usr:any)=>usr?.id) ],Newteam,showError,showSuccess,setLoading,false)
     })
     })
     
@@ -193,6 +195,8 @@ const subTeamsPromises=subTeams?.map(async(elm:any)=>{
               const data = snapshot.val();
               if(data){
                 const teamMembers=Object.values(data)
+                console.log(teamMembers,"Team members are here check it out ///////////////////////");
+                
                 reassignMembersToTemplateV2(teamMembers,template,showError,showSuccess,setLoading,false)
               }
            

@@ -67,14 +67,14 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     dispatch(setCompany(templateData?.company));
     dispatch(setProfileTitle(templateData?.profileTitle));
     dispatch(setProfileType(templateData?.profileType));
-    if (typeof templateData?.links === "object"){
+    if (typeof templateData?.links === "object") {
       dispatch(setLinks(Object.values(templateData?.links)));
     } else {
       dispatch(setLinks([]));
     }
     dispatch(setProfileDesign(templateData?.profileDesign));
 
-    if (templateData?.profileDesign?.backgroundImage){
+    if (templateData?.profileDesign?.backgroundImage) {
       dispatch(
         setProfileDesign({
           backgroundImage: templateData?.profileDesign?.backgroundImage,
@@ -127,6 +127,20 @@ const TemplateCard: React.FC<any> = ({ data }) => {
 
   const [assignModal, setAssignModal] = useState<boolean>(false);
 
+  const handleCancel = () => {
+    dispatch(setFirstName(data?.firstName));
+    dispatch(setLastName(data?.lastName));
+    dispatch(setJobTitle(data?.jobTitle));
+    dispatch(setAddress(data?.address));
+    dispatch(setProfileUrl(data?.profileUrl));
+    dispatch(setCoverUrl(data?.coverUrl));
+    dispatch(setlogoUrl(data?.logoUrl));
+    dispatch(setProfileName(data?.profileName));
+    dispatch(setCompany(data?.company));
+    // dispatch(setEmail(data?.email));
+    // dispatch(setPhone(data?.phone));
+  };
+
   return (
     <div className="w-[30%] h-[240px] bg-white shadow-md rounded-[23px] pt-2 flex flex-col items-center">
       <div className="w-[95%] border h-[130px] rounded-[18px]">
@@ -171,7 +185,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
           // p: 4,
         }}
       >
-        <EditTemplate />
+        <EditTemplate handleCancel={handleCancel} />
       </CustomModal>
 
       <CustomModal

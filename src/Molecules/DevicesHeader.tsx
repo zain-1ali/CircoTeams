@@ -13,6 +13,8 @@ const DevicesHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchI
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [confirmModal, setConfirmModal] = useState<boolean>(false);
+  console.log(itemCounts);
+  
 
   const deleteRowCallback = () => {
     console.log("deleteRowCallback");
