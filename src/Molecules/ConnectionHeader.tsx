@@ -19,6 +19,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   applyFilterId,
   searchItem,
   selectedRows,
+  itemCounts
 }) => {
   // const [loading, setLoading] = useState<boolean>(false);
   const [allProfiles, setAllProfiles] = useState<any[]>([]);
@@ -82,7 +83,10 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   return (
     <div>
       <div className="w-full flex justify-between items-center">
-        <Text text="Connections" classes="font-semibold text-lg" />
+      <Text
+        text={<> Connections <span className="text-sm text-[#B5B5B5]">({itemCounts})</span> </>}
+        classes="font-semibold text-lg"
+      />
         <div className="flex items-center gap-2">
           <HeaderFilter applyFilterId={applyFilterId} />
           <Button

@@ -32,7 +32,7 @@ const DevicesTableRow: React.FC<TableRowProps> = ({data, handleRowSelect, isSele
         classes="font-[600] text-[#939393] text-[12px] w-[30%]"
       />
       <Text
-        text={timestampToDate(data?.device?.activationDate * 1000)}
+        text={timestampToDate(data?.device?.activationDate)}
         classes="font-[600] text-[#939393] text-[12px] w-[150px]"
       />
     </div>

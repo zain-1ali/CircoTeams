@@ -23,7 +23,7 @@ export const createNewUser = async (
     localStorage.setItem("circoCompanyUid", user.uid);
 
     // Update user data in Firebase Realtime Database
-    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid });
+    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid });
 
     // API call for creating account
     await axios.post(`https://wallet.circo.me/api/createAccount`, {
@@ -60,7 +60,17 @@ export const createNewUser = async (
     }
   }
 };
+export const checkEmailDuplication = async (email: string): Promise<boolean> => {
+  try {
+    const starCountRef = query(ref(db, "User"), orderByChild("email"), equalTo(email));
+    const snapshot = await get(starCountRef);
 
+    return snapshot.exists(); 
+  } catch (error) {
+    console.error("Error checking email duplication:", error);
+    return false; // Default to false if an error occurs
+  }
+};
 export const LoginUser = async (credentials: any, showError: any, showSuccess: any, navigate: any, setLoading: any) => {
   if (credentials.email && credentials.password) {
     setLoading(true)
@@ -167,11 +177,11 @@ signInWithPopup(auth, provider).then(async(response:any) => {
 })
 
 }
-const baseUrl=import.meta.env.VITE_API_BASE_URL
+
 export const deleteSingleChild = (user:any, showError:any,showSuccess:any,navigate:any,setLoading:any) => {
-  console.log("api start working......");
+
   axios
-    .post(`${baseUrl}/deleteAccount`, {
+    .post(`https://wallet.circo.me/api/deleteAccount`, {
      id: user.id,
       token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
     })
@@ -228,7 +238,16 @@ export const deleteSingleChild = (user:any, showError:any,showSuccess:any,naviga
         showSuccess("Profile deleted successfuly")
 setLoading(false)
         setTimeout(()=>{
-navigate("/myprofiles")
+          if(user.parentID == user.id)
+          {
+            localStorage.removeItem("circoCompanyUid")
+            window.location.reload()
+          }
+          else
+          {
+            navigate("/myprofiles")
+          }
+        
         },3000)
       }
       console.log("the response", res);

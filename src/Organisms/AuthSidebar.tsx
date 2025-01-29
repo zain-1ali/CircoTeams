@@ -18,6 +18,7 @@ import {
   handleSignUpGoogle,
   LoginUser,
   SendResetLink,
+  checkEmailDuplication
 } from "../Services/userService.js";
 import useToastNotifications from "../Hooks/useToastNotification.js";
 import { CircularProgress } from "@mui/material";
@@ -60,33 +61,54 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
 
   let [showPass, setShowPass] = useState(false);
   let [showPass2, setShowPass2] = useState(false);
-  const permitToGoForward = () => {
+
+  const permitToGoForward = () => { 
     if (isSignin) {
-      if (email && passwords?.password) {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (isReset) {
-      if (email) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (
-        email &&
-        passwords?.password &&
-        passwords?.confirmPassword &&
-        firstName &&
-        isBoxChecked
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      return !!(email && passwords?.password);
+    } 
+    if (isReset) {
+      return !!email;
     }
+    if (
+      email &&
+      passwords?.password &&
+      passwords?.confirmPassword &&
+      firstName &&
+      isBoxChecked
+    ) {
+      return true;
+    }
+    return false;
+    
   };
+
+  const permitToGoForwardSignUp = async () => { 
+    if (
+      email &&
+      passwords?.password &&
+      passwords?.confirmPassword &&
+      firstName &&
+      isBoxChecked
+    ) {
+      const isDuplicate = await checkEmailDuplication(email);
+      return !isDuplicate; // Proceed only if email is not a duplicate
+    }
+  
+    return false;
+  };
+  
+  const handleSignupProcess = async () => {
+    
+    const canProceed = await permitToGoForwardSignUp();
+    if (canProceed) {
+      dispatch(setStartProfileCreation(true));
+    }
+    else{
+      showError('Email already exists.')
+    }
+    
+  };
+  
 
   const dispatch = useAppDispatch();
 
@@ -184,6 +206,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                 <br />{" "}
               </>
             )}
+            <div className="w-[100%] relative">
             <InputWithLabel
               type="text"
               label="Email Address"
@@ -193,6 +216,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
               inputClasses="w-[100%] h-[46px] outline-none pl-2 bg-[#F7F7F8] rounded-md mt-1 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               labelClasses="font-[400] text-[15px] w-[100%] mt-2"
             />
+            </div>
             {!isReset && (
               <>
                 <div className="w-[100%] relative">
@@ -313,7 +337,7 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                         ? SendResetLink(email, showError, showSuccess, () =>
                             dispatch(setEmail(""))
                           )
-                        : dispatch(setStartProfileCreation(true));
+                        : handleSignupProcess();
                     }
                   : () => {}
               }
@@ -323,8 +347,8 @@ const AuthSidebar: React.FC<authSidebarProps> = ({ isSignin, isReset }) => {
                 )
               }
               btnClasses={`bg-primary text-[white] w-[100%] h-[50px] text-[600] text-[16px] rounded-md mt-6 ${
-                permitToGoForward() === false &&
-                "opacity-[50%] pointer-events-none"
+                 permitToGoForward()  === false && "opacity-[50%] pointer-events-none"
+                
               }`}
             />
 

@@ -108,6 +108,7 @@ const ConnectionTemplate = () => {
           applyFilterId={applyFilterId}
           searchItem={searchItem}
           selectedRows={selectedRows}
+          itemCounts = {filteredConnections?.length || 0}
         />
 
         <div

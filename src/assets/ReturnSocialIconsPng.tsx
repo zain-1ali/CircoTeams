@@ -5,6 +5,7 @@ import call from "./socialLink/phone.png";
 import contact from "./socialLink/contacts.png";
 import text from "./socialLink/text.png";
 import text2 from "./socialLink/write.png";
+import paragraph from "./socialLink/paragraph.png";
 import whatsapp from "./socialLink/whatsapp.png";
 import email from "./socialLink/email.png";
 
@@ -83,6 +84,13 @@ export const popular: Icon[] = [
     linkID: 2,
     baseUrl: "",
   },
+  {
+    name: "Title",
+    img: text2,
+    placeholder: "Title*",
+    linkID: 51,
+    baseUrl: "",
+  },
 ];
 
 export const contactIcons: Icon[] = [
@@ -113,6 +121,13 @@ export const contactIcons: Icon[] = [
     placeholder: "Email*",
     linkID: 3,
     baseUrl: "mailto:",
+  },
+  {
+    name: "Location",
+    img: location,
+    placeholder: "Address link from Map App*",
+    linkID: 6,
+    baseUrl: "",
   },
 ];
 
@@ -172,6 +187,41 @@ export const socialIcons: Icon[] = [
     placeholder: "Snapchat Username*",
     linkID: 15,
     baseUrl: "https://www.snapchat.com/add/",
+  },
+  {
+    name: "Discord",
+    img: discord,
+    placeholder: "Discord User ID*",
+    linkID: 46,
+    baseUrl: "",
+  },
+  {
+    name: "Thread",
+    img: thread,
+    placeholder: "Thread Link Url*",
+    linkID: 48,
+    baseUrl: "",
+  },
+  {
+    name: "Twitch",
+    img: twitch,
+    placeholder: "Twitch Link Url*",
+    linkID: 47,
+    baseUrl: "",
+  },
+  {
+    name: "Onlyfans",
+    img: onlyfans,
+    placeholder: "Onlyfans Username*",
+    linkID: 19,
+    baseUrl: "https://onlyfans.com/",
+  },
+  {
+    name: "Open Sea",
+    img: openSea,
+    placeholder: "Open sea Link Url*",
+    linkID: 49,
+    baseUrl: "",
   },
 ];
 
@@ -243,17 +293,38 @@ export const media: Icon[] = [
     baseUrl: "",
   },
   {
-    name: "Text",
-    img: text2,
-    placeholder: "Text*",
-    linkID: 26,
-    baseUrl: "",
-  },
-  {
     name: "Embedded Songs",
     img: itunes,
     placeholder: "Embedded Songs Link*",
     linkID: 27,
+    baseUrl: "",
+  },
+  {
+    name: "Pdf",
+    img: pdf,
+    placeholder: "Pdf File Link*",
+    linkID: 28,
+    baseUrl: "",
+  },
+  {
+    name: "Gallery",
+    img: gallery,
+    placeholder: "Gallery Link*",
+    linkID: 29,
+    baseUrl: "",
+  },
+  {
+    name: "Title",
+    img: text2,
+    placeholder: "Title*",
+    linkID: 51,
+    baseUrl: "",
+  },
+  {
+    name: "Paragraph",
+    img: text2,
+    placeholder: "Text*",
+    linkID: 26,
     baseUrl: "",
   },
 ];
@@ -279,6 +350,13 @@ export const payment: Icon[] = [
     img: venmo,
     placeholder: "venmo link*",
     linkID: 33,
+    baseUrl: "",
+  },
+  {
+    name: "Zelle",
+    img: zelle,
+    placeholder: "Zelle link*",
+    linkID: 50,
     baseUrl: "",
   },
 ];
@@ -357,7 +435,7 @@ export const returnPngIcons = (id: number): string | undefined => {
     case 25:
       return embdvdo;
     case 26:
-      return text2;
+      return paragraph;
     case 29:
       return gallery;
     case 27:
@@ -394,6 +472,8 @@ export const returnPngIcons = (id: number): string | undefined => {
       return openSea;
     case 50:
       return zelle;
+      case 51:
+      return text2;
     case 999:
       return safari;
     default:
@@ -471,6 +551,16 @@ const linkValidationRules: ValidationRule[] = [
       /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
+    linkID: 25, // Embedded Video
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 27, // Embedded songs
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
     linkID: 31, // Cash App
     validate: (value: string) => /^\$[a-zA-Z0-9]{1,20}$/.test(value), // Validate Cash App username
   },
@@ -482,6 +572,63 @@ const linkValidationRules: ValidationRule[] = [
   {
     linkID: 33, // Venmo
     validate: (value: string) => /^@[a-zA-Z0-9_]{1,15}$/.test(value), // Validate Venmo username
+  },
+  {
+    linkID: 46, // Discord
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 47, // Twitch
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 48, // Thread
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 49, // OpenSea
+    validate: (value: string) =>
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 19, // OnlyFans
+    validate: (value: string) => /^[a-zA-Z0-9._]{1,30}$/.test(value), // Validate OnlyFans link
+  },
+  {
+    linkID: 6, // Location
+    validate: (value: string) =>
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 6, // Location
+    validate: (value: string) =>
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 50, // Zelle
+    validate: (value: string) =>
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 28, // Pdf
+    validate: (value: string) =>
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 29, // Gallery
+    validate: (value: string) =>
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+  },
+  {
+    linkID: 26, // paragraph
+validate: (value: string) => value.trim() !== "",
+  },
+  {
+    linkID: 51, // title
+validate: (value: string) => value.trim() !== "",
   },
 ];
 

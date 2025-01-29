@@ -12,6 +12,7 @@ const TableHeaderCell: React.FC<tableHeaderProps> = ({
   width,
   keyName,
   data,
+  page,
   setData,
 }) => {
   const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
@@ -36,7 +37,8 @@ const TableHeaderCell: React.FC<tableHeaderProps> = ({
         aria-controls="reassignTemp-menu"
         onClick={handleOpenTemplateFilter}
       >
-        <RiArrowDownSFill className="text-[15px] text-[#030229] mt-[2px] cursor-pointer" />
+        {page!="devices" && 
+        <RiArrowDownSFill className="text-[15px] text-[#030229] mt-[2px] cursor-pointer" />}
       </button>
 
       <DropDown

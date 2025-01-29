@@ -10,7 +10,7 @@ import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
 // import Loading from "./Loading";
 
 interface HeaderFilterProps {
-  applyFilterId: (filterId: string,type:string) => void;
+  applyFilterId: (filterId: string, type: string) => void;
 }
 
 interface Profile {
@@ -24,7 +24,7 @@ interface Profile {
 const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectionType,setSelectionType]=useState<string>("user")
+  const [selectionType, setSelectionType] = useState<string>("user")
   console.log(loading);
 
   const getAllProfiles = (data: any) => {
@@ -32,7 +32,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       setAllProfiles(Object.values(data));
     }
   };
-
+console.log(allProfiles);
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
   useEffect(() => {
@@ -76,9 +76,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       profileId: type === "profileId" ? value : "",
     };
     setSelectedOptions(updatedOptions);
-    if(type === "teamId" || type === "profileId"){
+    if (type === "teamId" || type === "profileId") {
       setSelectionType("user")
-    }else{
+    } else {
       setSelectionType("subTeam")
     }
   };
@@ -87,10 +87,10 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
     handleClose();
     applyFilterId(
       selectedOptions.teamId ||
-        selectedOptions.subteamId ||
-        selectedOptions.profileId ||
-        "",
-        selectionType
+      selectedOptions.subteamId ||
+      selectedOptions.profileId ||
+      "",
+      selectionType
     );
   };
 
@@ -101,7 +101,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       profileId: "",
     });
     handleClose();
-    applyFilterId("","user");
+    applyFilterId("", "user");
   };
 
   const [dropdownOpen, setDropdownOpen] = useState({
@@ -139,7 +139,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
             sx={{
               marginTop: 1,
               "& .MuiPaper-root": {
-                borderRadius: "14px", 
+                borderRadius: "14px",
               },
             }}
           >
@@ -149,7 +149,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                 <Input
                   classes="h-[95%] w-[80%] outline-none placeholder:text-[#B7B7B7] placeholder:font-[500] placeholder:text-[12px] pb-1"
                   value=""
-                  onChange={() => {}}
+                  onChange={() => { }}
                   placeholder="Search member or subteam"
                 />
               </div>
@@ -160,15 +160,15 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("profile")}
                 >
-                  <p className="text-sm">My profile</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">My profile</p>
                   <p>
-                    {dropdownOpen.profile ? <BsChevronUp /> : <BsChevronDown />}
+                    {dropdownOpen.profile ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
                   </p>
                 </div>
                 {dropdownOpen.profile && (
                   <div className="mt-1 flex flex-col">
                     {allProfiles
-                      ?.filter((item) => item?.profileType === "self")
+                      ?.filter((item) => item?.profileType === "self" || item?.profileType === "")
                       .map((item, index) => (
                         <label
                           key={index}
@@ -201,9 +201,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("team")}
                 >
-                  <p className="text-sm">Team member</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">Team member</p>
                   <p>
-                    {dropdownOpen.team ? <BsChevronUp /> : <BsChevronDown />}
+                    {dropdownOpen.team ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
                   </p>
                 </div>
                 {dropdownOpen.team && (
@@ -242,9 +242,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("subteam")}
                 >
-                  <p className="text-sm">Subteam</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">Subteam</p>
                   <p>
-                    {dropdownOpen.subteam ? <BsChevronUp /> : <BsChevronDown />}
+                    {dropdownOpen.subteam ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
                   </p>
                 </div>
                 {dropdownOpen.subteam && (

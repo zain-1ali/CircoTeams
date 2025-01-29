@@ -9,7 +9,7 @@ import { removeMultipleDevices } from "../Services/DeviceServices";
 import { ConnectionHeaderProps } from "../Types";
 import HeaderFilter from "../Organisms/HeaderFilter"
 
-const DevicesHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchItem, selectedRows }) => {
+const DevicesHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchItem, selectedRows, itemCounts, }) => {
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [confirmModal, setConfirmModal] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const DevicesHeader: React.FC<ConnectionHeaderProps> = ({ applyFilterId, searchI
   return (
     <div>
       <div className="w-full flex justify-between items-center">
-        <Text text="Devices Management" classes="font-semibold text-lg" />
+        <Text text="Device Management" classes="font-semibold text-lg" />
         <div className="flex items-center gap-2">
           <HeaderFilter applyFilterId={applyFilterId} />
           <Button

@@ -42,9 +42,9 @@ const DevicesTemplate = () => {
 
   const innerHeight: number = window.innerHeight;
   const headers = [
-    <TableHeaderCell text="Device" width="30%" key="device" />,
-    <TableHeaderCell text="Linked to" width="30%" key="linkedTo" />,
-    <TableHeaderCell text="Date" width="150px" key="date" />,
+    <TableHeaderCell text="Device" width="30%" key="device" page = "devices" />,
+    <TableHeaderCell text="Linked to" width="30%" key="linkedTo" page = "devices" />,
+    <TableHeaderCell text="Date" width="150px" key="date" page = "devices" />,
   ];
 
   const handleRowSelect = (item: any | any[], isChecked: boolean) => {
@@ -73,6 +73,7 @@ const DevicesTemplate = () => {
           applyFilterId={applyFilterId} 
           searchItem={searchItem} 
           selectedRows={selectedRows}  
+          itemCounts={0}
         />
 
         <div

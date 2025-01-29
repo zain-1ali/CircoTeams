@@ -1,4 +1,5 @@
 import Text from "../../Atoms/Text";
+import React, { useEffect, useState } from "react";
 import ImageSelecter from "../../Molecules/ImageSelecter";
 import InputWithLabel from "../../Molecules/InputWithLabel";
 import upldPrfl from "../../assets/images/upldPrfl.png";
@@ -7,6 +8,7 @@ import upldCover from "../../assets/images/upldCover.png";
 import InternationalPhone from "../../Molecules/InternationalPhone";
 import Button from "../../Atoms/Button";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { RootState } from "../../Redux/store";
 import {
   setAddress,
   setCompany,
@@ -22,7 +24,7 @@ import {
 import ImageCropperModal from "../Cropper";
 import { useUploadFile } from "../../Hooks/useUploadFile";
 import useToastNotifications from "../../Hooks/useToastNotification";
-import { useState } from "react";
+
 import { updateProfileInfo } from "../../Services/ProfileServices";
 import { useParams } from "react-router-dom";
 import { updateTemplateInfo } from "../../Services/TemplatesServices";
@@ -38,6 +40,8 @@ import {
 import ProfileNameSelector from "../../Molecules/ProfileNameSelector";
 import DropDown from "../DropDown/DropDown";
 import ProfileNames from "../DropDown/ProfileNames";
+import CustomModal from "../Modal/Modal";
+import AreYouSure from "../Modal/AreYouSure";
 
 const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -54,6 +58,16 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
 
   console.log(loading);
 
+   const formData = useAppSelector((state: RootState) => state.profileHandler);
+   const [initialFormData, setInitialFormData] = useState(formData);
+ 
+   useEffect(() => {
+     setInitialFormData(formData);
+   }, []); 
+ 
+   const isFormChanged = JSON.stringify(formData) !== JSON.stringify(initialFormData);
+   const [sureModal, setSureModal] = useState<boolean>(false);
+   
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     imgType: string
@@ -377,7 +391,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         <Button
           text="Cancel"
           btnClasses="text-[12px] font-[600] text-[#646464] w-[63px] h-[37px] rounded-[88px] bg-[#F0F0F0]"
-          onClick={() => handleCancel()}
+          onClick={isFormChanged ? () => setSureModal(true) : handleCancel()}
         />
         <Button
           text="Save"
@@ -445,6 +459,17 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         shape={imageType === "Cover Image" ? "rect" : "round"}
         loading={uploadLoading}
       />
+      <CustomModal
+        open={sureModal}
+        onClose={() => setSureModal(false)}
+        style={{ height: 150, width: 350, borderRadius: 5, p: 4 }}
+      >
+        <AreYouSure
+          onClick={handleCancel}
+          onClose={() => setSureModal(false)}
+          text={"Data is not saved. Are you sure to cancel your changes ?"}
+        />
+      </CustomModal>
     </div>
   );
 };

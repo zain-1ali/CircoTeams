@@ -32,7 +32,7 @@ export interface authSidebarProps {
 }
 
 export interface textProps {
-  text: string | undefined;
+  text: any | undefined;
   classes: string;
 }
 
@@ -184,6 +184,7 @@ export interface tableHeaderProps {
   width: string;
   keyName?: string;
   data?: any[];
+  page?: string;
   setData?: (data: any[]) => void;
 }
 
@@ -217,6 +218,7 @@ export interface ConnectionHeaderProps {
   applyFilterId: (id: string, type: string) => void;
   searchItem: (id: string) => void;
   selectedRows: string[];
+  itemCounts:number,
 }
 
 export interface MemberHeaderProps {

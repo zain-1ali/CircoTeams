@@ -64,9 +64,14 @@ const EditProfileHeader = () => {
   //   setLoading(false);
   // };
   const handleDeleteProfile = () => {
+    let updatedData = { 
+      ...profileData, 
+      id: id, 
+      parentID: profileData?.parentID || id 
+  };
     setLoading(true);
     deleteSingleChild(
-      profileData,
+      updatedData,
       showError,
       showSuccess,
       navigate,
