@@ -124,6 +124,9 @@ export const profileSlice = createSlice({
     setPhone: (state, action: PayloadAction<string>) => {
       state.phone = action.payload;
     },
+    setParentId: (state, action: PayloadAction<string>) => {
+      state.parentID = action.payload;
+    },
     setProfileName: (state, action: PayloadAction<string>) => {
       state.profileName = action.payload;
     },
@@ -277,6 +280,7 @@ export const {
   setJobTitle,
   setName,
   setPhone,
+  setParentId,
   setPlatform,
   setProfileTitle,
   setProfileUrl,

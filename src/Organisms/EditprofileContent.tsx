@@ -18,6 +18,7 @@ import {
   setLinks,
   setlogoUrl,
   setPhone,
+  setParentId,
   setProfileDesign,
   setProfileName,
   setProfileUrl,
@@ -256,6 +257,7 @@ const EditprofileContent = () => {
       dispatch(setDirect(profileData?.direct));
       dispatch(setEmail(profileData?.email));
       dispatch(setPhone(profileData?.phone));
+      dispatch(setParentId(profileData?.parentID));
       console.log(profileData?.leadMode);
       if (typeof profileData?.links === "object") {
         dispatch(setLinks(Object.values(profileData?.links)));

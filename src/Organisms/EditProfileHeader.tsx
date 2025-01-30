@@ -64,10 +64,11 @@ const EditProfileHeader = () => {
   //   setLoading(false);
   // };
   const handleDeleteProfile = () => {
+    console.log(profileData);
     let updatedData = { 
       ...profileData, 
       id: id, 
-      parentID: profileData?.parentID || id 
+      parentID: (profileData?.parentID && profileData?.parentID!="") ? profileData?.parentID : id 
   };
     setLoading(true);
     deleteSingleChild(
