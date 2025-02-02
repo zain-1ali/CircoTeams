@@ -4,11 +4,90 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 // import { Link } from "../Types"
 
 export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLoading:any)=>{
+  const initialData={
+    address: "",
+    bio: "",
+    company: "",
+    coverUrl: "",
+
+    direct: {
+      baseUrl: "",
+      email: "",
+      graphicTextColor: "#ffffff",
+      id: "",
+      image: "",
+      isLinkHighlighted: false,
+      linkHighlightDescription: "",
+      linkID: 0,
+      name: "",
+      placeholder: "",
+      shareable: true,
+      textAlign: "",
+      title: "",
+      type: "",
+      value: ""
+    },
+    directMode: false,
+    dob: "",
+    email: selfData.email,
+    fcmToken: "",
+    firstName: "",
+    gender: "",
+    hideSaveContact: false,
+    id: "",
+    isProMatching: true,
+    isProVersion: true,
+    isTrialPeriod: false,
+    isVisible: true,
+    jobTitle: "",
+    lastName: "",
+    leadMode: false,
+    logoUrl: "",
+    name: "",
+    parentID:selfData?.id,
+    phone: "",
+    platform: "",
+    proVersionExpiryDate: "",
+    proVersionPurchaseDate: "",
+    profileType:"self",
+    profileDesign: {
+      appIconColor: "#ffffff",
+      backgroundColor: "#000000",
+      backgroundImage: "",
+      backgroundOpacity: 98,
+      backgroundTheme: "Classic",
+      boxBackgroundColor: "#ffffff",
+      boxTextColor: "#000000",
+      hideCompanyLogo: false,
+      hideSaveContact: false,
+      highlightBoxStyle: "style2",
+      profileFont: "3",
+      saveContactBackgroundColor: "#ffffff",
+      saveContactStyle: "style4",
+      saveContactTextColor: "#ffffff",
+      weblinkButtonBackgroundColor: "#ffffff",
+      weblinkButtonTextColor: "#ffffff",
+      weblinkStyle: "style12",
+      whiteProfileText: false,
+      whiteTextAndBorder: true
+    },
+    profileOn: 1,
+    profileSelected: "",
+    profileTitle: "",
+    profileUrl: "",
+    qrColor: "#000000",
+    qrLogo: "",
+    subscription: "",
+    tagUid: [],
+    transactionId: "",
+    userName: "",
+    username: ""
+}
     setLoading(true)
 if(selfData?.id){
     console.log("start working")
 
- const objectId=push(ref(db, `User/`),{...selfData,parentID:selfData?.id,profileType:"self", coverUrl: "",profileUrl:"",logoUrl:""}).key
+ const objectId=push(ref(db, `User/`),{...initialData}).key
  if(objectId){
     update(ref(db, `User/${objectId}`),{id:objectId}).then(()=>{
         console.log("new profile created ")
