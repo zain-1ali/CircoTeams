@@ -179,7 +179,7 @@ signInWithPopup(auth, provider).then(async(response:any) => {
 }
 
 export const deleteSingleChild = (user:any, showError:any,showSuccess:any,navigate:any,setLoading:any) => {
-
+console.log(user);
   axios
     .post(`https://wallet.circo.me/api/deleteAccount`, {
      id: user.id,
