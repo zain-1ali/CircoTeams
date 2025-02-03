@@ -35,6 +35,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
   const [templates, setTemplates] = useState<any[]>([]);
   const [crntTemplate, setCrntTemplate] = useState<any>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
 
   const handleOpenTemplateFilter = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -251,6 +252,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
     setAnchorEl(null); // Close the menu
   };
   const membersUid = selectedMemberRows?.map((member: any) => member?.id);
+
   return (
     <div className="w-[100%] h-[100%]">
       <Text text="Subteam Setting" classes="font-[600] text-[22px]" />
@@ -277,7 +279,11 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
             onClick={handleOpenTemplateFilter}
           >
             <Text
-              text={crntTemplate?.profileName || "No Template Selected"}
+              text={
+                selectedTemplate ||
+                crntTemplate?.profileName ||
+                "No Template Selected"
+              }
               classes="font-[600] text-[12px] text-[#030229]"
             />
             <IoIosArrowDown />
@@ -299,6 +305,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
               crntTemplate={crntTemplate}
               onClose={handleCloseTemplate}
               isSubTeam={true}
+              setSelectedTemplateName={setSelectedTemplate}
             />
           </DropDown>
         </div>

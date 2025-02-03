@@ -19,7 +19,15 @@ const ReasignTemplate: React.FC<{
   crntTemplate: any;
   onClose: () => void;
   isSubTeam?: boolean;
-}> = ({ templates, selectedMemberRows, crntTemplate, onClose, isSubTeam }) => {
+  setSelectedTemplateName?: any;
+}> = ({
+  templates,
+  selectedMemberRows,
+  crntTemplate,
+  onClose,
+  isSubTeam,
+  setSelectedTemplateName,
+}) => {
   console.log(crntTemplate, "here is the current template");
 
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
@@ -30,6 +38,7 @@ const ReasignTemplate: React.FC<{
       return elm?.id === templateId;
     });
     setSelectedTemplate(selectedtemplate);
+    setSelectedTemplateName(selectedtemplate?.profileName);
   };
 
   //   const membersUid = selectedMemberRows?.map((member) => member?.id);
