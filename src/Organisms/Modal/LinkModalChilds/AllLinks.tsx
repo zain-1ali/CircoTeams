@@ -57,8 +57,9 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const [selectedLink, setSelectedLink] = React.useState<string>("All");
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
   const [searchQuery, setSearchQuery] = useState("");
+
   const changeModeToAddLink = (link: Icon) => {
-    console.log(link);
+    // console.log(link);
 
     dispatch(setLinkData(link));
     changeLinkMode("addLink");
