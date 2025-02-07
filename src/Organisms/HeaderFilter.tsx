@@ -23,8 +23,9 @@ interface Profile {
 
 const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
+  const [subTeams, setSubTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectionType, setSelectionType] = useState<string>("user")
+  const [selectionType, setSelectionType] = useState<string>("user");
   console.log(loading);
 
   const getAllProfiles = (data: any) => {
@@ -32,7 +33,13 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       setAllProfiles(Object.values(data));
     }
   };
-console.log(allProfiles);
+
+  const getAllSubTeams = (data: any) => {
+    if (data) {
+      setSubTeams(Object.values(data));
+    }
+  };
+  console.log(allProfiles);
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
   useEffect(() => {
@@ -41,6 +48,14 @@ console.log(allProfiles);
       "parentID",
       companyId,
       getAllProfiles,
+      setLoading
+    );
+
+    getMultipleChilds(
+      "SubTeams/",
+      "companyId",
+      companyId,
+      getAllSubTeams,
       setLoading
     );
   }, [companyId]);
@@ -70,26 +85,39 @@ console.log(allProfiles);
     type: "teamId" | "subteamId" | "profileId",
     value: string
   ) => {
+    console.log(value, "here is id");
+
     const updatedOptions = {
       teamId: type === "teamId" ? value : "",
       subteamId: type === "subteamId" ? value : "",
       profileId: type === "profileId" ? value : "",
     };
-    setSelectedOptions(updatedOptions);
-    if (type === "teamId" || type === "profileId") {
-      setSelectionType("user")
+    if (type === "subteamId") {
+      const selectedSubTeam = subTeams?.find(
+        (elm) => elm?.id === value
+      )?.members;
+      // updatedOptions.subteamId = selectedSubTeam;
+      setSelectedOptions({ ...updatedOptions, subteamId: selectedSubTeam });
     } else {
-      setSelectionType("subTeam")
+      setSelectedOptions(updatedOptions);
     }
+
+    if (type === "teamId" || type === "profileId") {
+      setSelectionType("user");
+    } else {
+      setSelectionType("subTeam");
+    }
+
+    console.log(updatedOptions, "here are the options");
   };
 
   const handleApplyFilter = () => {
     handleClose();
     applyFilterId(
       selectedOptions.teamId ||
-      selectedOptions.subteamId ||
-      selectedOptions.profileId ||
-      "",
+        selectedOptions.subteamId ||
+        selectedOptions.profileId ||
+        "",
       selectionType
     );
   };
@@ -117,6 +145,11 @@ console.log(allProfiles);
       profile: type === "profile" ? !prev.profile : false,
     }));
   };
+
+
+  console.log(selectedOptions.subteamId, "subteamId");
+  
+
 
   return (
     <div>
@@ -149,7 +182,7 @@ console.log(allProfiles);
                 <Input
                   classes="h-[95%] w-[80%] outline-none placeholder:text-[#B7B7B7] placeholder:font-[500] placeholder:text-[12px] pb-1"
                   value=""
-                  onChange={() => { }}
+                  onChange={() => {}}
                   placeholder="Search member or subteam"
                 />
               </div>
@@ -160,15 +193,25 @@ console.log(allProfiles);
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("profile")}
                 >
-                  <p className="text-[13px] font-[600] text-[#606060]">My profile</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">
+                    My profile
+                  </p>
                   <p>
-                    {dropdownOpen.profile ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
+                    {dropdownOpen.profile ? (
+                      <BsChevronUp className="text-[#606060] text-[14px]" />
+                    ) : (
+                      <BsChevronDown className="text-[#606060] text-[14px]" />
+                    )}
                   </p>
                 </div>
                 {dropdownOpen.profile && (
                   <div className="mt-1 flex flex-col">
                     {allProfiles
-                      ?.filter((item) => item?.profileType === "self" || item?.profileType === "")
+                      ?.filter(
+                        (item) =>
+                          item?.profileType === "self" ||
+                          item?.profileType === ""
+                      )
                       .map((item, index) => (
                         <label
                           key={index}
@@ -201,9 +244,15 @@ console.log(allProfiles);
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("team")}
                 >
-                  <p className="text-[13px] font-[600] text-[#606060]">Team member</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">
+                    Team member
+                  </p>
                   <p>
-                    {dropdownOpen.team ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
+                    {dropdownOpen.team ? (
+                      <BsChevronUp className="text-[#606060] text-[14px]" />
+                    ) : (
+                      <BsChevronDown className="text-[#606060] text-[14px]" />
+                    )}
                   </p>
                 </div>
                 {dropdownOpen.team && (
@@ -242,40 +291,36 @@ console.log(allProfiles);
                   className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
                   onClick={() => toggleDropdown("subteam")}
                 >
-                  <p className="text-[13px] font-[600] text-[#606060]">Subteam</p>
+                  <p className="text-[13px] font-[600] text-[#606060]">
+                    Subteam
+                  </p>
                   <p>
-                    {dropdownOpen.subteam ? <BsChevronUp className="text-[#606060] text-[14px]" /> : <BsChevronDown className="text-[#606060] text-[14px]" />}
+                    {dropdownOpen.subteam ? (
+                      <BsChevronUp className="text-[#606060] text-[14px]" />
+                    ) : (
+                      <BsChevronDown className="text-[#606060] text-[14px]" />
+                    )}
                   </p>
                 </div>
                 {dropdownOpen.subteam && (
                   <div className="mt-1 flex flex-col">
                     {/* Render subteam options similarly */}
-                    <label className="flex items-center p-0 py-2">
-                      <input
-                        type="radio"
-                        name="subteam"
-                        value="Team A"
-                        className="mr-3"
-                        checked={selectedOptions.subteamId === "Team A"}
-                        onChange={() =>
-                          handleSelectChange("subteamId", "Team A")
-                        }
-                      />
-                      Team A
-                    </label>
-                    <label className="flex items-center p-0 py-2">
-                      <input
-                        type="radio"
-                        name="subteam"
-                        value="Team B"
-                        className="mr-3"
-                        checked={selectedOptions.subteamId === "Team B"}
-                        onChange={() =>
-                          handleSelectChange("subteamId", "Team B")
-                        }
-                      />
-                      Team B
-                    </label>
+
+                    {subTeams?.map((item, index) => (
+                      <label className="flex items-center p-0 py-2" key={index}>
+                        <input
+                          type="radio"
+                          name={item?.name}
+                          value={item?.id}
+                          className="mr-3"
+                          checked={selectedOptions.subteamId === item?.id}
+                          onChange={() =>
+                            handleSelectChange("subteamId", item?.id)
+                          }
+                        />
+                        {item?.name}
+                      </label>
+                    ))}
                   </div>
                 )}
               </div>

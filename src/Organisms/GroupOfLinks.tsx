@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Text from "../Atoms/Text";
 import LinkRepresenterBtn from "../Molecules/LinkRepresenterBtn";
 import { Icon } from "../Types";
-import { useAppSelector } from "../Hooks/reduxHooks";
+// import { useAppSelector } from "../Hooks/reduxHooks";
 import DropDown from "./DropDown/DropDown";
 import LinkTypeSelector from "./DropDown/LinkTypeSelector";
 
@@ -11,15 +11,15 @@ const GroupOfLinks: React.FC<any> = ({
   changeModeToAddLink,
 }) => {
   console.log(linksGroupData);
-  const profileData = useAppSelector((state) => state.profileHandler);
+  // const profileData = useAppSelector((state) => state.profileHandler);
 
   // const [isInvidualLink,setIsInvidualLink]=React.useState<boolean>(false)
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleOpenFonts = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget); // Open the menu
-  };
+  // const handleOpenFonts = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget); // Open the menu
+  // };
 
   const openFonts = Boolean(anchorEl);
   const handleCloseFont = () => {
@@ -40,10 +40,9 @@ const GroupOfLinks: React.FC<any> = ({
                 id="reassign-button"
                 aria-haspopup="listbox"
                 aria-controls="reassign-menu"
-                onClick={handleOpenFonts}
+                // onClick={handleOpenFonts}
                 className="outline-none"
-
-                // onClick={() => changeModeToAddLink(link)}
+                onClick={() => changeModeToAddLink(link)}
               >
                 {" "}
                 <LinkRepresenterBtn key={i} link={link} />
