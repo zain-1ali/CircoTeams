@@ -2,7 +2,7 @@ import Button from "../Atoms/Button";
 import IOSSwitch from "../Atoms/CustomToggleBtn";
 import Image from "../Atoms/Image";
 import Text from "../Atoms/Text";
-import { useAppDispatch } from "../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import { setDirect, setLinks } from "../Redux/ProfileSlice";
 import { updateDirect, updateLinkShareAble } from "../Services/ProfileServices";
 import { returnPngIcons } from "../assets/ReturnSocialIconsPng";
@@ -17,6 +17,7 @@ const LinkContainer: React.FC<any> = ({
   setLinkToEdit,
 }) => {
   const dispatch = useAppDispatch();
+  const profileData = useAppSelector((state) => state.profileHandler);
   return (
     <div
       className="w-[100%] flex justify-between items-center min-h-[66px] max-h-[66px] rounded-[20px] bg-[#F9F9F9] pl-3 pr-3"
@@ -48,6 +49,12 @@ const LinkContainer: React.FC<any> = ({
         />
       </div>
       <div className="flex items-center gap-3">
+        {profileData?.profileType === "circoTemplate" && (
+          <div className="h-[24px] w-[89px] text-[#D9D9D9] border border-[#D9D9D9] rounded-full font-[500] text-[10px] flex justify-center items-center">
+            {link?.assignedTo ? "Individual Link" : "Common Link"}
+          </div>
+        )}
+
         <Button
           btnClasses="h-[20px] w-[45px] bg-primary text-white text-[11px] font-[700] flex justify-center items-center rounded-full outline-none focus:outline-none"
           onClick={() => setLinkToEdit(link)}

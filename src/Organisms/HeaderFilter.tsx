@@ -102,7 +102,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       setSelectedOptions(updatedOptions);
     }
 
-    if (type === "teamId" || type === "profileId") {
+    if (type === "teamId" || type === "profileId"){
       setSelectionType("user");
     } else {
       setSelectionType("subTeam");
@@ -146,10 +146,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
     }));
   };
 
-
   console.log(selectedOptions.subteamId, "subteamId");
-  
-
 
   return (
     <div>

@@ -38,6 +38,7 @@ import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 import CustomModal from "../Modal";
 import AreYouSure from "../AreYouSure";
 import { setLinks } from "../../../Redux/ProfileSlice";
+import { setAssignedTo } from "../../../Redux/TemplateInvidualLinkSlice";
 
 const AddSingleLink: React.FC<webLinksProps> = ({
   changeLinkMode,
@@ -47,6 +48,9 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const profileData = useAppSelector((state) => state.profileHandler);
+  const assignedTo = useAppSelector(
+    (state) => state.TemplateInvidualLinkHandeler.assignedTo
+  );
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
@@ -186,7 +190,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       );
     } else {
       addLinkToTemplate(
-        { ...socialLink, placeholder: linkInfo?.placeholder },
+        { ...socialLink, placeholder: linkInfo?.placeholder, assignedTo },
         profileData?.id,
         profileData?.links,
         showError,
@@ -194,6 +198,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
         handleLoading,
         (oldLinks: any, newLink: any) => {
           dispatch(setLinks([...oldLinks, newLink]));
+          dispatch(setAssignedTo(""));
         }
       );
     }
@@ -238,7 +243,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
           <UploadIcon
             imgSrc={
               socialLink?.linkImgUrl ||
-              returnPngIcons(linkInfo.linkID || socialLink?.linkID || 999)
+              returnPngIcons(linkInfo?.linkID || socialLink?.linkID || 999)
             }
             isShare={false}
             handleFileChange={handleFileChange}

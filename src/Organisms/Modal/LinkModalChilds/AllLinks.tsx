@@ -58,11 +58,15 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const changeModeToAddLink = (link: Icon) => {
-    // console.log(link);
+  const changeModeToAddLink = (link: Icon, isLinkType: boolean = false) => {
+    console.log(link, "link is here");
+    if (link) {
+      dispatch(setLinkData(link));
+    }
 
-    dispatch(setLinkData(link));
-    changeLinkMode("addLink");
+    if (!isLinkType) {
+      changeLinkMode("addLink");
+    }
   };
 
   const changeModeToAddWebLink = () => {
@@ -122,7 +126,6 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   useEffect(() => {
     handleSearch();
   }, [searchQuery]);
-
 
   return (
     <div className="w-[100%] h-[100%] pb-4">

@@ -53,7 +53,6 @@ import { addLinkToTemplate } from "../../../Services/TemplatesServices";
 import { validateLink } from "../../../assets/ReturnSocialIconsPng";
 import { setLinks } from "../../../Redux/ProfileSlice";
 
-
 const AddWeblink: React.FC<webLinksProps> = ({
   changeLinkMode,
   linkEdit = false,
@@ -339,7 +338,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
               onClick={() => handleWebLinkMode("style3")}
             >
               <div className="relative flex justify-center">
-              <div className="h-[16px] w-[16px] rounded-full bg-[#00000040] absolute top-1 right-1  flex justify-center items-center">
+                <div className="h-[16px] w-[16px] rounded-full bg-[#00000040] absolute top-1 right-1  flex justify-center items-center">
                   <Image
                     src={returnIconStyle(socialLink.iconStyle)}
                     classes="filter invert brightness-0 h-[8px] object-cover"

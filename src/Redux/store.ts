@@ -8,6 +8,7 @@ import singleLinkHandeler from "./linkSlice"
 import socialLinkHandler from "./socialLinkSlice"
 import analyticsHandeler from "./AnalyticsSlice"
 import templateLockedHandeler from "./TemplateLockedSlice"
+import TemplateInvidualLinkHandeler from "./TemplateInvidualLinkSlice"
 // ...
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
     singleLinkHandeler:singleLinkHandeler,
     socialLinkHandler:socialLinkHandler,
     analyticsHandeler:analyticsHandeler,
-    templateLockedHandeler:templateLockedHandeler
+    templateLockedHandeler:templateLockedHandeler,
+    TemplateInvidualLinkHandeler:TemplateInvidualLinkHandeler
   },
 })
 
