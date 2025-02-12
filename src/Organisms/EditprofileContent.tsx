@@ -135,7 +135,7 @@ const EditprofileContent = () => {
       dispatch(setEmail(templateData?.email));
       dispatch(setPhone(templateData?.phone));
       // console.log(templateData?.leadMode);
-      if (typeof templateData?.links === "object") {
+      if (typeof templateData?.links === "object"){
         dispatch(setLinks(Object.values(templateData?.links)));
       }
 

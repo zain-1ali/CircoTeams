@@ -10,6 +10,7 @@ const Input: React.FC<inputProps> = ({
   disabled,
   maxLength,
   style,
+  ref,
 }) => {
   return (
     <>
@@ -23,6 +24,7 @@ const Input: React.FC<inputProps> = ({
         maxLength={maxLength}
         style={style}
         autoComplete="off"
+        ref={ref}
       />
     </>
   );

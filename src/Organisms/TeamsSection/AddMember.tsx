@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../Atoms/Button";
-import Input from "../../Atoms/Input";
+// import Input from "../../Atoms/Input";
 import Text from "../../Atoms/Text";
 import { RxCross2 } from "react-icons/rx";
 import useToastNotifications from "../../Hooks/useToastNotification";
@@ -15,6 +15,11 @@ const AddMember = () => {
   const [allEmails, setAllEmails] = useState<string[]>([]);
   const { showSuccess, showError } = useToastNotifications();
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDivClick = () => {
+    inputRef.current?.focus();
+  };
 
   const pushEmail = useCallback((mail: string): void => {
     // if (!allEmails?.includes(mail)) {
@@ -111,7 +116,10 @@ const AddMember = () => {
         text="Add members to your team via emails. Their accounts will be automatically generated, and they can change password after logging in. If a member's email is already registered with Circo, a new team profile will be generated."
         classes="font-[500] text-[14px] text-[#A4A4A4] w-[72%]"
       />
-      <div className="h-[112px] w-[72%] bg-[#F6F6F6] rounded-[18px] mt-6 pt-3 pl-3 pr-3 flex justify-start gap-x-4 flex-wrap">
+      <div
+        className="h-[112px] w-[72%] bg-[#F6F6F6] rounded-[18px] mt-6 pt-3 pl-3 pr-3 flex justify-start gap-x-4 flex-wrap"
+        onClick={() => handleDivClick()}
+      >
         {allEmails?.map((elm) => {
           return (
             <div className="h-[32px] pt-[7.5px] pb-[10px] pr-[5px] pl-[10px] border border-[#E8E8E8] bg-white rounded-[50px] flex items-center gap-1">
@@ -141,11 +149,12 @@ const AddMember = () => {
           />
         </div> */}
         {/* <div style={{ width: `${50 + email?.length}px` }} className="border"> */}
-        <Input
+        <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          classes="outline-none h-[30px] bg-transparent"
+          className="outline-none h-[30px] bg-transparent"
           style={{ width: `${40 + email?.length * 8}px` }}
+          ref={inputRef}
         />
         {/* </div> */}
       </div>

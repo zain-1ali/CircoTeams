@@ -43,6 +43,7 @@ import {
   setsaveContactStyleLock,
   setWebLinkStyleLock,
 } from "../Redux/TemplateLockedSlice";
+import { GoKebabHorizontal } from "react-icons/go";
 
 const TemplateCard: React.FC<any> = ({ data }) => {
   const [openEditTemplate, setopenEditTemplate] = useState(false);
@@ -143,7 +144,10 @@ const TemplateCard: React.FC<any> = ({ data }) => {
 
   return (
     <div className="w-[30%] h-[240px] bg-white shadow-md rounded-[23px] pt-2 flex flex-col items-center">
-      <div className="w-[95%] border h-[130px] rounded-[18px]">
+      <div className="w-[95%] border h-[130px] rounded-[18px] relative">
+        <div className="w-[43px] h-[18px] bg-white flex justify-center items-center absolute top-2 right-2 rounded-full cursor-pointer">
+          <GoKebabHorizontal className="text-[#C0C0C0] text-lg" />
+        </div>
         <Image
           src={data?.coverUrl || bgPlchldr}
           classes="h-[100%] w-[100%] object-cover rounded-[18px]"

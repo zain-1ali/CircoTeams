@@ -45,6 +45,7 @@ export interface inputProps {
   disabled?: boolean;
   maxLength?: number;
   style?: object;
+  ref?:any
 }
 
 export interface inputProps {
