@@ -50,87 +50,90 @@ const Sidebar = () => {
 
   return (
     <div className="h-[100%] w-[17%]  bg-white flex justify-center items-center">
-      <div className="max-h-[95%] h-[95%] w-[92%]  flex flex-col items-center  overflow-y-scroll">
-        <div onClick={() => navigate("/myprofiles")}>
-          <Logo
-            Imgclasses="h-[50px] w-[50px] object-cover cursor-pointer"
-            containerClasses=""
-          />
-        </div>
-
-        <div className="mt-8 w-[100%] flex flex-col gap-4">
-          <SidebarButton
-            icon={i1}
-            hoverIcon={hi1}
-            text="Profiles"
-            onClick={() => navigate("/myprofiles")}
-            state={
-              currentPath === "/myprofiles" || currentPath?.includes("/edit")
-            }
-          />
-          <SidebarButton
-            icon={i2}
-            hoverIcon={hi2}
-            text="Team"
-            onClick={() => navigate("/teams")}
-            state={currentPath === "/teams"}
-          />
-          <SidebarButton
-            icon={i3}
-            hoverIcon={hi3}
-            text="Connections"
-            onClick={() => navigate("/connections")}
-            state={currentPath === "/connections"}
-          />
-          <SidebarButton
-            icon={i4}
-            hoverIcon={hi4}
-            text="Analytics"
-            onClick={() => navigate("/analytics")}
-            state={currentPath === "/analytics"}
-          />
-          <SidebarButton
-            icon={i5}
-            hoverIcon={hi5}
-            text="Devices"
-            onClick={() => navigate("/devices")}
-            state={currentPath === "/devices"}
-          />
-          <SidebarButton
-            icon={i6}
-            hoverIcon={hi6}
-            text="Support"
-            onClick={() => navigate("/support")}
-            state={currentPath === "/support"}
-          />
-        </div>
-        <div
-          className={`min-h-[161px]  max-h-[161px] rounded-[20px] w-[95%] bg-[#f0f7ff] mt-[30px] flex justify-center relative ${
-            innerHeight < 700 ? "" : "mt-[30px]"
-          }`}
-        >
-          <Image
-            src={lamp}
-            classes="h-[150px] w-[150px] absolute top-[-25px]"
-          />
-          <Button
-            btnClasses="w-[138px] h-[33px] bg-primary rounded-[10px] text-white text-[12px] font-[600] absolute bottom-4"
-            text="Upgrade Now"
-            onClick={() => {}}
-          />
-        </div>
-
-        <div className="w-[95%]  flex justify-between mt-6 items-center">
-          <UserAvatar
-            name={companyProfile?.firstName + " " + companyProfile?.lastName}
-            picture={companyProfile?.profileUrl}
-            type="Free Account"
-          />
-          <div onClick={() => setSureModal(true)}>
-            <Image src={logout} classes="w-[34px] h-[32px]" />
+      <div className="max-h-[95%] h-[95%] w-[92%]  flex flex-col items-center justify-between  overflow-y-scroll">
+        
+        <div>
+          <div className="flex justify-center" onClick={() => navigate("/myprofiles")}>
+            <Logo
+              Imgclasses="h-[50px] w-[50px] object-cover cursor-pointer"
+              containerClasses=""
+            />
+          </div>
+          <div className="mt-8 w-[100%] flex flex-col gap-4">
+            <SidebarButton
+              icon={i1}
+              hoverIcon={hi1}
+              text="Profiles"
+              onClick={() => navigate("/myprofiles")}
+              state={
+                currentPath === "/myprofiles" || currentPath?.includes("/edit")
+              }
+            />
+            <SidebarButton
+              icon={i2}
+              hoverIcon={hi2}
+              text="Team"
+              onClick={() => navigate("/teams")}
+              state={currentPath === "/teams"}
+            />
+            <SidebarButton
+              icon={i3}
+              hoverIcon={hi3}
+              text="Connections"
+              onClick={() => navigate("/connections")}
+              state={currentPath === "/connections"}
+            />
+            <SidebarButton
+              icon={i4}
+              hoverIcon={hi4}
+              text="Analytics"
+              onClick={() => navigate("/analytics")}
+              state={currentPath === "/analytics"}
+            />
+            <SidebarButton
+              icon={i5}
+              hoverIcon={hi5}
+              text="Devices"
+              onClick={() => navigate("/devices")}
+              state={currentPath === "/devices"}
+            />
+            <SidebarButton
+              icon={i6}
+              hoverIcon={hi6}
+              text="Support"
+              onClick={() => navigate("/support")}
+              state={currentPath === "/support"}
+            />
           </div>
         </div>
+        <div>
+          <div
+            className={`min-h-[161px]  max-h-[161px] rounded-[20px] w-[95%] bg-[#f0f7ff] mt-[30px] flex justify-center relative ${
+              innerHeight < 700 ? "" : "mt-[30px]"
+            }`}
+          >
+            <Image
+              src={lamp}
+              classes="h-[150px] w-[150px] absolute top-[-25px]"
+            />
+            <Button
+              btnClasses="w-[138px] h-[33px] bg-primary rounded-[10px] text-white text-[12px] font-[600] absolute bottom-4"
+              text="Upgrade Now"
+              onClick={() => {}}
+            />
+          </div>
 
+          <div className="w-[95%]  flex justify-between mt-6 items-center">
+            <UserAvatar
+              name={companyProfile?.firstName + " " + companyProfile?.lastName}
+              picture={companyProfile?.profileUrl}
+              type="Free Account"
+            />
+            <div onClick={() => setSureModal(true)}>
+              <Image src={logout} classes="w-[34px] h-[32px]" />
+            </div>
+          </div>
+        </div>
         <CustomModal
           open={sureModal}
           onClose={() => setSureModal(false)}

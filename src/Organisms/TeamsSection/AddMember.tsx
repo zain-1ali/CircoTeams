@@ -20,6 +20,9 @@ const AddMember = () => {
   const handleDivClick = () => {
     inputRef.current?.focus();
   };
+  useEffect(() => {
+    handleDivClick();
+  }, []);
 
   const pushEmail = useCallback((mail: string): void => {
     // if (!allEmails?.includes(mail)) {
@@ -45,7 +48,7 @@ const AddMember = () => {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent): void => {
-      if (event.code === "Space" || event.key === " ") {
+      if (event.code === "Space" || event.key === " " || event.key === "Enter") {
         event.preventDefault();
         console.log("Spacebar pressed!");
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
