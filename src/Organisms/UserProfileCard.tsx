@@ -13,11 +13,14 @@ const UserProfileCard: React.FC<prflCardProps> = ({
   profile,
   onClick,
   handleQrModal,
+  isTeams,
 }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="h-[350px] w-[270px] shadow-md flex flex-col items-center rounded-[30px] bg-[white]"
+      className={`h-[350px] ${
+        isTeams ? "w-[250px]" : "w-[270px]"
+      } shadow-md flex flex-col items-center rounded-[30px] bg-[white]`}
       style={{ opacity: isCreatePrfl ? "50%" : "100%" }}
     >
       <div className="w-[94%] mt-2 flex justify-center relative">

@@ -8,6 +8,7 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
   color,
 }) => {
   const colors: string[] = [
+    "#ffffff",
     "#000",
     "#ff474c",
     "#ff9441",
@@ -41,7 +42,7 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
           colorType === "App Icon Color" ? "gap-[7px]" : "gap-[15px]"
         } h-[40px]`}
       >
-        <label htmlFor="colorSelect">
+        <label htmlFor={colorType}>
           <Image
             src={i10}
             classes="h-[20px] w-[20px] object-cover cursor-pointer"
@@ -51,7 +52,7 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
           type="color"
           style={{ display: "none" }}
           className="absolute bottom-0 left-0"
-          id="colorSelect"
+          id={colorType}
           onChange={(e) => handleChangeColor(e.target.value)}
         />
         {colors?.map((elm) => {

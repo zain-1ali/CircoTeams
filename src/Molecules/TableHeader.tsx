@@ -20,12 +20,20 @@ import ReasignTeam from "../Organisms/DropDown/ReasignTeam";
 import ReasignTemplate from "../Organisms/DropDown/ReasignTemplate";
 import { removeTeams } from "../Services/SubTeamsServices";
 import useToastNotifications from "../Hooks/useToastNotification";
+import { useAppDispatch } from "../Hooks/reduxHooks";
+import { resetState } from "../Redux/ProfileSlice";
+import hamBurger from "../assets/images/hamBurger.png";
+import hamBurgerWhite from "../assets/images/hamBurgerWhite.png";
+import cardsWhite from "../assets/images/cardsWhite.png";
+import cards from "../assets/images/cards.png";
 
 const TableHeader: React.FC<pageHeadProps> = ({
   headerName,
   number,
   selectedRows,
   searchItem,
+  isCardLayout,
+  setIsCardLayout,
 }) => {
   const [warnText, setWarnText] = useState<string>("");
   const [sureModal, setSureModal] = useState<boolean>(false);
@@ -53,6 +61,8 @@ const TableHeader: React.FC<pageHeadProps> = ({
   };
 
   const { showError, showSuccess } = useToastNotifications();
+
+  const dispatch = useAppDispatch();
 
   const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget); // Open the menu
@@ -119,6 +129,30 @@ const TableHeader: React.FC<pageHeadProps> = ({
         </div>
         {headerName === "Members" && (
           <div className="flex items-center gap-4">
+            <div className="w-[83px] h-[32px] border border[#D5D5D5] rounded-[22px] flex">
+              <div
+                className={`w-[50%] h-[100%] rounded-[22px] flex justify-center items-center ${
+                  isCardLayout && "bg-primary"
+                }  cursor-pointer`}
+                onClick={() => setIsCardLayout(true)}
+              >
+                <Image
+                  src={isCardLayout ? cardsWhite : cards}
+                  classes="w-[18px] h-[18px]"
+                />
+              </div>
+              <div
+                className={`w-[50%] h-[100%] rounded-[22px] flex justify-center ${
+                  !isCardLayout && "bg-primary"
+                } items-center cursor-pointer`}
+                onClick={() => setIsCardLayout(false)}
+              >
+                <Image
+                  src={isCardLayout ? hamBurger : hamBurgerWhite}
+                  classes="w-[18px] h-[18px]"
+                />
+              </div>
+            </div>
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] text-white bg-[#2B6EF6]"
               text="Add Member"
@@ -211,7 +245,9 @@ const TableHeader: React.FC<pageHeadProps> = ({
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[143px] text-[12px] font-[600] text-white bg-[#2B6EF6]"
               text="Create New Subteam"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpen(true), dispatch(resetState());
+              }}
             />
             <div
               id="reassignTemp-button"

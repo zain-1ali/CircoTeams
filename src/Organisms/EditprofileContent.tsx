@@ -130,12 +130,12 @@ const EditprofileContent = () => {
       );
       dispatch(toggleLeadMode(templateData?.leadMode));
       dispatch(toggleDirectMode(templateData?.directMode));
-      dispatch(setUsername(templateData?.username));
+      dispatch(setUsername(templateData?.username || id));
       dispatch(setDirect(templateData?.direct));
       dispatch(setEmail(templateData?.email));
       dispatch(setPhone(templateData?.phone));
       // console.log(templateData?.leadMode);
-      if (typeof templateData?.links === "object"){
+      if (typeof templateData?.links === "object") {
         dispatch(setLinks(Object.values(templateData?.links)));
       }
 
@@ -229,7 +229,7 @@ const EditprofileContent = () => {
   // setting redux states
 
   useEffect(() => {
-    dispatch(setProfileEditSection(0))
+    dispatch(setProfileEditSection(0));
     if (profileData?.templateId) {
       dispatch(setFirstName(profileData?.firstName));
       dispatch(setLastName(profileData?.lastName));
@@ -253,7 +253,7 @@ const EditprofileContent = () => {
       dispatch(setCompany(profileData?.company));
       dispatch(toggleLeadMode(profileData?.leadMode));
       dispatch(toggleDirectMode(profileData?.directMode));
-      dispatch(setUsername(profileData?.username));
+      dispatch(setUsername(profileData?.username || id));
       dispatch(setDirect(profileData?.direct));
       dispatch(setEmail(profileData?.email));
       dispatch(setPhone(profileData?.phone));

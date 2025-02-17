@@ -15,6 +15,9 @@ const TextButton: React.FC<textBtnProps> = ({
 }) => {
   const dispatch = useDispatch();
   const profileData = useAppSelector((state) => state.profileHandler);
+
+
+
   return (
     <div
       className={`h-[40px] ${width} bg-[#FAFAFB] rounded-[10px] flex justify-between items-center ${
@@ -26,7 +29,7 @@ const TextButton: React.FC<textBtnProps> = ({
         <Input
           onChange={(e) => dispatch(setUsername(e.target.value))}
           value={profileData?.username}
-          classes="bg-transparent outline-none w-[60%]"
+          classes="bg-transparent outline-none w-[70%] text-[#030229] text-[12px] font-[600]"
         />
       </div>
 

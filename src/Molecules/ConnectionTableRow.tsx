@@ -41,16 +41,23 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
   }`;
   const formatedDate = timestampToDate(data?.date);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
+    // event.stopPropagation();
+    if (anchorEl) {
+      setModalOpen(false);
+    }
+
     setAnchorEl(null);
   };
 
   const handleViewClick = () => {
     setModalOpen(true);
     handleMenuClose();
+    console.log("working");
   };
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleRowSelect(data, e.target.checked);
@@ -70,7 +77,10 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
 
   return (
     <>
-      <div className="w-[100%] h-[60px] rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 pr-4">
+      <div
+        className="w-[100%] h-[60px] rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 pr-4"
+        onClick={() => handleViewClick()}
+      >
         <Checkbox
           checkValue={isSelected}
           onChange={handleSelectedItem}
@@ -78,7 +88,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
         />
 
         <ImageWithTextCell
-          containerClass="flex w-[230px] items-center gap-3"
+          containerClass="flex w-[230px] items-center  gap-3 pl-10"
           isAdmin={false}
           data={{
             text: data?.name,
@@ -87,15 +97,15 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
         />
         <Text
           text={memberName}
-          classes="font-[600] text-[#939393] text-[12px] w-[150px]"
+          classes="font-[600] text-[#939393] text-[12px] w-[150px] pl-7"
         />
         <Text
           text={formatedDate}
-          classes="font-[600] text-[#939393] text-[12px] w-[150px]"
+          classes="font-[600] text-[#939393] text-[12px] w-[200px] p-6"
         />
         <Text
           text={data?.message}
-          classes="font-[600] text-[#939393] text-[12px] w-[300px]"
+          classes="font-[600] text-[#939393] text-[12px] w-[250px]"
         />
 
         {/* Three Dots Icon */}

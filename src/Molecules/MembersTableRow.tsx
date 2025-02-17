@@ -6,6 +6,7 @@ import hi11 from "../assets/images/hi11.png";
 import hi12 from "../assets/images/hi12.png";
 import { useEffect, useState } from "react";
 import { getSingleChildFromDb } from "../Services/Constants";
+import { useNavigate } from "react-router-dom";
 
 // : React.FC<TableRowProps>
 const MembersTableRow: React.FC<any> = ({
@@ -15,6 +16,7 @@ const MembersTableRow: React.FC<any> = ({
 }) => {
   const [subteamData, setSubteamData] = useState<any>({});
   const [templateData, settemplateData] = useState<any>({});
+  const navigate = useNavigate();
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleRowSelect(
@@ -56,7 +58,10 @@ const MembersTableRow: React.FC<any> = ({
   }, [data?.templateId]);
 
   return (
-    <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4">
+    <div
+      className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 cursor-pointer"
+      onClick={() => navigate(`/edit/${data?.id}`)}
+    >
       <div className="w-[35px]">
         <Checkbox
           checkValue={isSelected}

@@ -56,13 +56,17 @@ const SubTeamCard: React.FC<any> = ({
   };
 
   const returnConnectionsLength = () => {
+    let teamsConnections: string[] = [];
     if (team?.members) {
       const connectionsLength = team?.members?.map((member: any) => {
-        return connections.filter(
+        const connectionFilter = connections?.filter(
           (connection: any) => connection?.userid === member
         );
+        teamsConnections = [...teamsConnections, ...connectionFilter];
       });
-      return connectionsLength?.length;
+      console.log(connectionsLength);
+
+      return teamsConnections?.length;
     } else {
       return 0;
     }
@@ -85,15 +89,8 @@ const SubTeamCard: React.FC<any> = ({
       setLoading
     );
 
-    getMultipleChilds(
-      "User",
-      "subTeamId",
-      team?.id,
-      callBackFunc,
-      setLoading
-    );
+    getMultipleChilds("User", "subTeamId", team?.id, callBackFunc, setLoading);
   }, []);
-
 
   const callBackFunc = (data: any) => {
     setTeamMembers(Object.values(data));
@@ -199,11 +196,12 @@ const SubTeamCard: React.FC<any> = ({
               <Image
                 key={i}
                 src={member?.profileUrl || pm1}
-                classes={`h-[28px] w-[28px] rounded-full object-cover absolute left-[${i * 6}%]`}
+                classes={`h-[28px] w-[28px] rounded-full object-cover absolute left-[${
+                  i * 6
+                }%]`}
               />
             );
-          })
-        }
+          })}
           {/* <Image
           src={pw1}
             classes="h-[28px] w-[28px] rounded-full object-cover absolute "

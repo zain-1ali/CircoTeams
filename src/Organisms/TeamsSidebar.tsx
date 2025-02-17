@@ -41,7 +41,7 @@ const TeamsSidebar = () => {
           icon={i12}
           hoverIcon={hi12}
           text="Templates"
-          height="h-[30px]"
+          height="h-[40px]"
           onClick={() => dispatch(setTeamSection(2))}
           state={teamSectionStage === 2}
         />

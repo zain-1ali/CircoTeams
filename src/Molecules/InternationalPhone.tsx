@@ -104,7 +104,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
             dropdownClass="mydrop"
           />
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center w-[85%]">
           <div className="w-[21%] h-[40px] bg-[#F7F7F8] rounded-l-md flex justify-center items-center">
             +{phone}
           </div>

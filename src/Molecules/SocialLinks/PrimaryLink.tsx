@@ -12,7 +12,7 @@ const PrimaryLink: React.FC<Link> = (link) => {
   const appIconColor = profileData?.profileDesign?.appIconColor;
   return (
     <div
-      className="w-[65px] h-[60px]  flex flex-col items-center transition-opacity duration-500 ease-in-out"
+      className="w-[65px] h-[60px]   flex flex-col items-center transition-opacity duration-500 ease-in-out"
       style={{ display: link?.shareable === false ? "none" : undefined }}
     >
       {appIconColor ? (

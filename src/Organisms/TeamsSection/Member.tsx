@@ -6,16 +6,22 @@ import {
   getMultipleChilds,
   getSingleChildFromDb,
 } from "../../Services/Constants";
+import UserProfileCard from "../UserProfileCard";
+import CustomModal from "../Modal/Modal";
+import Qr from "../Modal/Qr";
 
 const Member = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [loading, setLoading] = useState<boolean>(false);
   let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [qrModal, setQrModal] = useState<boolean>(false);
   console.log(selectedRows);
 
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
+  const [isCardLayout, setIsCardLayout] = useState<boolean>(false);
 
   // const getCompanyProfile = (data: any) => {
   //   if (data) {
@@ -48,6 +54,11 @@ const Member = () => {
     //       : [...prev, profile]
     //   );
     // }
+  };
+
+  const handleQrModal = (id: string) => {
+    setQrModal(true);
+    setSelectedId(id);
   };
 
   const getAllProfiles = (data: object) => {
@@ -156,6 +167,7 @@ const Member = () => {
       );
     }
   };
+
   return (
     <div className="w-[100%] h-[100%] overflow-y-scroll">
       <TableHeader
@@ -163,15 +175,43 @@ const Member = () => {
         headerName="Members"
         selectedRows={selectedRows}
         searchItem={searchItem}
+        isCardLayout={isCardLayout}
+        setIsCardLayout={setIsCardLayout}
       />
       <div className="mt-5">
-        <Table
-          headers={headers}
-          type="members"
-          data={filteredConnections}
-          selectedRows={selectedRows}
-          handleRowSelect={handleRowSelect}
-        />
+        {!isCardLayout ? (
+          <Table
+            headers={headers}
+            type="members"
+            data={filteredConnections}
+            selectedRows={selectedRows}
+            handleRowSelect={handleRowSelect}
+          />
+        ) : (
+          <div className="w-[100%] flex justify-start gap-[4%] gap-y-5 mt-3 flex-wrap">
+            {filteredConnections?.map((profile: any, i: any) => {
+              if (profile?.profileType === "team") {
+                return (
+                  <UserProfileCard
+                    isCreatePrfl={false}
+                    profile={profile}
+                    key={i}
+                    handleQrModal={handleQrModal}
+                    isTeams={true}
+                  />
+                );
+              }
+            })}
+          </div>
+        )}
+
+        <CustomModal
+          open={qrModal}
+          onClose={() => setQrModal(false)}
+          style={{ height: "300px", width: "300px", borderRadius: 5, p: 4 }}
+        >
+          <Qr userId={selectedId} />
+        </CustomModal>
       </div>
     </div>
   );

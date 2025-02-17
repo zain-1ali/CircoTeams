@@ -728,7 +728,7 @@ export const updateUserName = async (
    
     
   
-    const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
+    const usernameRegex = /^[a-zA-Z0-9_-]{3,30}$/;
     if (!usernameRegex.test(username)){
       showError("Username should be 3-15 characters long and can only contain letters, numbers, underscores, and hyphens");
       return;

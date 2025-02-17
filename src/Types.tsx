@@ -45,7 +45,7 @@ export interface inputProps {
   disabled?: boolean;
   maxLength?: number;
   style?: object;
-  ref?:any
+  ref?: any;
 }
 
 export interface inputProps {
@@ -133,6 +133,7 @@ export interface prflCardProps {
   profile?: any;
   onClick?: any;
   handleQrModal?: any;
+  isTeams?: boolean;
 }
 
 export interface profileCardProps {
@@ -219,7 +220,7 @@ export interface ConnectionHeaderProps {
   applyFilterId: (id: string, type: string) => void;
   searchItem: (id: string) => void;
   selectedRows: string[];
-  itemCounts:number,
+  itemCounts: number;
 }
 
 export interface MemberHeaderProps {
@@ -260,6 +261,8 @@ export interface pageHeadProps {
   number: string | number;
   selectedRows?: any[];
   searchItem?: (searchValue: string) => void;
+  isCardLayout?: boolean;
+  setIsCardLayout?: any;
 }
 
 export interface counterBoxProps {

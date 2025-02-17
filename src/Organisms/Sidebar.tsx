@@ -50,10 +50,12 @@ const Sidebar = () => {
 
   return (
     <div className="h-[100%] w-[17%]  bg-white flex justify-center items-center">
-      <div className="max-h-[95%] h-[95%] w-[92%]  flex flex-col items-center justify-between  overflow-y-scroll">
-        
-        <div>
-          <div className="flex justify-center" onClick={() => navigate("/myprofiles")}>
+      <div className="max-h-[95%] h-[95%]  w-[92%]  flex flex-col items-center justify-between  overflow-y-scroll">
+        <div className="w-[100%]">
+          <div
+            className="flex justify-center"
+            onClick={() => navigate("/myprofiles")}
+          >
             <Logo
               Imgclasses="h-[50px] w-[50px] object-cover cursor-pointer"
               containerClasses=""

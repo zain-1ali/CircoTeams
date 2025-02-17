@@ -24,7 +24,7 @@ const Table: React.FC<tableProps> = ({
   };
 
   return (
-    <div className="w-[100%]">
+    <div className="w-[100%] overflow-y-scroll">
       <TableHead
         tableHeadCells={headers}
         allSelected={allSelected}
@@ -34,14 +34,19 @@ const Table: React.FC<tableProps> = ({
       {/* Rendering for "members" type */}
       {type === "members" && (
         <>
-          {data?.map((item: any, index: any) => (
-            <MembersTableRow
-              key={index}
-              data={item}
-              handleRowSelect={handleRowSelect} // Pass handler to row
-              isSelected={selectedRows.some((row: any) => row.id === item.id)}
-            />
-          ))}
+          {data?.map(
+            (item: any, index: any) =>
+              item?.profileType === "team" && (
+                <MembersTableRow
+                  key={index}
+                  data={item}
+                  handleRowSelect={handleRowSelect} // Pass handler to row
+                  isSelected={selectedRows.some(
+                    (row: any) => row.id === item.id
+                  )}
+                />
+              )
+          )}
         </>
       )}
 
@@ -62,12 +67,14 @@ const Table: React.FC<tableProps> = ({
       {/* Rendering for "devices" type */}
       {type === "devices" && (
         <>
-        {data?.map((item: any, index: any) => (
+          {data?.map((item: any, index: any) => (
             <DevicesTableRow
               key={index}
               data={item}
               handleRowSelect={handleRowSelect} // Pass handler to row
-              isSelected={selectedRows.some((row: any) => row.device.id === item.device.id)}
+              isSelected={selectedRows.some(
+                (row: any) => row.device.id === item.device.id
+              )}
             />
           ))}
         </>

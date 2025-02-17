@@ -123,11 +123,14 @@ const LayoutDesign = () => {
           text="Whiten Profile Text"
           classes="text-[#8D8D8D] text-[12px] font-[600]"
         />
-        <IOSSwitch 
+        <IOSSwitch
           onChange={() =>
-            dispatch(setProfileDesign({
-              whiteTextAndBorder: !profileData.profileDesign.whiteTextAndBorder,
-            }))
+            dispatch(
+              setProfileDesign({
+                whiteTextAndBorder:
+                  !profileData.profileDesign.whiteTextAndBorder,
+              })
+            )
           }
           checked={profileData.profileDesign.whiteTextAndBorder}
         />
