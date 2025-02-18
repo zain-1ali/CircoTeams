@@ -58,16 +58,17 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
 
   console.log(loading);
 
-   const formData = useAppSelector((state: RootState) => state.profileHandler);
-   const [initialFormData, setInitialFormData] = useState(formData);
- 
-   useEffect(() => {
-     setInitialFormData(formData);
-   }, []); 
- 
-   const isFormChanged = JSON.stringify(formData) !== JSON.stringify(initialFormData);
-   const [sureModal, setSureModal] = useState<boolean>(false);
-   
+  const formData = useAppSelector((state: RootState) => state.profileHandler);
+  const [initialFormData, setInitialFormData] = useState(formData);
+
+  useEffect(() => {
+    setInitialFormData(formData);
+  }, []);
+
+  const isFormChanged =
+    JSON.stringify(formData) !== JSON.stringify(initialFormData);
+  const [sureModal, setSureModal] = useState<boolean>(false);
+
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     imgType: string
@@ -367,7 +368,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
                 : "w-[100%] rounded-[10px]"
             }  bg-[#FAFAFB] outline-none pl-2 mt-[2px]`}
             labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
-            disabled={true}
+            // disabled={true}
             isTemplate={profileData?.profileType === "circoTemplate"}
             locked={templateLockedData?.emailLock}
             changeLockedStatus={() =>

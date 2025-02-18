@@ -60,6 +60,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
     console.log("working");
   };
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setModalOpen(false);
     handleRowSelect(data, e.target.checked);
   };
 

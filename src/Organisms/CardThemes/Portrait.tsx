@@ -17,9 +17,9 @@ const Portrait = () => {
         />
       </div> */}
 
-      <div className="w-[100%] h-[210px] relative overflow-hidden">
+      <div className="w-[100%] h-[210px] relative">
         <div
-          className="w-[100%] h-[75px] absolute bottom-[-15px]"
+          className="w-[100%] h-[70px]  absolute bottom-[-100px]"
           style={{
             background: `linear-gradient(to top, ${
               profileData?.profileDesign?.backgroundColor
@@ -33,12 +33,12 @@ const Portrait = () => {
             //   background: `linear-gradient(180deg, rgba(217, 217, 217, 0) 0%, ${profileData?.profileDesign?.backgroundColor} 100%)`,
           }}
         ></div>
-        <div className="h-[60px] w-[60px]  rounded-full absolute bottom-[70px] left-6">
+        <div className="h-[60px] w-[60px]  rounded-full absolute bottom-[-45px] left-4">
           {profileData?.logoUrl && (
             <img
               src={profileData?.logoUrl}
               alt=""
-              className="h-[60px] w-[60px]  rounded-full"
+              className="h-[50px] w-[50px]  rounded-full"
               style={{
                 display: profileData?.profileDesign.hideCompanyLogo
                   ? "none"
@@ -50,12 +50,12 @@ const Portrait = () => {
         {profileData?.profileUrl && (
           <img
             src={profileData?.profileUrl}
-            className="w-[100%] h-[400px]  object-cover"
+            className="w-[100%] h-[280px] object-cover"
             alt=""
           />
         )}
       </div>
-      <div className="w-[100%] mt-[20px]">
+      <div className="w-[100%] mt-[90px]">
         <ProfileTextualArea
           name={profileData?.firstName + " " + profileData?.lastName}
           job={profileData.jobTitle}

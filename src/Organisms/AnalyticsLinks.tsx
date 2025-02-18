@@ -17,9 +17,18 @@ const AnalyticsLinks = () => {
         <RiArrowDownSFill />
       </div>
       <div className="w-[100%] h-[90%] overflow-y-scroll">
-        {analytics?.links?.map((elm) => {
-          return <AnalyticsSingleLink link={elm}/>;
-        })}
+        {analytics?.links?.length > 0 ? (
+          analytics?.links?.map((elm) => {
+            return <AnalyticsSingleLink link={elm} />;
+          })
+        ) : (
+          <div className="w-[100%] h-[100%] flex items-center justify-center ">
+            <Text
+              text="No links to show"
+              classes="font-[600] text-[16px] text-[#4D4D4D]"
+            />
+          </div>
+        )}
 
         {/* <AnalyticsSingleLink />
         <AnalyticsSingleLink />

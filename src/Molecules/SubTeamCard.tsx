@@ -216,7 +216,7 @@ const SubTeamCard: React.FC<any> = ({
           />  */}
 
           <div
-            className="h-[28px] w-[28px] bg-[#26C0E2] flex justify-center items-center rounded-full absolute left-[18%] cursor-pointer"
+            className={`h-[28px] w-[28px] bg-[#26C0E2] flex justify-center items-center rounded-full ${teamMembers?.length===1 ?"absolute left-[6%]":teamMembers?.length===3 ?"absolute left-[18%]" :teamMembers?.length===2 ?"absolute left-[12%]":""}  cursor-pointer`}
             onClick={() => setOpen(true)}
           >
             <IoMdAdd className="text-white " />

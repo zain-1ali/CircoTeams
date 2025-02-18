@@ -1,5 +1,6 @@
 import { BiArrowBack } from "react-icons/bi";
 import {
+  returnPlaceholder,
   returnPngIcons,
   validateLink,
 } from "../../../assets/ReturnSocialIconsPng";
@@ -255,7 +256,11 @@ const AddSingleLink: React.FC<webLinksProps> = ({
           <div>
             <InputWithLabel
               type="text"
-              label={linkInfo?.placeholder || socialLink?.placeholder || ""}
+              label={
+                linkInfo?.placeholder ||
+                socialLink?.placeholder ||
+                returnPlaceholder(linkInfo?.linkID || socialLink?.linkID || 999)
+              }
               onChange={(e) => dispatch(setSocialLinkValue(e.target.value))}
               value={socialLink?.value}
               inputClasses="w-[265px] h-[40px] bg-[#FAFAFB] rounded-[10px] outline-none mt-1 pl-2"

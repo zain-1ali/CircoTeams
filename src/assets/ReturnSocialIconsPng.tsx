@@ -393,6 +393,42 @@ export const allLinks: IconGroup[] = [
   { name: "Payment", links: [...payment] },
 ];
 
+export const placeholders: any[] = [
+  ...contactIcons.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+  ...socialIcons.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+  ...business.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+  ...media.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+  ...payment.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+  ...more.map((icon) => ({
+    placeholder: icon.placeholder,
+    linkID: icon.linkID,
+  })),
+];
+
+export const returnPlaceholder = (linkID: any) => {
+  const placeholder = placeholders.find(
+    (placeholder) => placeholder.linkID === Number(linkID)
+  );
+  if (placeholder) {
+    return placeholder.placeholder;
+  }
+};
+
 // Type for the id parameter in returnPngIcons function
 export const returnPngIcons = (id: number): string | undefined => {
   switch (id) {
@@ -472,7 +508,7 @@ export const returnPngIcons = (id: number): string | undefined => {
       return openSea;
     case 50:
       return zelle;
-      case 51:
+    case 51:
       return text2;
     case 999:
       return safari;
@@ -600,35 +636,35 @@ const linkValidationRules: ValidationRule[] = [
   {
     linkID: 6, // Location
     validate: (value: string) =>
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 6, // Location
     validate: (value: string) =>
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 50, // Zelle
     validate: (value: string) =>
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 28, // Pdf
     validate: (value: string) =>
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 29, // Gallery
     validate: (value: string) =>
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 26, // paragraph
-validate: (value: string) => value.trim() !== "",
+    validate: (value: string) => value.trim() !== "",
   },
   {
     linkID: 51, // title
-validate: (value: string) => value.trim() !== "",
+    validate: (value: string) => value.trim() !== "",
   },
 ];
 

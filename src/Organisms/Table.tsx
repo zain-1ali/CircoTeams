@@ -53,14 +53,20 @@ const Table: React.FC<tableProps> = ({
       {/* Rendering for "connections" type */}
       {type === "connections" && (
         <>
-          {data?.map((item: any, index: any) => (
-            <ConnectionTableRow
-              key={index}
-              data={item}
-              handleRowSelect={handleRowSelect}
-              isSelected={selectedRows.some((row: any) => row.id === item.id)}
-            />
-          ))}
+          {data?.length > 0 ? (
+            data?.map((item: any, index: any) => (
+              <ConnectionTableRow
+                key={index}
+                data={item}
+                handleRowSelect={handleRowSelect}
+                isSelected={selectedRows.some((row: any) => row.id === item.id)}
+              />
+            ))
+          ) : (
+            <div className="w-[100%] h-[100%] flex justify-center items-center">
+              No connections to show
+            </div>
+          )}
         </>
       )}
 
