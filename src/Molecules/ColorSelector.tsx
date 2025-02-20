@@ -39,7 +39,7 @@ const ColorSelector: React.FC<colorSelectorProps> = ({
       <Text text={colorType} classes="font-[600] text-[12px] text-[#8D8D8D]" />
       <div
         className={`flex items-center relative ${
-          colorType === "App Icon Color" ? "gap-[7px]" : "gap-[15px]"
+          colorType === "App Icon Color" ? "gap-[7px] xl:gap-[18px]" : "gap-[15px] xl:gap-[5%]"
         } h-[40px]`}
       >
         <label htmlFor={colorType}>

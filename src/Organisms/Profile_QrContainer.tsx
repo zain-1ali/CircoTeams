@@ -42,7 +42,7 @@ const Profile_QrContainer = () => {
             size={200}
             logoImage={profileData.qrLogo}
             fgColor={profileData.qrColor || "black"}
-            logoOpacity={0.7}
+            logoOpacity={0.8}
             logoWidth={50}
             logoHeight={50}
             // eyeRadius={10}
@@ -59,7 +59,7 @@ const Profile_QrContainer = () => {
               logoImage={profileData.qrLogo}
               enableCORS={true}
               fgColor={profileData.qrColor || "black"}
-              logoOpacity={0.6}
+              logoOpacity={0.7}
               logoWidth={50}
               logoHeight={50}
               // eyeRadius={10}

@@ -280,7 +280,12 @@ const EditprofileContent = () => {
       }
 
       dispatch(setQrColor(profileData?.qrColor));
-      dispatch(setQrLogo(profileData?.qrLogo));
+      dispatch(
+        setQrLogo(
+          profileData?.qrLogo ||
+            "https://firebasestorage.googleapis.com/v0/b/wajjcard-7be7d.appspot.com/o/circo-logo.png?alt=media&token=06b62f72-4d56-48cc-b61e-e1aa7ee4af64"
+        )
+      );
     }
   }, [profileData?.id]);
 

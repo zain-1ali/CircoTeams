@@ -3,12 +3,13 @@ import Text from "../../Atoms/Text";
 
 const Fonts: FC<any> = ({ handleSelectFont, ActiveFont }) => {
   const fonts = [
+    { name: "SF Pro", id: "6" },
     { name: "Inika", id: "1" },
     { name: "Gugi", id: "2" },
     { name: "Gothic", id: "3" },
     { name: "Marck Script", id: "4" },
     { name: "Chivo", id: "5" },
-    { name: "SF Pro", id: "6" },
+   
   ];
 
   return (

@@ -27,12 +27,12 @@ const HighlightedLinkDesign = () => {
     dispatch(setBoxStyle(style));
   };
   return (
-    <div className="w-[100%]   h-[300px] rounded-[20px] bg-[#F9F9F9] pl-4 pr-4 pt-6 mt-1 ">
+    <div className="w-[100%]   h-[300px] rounded-[20px] bg-[#F9F9F9] pl-4 xl:pl-7 pr-4 pt-6 mt-1 ">
       <Text
         text="Button Style"
         classes="font-[600] text-[12px] text-[#8D8D8D]"
       />
-      <div className="flex gap-5 mt-2">
+      <div className="flex gap-5 xl:gap-[12%] mt-2">
         <div
           className="w-[173px] h-[65px] rounded-xl border flex pl-3 gap-2 items-center cursor-pointer relative"
           onClick={() => handleChangeBoxStyle("style1")}

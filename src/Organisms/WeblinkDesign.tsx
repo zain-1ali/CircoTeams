@@ -26,12 +26,12 @@ const WebLinkDesign = () => {
     dispatch(setWeblinkStyle(style));
   };
   return (
-    <div className="w-[100%]   h-[370px] rounded-[20px] bg-[#F9F9F9] pl-4 pr-4 pt-6 mt-1 ">
+    <div className="w-[100%]   h-[370px] rounded-[20px] bg-[#F9F9F9] pl-4 xl:pl-7 pr-4 pt-6 mt-1 ">
       <Text
         text="Button Style"
         classes="font-[600] text-[12px] text-[#8D8D8D]"
       />
-      <div className="flex gap-5 mt-2">
+      <div className="flex gap-5 mt-2 xl:gap-[12%]">
         <div
           className="h-[37px] w-[110px] flex justify-center items-center bg-black text-white  text-[12px] font-[700] relative"
           onClick={() => handleChangeWebStyle("style1")}
@@ -66,7 +66,7 @@ const WebLinkDesign = () => {
         </div>
       </div>
 
-      <div className="flex gap-5 mt-4">
+      <div className="flex gap-5 mt-4 xl:mt-6 xl:gap-[12%]">
         <div
           className="h-[37px] w-[110px] flex justify-center items-center border border-black  text-black  text-[12px] font-[700] relative"
           onClick={() => handleChangeWebStyle("style5")}
@@ -101,7 +101,7 @@ const WebLinkDesign = () => {
         </div>
       </div>
 
-      <div className="flex gap-5 mt-4">
+      <div className="flex gap-5 mt-4 xl:mt-6 xl:gap-[12%]">
         <div
           className="h-[37px] w-[110px] flex justify-center items-center  text-white  text-[12px] font-[700] relative"
           style={{
