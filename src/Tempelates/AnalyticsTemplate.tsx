@@ -8,7 +8,8 @@ import AnalyticsSummary from "../Organisms/AnalyticsSummary";
 import Sidebar from "../Organisms/Sidebar";
 import { getAnalytics } from "../Services/AnalyticsServices";
 import { setAnalytics } from "../Redux/AnalyticsSlice";
-import { LineChart } from "@mui/x-charts/LineChart";
+// import { LineChart } from "@mui/x-charts/LineChart";
+import Chart from "../Molecules/Chart";
 
 const AnalyticsTemplate = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,6 +24,17 @@ const AnalyticsTemplate = () => {
 
   const handleGetAnalytics = (id: string | string[], type: string) => {
     getAnalytics(id, type, handleSetAnalytics, setLoading);
+  };
+
+  const returnDataForChart = (data: any[]) => {
+    const chartData = data.map((item: any, i) => {
+      return {
+        name: `day ${i + 1}`,
+        uv: item,
+      };
+    });
+
+    return chartData;
   };
 
   return (
@@ -49,7 +61,7 @@ const AnalyticsTemplate = () => {
                 classes="font-[700] text-[16px] text-[#4D4D4D]"
               />
 
-              <LineChart
+              {/* <LineChart
                 xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7] }]}
                 series={[
                   {
@@ -58,14 +70,21 @@ const AnalyticsTemplate = () => {
                 ]}
                 width={500}
                 height={250}
-              />
+              /> */}
+
+              <div style={{ width: "100%", height: 200 }} className="mt-3">
+                <Chart
+                  data={returnDataForChart(analytics?.weeklyViews)}
+                  dataKey={"views"}
+                />
+              </div>
             </div>
             <div className="h-[100%] w-[49%] bg-white rounded-[10px] px-[14px] py-[14px]">
               <Text
                 text="Connections Over Time"
                 classes="font-[700] text-[16px] text-[#4D4D4D]"
               />
-              <LineChart
+              {/* <LineChart
                 xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7] }]}
                 series={[
                   {
@@ -74,7 +93,17 @@ const AnalyticsTemplate = () => {
                 ]}
                 width={500}
                 height={250}
-              />
+              /> */}
+
+              <div style={{ width: "100%", height: 200 }} className="mt-3">
+                <Chart
+                  data={returnDataForChart(
+                    analytics?.weeklyConnections,
+                   
+                  )}
+                  dataKey={"connections"}
+                />
+              </div>
             </div>
           </div>
         </div>
