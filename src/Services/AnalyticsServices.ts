@@ -27,8 +27,9 @@ if(type==="user" && typeof id==="string"){
           });
 }else{
     if (typeof id === "object"){
+      console.log("teams inner")
         const userIds = Object.values(id);
-        if (userIds && userIds.length > 0) {
+        if (userIds && userIds.length > 0){
           let membersArray:any = [];
     
          type FetchAnalytics = (elm: string) => Promise<void>;
@@ -45,6 +46,8 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
       starCountRef,
       (snapshot) => {
         const data = snapshot.val();
+        console.log("members analytics", data);
+        
         if (data) {
           membersArray.push(Object.values<object>(data)[0]);
         }
@@ -60,9 +63,12 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
     
           try {
             await Promise.all(userIds.map(fetchAnalytics));
+    console.log(membersArray,"members analytics array");
     
             if (membersArray.length > 0){
               const summedData:any = {};
+              const weeklyConnections:any = [0,0,0,0,0,0,0];
+              const weeklyViews:any = [0,0,0,0,0,0,0];
     
               membersArray.forEach((obj:any) => {
                 for (let key in obj) {
@@ -74,19 +80,35 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
                     summedData[key] = [];
                   }
     
-                  if (key !== "links") {
+                  if (key !== "links" && key!=="weeklyConnections" && key!=="weeklyViews") {
                     summedData[key] += obj[key];
-                  } else {
+                  } 
+                  if (key === "links") {
                     summedData[key] = [...summedData[key], ...obj[key]];
+                  }
+
+                  if(key==="weeklyConnections"){
+                    obj[key]?.map((val:any,i:any)=>{
+                      weeklyConnections[i]+=val
+                    })
+                  }
+
+
+                  if(key==="weeklyViews"){
+                    obj[key]?.map((val:any,i:any)=>{
+                      weeklyViews[i]+=val
+                    })
                   }
                 }
               });
+    console.log(summedData,"here is summed data");
     
               setAnalytics({
-                analyticsObject: {
                   ...summedData,
                   links: summedData?.links?.flat(),
-                },
+                  weeklyConnections:weeklyConnections,
+                  weeklyViews:weeklyViews
+              
               });
             } 
             else {
@@ -94,10 +116,11 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
             }
           }catch(error){
             console.error(error);
-          }finally {
-            setLoading(false);
-             setAnalytics(undefined)
           }
+          // finally {
+          //   setLoading(false);
+          //    setAnalytics(undefined)
+          // }
         } 
       }else{
         setAnalytics(undefined)

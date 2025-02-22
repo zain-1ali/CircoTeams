@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Text from "../Atoms/Text";
 import { useAppDispatch, useAppSelector } from "../Hooks/reduxHooks";
 import AnalyticsHeader from "../Molecules/AnalyticsHeader";
@@ -10,17 +10,48 @@ import { getAnalytics } from "../Services/AnalyticsServices";
 import { setAnalytics } from "../Redux/AnalyticsSlice";
 // import { LineChart } from "@mui/x-charts/LineChart";
 import Chart from "../Molecules/Chart";
+import { getMultipleChilds } from "../Services/Constants";
 
 const AnalyticsTemplate = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const analytics = useAppSelector((state) => state.analyticsHandeler);
-  console.log(analytics);
+  console.log(analytics, "here are analytics in page");
   console.log(loading);
 
+  const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const handleSetAnalytics = (data: any) => {
+    console.log(data, "here is data into the function");
     dispatch(setAnalytics(data));
   };
+  const getAllProfiles = (data: any) => {
+    if (data) {
+    const teamIds =  Object.values(data)?.map((item: any) => {
+        if (item?.profileType!=="self" && item?.id!==undefined) {
+        return item?.id
+        }
+      });
+
+      console.log(teamIds,"team ids");
+      
+
+      getAnalytics(teamIds?.map((item: any) =>item!==undefined && item), "object", handleSetAnalytics, setLoading);
+
+    }
+  };
+
+  // getting company profile
+  useEffect(() => {
+    getMultipleChilds(
+      "User/",
+      "parentID",
+      companyId,
+      getAllProfiles,
+      setLoading
+    );
+  }, []);
+
+ 
 
   const handleGetAnalytics = (id: string | string[], type: string) => {
     getAnalytics(id, type, handleSetAnalytics, setLoading);
@@ -97,10 +128,7 @@ const AnalyticsTemplate = () => {
 
               <div style={{ width: "100%", height: 200 }} className="mt-3">
                 <Chart
-                  data={returnDataForChart(
-                    analytics?.weeklyConnections,
-                   
-                  )}
+                  data={returnDataForChart(analytics?.weeklyConnections)}
                   dataKey={"connections"}
                 />
               </div>
