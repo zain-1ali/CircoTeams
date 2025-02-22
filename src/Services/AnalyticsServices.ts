@@ -69,6 +69,7 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
               const summedData:any = {};
               const weeklyConnections:any = [0,0,0,0,0,0,0];
               const weeklyViews:any = [0,0,0,0,0,0,0];
+              const recentConnection:any[]=[]
     
               membersArray.forEach((obj:any) => {
                 for (let key in obj) {
@@ -80,7 +81,7 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
                     summedData[key] = [];
                   }
     
-                  if (key !== "links" && key!=="weeklyConnections" && key!=="weeklyViews") {
+                  if (key !== "links" && key!=="weeklyConnections" && key!=="weeklyViews" && key!=="recentConnections") {
                     summedData[key] += obj[key];
                   } 
                   if (key === "links") {
@@ -99,6 +100,15 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
                       weeklyViews[i]+=val
                     })
                   }
+
+
+                  if(key==="recentConnections"){
+if(recentConnection.length<6){
+  recentConnection.push(Object.values(obj[key])[Object.values(obj[key]).length-1])
+}
+                  }
+
+
                 }
               });
     console.log(summedData,"here is summed data");
@@ -107,7 +117,8 @@ const fetchAnalytics: FetchAnalytics = (elm) => {
                   ...summedData,
                   links: summedData?.links?.flat(),
                   weeklyConnections:weeklyConnections,
-                  weeklyViews:weeklyViews
+                  weeklyViews:weeklyViews,
+                  recentConnections:recentConnection
               
               });
             } 

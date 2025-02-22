@@ -11,6 +11,7 @@ import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
 
 interface HeaderFilterProps {
   applyFilterId: (filterId: string, type: string) => void;
+  handleClearFilters?: () => void;
 }
 
 interface Profile {
@@ -21,7 +22,10 @@ interface Profile {
   profileType: string;
 }
 
-const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
+const HeaderFilter: React.FC<HeaderFilterProps> = ({
+  applyFilterId,
+  handleClearFilters,
+}) => {
   const [allProfiles, setAllProfiles] = useState<Profile[]>([]);
   const [subTeams, setSubTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -102,7 +106,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
       setSelectedOptions(updatedOptions);
     }
 
-    if (type === "teamId" || type === "profileId"){
+    if (type === "teamId" || type === "profileId") {
       setSelectionType("user");
     } else {
       setSelectionType("subTeam");
@@ -122,15 +126,15 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
     );
   };
 
-  const handleClearFilter = () => {
-    setSelectedOptions({
-      teamId: "",
-      subteamId: "",
-      profileId: "",
-    });
-    handleClose();
-    applyFilterId("", "user");
-  };
+  // const handleClearFilter = () => {
+  //   setSelectedOptions({
+  //     teamId: "",
+  //     subteamId: "",
+  //     profileId: "",
+  //   });
+  //   handleClose();
+  //   applyFilterId("", "user");
+  // };
 
   const [dropdownOpen, setDropdownOpen] = useState({
     team: false,
@@ -324,7 +328,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({ applyFilterId }) => {
               <div className="w-[90%] flex items-center justify-end mt-5">
                 <p
                   className="text-[#808080] text-[12px] cursor-pointer"
-                  onClick={handleClearFilter}
+                  onClick={handleClearFilters}
                 >
                   Clear filter
                 </p>

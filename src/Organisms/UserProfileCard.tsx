@@ -7,6 +7,8 @@ import ProfileTextualArea from "../Molecules/ProfileTextualArea";
 import { prflCardProps } from "../Types";
 import { FaArrowRightLong } from "react-icons/fa6";
 import SquareIconBtn from "../Molecules/SquareIconBtn";
+import { useEffect, useState } from "react";
+import { getSingleChildFromDb } from "../Services/Constants";
 
 const UserProfileCard: React.FC<prflCardProps> = ({
   isCreatePrfl,
@@ -16,6 +18,36 @@ const UserProfileCard: React.FC<prflCardProps> = ({
   isTeams,
 }) => {
   const navigate = useNavigate();
+  const [templateData, setTemplateData] = useState<any>({});
+  const getTemplateData = (data: any) => {
+    if (data) {
+      setTemplateData(Object.values(data)?.[0]);
+    }
+  };
+  useEffect(() => {
+    if (profile?.templateId) {
+      getSingleChildFromDb(
+        "/Template",
+        "id",
+        profile?.templateId,
+        getTemplateData
+      );
+    }
+  }, []);
+
+  const returnTemplateData = (
+    templateValue: any,
+    isLocked: boolean,
+    profileValue: any
+  ) => {
+    if (templateData?.id) {
+      if (isLocked) {
+        return templateValue;
+      } else {
+        return profileValue;
+      }
+    }
+  };
   return (
     <div
       className={`h-[350px] ${
@@ -32,13 +64,25 @@ const UserProfileCard: React.FC<prflCardProps> = ({
         <ProfileBackgroundImage
           imgClass="w-[100%] h-[128px] rounded-[16px]"
           containerClass="w-[100%] h-[100%] rounded-[16px]"
-          src={profile?.coverUrl}
+          src={returnTemplateData(
+            templateData?.coverUrl,
+            templateData?.coverLock,
+            profile?.coverUrl
+          )}
         />
         <div className="absolute bottom-[-45px]">
           <ProfilePictureWithLogo
             showLogo={false}
-            profile={profile?.profileUrl}
-            logo={profile?.logoUrl}
+            profile={returnTemplateData(
+              templateData?.profileUrl,
+              templateData?.profilePictureLock,
+              profile?.profileUrl
+            )}
+            logo={returnTemplateData(
+              templateData?.logoUrl,
+              templateData?.logoLock,
+              profile?.logoUrl
+            )}
           />
         </div>
       </div>
@@ -47,9 +91,21 @@ const UserProfileCard: React.FC<prflCardProps> = ({
           <div className="mt-[55px] w-[100%]">
             <ProfileTextualArea
               name={profile?.firstName + " " + profile?.lastName}
-              job={profile?.jobTitle}
-              location={profile?.address}
-              company={profile?.company}
+              job={returnTemplateData(
+                templateData?.jobTitle,
+                templateData?.jobLock,
+                profile?.jobTitle
+              )}
+              location={returnTemplateData(
+                templateData?.address,
+                templateData?.addressLock,
+                profile?.address
+              )}
+              company={returnTemplateData(
+                templateData?.companyTitle,
+                templateData?.companyLock,
+                profile?.company
+              )}
             />
           </div>
 

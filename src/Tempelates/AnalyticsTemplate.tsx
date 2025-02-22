@@ -14,6 +14,7 @@ import { getMultipleChilds } from "../Services/Constants";
 
 const AnalyticsTemplate = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [allProfiles,setAllProfiles] = useState<any>([])
   const dispatch = useAppDispatch();
   const analytics = useAppSelector((state) => state.analyticsHandeler);
   console.log(analytics, "here are analytics in page");
@@ -32,12 +33,17 @@ const AnalyticsTemplate = () => {
         }
       });
 
-      console.log(teamIds,"team ids");
+      // console.log(teamIds,"team ids");
+      setAllProfiles(teamIds?.map((item: any) =>item!==undefined && item))
       
 
       getAnalytics(teamIds?.map((item: any) =>item!==undefined && item), "object", handleSetAnalytics, setLoading);
 
     }
+  };
+
+  const handleClearFilters = () => {
+    getAnalytics(allProfiles, "object", handleSetAnalytics, setLoading);
   };
 
   // getting company profile
@@ -72,7 +78,7 @@ const AnalyticsTemplate = () => {
     <div className="h-screen w-screen flex bg-[#f6f6f6]">
       <Sidebar />
       <div className="h-[100%] w-[83%] pt-6 px-5">
-        <AnalyticsHeader handleGetAnalytics={handleGetAnalytics} />
+        <AnalyticsHeader handleGetAnalytics={handleGetAnalytics} handleClearFilters={handleClearFilters} />
         <div className="w-[100%] h-[91%]  mt-5 flex flex-col justify-between">
           <div className="w-[100%] h-[47%]  flex justify-between items-center">
             <div className=" h-[100%] w-[59%] flex flex-col justify-between">
