@@ -1,6 +1,7 @@
 import React from "react";
 import { QRCode } from "react-qrcode-logo";
 
+
 const Qr: React.FC<any> = ({ userId }) => {
   return (
     <div className="h-[100%] w-[100%] flex justify-center items-center">

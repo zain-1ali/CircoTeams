@@ -1,6 +1,8 @@
 import { equalTo, get, onValue, orderByChild, push, query, ref, set, update } from "firebase/database"
 import { auth, db } from "../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
+import { generateRandomPassword } from "./Constants"
+import axios from "axios"
 // import { Link } from "../Types"
 
 export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLoading:any)=>{
@@ -102,7 +104,7 @@ if(selfData?.id){
 }
 
 
-export const createTeamsProfile=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
+export const createTeamsProfile=async(data:any,showError:any,showSuccess:any,setLoading:any)=>{
     if(data?.name && data?.email){
         setLoading(true)
 const initialData={
@@ -140,6 +142,7 @@ const initialData={
     isProVersion: true,
     isTrialPeriod: false,
     isVisible: true,
+    isAdmin:false,
     jobTitle: "",
     lastName: "",
     leadMode: false,
@@ -176,7 +179,7 @@ const initialData={
     profileSelected: "",
     profileTitle: "",
     profileUrl: "",
-    qrColor: "#F2C84C",
+    qrColor: "#000000",
     qrLogo: "",
     subscription: "",
     tagUid: [],
@@ -184,13 +187,32 @@ const initialData={
     userName: "",
     username: ""
 }
-     const objectId=push(ref(db, `User/`),{...initialData}).key
-     if(objectId){
-        update(ref(db, `User/${objectId}`),{id:objectId}).then(()=>{
-            setLoading(false)
-            showSuccess("Team profile created successfully")
-        })
-     }
+const password=generateRandomPassword(8)
+await createUserWithEmailAndPassword(auth,data.email,password).then(()=>{
+  const objectId=push(ref(db, `User/`),{...initialData}).key
+  if(objectId){
+     update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
+      await axios.post(`https://wallet.circo.me/api/createAccount`, {
+        email: data?.email,
+        password: password,
+        token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+      });
+         setLoading(false)
+         showSuccess("Team profile created successfully")
+     })
+  }
+}).catch((error)=>{
+  if (error.includes("Firebase: Error (auth/invalid-email).")) {
+    showError("Please enter a valid email");
+  } else if (error.includes("Firebase: Error (auth/email-already-in-use).")) {
+    showError("Email already exists");
+  } else if (error.includes("Firebase: Password should be at least 6 characters (auth/weak-password).")) {
+    showError("Password must be at least 6 characters");
+  } else {
+    showError("An error occurred. Please try again.");
+  }
+})
+    
     }else{
         setLoading(false)
         showError("Name and Email shuold not be empty")
@@ -286,7 +308,13 @@ if(emails?.length>0){
         await createUserWithEmailAndPassword(auth,mail,password).then(()=>{
             const objectId=push(ref(db, `User/`),{...initialData,email:mail,parentID:companyId}).key
             if(objectId){
-               update(ref(db, `User/${objectId}`),{id:objectId})
+               update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
+                await axios.post(`https://wallet.circo.me/api/createAccount`, {
+                  email:mail,
+                  password: password,
+                  token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+                });
+               })
             }
         }).catch((error)=>{
 console.log(error)
@@ -430,7 +458,13 @@ export const createMultipleProfilesCsv=async(emails:any[],showError:any,showSucc
         await createUserWithEmailAndPassword(auth,mail?.email,password).then(()=>{
             const objectId=push(ref(db, `User/`),{...initialData,email:mail.email,parentID:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||""}).key
             if(objectId){
-               update(ref(db, `User/${objectId}`),{id:objectId})
+               update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
+                await axios.post(`https://wallet.circo.me/api/createAccount`, {
+                  email:mail,
+                  password: password,
+                  token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+                });
+               })
             }
         }).catch((error)=>{
 console.log(error)

@@ -7,6 +7,9 @@ import hi12 from "../assets/images/hi12.png";
 import { useEffect, useState } from "react";
 import { getSingleChildFromDb } from "../Services/Constants";
 import { useNavigate } from "react-router-dom";
+import { GoKebabHorizontal } from "react-icons/go";
+import DropDown from "../Organisms/DropDown/DropDown";
+import TeamMembersOptions from "../Organisms/DropDown/TeamMembersOptions";
 
 // : React.FC<TableRowProps>
 const MembersTableRow: React.FC<any> = ({
@@ -16,7 +19,17 @@ const MembersTableRow: React.FC<any> = ({
 }) => {
   const [subteamData, setSubteamData] = useState<any>({});
   const [templateData, settemplateData] = useState<any>({});
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const navigate = useNavigate();
+
+  const openMemberMenu = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu
+  };
+
+  const handleOpenMemberMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
 
   const handleSelectedItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleRowSelect(
@@ -58,7 +71,7 @@ const MembersTableRow: React.FC<any> = ({
   }, [data?.templateId]);
 
   return (
-    <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 cursor-pointer">
+    <div className="w-[100%] h-[60px]  rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 cursor-pointer ">
       <div className="w-[35px]">
         <Checkbox
           checkValue={isSelected}
@@ -91,7 +104,36 @@ const MembersTableRow: React.FC<any> = ({
         icon={hi12}
         text={templateData?.profileName}
         iconClass="h-[14px] w-[14px] object-cover"
+        width="w-[160px]"
       />
+      <button
+        id="reassign-button"
+        aria-haspopup="listbox"
+        aria-controls="reassign-menu"
+        onClick={handleOpenMemberMenu}
+      >
+ <GoKebabHorizontal className="text-[#B3B3BF] mr-4 text-[18px]" />
+      </button>
+     
+
+      <DropDown
+        id="reassign-menu"
+        anchorEl={anchorEl}
+        open={openMemberMenu}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "reassign-button",
+          role: "listbox",
+        }}
+      >
+        {/* <ReasignTeam
+          subteams={subteams}
+          selectedMemberRows={selectedRows}
+          crntSubteam={null}
+          onClose={handleClose}
+        /> */}
+        <TeamMembersOptions  profileData={data}/>
+      </DropDown>
     </div>
   );
 };

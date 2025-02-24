@@ -186,6 +186,45 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
       console.error("Error updating data:", error);
     });
   };
+
+
+
+
+  export const generateRandomPassword = (length: number = 12): string => {
+    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercase = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const specialChars = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+  
+    const allChars = uppercase + lowercase + numbers + specialChars;
+    
+    if (length < 4) {
+      throw new Error("Password length should be at least 4 to include all character types.");
+    }
+  
+    const getRandomChar = (charset: string) =>
+      charset[Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1) * charset.length)];
+  
+    // Ensure at least one character from each set
+    let password = [
+      getRandomChar(uppercase),
+      getRandomChar(lowercase),
+      getRandomChar(numbers),
+      getRandomChar(specialChars),
+    ];
+  
+    // Fill the rest with random characters
+    for (let i = 4; i < length; i++) {
+      password.push(getRandomChar(allChars));
+    }
+  
+    // Shuffle the password to mix guaranteed characters
+    password = password.sort(() => Math.random() - 0.5);
+  
+    return password.join("");
+  };
+
+  
   
 
 

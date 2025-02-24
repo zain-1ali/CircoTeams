@@ -233,6 +233,7 @@ export interface iconWithTextProps {
   icon: string;
   text: string;
   iconClass: string;
+  width?:string
 }
 
 export interface imageWithTextProps {

@@ -30,6 +30,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
   const [subTeams, setSubTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectionType, setSelectionType] = useState<string>("user");
+  const [selectedSubTeam,setSelectedSubTeam] = useState<string>("");
   console.log(loading);
 
   const getAllProfiles = (data: any) => {
@@ -102,11 +103,13 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
       )?.members;
       // updatedOptions.subteamId = selectedSubTeam;
       setSelectedOptions({ ...updatedOptions, subteamId: selectedSubTeam });
+      setSelectedSubTeam(value)
     } else {
       setSelectedOptions(updatedOptions);
+      setSelectedSubTeam("")
     }
 
-    if (type === "teamId" || type === "profileId") {
+    if (type === "teamId" || type === "profileId"){
       setSelectionType("user");
     } else {
       setSelectionType("subTeam");
@@ -314,7 +317,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
                           name={item?.name}
                           value={item?.id}
                           className="mr-3"
-                          checked={selectedOptions.subteamId === item?.id}
+                          checked={selectedSubTeam === item?.id}
                           onChange={() =>
                             handleSelectChange("subteamId", item?.id)
                           }
