@@ -105,7 +105,7 @@ if(selfData?.id){
 
 
 export const createTeamsProfile=async(data:any,showError:any,showSuccess:any,setLoading:any)=>{
-    if(data?.name && data?.email){
+    if(data?.firstName && data?.email){
         setLoading(true)
 const initialData={
     address: "",
@@ -134,7 +134,7 @@ const initialData={
     dob: "",
     email: data.email,
     fcmToken: "",
-    firstName: data?.name,
+    firstName: data?.firstName,
     gender: "",
     hideSaveContact: false,
     id: "",
@@ -144,10 +144,10 @@ const initialData={
     isVisible: true,
     isAdmin:false,
     jobTitle: "",
-    lastName: "",
+    lastName: data?.lastName,
     leadMode: false,
     logoUrl: "",
-    name: data?.name,
+    name: data?.firstName + " " + data?.lastName,
     parentID: data?.id,
     phone: "",
     platform: "",

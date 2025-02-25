@@ -13,20 +13,37 @@ const CreateTeamProfile: React.FC<{
 }> = ({ setLoading, onClose, loading }) => {
   const { showError, showSuccess } = useToastNotifications();
   const [data, setData] = useState({
-    name: "",
+    firstName: "",
+    lastName:"",
     email: "",
   });
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   return (
     <div>
-      <InputWithLabel
-        label="Name*"
-        type="text"
-        onChange={(e) => setData({ ...data, name: e.target.value })}
-        value={data?.name}
-        inputClasses="w-[100%] h-[43px] outline-none pl-2 bg-[#F7F7F8] rounded-md "
-        labelClasses="font-[400] text-[14px] w-[100%] "
-      />
+      <div className="w-[100%] flex justify-between mt-2">
+        <div className="w-[47%]">
+          <InputWithLabel
+            label="First Name*"
+            type="text"
+            onChange={(e) => setData({ ...data, firstName: e.target.value })}
+            value={data?.firstName}
+            inputClasses="w-[100%] h-[43px] outline-none pl-2 bg-[#F7F7F8] rounded-md "
+            labelClasses="font-[400] text-[14px] w-[100%] "
+          />
+        </div>
+
+        <div className="w-[47%]">
+          <InputWithLabel
+            label="Last Name"
+            type="text"
+            onChange={(e) => setData({ ...data, lastName: e.target.value })}
+            value={data?.lastName}
+            inputClasses="w-[100%] h-[43px] outline-none pl-2 bg-[#F7F7F8] rounded-md "
+            labelClasses="font-[400] text-[14px] w-[100%] "
+          />
+        </div>
+      </div>
+
       <InputWithLabel
         label="Email*"
         type="text"
@@ -52,12 +69,6 @@ const CreateTeamProfile: React.FC<{
                   showSuccess,
                   setLoading
                 ),
-
-
-
-                
-
-
               onClose();
           }}
           btnClasses={`h-[40px] w-[120px] border rounded-md bg-[#2B6EF6] text-white ${

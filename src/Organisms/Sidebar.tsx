@@ -108,7 +108,7 @@ const Sidebar = () => {
             />
           </div>
         </div>
-        <div>
+        <div className="w-[100%] flex flex-col items-center">
           <div
             className={`min-h-[161px]  max-h-[161px] rounded-[20px] w-[95%] bg-[#f0f7ff] mt-[30px] flex justify-center relative ${
               innerHeight < 700 ? "" : "mt-[30px]"

@@ -13,6 +13,7 @@ import {
   setAddress,
   setCompany,
   setCoverUrl,
+  setEmail,
   setFirstName,
   setJobTitle,
   setLastName,
@@ -360,7 +361,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
           <InputWithLabel
             type="text"
             label="Email"
-            onChange={() => {}}
+            onChange={(e) =>dispatch(setEmail(e.target.value)) }
             value={profileData.email}
             inputClasses={`h-[40px] ${
               profileData?.profileType === "circoTemplate"

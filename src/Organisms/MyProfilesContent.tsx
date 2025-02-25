@@ -172,7 +172,7 @@ const MyProfilesContent = () => {
       <CustomModal
         open={creatTeamProfileModal}
         onClose={() => setTeamProfileModal(false)}
-        style={{ height: 250, width: 300, borderRadius: 5, p: 4 }}
+        style={{ height: 250, width: 320, borderRadius: 5, p: 2 }}
       >
         <CreateTeamProfile
           onClose={() => setSureModal(false)}
