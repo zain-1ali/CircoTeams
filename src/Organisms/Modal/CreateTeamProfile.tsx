@@ -14,7 +14,7 @@ const CreateTeamProfile: React.FC<{
   const { showError, showSuccess } = useToastNotifications();
   const [data, setData] = useState({
     firstName: "",
-    lastName:"",
+    lastName: "",
     email: "",
   });
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
