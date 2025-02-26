@@ -221,6 +221,7 @@ export interface ConnectionHeaderProps {
   searchItem: (id: string) => void;
   selectedRows: string[];
   itemCounts: number;
+  handleClearFilters?: () => void;
 }
 
 export interface MemberHeaderProps {

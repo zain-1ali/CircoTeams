@@ -46,6 +46,10 @@ const ConnectionTemplate = () => {
     }
   };
 
+  const handleClearFilters = () => {
+    setFilteredConnections(allConnections);
+  };
+
   const handleRowSelect = (item: any | any[], isChecked: boolean) => {
     console.log(item);
     if (Array.isArray(item)) {
@@ -109,6 +113,7 @@ const ConnectionTemplate = () => {
           searchItem={searchItem}
           selectedRows={selectedRows}
           itemCounts = {filteredConnections?.length || 0}
+          handleClearFilters={handleClearFilters}
         />
 
         <div

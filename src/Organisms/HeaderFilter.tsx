@@ -331,7 +331,11 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
               <div className="w-[90%] flex items-center justify-end mt-5">
                 <p
                   className="text-[#808080] text-[12px] cursor-pointer"
-                  onClick={handleClearFilters}
+                  onClick={() => {
+                    handleClearFilters();
+                    handleClose();
+                  }}
+                  
                 >
                   Clear filter
                 </p>

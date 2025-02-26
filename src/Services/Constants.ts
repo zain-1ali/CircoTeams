@@ -142,7 +142,7 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
     const sortedArray = array.slice().sort((a, b) => {
       const aValue = a[key];
       const bValue = b[key];
-  
+      
       // Handle "a to z" and "z to a"
       if (sortingType === "a to z" || sortingType === "z to a") {
         if (typeof aValue === "string" && typeof bValue === "string") {

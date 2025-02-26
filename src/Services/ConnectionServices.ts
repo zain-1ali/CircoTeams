@@ -20,8 +20,9 @@ export const addConnection = (data: any, cb: Function,showSuccess:any,showError:
   const parentId = localStorage.getItem("circoCompanyUid");
   const timestamp = Date.now();
   const newRef = push(ref(db, `Contacts/`), { ...data, parentId, date: timestamp });
-  
+  console.log("newRef")
   if (newRef.key) {
+    console.log("newRef3")
     update(ref(db, `Contacts/${newRef.key}`), { id: newRef.key })
       .then(() => {
         showSuccess("New contact added successfully");
@@ -32,6 +33,7 @@ export const addConnection = (data: any, cb: Function,showSuccess:any,showError:
         showError("Error adding contact");
       });
   } else {
+    console.log("newRef2")
     showError("Error adding contact");
   }
 };

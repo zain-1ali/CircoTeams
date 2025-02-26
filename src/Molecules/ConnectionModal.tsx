@@ -50,14 +50,15 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
       formErrors.email = "Invalid email format";
     if (!connectionData.phone.trim()) {
       formErrors.phone = "Phone number is required";
-    } else if (!/^(\+?\d{1,4}[-\s]?)?\d{10}$/.test(connectionData.phone)) {
+    }  
+    else if (!/^(\+?\d{1,4}[-\s]?)?\d{10}$/.test(connectionData.phone))// 
       formErrors.phone = "Invalid phone number format";
-    }
     if (!connectionData.company.trim())
       formErrors.company = "Company is required";
     if (!connectionData.job.trim()) formErrors.job = "Job title is required";
-
+    console.log(formErrors);
     setErrors(formErrors);
+    console.log(Object.keys(formErrors).length);
     return Object.keys(formErrors).length === 0;
   };
 
@@ -84,7 +85,9 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
   };
 
   const handleAdd = () => {
+    console.log("S")
     if (validateForm()) {
+      console.log("S2")
       addConnection(connectionData, addCallback, showSuccess, showError);
     } else {
       // showError("Please fix the validation errors");
@@ -247,7 +250,7 @@ const ConnectionModal: React.FC<ConnectionModalProps> = ({
               inputClasses="h-[40px] w-[100%] rounded-[10px] bg-[#FAFAFB] outline-none pl-2 mt-[2px]"
               labelClasses="font-[600] text-[12px] text-[#8D8D8D] mt-3"
             />
-            {errors.phone && !connectionData.phone && (
+            {errors.phone &&  (
               <span className="text-red-500 text-xs">{errors.phone}</span>
             )}
             {connectionData.phone && (

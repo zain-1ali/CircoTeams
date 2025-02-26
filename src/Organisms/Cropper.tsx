@@ -194,7 +194,7 @@ const ImageCropperModal: React.FC<ImageCropperModalProps> = ({
                       color: "#ffffff",
                     }}
                   >
-                    Crop
+                    Save
                   </Button>
                 </div>
               </Controls>
