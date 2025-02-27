@@ -1,5 +1,6 @@
-import { push, ref, remove, set, update } from "firebase/database"
+import { equalTo, get, orderByChild, push, query, ref, remove, set, update } from "firebase/database"
 import { db } from "../firebase"
+import { addMembersToTemplate } from "./TemplatesServices"
 
 export const createSubTeam=(data:any,showError:any,showSuccess:any,setLoading:any)=>{
     if(data?.name){
@@ -38,6 +39,26 @@ if(membersId?.length>0){
           // console.log("testing...");
         
             await update(ref(db, `User/${elm}`), {subTeamId:team?.id});
+            if(team?.templateId){
+
+
+
+      const starCountRef = query(
+        ref(db, "Template"),
+        orderByChild("id"),
+        equalTo(team?.templateId)
+      );
+  
+      // Use get() for a one-time read
+      const snapshot = await get(starCountRef);
+      const data = snapshot.val();
+
+      if(data){
+        const template=Object.values(data)?.[0]
+        addMembersToTemplate([elm],template,showError,showSuccess,setLoading,false)
+      }
+             
+            }
           
         });
 

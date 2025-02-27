@@ -23,7 +23,7 @@ export const createNewUser = async (
     localStorage.setItem("circoCompanyUid", user.uid);
 
     // Update user data in Firebase Realtime Database
-    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid });
+    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid,isAdmin:true });
 
     // API call for creating account
     await axios.post(`https://wallet.circo.me/api/createAccount`, {
@@ -75,15 +75,57 @@ export const LoginUser = async (credentials: any, showError: any, showSuccess: a
   if (credentials.email && credentials.password) {
     setLoading(true)
     signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-      .then((userCredential) => {
+      .then(async(userCredential) => {
         const user = userCredential.user
-        localStorage.setItem("circoCompanyUid", user.uid)
-        showSuccess("Login successfully")
-        setTimeout(() => {
 
-          navigate("/myprofiles")
-          window.location.reload()
-        }, 1000)
+
+        const starCountRef = query(
+          ref(db, "User"),
+          orderByChild("id"),
+          equalTo(user.uid)
+        );
+    
+        // Use get() for a one-time read
+        const snapshot = await get(starCountRef);
+        const data = snapshot.val();
+        console.log(user.uid);
+        
+        console.log("we are in the data",data);
+        
+        if(data){
+         
+          
+const userData:any=Object.values(data)?.[0]
+if(userData?.isAdmin){
+  if(userData?.parentID){
+    localStorage.setItem("circoCompanyUid", userData?.parentID)
+    localStorage.setItem("isAdmin", "true")
+    showSuccess("Login successfully")
+    setTimeout(() => {
+      navigate("/myprofiles")
+      window.location.reload()
+    }, 1000)
+  }else{
+    localStorage.setItem("circoCompanyUid", userData?.id)
+    localStorage.setItem("isAdmin", "true")
+    showSuccess("Login successfully")
+    setTimeout(() => {
+      navigate("/myprofiles")
+      window.location.reload()
+    }, 1000)
+  }
+  
+  }else{
+    localStorage.setItem("circoCompanyUid", userData?.id)
+    localStorage.setItem("isAdmin", "false")
+    showSuccess("Login successfully")
+    setTimeout(() => {
+      navigate("/myprofiles")
+      window.location.reload()
+    }, 1000)
+  }
+        }
+       
       }).catch((error) => {
 
         if (error.message === "Firebase: Error (auth/invalid-credential).") {
@@ -148,7 +190,7 @@ signInWithPopup(auth, provider).then(async(response:any) => {
   if (!data) {
     console.log(responseData?.photoUrl);
     
-      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign}).then(()=>{
+      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign,isAdmin:true}).then(()=>{
         showSuccess('Sign in with Google')
         console.log("we are here---------",responseData?.localId);
         

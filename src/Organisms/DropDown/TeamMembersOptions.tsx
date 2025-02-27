@@ -6,6 +6,7 @@ import CustomModal from "../Modal/Modal";
 import AreYouSure from "../Modal/AreYouSure";
 import { deleteSingleChild } from "../../Services/userService.js";
 import useToastNotifications from "../../Hooks/useToastNotification.js";
+import { updateAdminStatus } from "../../Services/ProfileServices.js";
 
 const TeamMembersOptions: React.FC<any> = ({ profileData }) => {
   const qrValue = `https://circome.netlify.app/${
@@ -71,15 +72,16 @@ const TeamMembersOptions: React.FC<any> = ({ profileData }) => {
       <MenuItem
         onClick={() => {
           setSureModal(true),
-            setWarnText("Are you sure you want to set this profile as admin?");
+            setWarnText(profileData?.isAdmin ? "Are you sure to revoke admin access" : "Are you sure you want to set this profile as admin?");
         }}
         sx={{
           fontSize: "14px",
           textAlign: "center",
           justifyContent: "center",
+          color: profileData?.isAdmin ? "red" : "black",
         }}
       >
-        Set as admin
+        {profileData?.isAdmin ? "Revoke admin access" : "Set as admin"}
       </MenuItem>
       <hr className="border-t border-gray-200" />
       <MenuItem
@@ -104,7 +106,16 @@ const TeamMembersOptions: React.FC<any> = ({ profileData }) => {
       >
         <AreYouSure
           onClick={
-            warnText?.includes("admin") ? () => {} : () => handleDeleteProfile()
+            warnText?.includes("admin")
+              ? () =>
+                  updateAdminStatus(
+                    profileData?.id,
+                    profileData?.isAdmin,
+                    showError,
+                    showSuccess,
+                    setLoading
+                  )
+              : () => handleDeleteProfile()
           }
           onClose={() => setSureModal(false)}
           text={warnText}

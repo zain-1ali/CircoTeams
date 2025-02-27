@@ -30,7 +30,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
   const [subTeams, setSubTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectionType, setSelectionType] = useState<string>("user");
-  const [selectedSubTeam,setSelectedSubTeam] = useState<string>("");
+  const [selectedSubTeam, setSelectedSubTeam] = useState<string>("");
   console.log(loading);
 
   const getAllProfiles = (data: any) => {
@@ -103,13 +103,13 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
       )?.members;
       // updatedOptions.subteamId = selectedSubTeam;
       setSelectedOptions({ ...updatedOptions, subteamId: selectedSubTeam });
-      setSelectedSubTeam(value)
+      setSelectedSubTeam(value);
     } else {
       setSelectedOptions(updatedOptions);
-      setSelectedSubTeam("")
+      setSelectedSubTeam("");
     }
 
-    if (type === "teamId" || type === "profileId"){
+    if (type === "teamId" || type === "profileId") {
       setSelectionType("user");
     } else {
       setSelectionType("subTeam");
@@ -332,10 +332,9 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
                 <p
                   className="text-[#808080] text-[12px] cursor-pointer"
                   onClick={() => {
-                    handleClearFilters();
+                    handleClearFilters && handleClearFilters();
                     handleClose();
                   }}
-                  
                 >
                   Clear filter
                 </p>

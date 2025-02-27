@@ -105,7 +105,10 @@ if(selfData?.id){
 
 
 export const createTeamsProfile=async(data:any,showError:any,showSuccess:any,setLoading:any)=>{
+  console.log(data);
+  
     if(data?.firstName && data?.email){
+      const companyId=data?.id
         setLoading(true)
 const initialData={
     address: "",
@@ -188,25 +191,74 @@ const initialData={
     username: ""
 }
 const password=generateRandomPassword(8)
-await createUserWithEmailAndPassword(auth,data.email,password).then(()=>{
-  const objectId=push(ref(db, `User/`),{...initialData}).key
-  if(objectId){
-     update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
-      await axios.post(`https://wallet.circo.me/api/createAccount`, {
-        email: data?.email,
-        password: password,
-        token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-      });
-         setLoading(false)
-         showSuccess("Team profile created successfully")
-     })
-  }
+await createUserWithEmailAndPassword(auth,data.email,password).then((userCredential)=>{
+  const user=userCredential.user
+  update(ref(db, `User/${user.uid}`),{...initialData,id:user.uid}).then(async()=>{
+    await axios.post(`https://wallet.circo.me/api/createAccount`, {
+      email: data?.email,
+      password: password,
+      token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+    });
+       setLoading(false)
+       showSuccess("Team profile created successfully")
+  })
+ 
+  
 }).catch((error)=>{
-  if (error.includes("Firebase: Error (auth/invalid-email).")) {
+  console.log(error);
+  setLoading(false)
+  if (error?.message?.includes("Firebase: Error (auth/invalid-email).")) {
     showError("Please enter a valid email");
-  } else if (error.includes("Firebase: Error (auth/email-already-in-use).")) {
-    showError("Email already exists");
-  } else if (error.includes("Firebase: Password should be at least 6 characters (auth/weak-password).")) {
+  } else if (error?.message?.includes("Firebase: Error (auth/email-already-in-use).")) {
+    // showError("Email already exists");
+    
+
+
+
+    const starCountRef = query(
+      ref(db, "User"),
+      orderByChild("email"),
+      equalTo(data?.email)
+    );
+    onValue(starCountRef, async (snapshot) => {
+      const data:any = await snapshot.val();
+  const userExist:any=Object.keys(data)?.[0]
+  if(userExist?.isAdmin){
+      
+      showError("This email is already registered as an admin");
+  }
+  
+  if(userExist?.parentID){
+    showError("This email is already registered as a team member");
+  }
+  else{
+    console.log(data?.id);
+    
+    update(ref(db, `User/${Object.keys(data)?.[0]}`),{parentID:companyId})
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  } else if (error?.message?.includes("Firebase: Password should be at least 6 characters (auth/weak-password).")) {
     showError("Password must be at least 6 characters");
   } else {
     showError("An error occurred. Please try again.");
@@ -305,17 +357,19 @@ if(emails?.length>0){
 
         const password = Math.floor(100000 + Math.random() * 900000).toString();
       
-        await createUserWithEmailAndPassword(auth,mail,password).then(()=>{
-            const objectId=push(ref(db, `User/`),{...initialData,email:mail,parentID:companyId}).key
-            if(objectId){
-               update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
-                await axios.post(`https://wallet.circo.me/api/createAccount`, {
-                  email:mail,
-                  password: password,
-                  token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-                });
-               })
-            }
+        await createUserWithEmailAndPassword(auth,mail,password).then((userCredential)=>{
+          const user=userCredential.user
+          update(ref(db, `User/${user.uid}`),{...initialData,email:mail,parentID:companyId,id:user.uid}).then(async()=>{
+            await axios.post(`https://wallet.circo.me/api/createAccount`, {
+              email:mail,
+              password: password,
+              token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+            });
+            setLoading(false)
+            showSuccess("New members added successfully")
+          })
+           
+          
         }).catch((error)=>{
 console.log(error)
 
@@ -327,7 +381,7 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
         equalTo(mail)
       );
       onValue(starCountRef, async (snapshot) => {
-        const data = await snapshot.val();
+        const data:any = await snapshot.val();
     
     if(data){
         update(ref(db, `User/${Object.keys(data)?.[0]}`),{parentID:companyId})
@@ -335,11 +389,7 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
         console.log("data",data);
         // console.log("testing data");
         MediaKeyStatusMap;
-      });
-
-
-
-     
+      });     
     
 }
         })
@@ -455,17 +505,15 @@ export const createMultipleProfilesCsv=async(emails:any[],showError:any,showSucc
     if(mail?.email){
         const password = Math.floor(100000 + Math.random() * 900000).toString();
           
-        await createUserWithEmailAndPassword(auth,mail?.email,password).then(()=>{
-            const objectId=push(ref(db, `User/`),{...initialData,email:mail.email,parentID:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||""}).key
-            if(objectId){
-               update(ref(db, `User/${objectId}`),{id:objectId}).then(async()=>{
-                await axios.post(`https://wallet.circo.me/api/createAccount`, {
-                  email:mail,
-                  password: password,
-                  token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-                });
-               })
-            }
+        await createUserWithEmailAndPassword(auth,mail?.email,password).then((userCredential)=>{
+          const user=userCredential.user
+            update(ref(db, `User/${user.uid}`),{...initialData,email:mail.email,id:user.uid,parentID:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||""}).then(async()=>{
+              await axios.post(`https://wallet.circo.me/api/createAccount`, {
+                email:mail,
+                password: password,
+                token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+              });
+            })
         }).catch((error)=>{
 console.log(error)
 
@@ -824,5 +872,19 @@ export const updateUserName = async (
         setState(!hideCompanyLogo)
     })
     
+  }
+
+  export const updateAdminStatus=(id:string | undefined,adminStatus:boolean,showError:any,showSuccess:any,setLoading:any)=>{
+    setLoading(true);
+    update(ref(db, `User/${id}`),{isAdmin:!adminStatus}).then(()=>{
+
+    }).then(()=>{
+      showSuccess("Admin status updated successfully")
+      setLoading(false)
+    }).catch((Error)=>{
+      console.log(Error);
+      setLoading(false);
+      showError("Something went wrong")
+    })
   }
 

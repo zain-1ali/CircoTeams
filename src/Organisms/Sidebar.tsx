@@ -31,6 +31,7 @@ const Sidebar = () => {
   const innerHeight = window.innerHeight;
   console.log(innerHeight, "innerHeight");
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
+  const isAdmin: string | null = localStorage.getItem("isAdmin") || "true";
   const [companyProfile, setCompanyProfile] = useState<any>({});
 
   const getCompanyProfile = (data: any) => {
@@ -71,13 +72,15 @@ const Sidebar = () => {
                 currentPath === "/myprofiles" || currentPath?.includes("/edit")
               }
             />
-            <SidebarButton
-              icon={i2}
-              hoverIcon={hi2}
-              text="Team"
-              onClick={() => navigate("/teams")}
-              state={currentPath === "/teams"}
-            />
+            {isAdmin === "true" && (
+              <SidebarButton
+                icon={i2}
+                hoverIcon={hi2}
+                text="Team"
+                onClick={() => navigate("/teams")}
+                state={currentPath === "/teams"}
+              />
+            )}
             <SidebarButton
               icon={i3}
               hoverIcon={hi3}

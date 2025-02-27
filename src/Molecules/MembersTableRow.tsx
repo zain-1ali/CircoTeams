@@ -81,11 +81,12 @@ const MembersTableRow: React.FC<any> = ({
       </div>
       <div onClick={() => navigate(`/edit/${data?.id}`)}>
         <ImageWithTextCell
-          containerClass="flex w-[200px] items-center gap-3 "
+          containerClass="flex w-[200px] items-center gap-3"
           isAdmin={true}
           data={{
             text: data?.firstName + " " + data?.lastName,
             image: data?.profileUrl,
+            isAdmin: data?.isAdmin,
           }}
         />
       </div>
