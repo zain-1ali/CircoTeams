@@ -37,6 +37,8 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
     }
   };
 
+  const isAdmin = localStorage.getItem("isAdmin") ||"true";
+
   useEffect(() => {
     getMultipleChilds(
       "User/",
@@ -89,7 +91,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
         classes="font-semibold text-lg"
       />
         <div className="flex items-center gap-2">
-          <HeaderFilter applyFilterId={applyFilterId} handleClearFilters={handleClearFilters} />
+        {isAdmin==="true" &&  <HeaderFilter applyFilterId={applyFilterId} handleClearFilters={handleClearFilters} />}
           <Button
             text="Add Connection"
             btnClasses="w-[131px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"

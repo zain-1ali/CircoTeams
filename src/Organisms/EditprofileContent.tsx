@@ -56,6 +56,19 @@ const EditprofileContent = () => {
   const getProfileData = (data: any) => {
     if (data) {
       setProfileData(Object.values(data)?.[0]);
+      dispatch(setCoverLock(false));
+      dispatch(setLogoLock(false));
+      dispatch(setProfileLock(false));
+      dispatch(setJobLock(false));
+      dispatch(setCompanyLock(false));
+      dispatch(setLocationLock(false));
+      dispatch(setEmailLock(false));
+      dispatch(setPhoneLock(false));
+      dispatch(setGeneralStyleLock(false));
+      dispatch(setLayoutStyleLock(false));
+      dispatch(setsaveContactStyleLock(false));
+      dispatch(setWebLinkStyleLock(false));
+      dispatch(sethighlightBoxStyleLock(false));
     }
   };
 

@@ -6,6 +6,7 @@ import HeaderFilter from "../Organisms/HeaderFilter";
 // import { useAppDispatch } from "../Hooks/reduxHooks";
 
 const AnalyticsHeader: React.FC<any> = ({ handleGetAnalytics,handleClearFilters }) => {
+  const isAdmin: string | null = localStorage.getItem("isAdmin") || "true";
   return (
     <div className="w-[100%] flex justify-between items-center ">
       <Text text="Analytics" classes="font-[600] text-[18px]" />
@@ -16,6 +17,7 @@ const AnalyticsHeader: React.FC<any> = ({ handleGetAnalytics,handleClearFilters 
           onClick={() => {}}
           icon={<HiFilter className="absolute left-4 text-[16px]" />}
         /> */}
+       {isAdmin === "true" && <>
         <HeaderFilter applyFilterId={handleGetAnalytics}  handleClearFilters={handleClearFilters} />
         <Button
           text="Week to date"
@@ -23,6 +25,7 @@ const AnalyticsHeader: React.FC<any> = ({ handleGetAnalytics,handleClearFilters 
           onClick={() => {}}
           icon={<LuCalendarDays className="absolute left-4 text-[16px]" />}
         />
+        </>}
       </div>
     </div>
   );

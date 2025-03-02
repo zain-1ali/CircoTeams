@@ -14,6 +14,7 @@ import { setProfileDesign } from "../Redux/ProfileSlice";
 
 const MyProfilesContent = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
+  const isAdmin: string | null = localStorage.getItem("isAdmin") || "true";
   const [companyProfile, setCompanyProfile] = useState<any>({});
   const [sureModal, setSureModal] = useState<boolean>(false);
   const [qrModal, setQrModal] = useState<boolean>(false);
@@ -115,32 +116,36 @@ const MyProfilesContent = () => {
           />
         </div>
 
-        <div className="flex  mt-[30px] gap-2">
-          <Text text="My Team Profile" classes="font-[700] text-[24px]" />
-          <Text
-            text={`(${returnProfilesLenth("team")})`}
-            classes="font-[600] text-[12px] text-[#B5B5B5] mt-3"
-          />
-        </div>
-
-        <div className="w-[100%] flex justify-start gap-[8%] gap-y-5 mt-3 flex-wrap">
-          {allProfiles?.map((profile: any, i: any) => {
-            if (profile?.profileType === "team") {
-              return (
-                <UserProfileCard
-                  isCreatePrfl={false}
-                  profile={profile}
-                  key={i}
-                  handleQrModal={handleQrModal}
-                />
-              );
-            }
-          })}
-          <UserProfileCard
-            isCreatePrfl={true}
-            onClick={() => setTeamProfileModal(true)}
-          />
-        </div>
+        {isAdmin === "true" && (
+          <>
+            {" "}
+            <div className="flex  mt-[30px] gap-2">
+              <Text text="My Team Profile" classes="font-[700] text-[24px]" />
+              <Text
+                text={`(${returnProfilesLenth("team")})`}
+                classes="font-[600] text-[12px] text-[#B5B5B5] mt-3"
+              />
+            </div>{" "}
+            <div className="w-[100%] flex justify-start gap-[8%] gap-y-5 mt-3 flex-wrap">
+              {allProfiles?.map((profile: any, i: any) => {
+                if (profile?.profileType === "team") {
+                  return (
+                    <UserProfileCard
+                      isCreatePrfl={false}
+                      profile={profile}
+                      key={i}
+                      handleQrModal={handleQrModal}
+                    />
+                  );
+                }
+              })}
+              <UserProfileCard
+                isCreatePrfl={true}
+                onClick={() => setTeamProfileModal(true)}
+              />
+            </div>
+          </>
+        )}
       </div>
       <CustomModal
         open={sureModal}

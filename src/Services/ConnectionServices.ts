@@ -1,9 +1,9 @@
 import { ref, query, onValue, orderByChild, equalTo, push, update } from "firebase/database";
 import { db } from "../firebase";
 
-export const getConnections = (id: any, cb: Function) => {
+export const getConnections = (id: any, cb: Function,orderByChildKey:any="parentId") => {
   // Construct a query to filter contacts by the parentId
-  const starCountRef = query(ref(db, "/Contacts"), orderByChild("parentId"), equalTo(id));
+  const starCountRef = query(ref(db, "/Contacts"), orderByChild(orderByChildKey), equalTo(id));
 
   // Listen to the query result with onValue
   onValue(starCountRef, (snapshot) => {
@@ -18,8 +18,11 @@ export const getConnections = (id: any, cb: Function) => {
 };
 export const addConnection = (data: any, cb: Function,showSuccess:any,showError:any) => {
   const parentId = localStorage.getItem("circoCompanyUid");
+  const isAdmin = localStorage.getItem("isAdmin") || "true";
+
   const timestamp = Date.now();
-  const newRef = push(ref(db, `Contacts/`), { ...data, parentId, date: timestamp });
+  const toSaveData = isAdmin === "true" ? { ...data, parentId,date:timestamp } : { ...data, userid: parentId,date:timestamp };
+  const newRef = push(ref(db, `Contacts/`), { ...toSaveData });
   console.log("newRef")
   if (newRef.key) {
     console.log("newRef3")

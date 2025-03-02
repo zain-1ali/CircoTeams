@@ -96,7 +96,7 @@ export const LoginUser = async (credentials: any, showError: any, showSuccess: a
          
           
 const userData:any=Object.values(data)?.[0]
-if(userData?.isAdmin){
+if(userData?.isAdmin || userData?.parentID===userData?.id){
   if(userData?.parentID){
     localStorage.setItem("circoCompanyUid", userData?.parentID)
     localStorage.setItem("isAdmin", "true")
@@ -180,8 +180,8 @@ signInWithPopup(auth, provider).then(async(response:any) => {
   
    const starCountRef = query(
         ref(db, "User"),
-        orderByChild("email"),
-        equalTo(responseData?.email)
+        orderByChild("id"),
+        equalTo(responseData?.localId)
       );
       const snapshot = await get(starCountRef);
       const data = snapshot.val();
@@ -190,7 +190,7 @@ signInWithPopup(auth, provider).then(async(response:any) => {
   if (!data) {
     console.log(responseData?.photoUrl);
     
-      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign,isAdmin:true}).then(()=>{
+      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId,parentID:responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign,isAdmin:true}).then(()=>{
         showSuccess('Sign in with Google')
         console.log("we are here---------",responseData?.localId);
         
@@ -203,15 +203,57 @@ signInWithPopup(auth, provider).then(async(response:any) => {
         }, 1000)
           })
   }else{
-    showSuccess('Sign in with Google')
-      setLoading(false)
-      console.log("no we are here---------");
-      localStorage.setItem("circoCompanyUid", responseData?.localId)
-      setTimeout(() => {
 
-        navigate("/myprofiles")
-        window.location.reload()
-      }, 1000)
+const userData:any=Object.values(data)?.[0]
+
+
+
+    if(userData?.isAdmin || userData?.parentID===userData?.id){
+      if(userData?.parentID){
+        localStorage.setItem("circoCompanyUid", userData?.parentID)
+        localStorage.setItem("isAdmin", "true")
+        showSuccess("Login successfully")
+        setTimeout(() => {
+          navigate("/myprofiles")
+          window.location.reload()
+        }, 1000)
+      }else{
+        localStorage.setItem("circoCompanyUid", userData?.id)
+        localStorage.setItem("isAdmin", "true")
+        showSuccess("Login successfully")
+        setTimeout(() => {
+          navigate("/myprofiles")
+          window.location.reload()
+        }, 1000)
+      }
+      
+      }else{
+        localStorage.setItem("circoCompanyUid", userData?.id)
+        localStorage.setItem("isAdmin", "false")
+        showSuccess("Login successfully")
+        setTimeout(() => {
+          navigate("/myprofiles")
+          window.location.reload()
+        }, 1000)
+      }
+
+
+
+
+
+
+
+
+
+    // showSuccess('Sign in with Google')
+    //   setLoading(false)
+    //   console.log("no we are here---------");
+    //   localStorage.setItem("circoCompanyUid", responseData?.localId)
+    //   setTimeout(() => {
+
+    //     navigate("/myprofiles")
+    //     window.location.reload()
+    //   }, 1000)
   }
 }).catch((error) => {
   console.log(error)

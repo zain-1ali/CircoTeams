@@ -4,9 +4,11 @@ import { ref } from "firebase/database";
 
 
 
-export const getAnalytics=async(id:string|string[],type:string,setAnalytics:any,setLoading:any)=>{
+export const getAnalytics=async(id:string|string[]|null,type:string,setAnalytics:any,setLoading:any)=>{
+  console.log("we are in user analytics");
    setLoading(true)
 if(type==="user" && typeof id==="string"){
+
  
      const starCountRef = query(
             ref(db, "Analytic"),
@@ -26,7 +28,7 @@ if(type==="user" && typeof id==="string"){
   
           });
 }else{
-    if (typeof id === "object"){
+    if (typeof id === "object" && id !== null){
       console.log("teams inner")
         const userIds = Object.values(id);
         if (userIds && userIds.length > 0){

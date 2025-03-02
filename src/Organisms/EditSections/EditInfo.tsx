@@ -208,6 +208,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             profileData?.profileType != "circoTemplate" &&
             templateLockedData?.profilePictureLock
           }
+          onRemove={() => dispatch(setProfileUrl(""))}
         />
         <ImageSelecter
           text="Cover Image"
@@ -225,6 +226,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             profileData?.profileType != "circoTemplate" &&
             templateLockedData?.coverLock
           }
+          onRemove={() => dispatch(setCoverUrl(""))}
         />
         <ImageSelecter
           text="Logo"
@@ -242,6 +244,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             profileData?.profileType != "circoTemplate" &&
             templateLockedData?.logoLock
           }
+          onRemove={() => dispatch(setlogoUrl(""))}
         />
       </div>
 

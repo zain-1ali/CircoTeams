@@ -115,6 +115,9 @@ const SignupCreateProfileStage3: React.FC<any> = ({ passwords }) => {
         imgClasses="h-[112px] w-[112px] object-cover mt-3 rounded-full"
         containerClasse="mt-4"
         handleFileChange={handleFileChange}
+        onRemove={() => {
+          dispatch(setProfileUrl(""));
+        }}
       />
       <ImageSelecter
         text="Cover Image"
@@ -123,6 +126,9 @@ const SignupCreateProfileStage3: React.FC<any> = ({ passwords }) => {
         imgClasses="h-[128px] w-[246px] object-cover mt-3 rounded-[16px]"
         containerClasse="mt-4"
         handleFileChange={handleFileChange}
+        onRemove={() => {
+          dispatch(setCoverUrl(""));
+        }}
       />
       <ImageSelecter
         text="Logo"
@@ -131,6 +137,9 @@ const SignupCreateProfileStage3: React.FC<any> = ({ passwords }) => {
         imgClasses="h-[112px] w-[112px] object-cover mt-3 rounded-full"
         containerClasse="mt-4"
         handleFileChange={handleFileChange}
+        onRemove={() => {
+          dispatch(setlogoUrl(""));
+        }}
       />
 
       <CustomButton

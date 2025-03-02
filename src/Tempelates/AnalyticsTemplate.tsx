@@ -14,31 +14,40 @@ import { getMultipleChilds } from "../Services/Constants";
 
 const AnalyticsTemplate = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [allProfiles,setAllProfiles] = useState<any>([])
+  const [allProfiles, setAllProfiles] = useState<any>([]);
   const dispatch = useAppDispatch();
   const analytics = useAppSelector((state) => state.analyticsHandeler);
-  console.log(analytics, "here are analytics in page");
   console.log(loading);
 
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
+  const isAdmin: string | null = localStorage.getItem("isAdmin") || "true";
   const handleSetAnalytics = (data: any) => {
     console.log(data, "here is data into the function");
     dispatch(setAnalytics(data));
   };
   const getAllProfiles = (data: any) => {
     if (data) {
-    const teamIds =  Object.values(data)?.map((item: any) => {
-        if (item?.profileType!=="self" && item?.id!==undefined) {
-        return item?.id
+      const teamIds = Object.values(data)?.map((item: any) => {
+        if (item?.profileType !== "self" && item?.id !== undefined) {
+          return item?.id;
         }
       });
 
       // console.log(teamIds,"team ids");
-      setAllProfiles(teamIds?.map((item: any) =>item!==undefined && item))
-      
+      setAllProfiles(teamIds?.map((item: any) => item !== undefined && item));
 
-      getAnalytics(teamIds?.map((item: any) =>item!==undefined && item), "object", handleSetAnalytics, setLoading);
-
+      if (isAdmin === "true") {
+        getAnalytics(
+          teamIds?.map((item: any) => item !== undefined && item),
+          "object",
+          handleSetAnalytics,
+          setLoading
+        );
+      } else {
+        getAnalytics(companyId, "user", handleSetAnalytics, setLoading);
+      }
+    } else {
+      getAnalytics(companyId, "user", handleSetAnalytics, setLoading);
     }
   };
 
@@ -48,16 +57,18 @@ const AnalyticsTemplate = () => {
 
   // getting company profile
   useEffect(() => {
-    getMultipleChilds(
-      "User/",
-      "parentID",
-      companyId,
-      getAllProfiles,
-      setLoading
-    );
+    if (isAdmin === "true") {
+      getMultipleChilds(
+        "User/",
+        "parentID",
+        companyId,
+        getAllProfiles,
+        setLoading
+      );
+    } else {
+      getAnalytics(companyId, "user", handleSetAnalytics, setLoading);
+    }
   }, []);
-
- 
 
   const handleGetAnalytics = (id: string | string[], type: string) => {
     getAnalytics(id, type, handleSetAnalytics, setLoading);
@@ -78,7 +89,10 @@ const AnalyticsTemplate = () => {
     <div className="h-screen w-screen flex bg-[#f6f6f6]">
       <Sidebar />
       <div className="h-[100%] w-[83%] pt-6 px-5">
-        <AnalyticsHeader handleGetAnalytics={handleGetAnalytics} handleClearFilters={handleClearFilters} />
+        <AnalyticsHeader
+          handleGetAnalytics={handleGetAnalytics}
+          handleClearFilters={handleClearFilters}
+        />
         <div className="w-[100%] h-[91%]  mt-5 flex flex-col justify-between">
           <div className="w-[100%] h-[47%]  flex justify-between items-center">
             <div className=" h-[100%] w-[59%] flex flex-col justify-between">

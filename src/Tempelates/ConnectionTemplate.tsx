@@ -11,8 +11,13 @@ const ConnectionTemplate = () => {
   let [filteredConnections, setFilteredConnections] = useState<any[]>([]);
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
   const companyId = localStorage.getItem("circoCompanyUid");
+  const isAdmin = localStorage.getItem("isAdmin");
   useEffect(() => {
-    getConnections(companyId, updateConnections);
+    getConnections(
+      companyId,
+      updateConnections,
+      isAdmin === "true" ? "parentId" : "userid"
+    );
   }, [companyId]);
 
   const updateConnections = (connections: any) => {
@@ -112,7 +117,7 @@ const ConnectionTemplate = () => {
           applyFilterId={applyFilterId}
           searchItem={searchItem}
           selectedRows={selectedRows}
-          itemCounts = {filteredConnections?.length || 0}
+          itemCounts={filteredConnections?.length || 0}
           handleClearFilters={handleClearFilters}
         />
 
