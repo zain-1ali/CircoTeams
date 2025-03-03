@@ -19,6 +19,7 @@ const ImageSelecter: React.FC<imageSelectProps> = ({
   changeLockedStatus = () => {},
   disabled = false,
   onRemove,
+  isImage = true,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -46,9 +47,7 @@ const ImageSelecter: React.FC<imageSelectProps> = ({
           </div>
         )}
       </div>
-      <div
-      // onClick={disabled ? () => {} : handleClick}
-      >
+      <div onClick={disabled || isImage ? () => {} : handleClick}>
         <Image src={image} classes={imgClasses} />
       </div>
 
@@ -60,7 +59,7 @@ const ImageSelecter: React.FC<imageSelectProps> = ({
         onChange={(e) => handleFileChange(e, text)}
       />
 
-      {isHovered && (
+      {isHovered && isImage && (
         <div
           className={
             `absolute inset-0 top-[18px] ${

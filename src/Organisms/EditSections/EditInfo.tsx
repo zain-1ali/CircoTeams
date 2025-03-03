@@ -209,6 +209,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             templateLockedData?.profilePictureLock
           }
           onRemove={() => dispatch(setProfileUrl(""))}
+          isImage={profileData?.profileUrl ? true : false}
         />
         <ImageSelecter
           text="Cover Image"
@@ -227,6 +228,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             templateLockedData?.coverLock
           }
           onRemove={() => dispatch(setCoverUrl(""))}
+          isImage={profileData?.coverUrl ? true : false}
         />
         <ImageSelecter
           text="Logo"
@@ -245,6 +247,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             templateLockedData?.logoLock
           }
           onRemove={() => dispatch(setlogoUrl(""))}
+          isImage={profileData?.logoUrl ? true : false}
         />
       </div>
 

@@ -158,6 +158,7 @@ export interface imageSelectProps {
   changeLockedStatus?: () => void;
   disabled?: boolean;
   onRemove: () => void;
+  isImage?: boolean;
 }
 
 export interface phoneInputProps {

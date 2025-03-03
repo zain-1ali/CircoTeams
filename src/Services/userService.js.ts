@@ -64,6 +64,8 @@ export const checkEmailDuplication = async (email: string): Promise<boolean> => 
   try {
     const starCountRef = query(ref(db, "User"), orderByChild("email"), equalTo(email));
     const snapshot = await get(starCountRef);
+    // console.log("snapshot", snapshot.val());
+    
 
     return snapshot.exists(); 
   } catch (error) {
@@ -190,7 +192,7 @@ signInWithPopup(auth, provider).then(async(response:any) => {
   if (!data) {
     console.log(responseData?.photoUrl);
     
-      update(ref(db, `User/${responseData?.localId}`), { id: responseData?.localId,parentID:responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign,isAdmin:true}).then(()=>{
+      update(ref(db, `User/${responseData?.localId}`), {...profileData, id: responseData?.localId,parentID:responseData?.localId, name:responseData?.displayName,firstName:responseData?.firstName ,lastName:responseData?.lastName ,email:responseData?.email,profileUrl:responseData?.photoUrl,profileDesign:profileData?.profileDesign,isAdmin:true}).then(()=>{
         showSuccess('Sign in with Google')
         console.log("we are here---------",responseData?.localId);
         

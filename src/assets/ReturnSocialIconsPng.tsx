@@ -527,7 +527,7 @@ type ValidationRule = {
 const linkValidationRules: ValidationRule[] = [
   {
     linkID: 2, // Call
-    validate: (value: string) => /^[0-9]{10,15}$/.test(value), // Validate phone numbers (E.164 format)
+    validate: (value: string) => /^\+?[0-9]{10,15}$/.test(value), // Validate phone numbers (E.164 format)
   },
   {
     linkID: 3, // Email
@@ -535,11 +535,11 @@ const linkValidationRules: ValidationRule[] = [
   },
   {
     linkID: 4, // Text (Phone Number)
-    validate: (value: string) => /^[0-9]{10,15}$/.test(value),
+    validate: (value: string) => /^\+?[0-9]{10,15}$/.test(value),
   },
   {
     linkID: 5, // WhatsApp
-    validate: (value: string) => /^[0-9]{10,15}$/.test(value),
+    validate: (value: string) => /^\+?[0-9]{10,15}$/.test(value),
   },
   {
     linkID: 11, // Instagram

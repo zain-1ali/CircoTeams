@@ -46,6 +46,8 @@ const UserProfileCard: React.FC<prflCardProps> = ({
       } else {
         return profileValue;
       }
+    } else {
+      return profileValue;
     }
   };
   return (
