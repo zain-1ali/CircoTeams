@@ -9,8 +9,7 @@ import invidual from "../../assets/images/invidual.png";
 import TemplateMembers from "./TemplateMembers";
 import DropDown from "./DropDown";
 import { getMultipleChilds } from "../../Services/Constants";
-const LinkTypeSelector: React.FC<any> = ({changeModeToAddLink}) => {
-
+const LinkTypeSelector: React.FC<any> = ({ changeModeToAddLink }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState<any>([]);
@@ -23,7 +22,6 @@ const LinkTypeSelector: React.FC<any> = ({changeModeToAddLink}) => {
       setMembers(Object.values(data));
     }
   };
-
 
   useEffect(() => {
     getMultipleChilds(
@@ -52,7 +50,10 @@ const LinkTypeSelector: React.FC<any> = ({changeModeToAddLink}) => {
         text="Add link as a:"
         classes="text-[14px] font-[700] text-[#818194]"
       />
-      <div className="w-[100%] flex justify-between mt-2 ">
+      <div
+        className="w-[100%] flex justify-between mt-2"
+        // onClick={changeModeToAddLink}
+      >
         <div className="w-[48%] rounded-xl h-[160px] border">
           <Text
             text="Common Link"

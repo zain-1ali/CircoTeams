@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { phoneInputProps } from "../Types";
+import { separatePhoneNumber } from "../Services/Constants";
 
 const InternationalPhone: React.FC<phoneInputProps> = ({
   labelClasses = "font-[400] text-[15px] w-[100%] mt-5",
@@ -15,21 +16,31 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
   const [phoneNum, setPhoneNum] = useState("");
   // const valueSplit = value?.split(" ");
 
+  console.log(value, "value");
+
+  console.log(
+    separatePhoneNumber("380098765432"),
+    "separatePhoneNumber(value)"
+  );
+
   useEffect(() => {
     // alert(value)
     if (phoneNum) {
-      onChange(phone + " " + phoneNum);
+      onChange(phone + phoneNum);
     } else {
       onChange("");
     }
   }, [phoneNum, phone]);
 
   useEffect(() => {
-    value?.split(" ")?.[0] && setPhone(value?.split(" ")?.[0]);
-    value?.split(" ")?.[1] && setPhoneNum(value?.split(" ")?.[1]);
+    if (value) {
+      const numberObject = separatePhoneNumber(value);
+      numberObject?.countryCode && setPhone(numberObject?.countryCode);
+      numberObject?.phoneNumber && setPhoneNum(numberObject?.phoneNumber);
+    }
   }, [value]);
-  console.log(phone);
-  console.log(value);
+  // console.log(phone);
+  // console.log(value);
 
   return (
     <div className="">
@@ -106,7 +117,7 @@ const InternationalPhone: React.FC<phoneInputProps> = ({
         </div>
         <div className="flex items-center w-[85%]">
           <div className="w-[21%] h-[40px] bg-[#F7F7F8] rounded-l-md flex justify-center items-center">
-            +{phone}
+            {phone}
           </div>
           <input
             type="number"

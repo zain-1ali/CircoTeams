@@ -700,7 +700,8 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
     console.log("link added to profile");
     const existingLinks=Array.isArray(links) ? links :[]
     if(data){
-        set(ref(db, `User/${id}/links`),[...existingLinks,{...data}]).then(()=>{
+      const linkRandomId=JSON.stringify(Date.now())
+        set(ref(db, `User/${id}/links`),[...existingLinks,{...data,id:linkRandomId}]).then(()=>{
             setLoading(false)
             updateLink(existingLinks,data)
             showSuccess("Link added sucessfully")
@@ -713,7 +714,7 @@ export const addLinkToDb=(data:any,id:string | undefined,links:any,showError:any
 
 export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any,setRemainingLink:any) => {
     console.log("Deleting link with ID:", linkID);
-    if (!id || !links) {
+    if (!id || !links){
       showError("Something went wrong while removing the link");
       return;
     }
