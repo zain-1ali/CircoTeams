@@ -80,6 +80,7 @@ const GroupOfLinks: React.FC<any> = ({
               >
                 <LinkTypeSelector
                   changeModeToAddLink={changeModeToAddLink}
+                  selectLink={() => changeModeToAddLink(link, false)}
                 />
               </DropDown>
             </>

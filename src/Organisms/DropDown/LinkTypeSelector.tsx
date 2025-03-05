@@ -9,7 +9,10 @@ import invidual from "../../assets/images/invidual.png";
 import TemplateMembers from "./TemplateMembers";
 import DropDown from "./DropDown";
 import { getMultipleChilds } from "../../Services/Constants";
-const LinkTypeSelector: React.FC<any> = ({ changeModeToAddLink }) => {
+const LinkTypeSelector: React.FC<any> = ({
+  changeModeToAddLink,
+  selectLink,
+}) => {
   const profileData = useAppSelector((state) => state.profileHandler);
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState<any>([]);
@@ -54,7 +57,10 @@ const LinkTypeSelector: React.FC<any> = ({ changeModeToAddLink }) => {
         className="w-[100%] flex justify-between mt-2"
         // onClick={changeModeToAddLink}
       >
-        <div className="w-[48%] rounded-xl h-[160px] border">
+        <div
+          className="w-[48%] rounded-xl h-[160px] border"
+          onClick={selectLink}
+        >
           <Text
             text="Common Link"
             classes="text-[#818194] text-[13px] font-[700] text-center mt-2"
