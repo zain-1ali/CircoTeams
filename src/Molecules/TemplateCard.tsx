@@ -27,7 +27,7 @@ import {
   setQrColor,
   setQrLogo,
 } from "../Redux/ProfileSlice";
-import AssignTemplate from "../Organisms/Modal/AssignTemplate";
+// import AssignTemplate from "../Organisms/Modal/AssignTemplate";
 import {
   setCompanyLock,
   setCoverLock,
@@ -44,6 +44,7 @@ import {
   setWebLinkStyleLock,
 } from "../Redux/TemplateLockedSlice";
 import { GoKebabHorizontal } from "react-icons/go";
+import ManageTemplate from "../Organisms/Modal/ManageTemplate";
 
 const TemplateCard: React.FC<any> = ({ data }) => {
   const [openEditTemplate, setopenEditTemplate] = useState(false);
@@ -195,14 +196,10 @@ const TemplateCard: React.FC<any> = ({ data }) => {
       <CustomModal
         open={assignModal}
         onClose={() => setAssignModal(false)}
-        style={{
-          height: "500px",
-          width: "500px",
-          borderRadius: 5,
-          // p: 4,
-        }}
+        style={{ height: "590px", width: "950px", borderRadius: 5, p: 4 }}
       >
-        <AssignTemplate template={data} />
+        {/* <AssignTemplate template={data} /> */}
+        <ManageTemplate team={data} onClose={() => setAssignModal(false)} />
       </CustomModal>
     </div>
   );

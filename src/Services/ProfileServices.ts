@@ -3,9 +3,11 @@ import { auth, db } from "../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { generateRandomPassword } from "./Constants"
 import axios from "axios"
+import { generateUsername } from "../utils/generateUserName"
 // import { Link } from "../Types"
 
 export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLoading:any)=>{
+  const isAdmin= localStorage.getItem("isAdmin")
   const initialData={
     address: "",
     bio: "",
@@ -51,7 +53,7 @@ export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLo
     platform: "",
     proVersionExpiryDate: "",
     proVersionPurchaseDate: "",
-    profileType:"self",
+    profileType:isAdmin==="true"?"self":"team_secondary",
     profileDesign: {
       appIconColor: "#ffffff",
       backgroundColor: "#000000",
@@ -108,6 +110,7 @@ export const createTeamsProfile=async(data:any,showError:any,showSuccess:any,set
   console.log(data);
   
     if(data?.firstName && data?.email){
+      const userName=generateUsername(data?.firstName,data?.email)
       const companyId=data?.id
         setLoading(true)
 const initialData={
@@ -152,6 +155,7 @@ const initialData={
     logoUrl: "",
     name: data?.firstName + " " + data?.lastName,
     parentID: data?.id,
+    teamId: data?.id,
     phone: "",
     platform: "",
     proVersionExpiryDate: "",
@@ -188,7 +192,7 @@ const initialData={
     tagUid: [],
     transactionId: "",
     userName: "",
-    username: ""
+    username: userName
 }
 const password=generateRandomPassword(8)
 await createUserWithEmailAndPassword(auth,data.email,password).then((userCredential)=>{
@@ -356,10 +360,11 @@ if(emails?.length>0){
     const updatePromise=emails?.map(async(mail:string)=>{
 
         const password = Math.floor(100000 + Math.random() * 900000).toString();
+        const userName=generateUsername(password,mail)
       
         await createUserWithEmailAndPassword(auth,mail,password).then((userCredential)=>{
           const user=userCredential.user
-          update(ref(db, `User/${user.uid}`),{...initialData,email:mail,parentID:companyId,id:user.uid}).then(async()=>{
+          update(ref(db, `User/${user.uid}`),{...initialData,email:mail,parentID:companyId,teamId:companyId,id:user.uid,username:userName}).then(async()=>{
             await axios.post(`https://wallet.circo.me/api/createAccount`, {
               email:mail,
               password: password,
@@ -376,7 +381,7 @@ console.log(error)
 if(error.message === "Firebase: Error (auth/email-already-in-use)."){
 
     const starCountRef = query(
-        ref(db, "User"),
+        ref(db, "User/"),
         orderByChild("email"),
         equalTo(mail)
       );
@@ -504,10 +509,10 @@ export const createMultipleProfilesCsv=async(emails:any[],showError:any,showSucc
         const updatePromise=emails?.map(async(mail:any)=>{
     if(mail?.email){
         const password = Math.floor(100000 + Math.random() * 900000).toString();
-          
+        const userName=generateUsername(password,mail.email)
         await createUserWithEmailAndPassword(auth,mail?.email,password).then((userCredential)=>{
           const user=userCredential.user
-            update(ref(db, `User/${user.uid}`),{...initialData,email:mail.email,id:user.uid,parentID:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||""}).then(async()=>{
+            update(ref(db, `User/${user.uid}`),{...initialData,email:mail.email,id:user.uid,parentID:companyId,teamId:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||"",username:userName}).then(async()=>{
               await axios.post(`https://wallet.circo.me/api/createAccount`, {
                 email:mail,
                 password: password,

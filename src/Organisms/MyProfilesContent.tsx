@@ -78,8 +78,8 @@ const MyProfilesContent = () => {
   };
 
   return (
-    <div className="h-[100%] w-[83%] bg-[#F7F7F8] flex justify-center relative">
-      <div className="w-[95%]  h-[96%] overflow-y-scroll">
+    <div className="h-[100%] w-[83%] bg-[#F7F7F8] flex justify-center relative ">
+      <div className="w-[95%]  h-[100%] overflow-y-scroll pb-2">
         <div className="flex  mt-[30px] gap-2">
           <Text text="My Profiles" classes="font-[700] text-[24px]" />
           <Text

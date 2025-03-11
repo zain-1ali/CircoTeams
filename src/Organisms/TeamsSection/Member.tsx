@@ -169,16 +169,19 @@ const Member = () => {
   };
 
   return (
-    <div className="w-[100%] h-[100%] overflow-y-scroll">
+    <div className="w-[100%] h-[100%] overflow-y-scroll ">
       <TableHeader
-        number={allProfiles?.length || 0}
+        number={
+          allProfiles?.filter((item: any) => item?.profileType === "team")
+            .length || 0
+        }
         headerName="Members"
         selectedRows={selectedRows}
         searchItem={searchItem}
         isCardLayout={isCardLayout}
         setIsCardLayout={setIsCardLayout}
       />
-      <div className="mt-5">
+      <div className="mt-5 h-[81%]">
         {!isCardLayout ? (
           <Table
             headers={headers}

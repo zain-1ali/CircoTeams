@@ -23,7 +23,7 @@ export const createNewUser = async (
     localStorage.setItem("circoCompanyUid", user.uid);
 
     // Update user data in Firebase Realtime Database
-    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid,isAdmin:true });
+    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid,isAdmin:true,profileType:"admin" });
 
     // API call for creating account
     await axios.post(`https://wallet.circo.me/api/createAccount`, {

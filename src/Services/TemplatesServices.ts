@@ -224,3 +224,55 @@ const subTeamsPromises=subTeams?.map(async(elm:any)=>{
 
 
 }
+
+
+
+export const updateTemplate=async(data:any,id:string,showError:any,showSuccess:any,setLoading:any)=>{
+  if(data?.profileName){
+      setLoading(true)
+      await update(ref(db, `Template/${id}`), {...data}).then(()=>{
+          showSuccess("Information updated sucessfully")
+      }).catch((error)=>{
+          showError("Something wrong happend")
+          console.log(error)
+      });
+  }else{
+  showError("Team name should not be empty")
+  }
+  }
+
+
+
+
+  export const removeMembersFromTemplate=async(membersId:any,crntTeam:any,showError:any,showSuccess:any,setLoading:any,independent:boolean=true)=>{
+    try {
+      console.log(membersId);
+      
+      const crntTeamMembers=typeof crntTeam?.members==="object" ? Object?.values(crntTeam?.members) :[]
+     
+      const remainingMemebers = crntTeamMembers?.filter(id => !membersId.includes(id));
+      console.log(remainingMemebers);
+  
+      await update(ref(db, `Template/${crntTeam?.id}`), {members:remainingMemebers}).then(async()=>{
+        const updatePromises = membersId?.map(async (elm:string) => {
+          // console.log("testing...");
+            await update(ref(db, `User/${elm}`), {templateId:""});
+        });
+        try {
+          const updatedIds = await Promise.all(updatePromises);
+          console.log("Updated IDs:", updatedIds);
+          if(independent){
+            showSuccess("Members removed successfully");
+            setLoading(false,membersId)
+          }
+         
+        } catch (error) {
+          console.error("Error updating objects:", error);
+        setLoading(false)
+        }
+    })
+    } catch (error) {
+     console.log(error); 
+     showError("Something went wrong")  
+    }
+  }

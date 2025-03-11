@@ -86,9 +86,9 @@ const AnalyticsTemplate = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex bg-[#f6f6f6]">
+    <div className="h-screen w-screen flex bg-[#f6f6f6] ">
       <Sidebar />
-      <div className="h-[100%] w-[83%] pt-6 px-5">
+      <div className="h-[100%] w-[83%] pt-6 px-5 pb-1">
         <AnalyticsHeader
           handleGetAnalytics={handleGetAnalytics}
           handleClearFilters={handleClearFilters}
@@ -123,7 +123,14 @@ const AnalyticsTemplate = () => {
                 height={250}
               /> */}
 
-              <div style={{ width: "100%", height: 200 }} className="mt-3">
+              <div
+                style={{
+                  width: "100%",
+                  height: window.innerHeight > 670 ? 250 : 200,
+                }}
+                className="mt-3"
+              >
+                {/* {window.innerHeight} */}
                 <Chart
                   data={returnDataForChart(analytics?.weeklyViews)}
                   dataKey={"views"}
@@ -146,7 +153,13 @@ const AnalyticsTemplate = () => {
                 height={250}
               /> */}
 
-              <div style={{ width: "100%", height: 200 }} className="mt-3">
+              <div
+                style={{
+                  width: "100%",
+                  height: window.innerHeight > 670 ? 250 : 200,
+                }}
+                className="mt-3"
+              >
                 <Chart
                   data={returnDataForChart(analytics?.weeklyConnections)}
                   dataKey={"connections"}

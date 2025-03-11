@@ -1,6 +1,5 @@
 import Text from "../../Atoms/Text";
 import InputWithLabel from "../../Molecules/InputWithLabel";
-import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import Input from "../../Atoms/Input";
 import Button from "../../Atoms/Button";
@@ -10,67 +9,24 @@ import plchldr from "../../assets/images/profilePlchldr.png";
 import React, { useEffect, useState } from "react";
 import { getMultipleChilds } from "../../Services/Constants";
 import useToastNotifications from "../../Hooks/useToastNotification";
-import {
-  addMembersToSubTeam,
-  removeMembersFromSubTeam,
-  updateTeam,
-} from "../../Services/SubTeamsServices";
 import { RxCross1 } from "react-icons/rx";
-import DropDown from "../DropDown/DropDown";
-import ReasignTeam from "../DropDown/ReasignTeam";
-import ReasignTemplate from "../DropDown/ReasignTemplate";
+// import DropDown from "../DropDown/DropDown";
+// import ReasignTeam from "../DropDown/ReasignTeam";
+import {
+  addMembersToTemplate,
+  removeMembersFromTemplate,
+  updateTemplate,
+} from "../../Services/TemplatesServices";
 
-const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
+const ManageTemplate: React.FC<any> = ({ onClose, team }) => {
   // getting all child profiles
-  // console.log(team);
-
   const [teamName, setTeamName] = useState<string>("");
-
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
   // const [notMembers, setNotMembers] = useState<any>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
-  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
-  const [templates, setTemplates] = useState<any[]>([]);
-  const [crntTemplate, setCrntTemplate] = useState<any>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
-
-  const handleOpenTemplateFilter = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
-  const openTemplate = Boolean(anchorEl2);
-  const handleCloseTemplate = () => {
-    setAnchorEl2(null);
-  };
-
-  const callBackFunc2 = (data: any) => {
-    setTemplates(Object.values(data));
-    if (data) {
-      const crntTmplt = Object.values(data)?.find((obj: any) => {
-        return obj.id === team?.templateId;
-      });
-      if (crntTmplt) {
-        setCrntTemplate(crntTmplt);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getMultipleChilds(
-      "Template",
-      "parentID",
-      companyId,
-      callBackFunc2,
-      setLoading
-    );
-  }, []);
-
-  console.log(crntTemplate);
 
   // getting Team members
 
@@ -80,11 +36,14 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
       setTeamMembers(Object.values(data));
     }
   };
+
+  console.log(team);
+
   useEffect(() => {
-    setTeamName(team?.name);
+    setTeamName(team?.profileName);
     getMultipleChilds(
       "User/",
-      "subTeamId",
+      "templateId",
       team?.id,
       getTeamMembers,
       setLoading
@@ -127,6 +86,8 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
 
   // getting all members
   const getAllProfiles = (data: any) => {
+    console.log("here is all pf data", data);
+
     if (data) {
       setAllProfiles(Object.values(data));
     }
@@ -241,86 +202,53 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   console.log(filteredMembers);
   console.log(teamMembers);
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const open = Boolean(anchorEl);
+  //   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  //   const open = Boolean(anchorEl);
 
-  const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget); // Open the menu
-  };
+  //   const handleOpenFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //     setAnchorEl(event.currentTarget); // Open the menu
+  //   };
 
-  const handleClose = () => {
-    setAnchorEl(null); // Close the menu
-  };
+  //   const handleClose = () => {
+  //     setAnchorEl(null); // Close the menu
+  //   };
   const membersUid = selectedMemberRows?.map((member: any) => member?.id);
+
+  const handleLoading = (loading: boolean, deletedIds: any) => {
+    setLoading(loading);
+    if (deletedIds) {
+      const remainingMembers = filteredMembers?.filter(
+        (member: any) => !deletedIds.includes(member.id)
+      );
+      setfilteredMembers(remainingMembers);
+    }
+  };
 
   return (
     <div className="w-[100%] h-[100%]">
-      <Text text="Subteam Setting" classes="font-[600] text-[22px]" />
+      <Text text="Template Setting" classes="font-[600] text-[22px]" />
       <div className="w-[100%] flex justify-between items-center mt-7">
         <div className="w-[47%]">
           <InputWithLabel
-            label="Subteam Name"
+            label="Template Name"
             inputClasses="w-[100%] h-[40px] rounded-[10px] bg-[#FAFAFB] outline-none pl-3"
             labelClasses="font-[600] text-[14px] text-[#8D8D8D]"
             value={teamName}
             onChange={(e) => setTeamName(e.target.value)}
           />
         </div>
-        <div className="w-[47%]">
-          <Text
-            text="Template"
-            classes="font-[600] text-[14px] text-[#8D8D8D]"
-          />
-          <button
-            className="w-[100%] h-[40px] rounded-[10px] bg-[#FAFAFB] p-3 flex items-center justify-between outline-none"
-            id="reassignTemp-button"
-            aria-haspopup="listbox"
-            aria-controls="reassignTemp-menu"
-            onClick={handleOpenTemplateFilter}
-          >
-            <Text
-              text={
-                selectedTemplate ||
-                crntTemplate?.profileName ||
-                "No Template Selected"
-              }
-              classes="font-[600] text-[12px] text-[#030229]"
-            />
-            <IoIosArrowDown />
-          </button>
-
-          <DropDown
-            id="reassignTemp-menu"
-            anchorEl={anchorEl2}
-            open={openTemplate}
-            onClose={handleCloseTemplate}
-            MenuListProps={{
-              "aria-labelledby": "reassignTemp-button",
-              role: "listbox",
-            }}
-          >
-            <ReasignTemplate
-              templates={templates}
-              selectedMemberRows={[team]}
-              crntTemplate={crntTemplate}
-              onClose={handleCloseTemplate}
-              isSubTeam={true}
-              setSelectedTemplateName={setSelectedTemplate}
-            />
-          </DropDown>
-        </div>
       </div>
 
       <div className="w-[100%] flex justify-between items-center mt-7">
-        {/* team members section  */}
+        {/* template members section  */}
         <div className="w-[47%]">
           <Text
             text="Members"
             classes="text-[14px] font-[600] text-[#8D8D8D]"
           />
           <div className="w-[100%] h-[323px] bg-[#FAFAFB] rounded-[10px] p-4">
-            <div className="w-[100%] flex justify-between items-center">
-              <div className="w-[218px] h-[27px] rounded-[50px] border border-[#E1E1E1] flex items-center px-1 gap-2">
+            <div className="w-[100%] flex  items-center gap-4">
+              <div className="w-[290px] h-[27px] rounded-[50px] border border-[#E1E1E1] flex items-center px-1 gap-2">
                 <CiSearch className="text-[#B7B7B7]" />
                 <Input
                   classes="bg-transparent outline-none  w-[80%] placeholder:text-[12px]"
@@ -329,7 +257,7 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
                   placeholder="Search by name or info"
                 />
               </div>
-              <div
+              {/* <div
                 id="reassign-button"
                 aria-haspopup="listbox"
                 aria-controls="reassign-menu"
@@ -362,18 +290,18 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
                   crntSubteam={team}
                   onClose={handleClose}
                 />
-              </DropDown>
+              </DropDown> */}
 
               <Button
                 btnClasses="h-[27px] w-[73px] bg-[#E9E9E9] rounded-[50px] text-[#FF2C2C] font-[600] text-[10px]"
                 onClick={() =>
                   selectedMemberRows?.[0]
-                    ? removeMembersFromSubTeam(
+                    ? removeMembersFromTemplate(
                         membersUid,
                         team,
                         showError,
                         showSuccess,
-                        setLoading
+                        handleLoading
                       )
                     : () => {}
                 }
@@ -428,12 +356,21 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
               <Button
                 btnClasses="h-[27px] w-[73px] bg-primary rounded-[50px] text-white font-[600] text-[10px]"
                 onClick={() =>
-                  addMembersToSubTeam(
+                  //   addMembersToSubTeam(
+                  //     membersId,
+                  //     team,
+                  //     showError,
+                  //     showSuccess,
+                  //     setLoading
+                  //   )
+
+                  addMembersToTemplate(
                     membersId,
                     team,
                     showError,
                     showSuccess,
-                    setLoading
+                    setLoading,
+                    true
                   )
                 }
                 text="Add"
@@ -447,14 +384,14 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
                     className="flex items-center gap-3 mt-3"
                     style={{
                       display:
-                        elm?.subTeamId === team?.id ||
+                        elm?.templateId === team?.id ||
                         elm?.profileType === "self" ||
                         elm?.isAdmin === true
                           ? "none"
                           : undefined,
                     }}
                   >
-                    {elm?.subTeamId ? (
+                    {elm?.templateId ? (
                       <div className="h-[15px] w-[15px] border bg-[#B3B3BF] rounded-[2px] flex justify-center items-center">
                         <RxCross1 className="text-[10px] text-white" />
                       </div>
@@ -476,9 +413,9 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
                       classes="text-[12px] font-[500] text-[#030229]"
                     />
 
-                    {elm?.subTeamId && (
+                    {elm?.templateId && (
                       <Text
-                        text="(In another subteam)"
+                        text="(In another template)"
                         classes="text-[12px] font-[400] text-[#A8A8A8]"
                       />
                     )}
@@ -498,8 +435,8 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
         />
         <Button
           onClick={() =>
-            updateTeam(
-              { name: teamName },
+            updateTemplate(
+              { profileName: teamName },
               team.id,
               showError,
               showSuccess,
@@ -514,4 +451,4 @@ const ManageSubTeam: React.FC<any> = ({ onClose, team }) => {
   );
 };
 
-export default ManageSubTeam;
+export default ManageTemplate;

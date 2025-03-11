@@ -24,7 +24,7 @@ const Table: React.FC<tableProps> = ({
   };
 
   return (
-    <div className="w-[100%] overflow-y-scroll">
+    <div className="w-[100%] overflow-y-scroll h-[100%]">
       <TableHead
         tableHeadCells={headers}
         allSelected={allSelected}
@@ -32,23 +32,32 @@ const Table: React.FC<tableProps> = ({
       />
 
       {/* Rendering for "members" type */}
-      {type === "members" && (
-        <>
-          {data?.map(
-            (item: any, index: any) =>
-              item?.profileType === "team" && (
-                <MembersTableRow
-                  key={index}
-                  data={item}
-                  handleRowSelect={handleRowSelect} // Pass handler to row
-                  isSelected={selectedRows.some(
-                    (row: any) => row.id === item.id
-                  )}
-                />
-              )
-          )}
-        </>
-      )}
+      {type === "members" &&
+        (data?.filter((item) => {
+          return item?.profileType === "team";
+        })?.length < 1 ? (
+          <>
+            <div className="w-[100%] h-[100%] flex justify-center items-center">
+              No members to show
+            </div>
+          </>
+        ) : (
+          <>
+            {data?.map(
+              (item: any, index: any) =>
+                item?.profileType === "team" && (
+                  <MembersTableRow
+                    key={index}
+                    data={item}
+                    handleRowSelect={handleRowSelect} // Pass handler to row
+                    isSelected={selectedRows.some(
+                      (row: any) => row.id === item.id
+                    )}
+                  />
+                )
+            )}
+          </>
+        ))}
 
       {/* Rendering for "connections" type */}
       {type === "connections" && (

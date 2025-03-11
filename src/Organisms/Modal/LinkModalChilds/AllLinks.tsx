@@ -15,11 +15,12 @@ import {
 } from "../../../assets/ReturnSocialIconsPng";
 import { allLinksProps, Icon } from "../../../Types";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/reduxHooks";
-import { setLinkData } from "../../../Redux/linkSlice";
+// import { setLinkData } from "../../../Redux/linkSlice";
 import {
   setSocialLinklinkID,
   setSocialLinkName,
 } from "../../../Redux/socialLinkSlice";
+import { setLinkData } from "../../../Redux/linkSlice";
 
 interface linkTypeProps {
   text: string;
@@ -58,15 +59,16 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const changeModeToAddLink = (link: Icon, isLinkType: boolean = false) => {
+  const changeModeToAddLink = (link: Icon) => {
     console.log(link, "link is here");
     if (link) {
       dispatch(setLinkData(link));
-    }
-
-    if (!isLinkType) {
       changeLinkMode("addLink");
     }
+
+    // if (!isLinkType) {
+    //   changeLinkMode("addLink");
+    // }
   };
 
   const changeModeToAddWebLink = () => {

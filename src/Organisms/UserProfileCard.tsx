@@ -104,7 +104,7 @@ const UserProfileCard: React.FC<prflCardProps> = ({
                 profile?.address
               )}
               company={returnTemplateData(
-                templateData?.companyTitle,
+                templateData?.company,
                 templateData?.companyLock,
                 profile?.company
               )}

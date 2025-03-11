@@ -107,6 +107,8 @@ const ConnectionTemplate = () => {
       setData={setFilteredConnections}
     />,
   ];
+  console.log(filteredConnections, "filtered connections");
+
   return (
     <div className="h-screen w-screen flex">
       <Sidebar />
