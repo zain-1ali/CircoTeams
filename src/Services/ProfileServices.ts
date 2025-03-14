@@ -8,6 +8,7 @@ import { generateUsername } from "../utils/generateUserName"
 
 export const createSelfProfile=(selfData:any,showError:any,showSuccess:any,setLoading:any)=>{
   const isAdmin= localStorage.getItem("isAdmin")
+  console.log(isAdmin);
   const initialData={
     address: "",
     bio: "",
@@ -93,7 +94,7 @@ if(selfData?.id){
 
  const objectId=push(ref(db, `User/`),{...initialData}).key
  if(objectId){
-    update(ref(db, `User/${objectId}`),{id:objectId}).then(()=>{
+    update(ref(db, `User/${objectId}`),{id:objectId, username:objectId}).then(()=>{
         console.log("new profile created ")
         setLoading(false)
         showSuccess("New self profile created successfully")
@@ -155,7 +156,7 @@ const initialData={
     logoUrl: "",
     name: data?.firstName + " " + data?.lastName,
     parentID: data?.id,
-    teamId: data?.id,
+    teamId: "",
     phone: "",
     platform: "",
     proVersionExpiryDate: "",
@@ -197,7 +198,7 @@ const initialData={
 const password=generateRandomPassword(8)
 await createUserWithEmailAndPassword(auth,data.email,password).then((userCredential)=>{
   const user=userCredential.user
-  update(ref(db, `User/${user.uid}`),{...initialData,id:user.uid}).then(async()=>{
+  update(ref(db, `User/${user.uid}`),{...initialData,id:user.uid, teamId:user.uid, profileSelected: user.uid}).then(async()=>{
     await axios.post(`https://wallet.circo.me/api/createAccount`, {
       email: data?.email,
       password: password,
@@ -364,7 +365,7 @@ if(emails?.length>0){
       
         await createUserWithEmailAndPassword(auth,mail,password).then((userCredential)=>{
           const user=userCredential.user
-          update(ref(db, `User/${user.uid}`),{...initialData,email:mail,parentID:companyId,teamId:companyId,id:user.uid,username:userName}).then(async()=>{
+          update(ref(db, `User/${user.uid}`),{...initialData,email:mail,parentID:companyId,teamId:user.uid, profileSelected: user.uid,id:user.uid,username:userName}).then(async()=>{
             await axios.post(`https://wallet.circo.me/api/createAccount`, {
               email:mail,
               password: password,
@@ -512,7 +513,7 @@ export const createMultipleProfilesCsv=async(emails:any[],showError:any,showSucc
         const userName=generateUsername(password,mail.email)
         await createUserWithEmailAndPassword(auth,mail?.email,password).then((userCredential)=>{
           const user=userCredential.user
-            update(ref(db, `User/${user.uid}`),{...initialData,email:mail.email,id:user.uid,parentID:companyId,teamId:companyId,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||"",username:userName}).then(async()=>{
+            update(ref(db, `User/${user.uid}`),{...initialData,email:mail.email,id:user.uid,parentID:companyId,teamId:user.uid, profileSelected:user.uid,name:mail?.name||"",firstName:mail.name||"",profileUrl:mail?.profileUrl||"",username:userName}).then(async()=>{
               await axios.post(`https://wallet.circo.me/api/createAccount`, {
                 email:mail,
                 password: password,

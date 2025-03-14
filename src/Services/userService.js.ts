@@ -23,7 +23,7 @@ export const createNewUser = async (
     localStorage.setItem("circoCompanyUid", user.uid);
 
     // Update user data in Firebase Realtime Database
-    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid,isAdmin:true,profileType:"admin" });
+    await update(ref(db, `User/${user.uid}`), { ...data, id: user.uid, parentID: user.uid, profileSelected: user.uid, username: user.uid, isAdmin:true,profileType:"admin" });
 
     // API call for creating account
     await axios.post(`https://wallet.circo.me/api/createAccount`, {
@@ -64,7 +64,7 @@ export const checkEmailDuplication = async (email: string): Promise<boolean> => 
   try {
     const starCountRef = query(ref(db, "User"), orderByChild("email"), equalTo(email));
     const snapshot = await get(starCountRef);
-    // console.log("snapshot", snapshot.val());
+    console.log("snapshot", snapshot.val());
     
 
     return snapshot.exists(); 
