@@ -121,6 +121,7 @@ const ConnectionTemplate = () => {
           selectedRows={selectedRows}
           itemCounts={filteredConnections?.length || 0}
           handleClearFilters={handleClearFilters}
+          data={filteredConnections}
         />
 
         <div

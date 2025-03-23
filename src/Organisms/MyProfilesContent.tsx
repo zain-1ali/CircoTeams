@@ -11,6 +11,7 @@ import CreateTeamProfile from "./Modal/CreateTeamProfile";
 import Qr from "./Modal/Qr";
 import { useAppDispatch } from "../Hooks/reduxHooks";
 import { setProfileDesign } from "../Redux/ProfileSlice";
+import { useNavigate } from "react-router-dom";
 
 const MyProfilesContent = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
@@ -24,6 +25,7 @@ const MyProfilesContent = () => {
   console.log(loading);
   const [allProfiles, setAllProfiles] = useState<any>([]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const getCompanyProfile = (data: any) => {
     if (data) {
       setCompanyProfile(Object.values(data)?.[0]);
@@ -112,7 +114,11 @@ const MyProfilesContent = () => {
 
           <UserProfileCard
             isCreatePrfl={true}
-            onClick={() => setSureModal(true)}
+            onClick={() => {
+              companyProfile?.isProVersion
+                ? setSureModal(true)
+                : navigate("/plans");
+            }}
           />
         </div>
 
@@ -141,7 +147,11 @@ const MyProfilesContent = () => {
               })}
               <UserProfileCard
                 isCreatePrfl={true}
-                onClick={() => setTeamProfileModal(true)}
+                onClick={() => {
+                  companyProfile?.isTeamsProVersion
+                    ? setTeamProfileModal(true)
+                    : navigate("/plans");
+                }}
               />
             </div>
           </>

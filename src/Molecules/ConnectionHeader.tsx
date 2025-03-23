@@ -12,22 +12,36 @@ import {
 // import Loading from "../Loading";
 import { ConnectionHeaderProps } from "../Types";
 import ConnectionModal from "../Molecules/ConnectionModal";
-import DownloadCsv from "../Organisms/DownloadCsv";
+// import DownloadCsv from "../Organisms/DownloadCsv";
 import HeaderFilter from "../Organisms/HeaderFilter";
+import DropDown from "../Organisms/DropDown/DropDown";
+import CrmExport from "../Organisms/DropDown/CrmExport";
 
 const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   applyFilterId,
   searchItem,
   selectedRows,
   itemCounts,
-  handleClearFilters
+  handleClearFilters,
+  data,
 }) => {
   // const [loading, setLoading] = useState<boolean>(false);
   const [allProfiles, setAllProfiles] = useState<any[]>([]);
-  const [updatedRows, setUpdatedRows] = useState<any[]>([]);
+
   const [connectionModal, setConnectionModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [confirmModal, setConfirmModal] = useState<boolean>(false);
+
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const openMemberMenu = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null); // Close the menu
+  };
+
+  const handleOpenMemberMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
 
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
@@ -37,7 +51,7 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
     }
   };
 
-  const isAdmin = localStorage.getItem("isAdmin") ||"true";
+  const isAdmin = localStorage.getItem("isAdmin") || "true";
 
   useEffect(() => {
     getMultipleChilds(
@@ -61,7 +75,8 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
           memberName: profile ? `${profile.firstName} ${profile.lastName}` : "",
         };
       });
-      setUpdatedRows(enrichedData);
+      // setUpdatedRows(enrichedData);
+      console.log(enrichedData);
     };
 
     if (allProfiles.length > 0) {
@@ -86,12 +101,25 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
   return (
     <div>
       <div className="w-full flex justify-between items-center">
-      <Text
-        text={<> Connections <span className="text-sm text-[#B5B5B5]">({itemCounts})</span> </>}
-        classes="font-semibold text-lg"
-      />
+        <Text
+          text={
+            <>
+              {" "}
+              Connections{" "}
+              <span className="text-sm text-[#B5B5B5]">
+                ({itemCounts})
+              </span>{" "}
+            </>
+          }
+          classes="font-semibold text-lg"
+        />
         <div className="flex items-center gap-2">
-        {isAdmin==="true" &&  <HeaderFilter applyFilterId={applyFilterId} handleClearFilters={handleClearFilters} />}
+          {isAdmin === "true" && (
+            <HeaderFilter
+              applyFilterId={applyFilterId}
+              handleClearFilters={handleClearFilters}
+            />
+          )}
           <Button
             text="Add Connection"
             btnClasses="w-[131px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
@@ -99,17 +127,38 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
               setConnectionModal(true);
             }}
           />
-          <Button
+          <button
+            id="reassign-button"
+            aria-haspopup="listbox"
+            aria-controls="reassign-menu"
+            onClick={handleOpenMemberMenu}
+            className="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
+          >
+            <TbFileExport className="absolute left-3 text-[16px]" /> Export
+          </button>
+
+          <DropDown
+            id="reassign-menu"
+            anchorEl={anchorEl}
+            open={openMemberMenu}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "reassign-button",
+              role: "listbox",
+            }}
+          >
+            <CrmExport data={data} />
+          </DropDown>
+          {/* <Button
             text={""}
             btnClasses="w-[88px] h-[32px] rounded-[22px] text-[#808080] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative pl-4"
             onClick={() => {}}
             icon={
               <>
-                <TbFileExport className="absolute left-3 text-[16px]" />
                 <DownloadCsv data={updatedRows} />
               </>
             }
-          />
+          /> */}
           <Button
             text="Remove"
             btnClasses="w-[80px] h-[32px] rounded-[22px] text-[#FF4545] font-[600] text-[12px] border border-[#E1E1E1] bg-white flex justify-center items-center relative"
@@ -137,11 +186,11 @@ const ConnectionHeader: React.FC<ConnectionHeaderProps> = ({
         />
       )}
       <ConfirmModal
-          open = {confirmModal}
-          onClose={() => setConfirmModal(false)}
-          onClick={handleRemoveMultiple}
-           confirmText="Are you sure to remove selected connections ?"
-        />
+        open={confirmModal}
+        onClose={() => setConfirmModal(false)}
+        onClick={handleRemoveMultiple}
+        confirmText="Are you sure to remove selected connections ?"
+      />
     </div>
   );
 };

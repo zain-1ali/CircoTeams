@@ -20,7 +20,10 @@ import Button from "../Atoms/Button";
 import UserAvatar from "../Molecules/UserAvatar";
 import Image from "../Atoms/Image";
 import { useEffect, useState } from "react";
-import { getSingleChildFromDb } from "../Services/Constants";
+import {
+  getSingleChildFromDb,
+  updateSubscrptionStatus,
+} from "../Services/Constants";
 import CustomModal from "./Modal/Modal";
 import AreYouSure from "./Modal/AreYouSure";
 import { logoutUser } from "../Services/userService.js";
@@ -37,6 +40,7 @@ const Sidebar = () => {
   const getCompanyProfile = (data: any) => {
     if (data) {
       setCompanyProfile(Object.values(data)?.[0]);
+      updateSubscrptionStatus(Object.values(data)?.[0]);
     }
   };
 
@@ -124,7 +128,7 @@ const Sidebar = () => {
             <Button
               btnClasses="w-[138px] h-[33px] bg-primary rounded-[10px] text-white text-[12px] font-[600] absolute bottom-4"
               text="Upgrade Now"
-              onClick={() => {}}
+              onClick={() => navigate("/plans")}
             />
           </div>
 

@@ -224,6 +224,7 @@ export interface ConnectionHeaderProps {
   selectedRows: string[];
   itemCounts: number;
   handleClearFilters?: () => void;
+  data?: any[];
 }
 
 export interface MemberHeaderProps {
@@ -474,4 +475,14 @@ export interface AuthLinksProps {
 
 export interface SocialLinkProps {
   link: Link;
+}
+
+export interface PricingCardProps {
+  title: string;
+  price: string;
+  features: any[];
+  buttonText: string;
+  onClick: () => void;
+  amount: number;
+  duration?: "monthly" | "yearly";
 }

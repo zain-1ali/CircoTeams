@@ -10,10 +10,11 @@ import Analytics from "./Pages/Analytics";
 import Devices from "./Pages/Devices";
 import Support from "./Pages/Support";
 import { Toaster } from "react-hot-toast";
-import { ReactNode,useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import ResetPassword from "./Pages/ResetPassword";
+import SubscriptionPlans from "./Pages/SubscriptionPlans";
 
-function App(){
+function App() {
   interface RequireAuthProps {
     children: ReactNode;
   }
@@ -69,6 +70,15 @@ function App(){
             element={
               <RequireAuth>
                 <MyProfiles />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/plans"
+            element={
+              <RequireAuth>
+                <SubscriptionPlans />
               </RequireAuth>
             }
           />

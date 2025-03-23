@@ -1,4 +1,4 @@
-import { equalTo, onValue, orderByChild, query, ref, remove, set } from "firebase/database";
+import { equalTo, onValue, orderByChild, query, ref, remove, set, update } from "firebase/database";
 import { db } from "../firebase";
 import profilePlchldr from "../assets/images/profilePlchldr.png";
 import axios from "axios";
@@ -268,6 +268,57 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
 
     return null; // No valid country code found
 };
+
+
+
+
+
+export const isDatePassed = (timestamp: string): boolean => {
+  const dateInMillis = Number(timestamp); // Convert string to number
+  return dateInMillis < Date.now();
+};
+
+
+export const updateSubscrptionStatus = (userData: any) => {
+
+  // Check if the user has an active subscription
+  if (userData?.isProVersion) {
+    const isExpired = isDatePassed(userData?.proVersionExpiryDate);
+    if (isExpired) {
+      // Update the user's subscription status
+      update(ref(db, `User/${userData?.id}`),{
+        isProVersion: false,
+        isTrialPeriod: false,
+        proVersionExpiryDate: "",
+        proVersionPurchaseDate: "",
+        transactionId: "",
+        subscription: "",
+
+      });
+    }
+  
+}
+
+
+if(userData?.isTeamsProVersion){
+  const isExpired = isDatePassed(userData?.teamsProVersionExpiryDate);
+  if (isExpired) {
+    // Update the user's subscription status
+    update(ref(db, `User/${userData?.id}`), {
+      isTeamsProVersion: false,
+      isTeamsTrialPeriod: false,
+      teamsProVersionExpiryDate: "",
+      teamsProVersionPurchaseDate: "",
+      teamsTransactionId: "",
+      teamsSubscription: "",
+
+    });
+  }
+}
+}
+
+
+
 
 
 
