@@ -485,4 +485,5 @@ export interface PricingCardProps {
   onClick: () => void;
   amount: number;
   duration?: "monthly" | "yearly";
+  companyProfile:any
 }

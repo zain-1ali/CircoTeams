@@ -1,42 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Blureffect from "../assets/images/Blureffect.png";
 import Text from "../Atoms/Text";
 import PricingCard from "../Organisms/PricingCard";
 import PricingTable from "../Organisms/TeamsPayment";
 import { useNavigate } from "react-router-dom";
+import {getSingleChildFromDb } from "../Services/Constants";
 
 const SubscriptionPlansTemplate = () => {
+  const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [isMonthly, setIsMonthly] = useState<boolean>(false);
   const [isTeams, setIsTeams] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [companyProfile, setCompanyProfile] = useState<any>({});
+
+  const getCompanyProfile = (data: any) => {
+    if (data) {
+      setCompanyProfile(Object.values(data)?.[0]);
+    }
+  };
+
+  useEffect(() => {
+    getSingleChildFromDb("/User", "id", companyId, getCompanyProfile);
+  }, []);
+
+  const companySubscription = () => {
+      
+  }
   const proFeatures = [
     { text: "3 digital business card and QR code", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: false },
-    { text: "This is a placeholder message", isAvailable: false },
+    { text: "Access to All Link Types", isAvailable: true },
+    { text: "Access To Unlimited Connections", isAvailable: true },
+    { text: "Advanced Insights", isAvailable: true },
+    { text: "CRM Integrations", isAvailable: true },
+    { text: "Business Card Scanner", isAvailable: true },
   ];
 
   const freeFeatures = [
     { text: "1 digital business card and QR code", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: false },
-    { text: "This is a placeholder message", isAvailable: false },
+    { text: "50+ Different Link Types", isAvailable: true },
+    { text: "Only the 5 Most Recent Connections", isAvailable: true },
+    { text: "Basic Insights", isAvailable: true },
+    { text: "CRM Integrations", isAvailable: false },
+    { text: "Business Card Scanner", isAvailable: false },
   ];
-  const proPlusFeatures = [
-    { text: "5 digital business card and QR code", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: true },
-    { text: "This is a placeholder message", isAvailable: false },
-    { text: "This is a placeholder message", isAvailable: false },
-  ];
+  // const proPlusFeatures = [
+  //   { text: "5 digital business card and QR code", isAvailable: true },
+  //   { text: "This is a placeholder message", isAvailable: true },
+  //   { text: "This is a placeholder message", isAvailable: true },
+  //   { text: "This is a placeholder message", isAvailable: true },
+  //   { text: "This is a placeholder message", isAvailable: true },
+  //   { text: "This is a placeholder message", isAvailable: false },
+  //   { text: "This is a placeholder message", isAvailable: false },
+  // ];
   return (
     <div
       style={{
@@ -94,17 +109,18 @@ const SubscriptionPlansTemplate = () => {
 
             {/* Annually button */}
             <div
-              className={`w-[50%] h-[100%] flex justify-center items-center font-[700] text-[16px] cursor-pointer transition-all duration-500 ${
+              className={`w-[50%] h-[100%] flex flex-col leading-[16px] justify-center items-center font-[500] text-[15px] cursor-pointer transition-all duration-500 ${
                 isMonthly ? "text-[#C7C7C7]" : "text-[#ffffff]"
               }  relative z-10`}
               onClick={() => setIsMonthly(false)}
             >
-              Annually
+              Yearly
+              <div className="text-[10px]">(20% Off)</div>
             </div>
 
             {/* Monthly button */}
             <div
-              className={`w-[50%] h-[100%] flex justify-center items-center font-[700] text-[16px] cursor-pointer transition-all duration-500 ${
+              className={`w-[50%] h-[100%] flex justify-center items-center font-[500] text-[15px] cursor-pointer transition-all duration-500 ${
                 isMonthly ? "text-[#ffffff]" : "text-[#C7C7C7]"
               } relative z-10`}
               onClick={() => setIsMonthly(true)}
@@ -121,27 +137,29 @@ const SubscriptionPlansTemplate = () => {
             title="Free"
             price="Free"
             features={freeFeatures}
-            buttonText="Get started for free"
+            buttonText= { companyProfile.isProVersion ? "Get started for free" : "Current Plan"}
             onClick={() => navigate("/myprofiles")}
             amount={0}
+            companyProfile = {companyProfile}
           />
           <PricingCard
             title="Pro"
             price={isMonthly ? "$5.99" : "$59.99"}
             features={proFeatures}
-            buttonText="Subscrible now"
+            buttonText= { (companyProfile.isProVersion && (companyProfile.subscription == (isMonthly ? "monthly" : "yearly"))) ? "Current Plan" : "Subscribe now"}
             onClick={() => {}}
             amount={isMonthly ? 5.99 : 59.99}
             duration={isMonthly ? "monthly" : "yearly"}
+            companyProfile = {companyProfile}
           />
-          <PricingCard
+          {/* <PricingCard
             title="Pro+"
             price="Coming Soon..."
             features={proPlusFeatures}
-            buttonText="Coming Soon"
+            buttonText="Coming soon"
             onClick={() => {}}
             amount={0}
-          />
+          /> */}
         </div>
       ) : (
         <PricingTable
