@@ -48,7 +48,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
   const handleMenuClose = () => {
     // event.stopPropagation();
     if (anchorEl) {
-      setModalOpen(false);
+      // setModalOpen(false);
     }
 
     setAnchorEl(null);
@@ -80,7 +80,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
     <>
       <div
         className="w-[100%] h-[60px] rounded-[12px] mt-3 bg-[#f9f9f9] flex items-center justify-between pl-4 pr-4"
-        onClick={() => handleViewClick()}
+        // onClick={() => handleViewClick()}
       >
         <Checkbox
           checkValue={isSelected}
@@ -106,7 +106,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
         />
         <Text
           text={data?.message}
-          classes="font-[600] text-[#939393] text-[12px] w-[250px]"
+          classes="font-[600] text-[#939393] text-[12px] w-[250px] h-[20px] overflow-hidden"
         />
 
         {/* Three Dots Icon */}
@@ -118,7 +118,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
+          onClose={() => handleMenuClose()}
           sx={{
             "& .MuiPaper-root": {
               borderRadius: "14px", // Tailwind equivalent of rounded-lg
@@ -127,7 +127,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
           }}
         >
           <MenuItem
-            onClick={handleViewClick}
+            onClick={() => handleViewClick()}
             sx={{
               fontSize: "14px",
               textAlign: "center",

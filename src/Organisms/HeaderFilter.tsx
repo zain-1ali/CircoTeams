@@ -214,6 +214,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
                       ?.filter(
                         (item) =>
                           item?.profileType === "self" ||
+                          item?.profileType === "admin" ||
                           item?.profileType === ""
                       )
                       .map((item, index) => (

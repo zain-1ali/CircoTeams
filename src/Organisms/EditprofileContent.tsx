@@ -19,6 +19,7 @@ import {
   setlogoUrl,
   setPhone,
   setParentId,
+  setTemplateId,
   setProfileDesign,
   setProfileName,
   setProfileUrl,
@@ -27,6 +28,7 @@ import {
   setUsername,
   toggleDirectMode,
   toggleLeadMode,
+  setId,
 } from "../Redux/ProfileSlice";
 import {
   setCompanyLock,
@@ -246,6 +248,9 @@ const EditprofileContent = () => {
     if (profileData?.templateId) {
       dispatch(setFirstName(profileData?.firstName));
       dispatch(setLastName(profileData?.lastName));
+      dispatch(setTemplateId(profileData?.templateId));
+      dispatch(setParentId(profileData?.parentID));
+      dispatch(setId(profileData?.id));
       getSingleChildFromDb(
         "Template/",
         "id",

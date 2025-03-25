@@ -420,7 +420,7 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
 
 
 }else{
-    showError("Please add at least one eamil")  
+    showError("Please add at least one email")  
 }
 }
 
@@ -573,7 +573,7 @@ if(error.message === "Firebase: Error (auth/email-already-in-use)."){
     
     
     }else{
-        showError("Please add at least one eamil")  
+        showError("Please add at least one email")  
     }
 }
 

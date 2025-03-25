@@ -449,6 +449,7 @@ export interface UserProfile {
   logoUrl: string | null;
   name: string;
   parentID: string;
+  templateId: string;
   phone: string;
   platform: string;
   proVersionExpiryDate: string;

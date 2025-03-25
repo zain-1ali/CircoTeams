@@ -23,9 +23,6 @@ const SubscriptionPlansTemplate = () => {
     getSingleChildFromDb("/User", "id", companyId, getCompanyProfile);
   }, []);
 
-  const companySubscription = () => {
-      
-  }
   const proFeatures = [
     { text: "3 digital business card and QR code", isAvailable: true },
     { text: "Access to All Link Types", isAvailable: true },
