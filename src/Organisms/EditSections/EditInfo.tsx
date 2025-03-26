@@ -434,19 +434,48 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
                     showSuccess,
                     setLoading
                   )
-                : updateProfileInfo(
-                    {
-                      firstName: profileData?.firstName || "",
-                      lastName: profileData?.lastName || "",
-                      company: profileData?.company || "",
+                : 
+                updateProfileInfo(    
+                  {
+                    firstName: profileData?.firstName || "", 
+                    lastName: profileData?.lastName || "", 
+                    profileName: profileData?.profileName || "",
+                    phone: profileData?.phone || "",
+                  
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.locationLock && {
                       address: profileData?.address || "",
-                      profileUrl: profileData?.profileUrl || "",
-                      logoUrl: profileData?.logoUrl || "",
-                      coverUrl: profileData?.coverUrl || "",
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.jobLock && {
                       jobTitle: profileData?.jobTitle || "",
-                      profileName: profileData.profileName || "",
-                      phone: profileData.phone || "",
-                    },
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.companyLock && {
+                      company: profileData?.company || "",
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.profilePictureLock && {
+                      profileUrl: profileData?.profileUrl || "",
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.logoLock && {
+                      logoUrl: profileData?.logoUrl || "",
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.coverLock && {
+                      coverUrl: profileData?.coverUrl || "",
+                    }),
+                    ...(profileData?.profileType !== "circoTemplate" && !templateLockedData?.emailLock && {
+                      email: profileData?.email || "",
+                    }),
+                  },
+                  // {
+                  //     firstName: profileData?.firstName || "",
+                  //     lastName: profileData?.lastName || "",
+                  //     company: profileData?.company || "",
+                  //     address: profileData?.address || "",
+                  //     profileUrl: profileData?.profileUrl || "",
+                  //     logoUrl: profileData?.logoUrl || "",
+                  //     coverUrl: profileData?.coverUrl || "",
+                  //     jobTitle: profileData?.jobTitle || "",
+                  //     profileName: profileData.profileName || "",
+                  //     phone: profileData.phone || "",
+                  //   },
                     id,
                     showError,
                     showSuccess,

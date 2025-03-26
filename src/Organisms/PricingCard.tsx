@@ -11,9 +11,14 @@ const PricingCard: React.FC<PricingCardProps> = ({
   onClick,
   amount,
   duration,
+  companyProfile
 }) => {
   const [paymentModal, setPaymentModal] = useState<boolean>(false);
 
+  const isDisabled = title === "Free" || (companyProfile.isProVersion && (companyProfile.subscription === duration));
+  const getButtonClasses = () => {
+    return `mt-5 ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600"} text-white font-semibold py-2 w-full rounded-lg`;
+  };
   return (
     <div className="w-[350px] bg-white shadow-lg rounded-2xl p-6 text-center border border-gray-200">
       {/* Title */}
@@ -34,8 +39,13 @@ const PricingCard: React.FC<PricingCardProps> = ({
               feature?.isAvailable ? "text-gray-700" : "text-gray-300"
             }  font-medium`}
           >
-            <span className="text-blue-500 text-lg">✔</span>
-            <span className="ml-2">{feature.text}</span>
+            {
+              feature.isAvailable ? ( <span className="text-blue-500 text-lg">✔</span> )
+              : (<span className="text-red-500 text-sm my-1">❌</span>
+              )
+            }
+            
+            <span className="ml-2 text-[15px]">{feature.text}</span>
           </li>
         ))}
         {/* <li className="flex items-center text-gray-700 font-medium">
@@ -45,15 +55,23 @@ const PricingCard: React.FC<PricingCardProps> = ({
       </ul>
 
       {/* Button */}
-      <button
-        className="mt-5 bg-blue-600 text-white font-semibold py-2 w-full rounded-lg"
-        onClick={() => {
-          onClick(), setPaymentModal(title === "Pro" ? true : false);
-        }}
-      >
-        {/* Try 7 days free */}
-        {buttonText}
-      </button>
+      {
+        (!companyProfile.isProVersion || title == "Pro" ) && (
+          <button
+          className={getButtonClasses()}
+          disabled={isDisabled}
+          onClick={() => {
+            if (!isDisabled) {
+              onClick();
+              setPaymentModal(title === "Pro");
+            }
+          }}
+        >
+          {buttonText}
+        </button>
+        )
+      }
+
 
       <CustomModal
         open={paymentModal}

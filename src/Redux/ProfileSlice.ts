@@ -46,6 +46,7 @@ const initialState: UserProfile = {
   links: [],
   name: "",
   parentID: "",
+  templateId: "",
   phone: "",
   platform: "",
   proVersionExpiryDate: "",
@@ -127,6 +128,9 @@ export const profileSlice = createSlice({
     },
     setParentId: (state, action: PayloadAction<string>) => {
       state.parentID = action.payload;
+    },
+    setTemplateId: (state, action: PayloadAction<string>) => {
+      state.templateId = action.payload;
     },
     setProfileName: (state, action: PayloadAction<string>) => {
       state.profileName = action.payload;
@@ -282,6 +286,7 @@ export const {
   setName,
   setPhone,
   setParentId,
+  setTemplateId,
   setPlatform,
   setProfileTitle,
   setProfileUrl,

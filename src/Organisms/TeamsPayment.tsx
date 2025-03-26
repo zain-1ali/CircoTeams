@@ -72,6 +72,7 @@ const PricingTable: React.FC<any> = ({ amount, duration }) => {
           ammount={duration === "monthly" ? amount * 5 : amount * 5 * 12}
           duration={duration}
           type="teams"
+          check="teams"
         />
       </CustomModal>
     </div>

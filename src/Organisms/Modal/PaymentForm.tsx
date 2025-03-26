@@ -6,7 +6,7 @@ import {
 } from "@stripe/stripe-js";
 import {
   Elements,
-  CardElement,
+  // CardElement,
   useStripe,
   useElements,
   CardNumberElement,
@@ -96,98 +96,103 @@ const PaymentForm: React.FC<any> = ({ ammount, duration, type }) => {
 
     if (!stripe || !elements) return;
     setBtnLoader(true);
-
-    const cardElement = elements.getElement(CardElement);
+    const cardElement = elements.getElement(CardNumberElement);
     if (!cardElement) return;
 
-    try {
-      // Step 1: Create Payment Method
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: {
-          email: formData.email,
-          name: formData.cardholderName,
-        },
-      });
+    // try {
+    // Step 1: Create Payment Method
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+      billing_details: {
+        email: formData.email,
+        name: formData.cardholderName,
+      },
+    });
 
-      if (error) {
-        // toast.error(error?.message);
-        console.log(error);
+    if (error) {
+      // toast.error(error?.message);
+      console.log(error);
 
-        setBtnLoader(false);
-        return;
-      }
-
-      // Step 2: Process Payment
-      const response = await axios.post(
-        `${apiBaseUrl}/payment/processByMethodId`,
-        {
-          amount: ammount,
-          paymentMethodId: paymentMethod.id,
-          token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
-        },
-        {
-          headers: {
-            Authorization: `Bearer 12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj`,
-          },
-        }
-      );
-
-      if (response?.data?.success) {
-        const selfPaymentData = {
-          subscription: duration,
-          transactionId: response?.data?.paymentIntent?.transactionId,
-          isProVersion: true,
-          isTrialPeriod: false,
-          proVersionExpiryDate:
-            duration === "monthly"
-              ? JSON.stringify(oneMonthLaterTimestamp)
-              : JSON.stringify(oneYearLaterTimestamp),
-          proVersionPurchaseDate: JSON.stringify(currentTimestamp),
-        };
-
-        const teamsPaymentData = {
-          teamsSubscription: duration,
-          teamsTransactionId: response?.data?.paymentIntent?.transactionId,
-          isTeamsProVersion: true,
-          isTeamsTrialPeriod: false,
-          teamsProVersionExpiryDate:
-            duration === "monthly"
-              ? JSON.stringify(oneMonthLaterTimestamp)
-              : JSON.stringify(oneYearLaterTimestamp),
-          teamsProVersionPurchaseDate: JSON.stringify(currentTimestamp),
-        };
-
-        await update(
-          ref(db, `User/${companyId}`),
-          type === "teams" ? { ...teamsPaymentData } : { ...selfPaymentData }
-        ).then(() => {});
-      }
-      console.log(response.data.paymentIntent);
-      console.log(response.data, "here is trasaction data");
-
-      // Step 3: Navigate to Receipt
-      localStorage.setItem(
-        "paymentIntent",
-        JSON.stringify(response.data.paymentIntent)
-      );
-      toast.success("Payment Successful!");
-      //   setTimeout(
-      //     () =>
-      //       navigate("/receipt", {
-      //         state: { paymentIntent: response.data.paymentIntent },
-      //       }),
-      //     1000
-      //   );
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Payment failed");
+      setBtnLoader(false);
+      return;
     }
+    // Step 2: Process Payment
+    const response = await axios.post(
+      `${apiBaseUrl}/payment/processByMethodId`,
+      {
+        paymentMethodId: paymentMethod.id,
+        priceId:
+          duration === "monthly"
+            ? "price_1PEXejE98CE2tih71oMuCcBk"
+            : "price_1P3DHAE98CE2tih7Dixx3ju1", // Replace with actual Price ID
+        email: formData.email,
+        token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
+      },
+      {
+        headers: {
+          Authorization: `Bearer 12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj`,
+        },
+      }
+    );
+
+    if (response?.data?.success) {
+      const selfPaymentData = {
+        subscription: duration,
+        transactionId: response?.data?.subscription?.subscriptionId,
+        customerId: response?.data?.subscription?.customerId,
+        isProVersion: true,
+        isTrialPeriod: false,
+        proVersionExpiryDate:
+          duration === "monthly"
+            ? JSON.stringify(oneMonthLaterTimestamp)
+            : JSON.stringify(oneYearLaterTimestamp),
+        proVersionPurchaseDate: JSON.stringify(currentTimestamp),
+      };
+
+      const teamsPaymentData = {
+        teamsSubscription: duration,
+        teamsTransactionId: response?.data?.subscription?.subscriptionId,
+        teamsCustomerId: response?.data?.subscription?.customerId,
+        isTeamsProVersion: true,
+        isTeamsTrialPeriod: false,
+        teamsProVersionExpiryDate:
+          duration === "monthly"
+            ? JSON.stringify(oneMonthLaterTimestamp)
+            : JSON.stringify(oneYearLaterTimestamp),
+        teamsProVersionPurchaseDate: JSON.stringify(currentTimestamp),
+      };
+
+      await update(
+        ref(db, `User/${companyId}`),
+        type === "teams" ? { ...teamsPaymentData } : { ...selfPaymentData }
+      ).then(() => {});
+    }
+    // console.log(response.data.subscription);
+    // console.log(response.data, "here is trasaction data");
+
+    // Step 3: Navigate to Receipt
+    localStorage.setItem(
+      "subscription",
+      JSON.stringify(response.data.subscription)
+    );
+    toast.success("Payment Successful!");
+    setBtnLoader(false);
+    //   setTimeout(
+    //     () =>
+    //       navigate("/receipt", {
+    //         state: { subscription: response.data.subscription },
+    //       }),
+    //     1000
+    //   );
+    // } catch (error: any) {
+    //   toast.error(error?.response?.data?.message || "Payment failed");
+    // }
   };
 
   //   const handleNavigateReceipt = () => {
   //     navigate("/receipt", {
-  //       state: { paymentIntent: localStorage.getItem("paymentIntent") },
+  //       state: { subscription: localStorage.getItem("subscription") },
   //     });
   //   };
 
@@ -267,7 +272,7 @@ const PaymentForm: React.FC<any> = ({ ammount, duration, type }) => {
         {/* Pay Now Button */}
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-3 mt-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all disabled:bg-gray-400"
+          className="w-full bg-blue-500 text-white py-3 mt-4 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-all disabled:bg-gray-400"
           disabled={btnLoader}
         >
           {btnLoader ? "Processing..." : "Pay Now"}

@@ -449,6 +449,7 @@ export interface UserProfile {
   logoUrl: string | null;
   name: string;
   parentID: string;
+  templateId: string;
   phone: string;
   platform: string;
   proVersionExpiryDate: string;
@@ -485,4 +486,5 @@ export interface PricingCardProps {
   onClick: () => void;
   amount: number;
   duration?: "monthly" | "yearly";
+  companyProfile:any
 }

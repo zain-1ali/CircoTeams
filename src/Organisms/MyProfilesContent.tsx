@@ -117,7 +117,8 @@ const MyProfilesContent = () => {
             onClick={() => {
               companyProfile?.isProVersion
                 ? setSureModal(true)
-                : navigate("/plans");
+                : allProfiles?.filter((profile: any) => profile.profileType === "self").length > 2
+                ? navigate("/plans") : setSureModal(true);
             }}
           />
         </div>
@@ -150,7 +151,9 @@ const MyProfilesContent = () => {
                 onClick={() => {
                   companyProfile?.isTeamsProVersion
                     ? setTeamProfileModal(true)
-                    : navigate("/plans");
+                    : allProfiles?.filter((profile: any) => profile.profileType === "team").length > 0
+                    ? navigate("/plans")
+                    : setTeamProfileModal(true);
                 }}
               />
             </div>

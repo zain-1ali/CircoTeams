@@ -265,15 +265,14 @@ const userData:any=Object.values(data)?.[0]
 }
 
 export const deleteSingleChild = (user:any, showError:any,showSuccess:any,navigate:any,setLoading:any) => {
-console.log(user);
+// console.log(user);
   axios
     .post(`https://wallet.circo.me/api/deleteAccount`, {
      id: user.id,
       token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
     })
     .then((res) => {
-      if(res?.data.status){
-
+      if(res?.data?.status){
         if(user?.subTeamId){
           const starCountRef = query(
             ref(db, "/SubTeams"),
@@ -308,21 +307,19 @@ console.log(user);
             const data = await snapshot.val();
             if (data) {
               const theData:any = Object.values(data)?.[0];
-
               const arrayWithoutDeletedUser = Object.values(
                 theData?.members
               )?.filter((elm) => {
                 return elm != user?.id;
               });
-
-              update(ref(db, `Template/${user?.id}`), {
+              update(ref(db, `Template/${user?.templateId}`), {
                 members: arrayWithoutDeletedUser,
               });
             }
           });
         }
         showSuccess("Profile deleted successfuly")
-setLoading(false)
+        setLoading(false)
         setTimeout(()=>{
           if(user.parentID == user.id)
           {
