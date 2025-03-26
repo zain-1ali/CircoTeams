@@ -8,7 +8,7 @@ import { prflCardProps } from "../Types";
 import { FaArrowRightLong } from "react-icons/fa6";
 import SquareIconBtn from "../Molecules/SquareIconBtn";
 import { useEffect, useState } from "react";
-import { getSingleChildFromDb } from "../Services/Constants";
+import { getSingleChildFromDb, appendBucketPath } from "../Services/Constants";
 
 const UserProfileCard: React.FC<prflCardProps> = ({
   isCreatePrfl,
@@ -67,23 +67,23 @@ const UserProfileCard: React.FC<prflCardProps> = ({
           imgClass="w-[100%] h-[128px] rounded-[16px]"
           containerClass="w-[100%] h-[100%] rounded-[16px]"
           src={returnTemplateData(
-            templateData?.coverUrl,
+            appendBucketPath(templateData?.coverUrl),
             templateData?.coverLock,
-            profile?.coverUrl
+            appendBucketPath(profile?.coverUrl)
           )}
         />
         <div className="absolute bottom-[-45px]">
           <ProfilePictureWithLogo
             showLogo={false}
             profile={returnTemplateData(
-              templateData?.profileUrl,
+              appendBucketPath(templateData?.profileUrl),
               templateData?.profilePictureLock,
-              profile?.profileUrl
+              appendBucketPath(profile?.profileUrl)
             )}
             logo={returnTemplateData(
-              templateData?.logoUrl,
+              appendBucketPath(templateData?.logoUrl),
               templateData?.logoLock,
-              profile?.logoUrl
+              appendBucketPath(profile?.logoUrl)
             )}
           />
         </div>

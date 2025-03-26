@@ -74,7 +74,7 @@ const ConnectionTableRow: React.FC<TableRowProps> = ({
     removeSingleChildFromDb("Contacts/", data?.id, deleteRowCallback);
   };
   // console.log(data);
-  console.log(data);
+  
 
   return (
     <>

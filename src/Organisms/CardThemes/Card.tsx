@@ -4,6 +4,9 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 // import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
+import logoPlchldr from "../../assets/images/logoPlchldr.png";
+import profilePlchldr from "../../assets/images/profilePlchldr.png";
+import { appendBucketPath } from "../../Services/Constants";
 
 const Card = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -24,14 +27,12 @@ const Card = () => {
             backgroundColor: profileData?.profileDesign?.backgroundColor,
           }}
         ></div>
-
-        {profileData?.profileUrl && (
           <img
-            src={profileData?.profileUrl}
+            src={appendBucketPath(profileData?.profileUrl || "") || profilePlchldr}
             className="w-[100%] h-[400px]  object-cover"
             alt=""
           />
-        )}
+        
       </div>
       <div className="w-[100%]">
         <ProfileTextualArea
@@ -40,7 +41,7 @@ const Card = () => {
           location={profileData.address}
           company={profileData?.company}
           isCard={true}
-          logo={profileData?.logoUrl || ""}
+          logo={appendBucketPath(profileData?.logoUrl || "") || logoPlchldr}
         />
       </div>
 

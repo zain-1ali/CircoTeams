@@ -4,17 +4,18 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
+import { appendBucketPath } from "../../Services/Constants";
 
 const Classic = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
   return (
     <div className={`w-[90%] h-[100%]`}>
       <div className="w-[100%] h-[128px] relative mt-4">
-        <ProfileBackgroundImage src={profileData?.coverUrl} />
+        <ProfileBackgroundImage src={appendBucketPath(profileData?.coverUrl || "")} />
         <div className="w-[100%] flex justify-center  absolute bottom-[-40px]">
           <ProfilePictureWithLogo
-            logo={profileData?.logoUrl}
-            profile={profileData?.profileUrl}
+            logo={appendBucketPath(profileData?.logoUrl || "")}
+            profile={appendBucketPath(profileData?.profileUrl || "")}
             showLogo={!profileData?.profileDesign?.hideCompanyLogo}
           />
         </div>

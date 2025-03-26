@@ -28,14 +28,14 @@ const SubscriptionPlansTemplate = () => {
   useEffect(() => {
     getPlans(setAllPlans);
   }, []);
-  const proFeatures = [
-    { text: "3 digital business card and QR code", isAvailable: true },
-    { text: "Access to All Link Types", isAvailable: true },
-    { text: "Access To Unlimited Connections", isAvailable: true },
-    { text: "Advanced Insights", isAvailable: true },
-    { text: "CRM Integrations", isAvailable: true },
-    { text: "Business Card Scanner", isAvailable: true },
-  ];
+  // const proFeatures = [
+  //   { text: "3 digital business card and QR code", isAvailable: true },
+  //   { text: "Access to All Link Types", isAvailable: true },
+  //   { text: "Access To Unlimited Connections", isAvailable: true },
+  //   { text: "Advanced Insights", isAvailable: true },
+  //   { text: "CRM Integrations", isAvailable: true },
+  //   { text: "Business Card Scanner", isAvailable: true },
+  // ];
 
   const freeFeatures = [
     { text: "1 digital business card and QR code", isAvailable: true },
@@ -150,14 +150,20 @@ const SubscriptionPlansTemplate = () => {
           />
           {allPlans.map((plan: any, index: number) => {
             return (
-              plan.subscriptionType === "self" && (
+              plan.subscriptionType === "self" && (isMonthly ? plan.duration === "monthly" : plan.duration === "yearly") && (
                 <PricingCard
                   title={plan.name}
-                  price={isMonthly ? `$${plan.amount}` : `$${plan.amount * 12}`}
+                  price={isMonthly ? `$${plan.amount}` : `$${plan.amount}`}
+                  priceId={plan.priceId}
                   features={plan.properties}
-                  buttonText="Subscrible now"
+                  buttonText={
+                    companyProfile.isProVersion &&
+                    companyProfile.subscription == (isMonthly ? "monthly" : "yearly")
+                      ? "Current Plan"
+                      : "Subscribe now"
+                  }
                   onClick={() => {}}
-                  amount={isMonthly ? plan.amount : plan.amount * 12}
+                  amount={isMonthly ? plan.amount : plan.amount}
                   duration={isMonthly ? "monthly" : "yearly"}
                   key={index}
                   companyProfile={companyProfile}
@@ -165,7 +171,7 @@ const SubscriptionPlansTemplate = () => {
               )
             );
           })}
-          <PricingCard
+          {/* <PricingCard
             title="Pro"
             price={isMonthly ? "$5.99" : "$59.99"}
             features={proFeatures}
@@ -179,7 +185,7 @@ const SubscriptionPlansTemplate = () => {
             amount={isMonthly ? 5.99 : 59.99}
             duration={isMonthly ? "monthly" : "yearly"}
             companyProfile={companyProfile}
-          />
+          /> */}
           {/* <PricingCard
             title="Pro+"
             price="Coming Soon..."

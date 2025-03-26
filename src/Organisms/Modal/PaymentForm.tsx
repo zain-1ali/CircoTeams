@@ -25,7 +25,8 @@ const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLIC_KEY as string
 );
 
-const PaymentForm: React.FC<any> = ({ ammount, duration, type }) => {
+const PaymentForm: React.FC<any> = ({ ammount, duration, type, priceId }) => {
+
   const companyId = localStorage.getItem("circoCompanyUid");
   const currentDate = new Date();
   const currentTimestamp = currentDate.getTime(); // Current date in milliseconds
@@ -122,10 +123,7 @@ const PaymentForm: React.FC<any> = ({ ammount, duration, type }) => {
       `${apiBaseUrl}/payment/processByMethodId`,
       {
         paymentMethodId: paymentMethod.id,
-        priceId:
-          duration === "monthly"
-            ? "price_1PEXejE98CE2tih71oMuCcBk"
-            : "price_1P3DHAE98CE2tih7Dixx3ju1", // Replace with actual Price ID
+        priceId: priceId,
         email: formData.email,
         token: "12f3g4hj2j3h4g54h3juyt5j4k3jngbfvkg43hj",
       },
@@ -283,10 +281,10 @@ const PaymentForm: React.FC<any> = ({ ammount, duration, type }) => {
 };
 
 // Wrap in Elements Provider
-const StripePayment: React.FC<any> = ({ ammount, duration, type }) => {
+const StripePayment: React.FC<any> = ({ ammount, duration, type, priceId }) => {
   return (
     <Elements stripe={stripePromise}>
-      <PaymentForm ammount={ammount} duration={duration} type={type} />
+      <PaymentForm ammount={ammount} duration={duration} type={type} priceId={priceId} />
     </Elements>
   );
 };

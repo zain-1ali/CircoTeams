@@ -115,10 +115,9 @@ const MyProfilesContent = () => {
           <UserProfileCard
             isCreatePrfl={true}
             onClick={() => {
-              companyProfile?.isProVersion
+              companyProfile?.isProVersion && allProfiles?.filter((profile: any) => profile.profileType === "self").length < 3
                 ? setSureModal(true)
-                : allProfiles?.filter((profile: any) => profile.profileType === "self").length > 2
-                ? navigate("/plans") : setSureModal(true);
+                : navigate("/plans");
             }}
           />
         </div>
@@ -149,11 +148,9 @@ const MyProfilesContent = () => {
               <UserProfileCard
                 isCreatePrfl={true}
                 onClick={() => {
-                  companyProfile?.isTeamsProVersion
+                  companyProfile?.isTeamsProVersion && allProfiles?.filter((profile: any) => profile.profileType === "team").length < 5
                     ? setTeamProfileModal(true)
-                    : allProfiles?.filter((profile: any) => profile.profileType === "team").length > 0
-                    ? navigate("/plans")
-                    : setTeamProfileModal(true);
+                    : navigate("/plans");
                 }}
               />
             </div>

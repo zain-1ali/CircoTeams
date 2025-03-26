@@ -12,7 +12,7 @@ const IconWithTextCell: React.FC<iconWithTextProps> = ({
   return (
     <div className={`flex items-center ${width || "w-[200px]"} gap-2`}>
       <Image src={icon} classes={iconClass} />
-      <Text text={text} classes="font-[600] text-[12px] text-[#939393]" />
+      <Text text={text} classes="font-[600] text-[12px] text-[#939393] overflow-hidden" />
     </div>
   );
 };

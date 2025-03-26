@@ -30,9 +30,9 @@ export const getMultipleChilds = async (collectionName:string,orderBy:string,id:
       onValue(starCountRef, async (snapshot) => {
         const data = await snapshot.val();
         if (data) {
-          console.log(orderBy,data);
+          // console.log(orderBy,data);
           callBackFunc(data);
-          console.log(data);
+          // console.log(data);
           setloading(false);
           // console.log("testing data");
         } else {
@@ -124,7 +124,7 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
     }
     else
     {
-      url = profilePlchldr;
+      url = path;
     }
     return url;
   };
@@ -154,9 +154,6 @@ export const removeMultipleChildFromDb = ( collectionName: string,  ids: Array<s
     sortingType: string,
     setSortedData:any
   )=> {
-    
-
-    console.log(array,key,sortingType);
     
     const sortedArray = array.slice().sort((a, b) => {
       const aValue = a[key];
