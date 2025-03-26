@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Blureffect from "../assets/images/Blureffect.png";
 import Text from "../Atoms/Text";
 import PricingCard from "../Organisms/PricingCard";
 import PricingTable from "../Organisms/TeamsPayment";
 import { useNavigate } from "react-router-dom";
+import { getPlans } from "../Services/SubscriptionServices";
 
 const SubscriptionPlansTemplate = () => {
   const [isMonthly, setIsMonthly] = useState<boolean>(false);
   const [isTeams, setIsTeams] = useState<boolean>(false);
+  const [allPlans, setAllPlans] = useState<any>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getPlans(setAllPlans);
+  }, []);
   const proFeatures = [
     { text: "3 digital business card and QR code", isAvailable: true },
     { text: "This is a placeholder message", isAvailable: true },
@@ -125,6 +131,22 @@ const SubscriptionPlansTemplate = () => {
             onClick={() => navigate("/myprofiles")}
             amount={0}
           />
+          {allPlans.map((plan: any, index: number) => {
+            return (
+              plan.subscriptionType === "self" && (
+                <PricingCard
+                  title={plan.name}
+                  price={isMonthly ? `$${plan.amount}` : `$${plan.amount * 12}`}
+                  features={plan.properties}
+                  buttonText="Subscrible now"
+                  onClick={() => {}}
+                  amount={isMonthly ? plan.amount : plan.amount * 12}
+                  duration={isMonthly ? "monthly" : "yearly"}
+                  key={index}
+                />
+              )
+            );
+          })}
           <PricingCard
             title="Pro"
             price={isMonthly ? "$5.99" : "$59.99"}

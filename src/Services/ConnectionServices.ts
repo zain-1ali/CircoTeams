@@ -16,6 +16,12 @@ export const getConnections = (id: any, cb: Function,orderByChildKey:any="parent
     // console.log("contacts", data);
   });
 };
+
+
+
+
+
+
 export const addConnection = (data: any, cb: Function,showSuccess:any,showError:any) => {
   const parentId = localStorage.getItem("circoCompanyUid");
   const isAdmin = localStorage.getItem("isAdmin") || "true";
