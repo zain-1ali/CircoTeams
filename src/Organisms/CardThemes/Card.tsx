@@ -4,6 +4,8 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 // import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
+import profilePlchldr from "../../assets/images/plchldrsqr.jpg";
+import logoPlchldr from "../../assets/images/logoPlchldr.png";
 
 const Card = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -17,21 +19,21 @@ const Card = () => {
         />
       </div> */}
 
-      <div className="w-[100%] h-[210px] relative overflow-hidden">
+      <div className="w-[100%] h-[300px] relative overflow-hidden">
         <div
-          className="w-[100%] h-[20px] absolute bottom-[0px]  rounded-t-3xl"
+          className="w-[100%] h-[20px] absolute bottom-[0px]  rounded-t-3xl "
           style={{
             backgroundColor: profileData?.profileDesign?.backgroundColor,
           }}
         ></div>
 
-        {profileData?.profileUrl && (
-          <img
-            src={profileData?.profileUrl}
-            className="w-[100%] h-[400px]  object-cover"
-            alt=""
-          />
-        )}
+        {/* {profileData?.profileUrl && ( */}
+        <img
+          src={profileData?.profileUrl || profilePlchldr}
+          className="w-[100%] h-[300px]  object-cover"
+          alt=""
+        />
+        {/* )} */}
       </div>
       <div className="w-[100%]">
         <ProfileTextualArea
@@ -40,7 +42,7 @@ const Card = () => {
           location={profileData.address}
           company={profileData?.company}
           isCard={true}
-          logo={profileData?.logoUrl || ""}
+          logo={profileData?.logoUrl || logoPlchldr}
         />
       </div>
 

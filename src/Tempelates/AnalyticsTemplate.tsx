@@ -126,7 +126,7 @@ const AnalyticsTemplate = () => {
               <div
                 style={{
                   width: "100%",
-                  height: window.innerHeight > 670 ? 250 : 200,
+                  height: window.innerHeight > 670 ? "90%" : 200,
                 }}
                 className="mt-3"
               >
@@ -156,7 +156,7 @@ const AnalyticsTemplate = () => {
               <div
                 style={{
                   width: "100%",
-                  height: window.innerHeight > 670 ? 250 : 200,
+                  height: window.innerHeight > 670 ? "90%" : 200,
                 }}
                 className="mt-3"
               >

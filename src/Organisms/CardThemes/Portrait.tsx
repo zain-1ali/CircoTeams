@@ -5,6 +5,9 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
 
+import profilePlchldr from "../../assets/images/plchldrsqr.jpg";
+import logoPlchldr from "../../assets/images/logoPlchldr.png";
+
 const Portrait = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
   return (
@@ -36,7 +39,7 @@ const Portrait = () => {
         <div className="h-[60px] w-[60px]  rounded-full absolute bottom-[-45px] left-4">
           {profileData?.logoUrl && (
             <img
-              src={profileData?.logoUrl}
+              src={profileData?.logoUrl || logoPlchldr}
               alt=""
               className="h-[50px] w-[50px]  rounded-full"
               style={{
@@ -47,13 +50,13 @@ const Portrait = () => {
             />
           )}
         </div>
-        {profileData?.profileUrl && (
-          <img
-            src={profileData?.profileUrl}
-            className="w-[100%] h-[280px] object-cover"
-            alt=""
-          />
-        )}
+        {/* {profileData?.profileUrl && ( */}
+        <img
+          src={profileData?.profileUrl || profilePlchldr}
+          className="w-[100%] h-[280px] object-cover"
+          alt=""
+        />
+        {/* // )} */}
       </div>
       <div className="w-[100%] mt-[90px]">
         <ProfileTextualArea
