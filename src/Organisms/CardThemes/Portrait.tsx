@@ -4,9 +4,9 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 // import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
+
+import profilePlchldr from "../../assets/images/plchldrsqr.jpg";
 import logoPlchldr from "../../assets/images/logoPlchldr.png";
-import profilePlchldr from "../../assets/images/profilePlchldr.png";
-import { appendBucketPath } from "../../Services/Constants";
 
 const Portrait = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -39,7 +39,7 @@ const Portrait = () => {
         <div className="h-[60px] w-[60px]  rounded-full absolute bottom-[-45px] left-4">
          
             <img
-              src={appendBucketPath(profileData?.logoUrl || "") || logoPlchldr}
+              src={profileData?.logoUrl || logoPlchldr}
               alt=""
               className="h-[50px] w-[50px]  rounded-full"
               style={{
@@ -50,13 +50,13 @@ const Portrait = () => {
             />
           
         </div>
-        
-          <img
-            src={appendBucketPath(profileData?.profileUrl || "") || profilePlchldr}
-            className="w-[100%] h-[280px] object-cover"
-            alt=""
-          />
-        
+        {/* {profileData?.profileUrl && ( */}
+        <img
+          src={profileData?.profileUrl || profilePlchldr}
+          className="w-[100%] h-[280px] object-cover"
+          alt=""
+        />
+        {/* // )} */}
       </div>
       <div className="w-[100%] mt-[90px]">
         <ProfileTextualArea
