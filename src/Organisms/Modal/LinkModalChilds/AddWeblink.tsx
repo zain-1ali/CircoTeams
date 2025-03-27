@@ -109,6 +109,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
   const ifAddeed = profileData.links?.some((elm) => socialLink?.id === elm?.id);
 
   const handleAddLinkToDb = () => {
+    console.log(socialLink?.url);
     if (!validateLink(socialLink?.linkID, socialLink?.url)) {
       showError("!Invalid Link");
       return;
@@ -249,12 +250,13 @@ const AddWeblink: React.FC<webLinksProps> = ({
             </div>
 
             <div className="w-[100px] rounded-r-[10px] bg-[#FAFAFB] h-[40px] mt-1 flex justify-center items-center">
-              <Button
-                btnClasses="w-[73px] h-[28px] rounded-[50px] bg-[#B6EDFF] text-white font-[500] text-[12px] flex justify-center items-center relative pl-2"
-                onClick={() => window.open(socialLink?.value)}
-                icon={<RxExternalLink className="absolute left-3" />}
-                text="View"
-              />
+            <Button
+              btnClasses={`w-[73px] h-[28px] rounded-[50px] ${ socialLink?.url ? "bg-[#2B6EF6]" : "bg-[#B6EDFF]" } text-white font-[500] text-[12px] flex justify-center items-center relative pl-2`}                
+              onClick={() => socialLink?.url && window.open(socialLink.url, "_blank")}
+              icon={<RxExternalLink className="absolute left-3" />}
+              text="View"
+            />
+
             </div>
           </div>
 

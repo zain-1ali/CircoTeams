@@ -7,6 +7,7 @@ import { Menu } from "@mui/material";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import FilterImageWithTextCell from "../Molecules/FilterImageWithTextCell";
 import { getMultipleChilds, appendBucketPath } from "../Services/Constants";
+import profilePlchldr from "../assets/images/profilePlchldr.png";
 // import Loading from "./Loading";
 
 interface HeaderFilterProps {
@@ -235,7 +236,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
                           <FilterImageWithTextCell
                             containerClass="flex w-[150px] items-center gap-3"
                             texts={item.firstName + " " + item.lastName}
-                            imgUrl={appendBucketPath(item.profileUrl)}
+                            imgUrl={appendBucketPath(item.profileUrl) || profilePlchldr}
                           />
                         </label>
                       ))}
@@ -282,7 +283,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
                           <FilterImageWithTextCell
                             containerClass="flex w-[150px] items-center gap-3"
                             texts={item.firstName + " " + item.lastName}
-                            imgUrl={appendBucketPath(item.profileUrl)}
+                            imgUrl={appendBucketPath(item.profileUrl) || profilePlchldr}
                           />
                         </label>
                       ))}

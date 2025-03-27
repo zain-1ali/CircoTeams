@@ -21,6 +21,7 @@ import {
   setlogoUrl,
   setPhone,
   setProfileName,
+  setProfileTitle,
   setProfileUrl,
 } from "../../Redux/ProfileSlice";
 import ImageCropperModal from "../Cropper";
@@ -185,8 +186,8 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
             }}
           >
             <ProfileNames
-              handleSelectName={(data: any) => dispatch(setProfileName(data))}
-              ActiveName={profileData?.profileName}
+              handleSelectName={(data: any) => dispatch(setProfileTitle(data))}
+              ActiveName={profileData?.profileTitle}
             />
           </DropDown>
         </>

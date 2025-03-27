@@ -115,7 +115,7 @@ const MyProfilesContent = () => {
           <UserProfileCard
             isCreatePrfl={true}
             onClick={() => {
-              companyProfile?.isProVersion && allProfiles?.filter((profile: any) => profile.profileType === "self").length < 3
+              companyProfile?.isProVersion && allProfiles?.filter((profile: any) => profile.profileType === "self" || profile.profileType === "admin").length < 3
                 ? setSureModal(true)
                 : navigate("/plans");
             }}

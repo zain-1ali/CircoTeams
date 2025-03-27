@@ -4,7 +4,7 @@ import { useAppSelector } from "../Hooks/reduxHooks";
 
 const ProfileNameSelector = () => {
   const profileName = useAppSelector(
-    (state) => state.profileHandler.profileName
+    (state) => state.profileHandler.profileTitle
   ); 
   return (
     <div>

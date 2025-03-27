@@ -22,6 +22,7 @@ import {
   setTemplateId,
   setProfileDesign,
   setProfileName,
+  setProfileTitle,
   setProfileUrl,
   setQrColor,
   setQrLogo,
@@ -136,6 +137,7 @@ const EditprofileContent = () => {
         )
       );
       dispatch(setProfileName(profilesData?.profileName));
+      dispatch(setProfileTitle(profilesData?.profileTitle));
       dispatch(
         setCompany(
           templateData?.companyLock
@@ -268,6 +270,7 @@ const EditprofileContent = () => {
       dispatch(setCoverUrl(profileData?.coverUrl));
       dispatch(setlogoUrl(profileData?.logoUrl));
       dispatch(setProfileName(profileData?.profileName));
+      dispatch(setProfileTitle(profileData?.profileTitle));
       dispatch(setCompany(profileData?.company));
       dispatch(toggleLeadMode(profileData?.leadMode));
       dispatch(toggleDirectMode(profileData?.directMode));
@@ -316,6 +319,7 @@ const EditprofileContent = () => {
     dispatch(setCoverUrl(profileData?.coverUrl));
     dispatch(setlogoUrl(profileData?.logoUrl));
     dispatch(setProfileName(profileData?.profileName));
+    dispatch(setProfileTitle(profileData?.profileTitle));
     dispatch(setCompany(profileData?.company));
     dispatch(setEmail(profileData?.email));
     dispatch(setPhone(profileData?.phone));

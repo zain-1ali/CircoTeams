@@ -84,7 +84,7 @@ const AnalyticsTemplate = () => {
 
     return chartData;
   };
-
+console.log(analytics);
   return (
     <div className="h-screen w-screen flex bg-[#f6f6f6] ">
       <Sidebar />
