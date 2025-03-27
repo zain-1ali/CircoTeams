@@ -4,6 +4,7 @@ import ProfileButtonsArea from "../../Molecules/ProfileButtonsArea";
 import ProfilePictureWithLogo from "../../Molecules/ProfilePictureWithLogo";
 import ProfileTextualArea from "../../Molecules/ProfileTextualArea";
 import { SocialLinks } from "../SocialLinks";
+import { appendBucketPath } from "../../Services/Constants";
 
 const Color = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
@@ -11,8 +12,8 @@ const Color = () => {
     <div className={`w-[90%] h-[100%]`}>
       <div className="w-[100%] flex justify-center mt-11">
         <ProfilePictureWithLogo
-          logo={profileData?.logoUrl}
-          profile={profileData?.profileUrl}
+          logo={appendBucketPath(profileData?.logoUrl || "")}
+          profile={appendBucketPath(profileData?.profileUrl || "")}
           showLogo={!profileData?.profileDesign?.hideCompanyLogo}
         />
       </div>

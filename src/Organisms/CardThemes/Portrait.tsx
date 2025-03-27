@@ -37,7 +37,7 @@ const Portrait = () => {
           }}
         ></div>
         <div className="h-[60px] w-[60px]  rounded-full absolute bottom-[-45px] left-4">
-          {profileData?.logoUrl && (
+         
             <img
               src={profileData?.logoUrl || logoPlchldr}
               alt=""
@@ -48,7 +48,7 @@ const Portrait = () => {
                   : undefined,
               }}
             />
-          )}
+          
         </div>
         {/* {profileData?.profileUrl && ( */}
         <img

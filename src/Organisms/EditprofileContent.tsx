@@ -277,9 +277,9 @@ const EditprofileContent = () => {
       dispatch(setPhone(profileData?.phone));
       dispatch(setParentId(profileData?.parentID));
       console.log(profileData?.leadMode);
-      if (typeof profileData?.links === "object") {
-        dispatch(setLinks(Object.values(profileData?.links)));
-      }
+      typeof profileData?.links === "object" ?
+        dispatch(setLinks(Object.values(profileData?.links)))
+        : dispatch(setLinks([]));
       dispatch(setProfileDesign(profileData?.profileDesign));
 
       if (profileData?.profileDesign?.backgroundImage) {

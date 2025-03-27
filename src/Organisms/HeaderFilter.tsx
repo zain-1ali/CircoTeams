@@ -31,7 +31,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [selectionType, setSelectionType] = useState<string>("user");
   const [selectedSubTeam, setSelectedSubTeam] = useState<string>("");
-  console.log(loading);
+  
 
   const getAllProfiles = (data: any) => {
     if (data) {
@@ -44,7 +44,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
       setSubTeams(Object.values(data));
     }
   };
-  console.log(allProfiles);
+  
   const companyId = localStorage.getItem("circoCompanyUid") || "";
 
   useEffect(() => {
@@ -153,7 +153,7 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
     }));
   };
 
-  console.log(selectedOptions.subteamId, "subteamId");
+  // console.log(selectedOptions.subteamId, "subteamId");
 
   return (
     <div>

@@ -481,6 +481,7 @@ export interface SocialLinkProps {
 export interface PricingCardProps {
   title: string;
   price: string;
+  priceId?: number,
   features: any[];
   buttonText: string;
   onClick: () => void;

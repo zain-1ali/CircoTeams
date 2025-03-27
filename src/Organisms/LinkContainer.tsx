@@ -43,8 +43,8 @@ const LinkContainer: React.FC<any> = ({
       <div className="flex items-center gap-3">
         <Image src={dragIcon} classes="h-[22px] w-[22px]" />
         <Image
-          src={link.linkImageUrl || returnPngIcons(link.linkID)}
-          classes="h-[36px] w-[36px] object-cover"
+          src={link.linkImgUrl || returnPngIcons(link.linkID)}
+          classes="h-[36px] w-[36px] object-cover rounded-[8px]"
         />
         <Text
           text={link.title || link.name}

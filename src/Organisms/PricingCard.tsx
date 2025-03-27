@@ -6,6 +6,7 @@ import StripePayment from "./Modal/PaymentForm";
 const PricingCard: React.FC<PricingCardProps> = ({
   title,
   price,
+  priceId,
   features,
   buttonText,
   onClick,
@@ -81,7 +82,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
           onclick: () => console.log("clicked"),
         }}
       >
-        <StripePayment ammount={amount} duration={duration} type="self" />
+        <StripePayment ammount={amount} duration={duration} type="self" priceId={priceId} />
       </CustomModal>
     </div>
   );

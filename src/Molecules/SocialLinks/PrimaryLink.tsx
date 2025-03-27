@@ -41,7 +41,7 @@ const PrimaryLink: React.FC<Link> = (link) => {
       )}
 
       <Text
-        classes={`font-[400] text-[9px] mt-[2px] ${
+        classes={`font-[400] text-[9px] mt-[2px] text-center overflow-hidden ${
           profileData.profileDesign.whiteTextAndBorder
             ? "text-white"
             : "text-black"

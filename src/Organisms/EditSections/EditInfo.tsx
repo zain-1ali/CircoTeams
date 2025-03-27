@@ -9,6 +9,7 @@ import InternationalPhone from "../../Molecules/InternationalPhone";
 import Button from "../../Atoms/Button";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { RootState } from "../../Redux/store";
+import { appendBucketPath } from "../../Services/Constants";
 import {
   setAddress,
   setCompany,
@@ -195,7 +196,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         <ImageSelecter
           text="Profile Image"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={profileData?.profileUrl || upldPrfl}
+          image={appendBucketPath(profileData?.profileUrl || "") || upldPrfl}
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
@@ -214,7 +215,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         <ImageSelecter
           text="Cover Image"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={profileData?.coverUrl || upldCover}
+          image={appendBucketPath(profileData?.coverUrl || "") || upldCover}
           imgClasses="h-[91px] rounded-[10px] w-[174px] mt-2"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}
@@ -233,7 +234,7 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
         <ImageSelecter
           text="Logo"
           textClasses="font-[600] text-[12px] text-[#8D8D8D]"
-          image={profileData?.logoUrl || upldLogo}
+          image={appendBucketPath(profileData?.logoUrl || "") || upldLogo}
           imgClasses="h-[87px] w-[87px]  mt-2 rounded-full"
           containerClasse="flex flex-col items-center"
           handleFileChange={handleFileChange}

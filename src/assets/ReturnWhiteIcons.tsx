@@ -25,6 +25,7 @@ import thread from "./whiteIcons/thread.svg";
 import discord from "./whiteIcons/discord.svg";
 import zelle from "./whiteIcons/zelle.svg";
 import openSea from "./whiteIcons/openSea.svg";
+import safari from "./whiteIcons/web.png";
 
 // Import music icons
 import spotify from "./whiteIcons/spotify.svg";
@@ -151,7 +152,8 @@ export const returnWhiteIcons = ({
     50: zelle,
     51: text2,
     26: paragraph,
-    23: soundcloud
+    23: soundcloud,
+    999: safari
   };
 
   const iconSrc = iconsMap[id];
