@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { GoKebabHorizontal } from "react-icons/go";
 import DropDown from "../Organisms/DropDown/DropDown";
 import TeamMembersOptions from "../Organisms/DropDown/TeamMembersOptions";
+import { appendBucketPath } from "../Services/Constants";
 
 // : React.FC<TableRowProps>
 const MembersTableRow: React.FC<any> = ({
@@ -85,7 +86,7 @@ const MembersTableRow: React.FC<any> = ({
           isAdmin={true}
           data={{
             text: data?.firstName + " " + data?.lastName,
-            image: data?.profileUrl,
+            image: appendBucketPath(data?.profileUrl),
             isAdmin: data?.isAdmin,
           }}
         />

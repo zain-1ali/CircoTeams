@@ -560,7 +560,8 @@ export const createMultipleProfilesCsv = async (emails: any[], showError: any, s
 }
 
 export const updateProfileInfo = (data: any, id: string | undefined, showError: any, showSuccess: any, setLoading: any) => {
-  console.log(data)
+  console.log(data);
+  // return;
   if (data) {
     console.log("inner")
     update(ref(db, `User/${id}`), { ...data }).then(() => {

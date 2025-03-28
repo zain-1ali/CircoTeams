@@ -263,11 +263,12 @@ export interface radioProps {
 
 export interface pageHeadProps {
   headerName: string;
-  number: string | number;
+  number:  number;
   selectedRows?: any[];
   searchItem?: (searchValue: string) => void;
   isCardLayout?: boolean;
   setIsCardLayout?: any;
+  companyProfile: any;
 }
 
 export interface counterBoxProps {
