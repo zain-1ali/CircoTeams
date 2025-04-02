@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { getMultipleChilds } from "../../Services/Constants";
 import useToastNotifications from "../../Hooks/useToastNotification";
 import { RxCross1 } from "react-icons/rx";
+import { appendBucketPath } from "../../Services/Constants";
 // import DropDown from "../DropDown/DropDown";
 // import ReasignTeam from "../DropDown/ReasignTeam";
 import {
@@ -322,7 +323,7 @@ const ManageTemplate: React.FC<any> = ({ onClose, team }) => {
                       classes="h-[15px] w-[15px] border border-[#B3B3BF] rounded-[2px]"
                     />
                     <Image
-                      src={member?.profileUrl || plchldr}
+                      src={appendBucketPath(member?.profileUrl) || plchldr}
                       classes="h-[36px] w-[36px] rounded-full"
                     />
                     <Text
@@ -405,7 +406,7 @@ const ManageTemplate: React.FC<any> = ({ onClose, team }) => {
                       />
                     )}
                     <Image
-                      src={elm?.profileUrl || plchldr}
+                      src={appendBucketPath(elm?.profileUrl) || plchldr}
                       classes="h-[36px] w-[36px] rounded-full "
                     />
                     <Text

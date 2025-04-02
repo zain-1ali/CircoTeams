@@ -10,7 +10,7 @@ import { CiSearch } from "react-icons/ci";
 import CustomModal from "../Organisms/Modal/Modal";
 import {
   getMultipleChilds,
-  removeMultipleChildFromDb,
+  removeMultipleChildFromDb
 } from "../Services/Constants";
 import CreateTeamProfile from "../Organisms/Modal/CreateTeamProfile";
 import CreateSubteam from "../Organisms/Modal/CreateSubteam";
@@ -26,6 +26,8 @@ import hamBurger from "../assets/images/hamBurger.png";
 import hamBurgerWhite from "../assets/images/hamBurgerWhite.png";
 import cardsWhite from "../assets/images/cardsWhite.png";
 import cards from "../assets/images/cards.png";
+import { useNavigate } from "react-router-dom";
+
 
 const TableHeader: React.FC<pageHeadProps> = ({
   headerName,
@@ -34,6 +36,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
   searchItem,
   isCardLayout,
   setIsCardLayout,
+  companyProfile
 }) => {
   const [warnText, setWarnText] = useState<string>("");
   const [sureModal, setSureModal] = useState<boolean>(false);
@@ -45,7 +48,7 @@ const TableHeader: React.FC<pageHeadProps> = ({
   const [subteams, setSubteams] = useState<any[]>([]);
   const [templates, setTemplates] = useState<any[]>([]);
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
-
+  const navigate = useNavigate();
   const callBackFunc = (data: any) => {
     setSubteams(Object.values(data));
   };
@@ -87,7 +90,6 @@ const TableHeader: React.FC<pageHeadProps> = ({
       setLoading
     );
   }, []);
-
   const openSubTeam = Boolean(anchorEl);
   const handleClose = () => {
     setAnchorEl(null); // Close the menu
@@ -156,7 +158,9 @@ const TableHeader: React.FC<pageHeadProps> = ({
             <Button
               btnClasses="h-[32px] rounded-[22px] w-[139px] text-[12px] font-[600] text-white bg-[#2B6EF6]"
               text="Add Member"
-              onClick={() => setTeamProfileModal(true)}
+              onClick={() => companyProfile?.isTeamsProVersion && number < 5
+              ? setTeamProfileModal(true)
+              : navigate("/plans")}
             />
             <div
               id="reassignTemp-button"

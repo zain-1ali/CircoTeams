@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import Checkbox from "../../Atoms/Checkbox";
 import useToastNotifications from "../../Hooks/useToastNotification";
-import { getMultipleChilds } from "../../Services/Constants";
+import { getMultipleChilds, appendBucketPath } from "../../Services/Constants";
 import Image from "../../Atoms/Image";
 import plchldr from "../../assets/images/profilePlchldr.png";
 import { addMembersToTemplate } from "../../Services/TemplatesServices";
@@ -152,7 +152,7 @@ const AssignTemplate: React.FC<any> = ({ template }) => {
                   />
                 )}
                 <Image
-                  src={elm?.profileUrl || plchldr}
+                  src={appendBucketPath(elm?.profileUrl) || plchldr}
                   classes="h-[36px] w-[36px] rounded-full "
                 />
                 <Text

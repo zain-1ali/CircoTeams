@@ -12,7 +12,7 @@ export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,c
       onValue(starCountRef, async (snapshot) => {
         const data = await snapshot.val();
         callBackFunc(data);
-        console.log("data",data);
+        // console.log("data",data);
         // console.log("testing data");
         MediaKeyStatusMap;
       });

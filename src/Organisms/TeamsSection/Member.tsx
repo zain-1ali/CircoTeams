@@ -17,6 +17,7 @@ const Member = () => {
   let [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
   const [qrModal, setQrModal] = useState<boolean>(false);
+  const [companyProfile, setCompanyProfile] = useState<any>({});
   console.log(selectedRows);
 
   console.log(loading);
@@ -41,19 +42,9 @@ const Member = () => {
   // };
 
   const getCompanyProfile = (data: any) => {
-    console.log(data);
-
-    // if (data) {
-    //   const profile: any = Object.values(data)?.[0];
-    //   setFilteredConnections((prev) =>
-    //     prev.some((item) => item.id === profile?.id) ? prev : [...prev, profile]
-    //   );
-    //   setAllProfiles((prev: any) =>
-    //     prev.some((item: any) => item.id === profile?.id)
-    //       ? prev
-    //       : [...prev, profile]
-    //   );
-    // }
+    if (data) {
+      setCompanyProfile(Object.values(data)?.[0]);
+    }
   };
 
   const handleQrModal = (id: string) => {
@@ -180,6 +171,7 @@ const Member = () => {
         searchItem={searchItem}
         isCardLayout={isCardLayout}
         setIsCardLayout={setIsCardLayout}
+        companyProfile = {companyProfile}
       />
       <div className="mt-5 h-[81%]">
         {!isCardLayout ? (

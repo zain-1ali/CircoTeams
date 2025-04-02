@@ -147,11 +147,18 @@ const EditprofileContent = () => {
             : profilesData?.company
         )
       );
+      dispatch(
+        setCompany(
+          templateData?.emailLock
+            ? templateData?.email
+            : profilesData?.email
+        )
+      );
       dispatch(toggleLeadMode(templateData?.leadMode));
       dispatch(toggleDirectMode(templateData?.directMode));
       dispatch(setUsername(templateData?.username || id));
       dispatch(setDirect(templateData?.direct));
-      dispatch(setEmail(templateData?.email));
+      // dispatch(setEmail(templateData?.email));
       dispatch(setPhone(templateData?.phone));
       // console.log(templateData?.leadMode);
       if (typeof templateData?.links === "object") {
@@ -253,6 +260,7 @@ const EditprofileContent = () => {
     dispatch(setProfileEditSection(0));
     if (profileData?.templateId) {
       dispatch(setFirstName(profileData?.firstName));
+      dispatch(setEmail(profileData?.email));
       dispatch(setLastName(profileData?.lastName));
       dispatch(setTemplateId(profileData?.templateId));
       dispatch(setParentId(profileData?.parentID));
@@ -283,7 +291,7 @@ const EditprofileContent = () => {
       dispatch(setEmail(profileData?.email));
       dispatch(setPhone(profileData?.phone));
       dispatch(setParentId(profileData?.parentID));
-      console.log(profileData?.leadMode);
+      // console.log(profileData?.leadMode);
       typeof profileData?.links === "object" ?
         dispatch(setLinks(Object.values(profileData?.links)))
         : dispatch(setLinks([]));
