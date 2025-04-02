@@ -263,12 +263,12 @@ export interface radioProps {
 
 export interface pageHeadProps {
   headerName: string;
-  number:  number;
+  number: number;
   selectedRows?: any[];
   searchItem?: (searchValue: string) => void;
   isCardLayout?: boolean;
   setIsCardLayout?: any;
-  companyProfile: any;
+  companyProfile?: any;
 }
 
 export interface counterBoxProps {
@@ -482,11 +482,11 @@ export interface SocialLinkProps {
 export interface PricingCardProps {
   title: string;
   price: string;
-  priceId?: number,
+  priceId?: number;
   features: any[];
   buttonText: string;
   onClick: () => void;
   amount: number;
   duration?: "monthly" | "yearly";
-  companyProfile:any
+  companyProfile: any;
 }
