@@ -3,17 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "../../Atoms/Image";
 import Text from "../../Atoms/Text";
-import { useAppSelector } from "../../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import common from "../../assets/images/common.png";
 import invidual from "../../assets/images/invidual.png";
-import TemplateMembers from "./TemplateMembers";
-import DropDown from "./DropDown";
+// import TemplateMembers from "./TemplateMembers";
+// import DropDown from "./DropDown";
+import { setAssignedTo } from "../../Redux/TemplateInvidualLinkSlice";
 import { getMultipleChilds } from "../../Services/Constants";
-const LinkTypeSelector: React.FC<any> = ({
-  changeModeToAddLink,
-  selectLink,
-}) => {
+const LinkTypeSelector: React.FC<any> = ({ selectLink, link }) => {
   const profileData = useAppSelector((state) => state.profileHandler);
+  // const assignedTo = useAppSelector(
+  //   (state) => state.TemplateInvidualLinkHandeler.assignedTo
+  // );
+
+  console.log(link, "here is selected link");
+
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState<any>([]);
   console.log(loading);
@@ -36,16 +41,16 @@ const LinkTypeSelector: React.FC<any> = ({
     );
   }, []);
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  // const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget); // Open the menu
-  };
+  // const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget); // Open the menu
+  // };
 
-  const openFonts = Boolean(anchorEl);
-  const handleClose = () => {
-    setAnchorEl(null); // Close the menu
-  };
+  // const openFonts = Boolean(anchorEl);
+  // const handleClose = () => {
+  //   setAnchorEl(null); // Close the menu
+  // };
 
   return (
     <div className="w-[383px] h-[218px] bg-white rounded-[18px] p-4 shadow-sm border">
@@ -59,7 +64,9 @@ const LinkTypeSelector: React.FC<any> = ({
       >
         <div
           className="w-[48%] rounded-xl h-[160px] border"
-          onClick={selectLink}
+          onClick={() => {
+            selectLink(link, false), dispatch(setAssignedTo("common"));
+          }}
         >
           <Text
             text="Common Link"
@@ -77,7 +84,9 @@ const LinkTypeSelector: React.FC<any> = ({
           id="reassign-button"
           aria-haspopup="listbox"
           aria-controls="reassign-menu"
-          onClick={handleOpen}
+          onClick={() => {
+            selectLink(link, false), dispatch(setAssignedTo("individual"));
+          }}
           className="w-[48%] rounded-xl h-[160px] border"
         >
           <Text
@@ -93,7 +102,7 @@ const LinkTypeSelector: React.FC<any> = ({
           </div>
         </button>
 
-        <DropDown
+        {/* <DropDown
           id="reassign-menu"
           anchorEl={anchorEl}
           open={openFonts}
@@ -108,7 +117,7 @@ const LinkTypeSelector: React.FC<any> = ({
             onClose={handleClose}
             changeModeToAddLink={changeModeToAddLink}
           />
-        </DropDown>
+        </DropDown> */}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { equalTo, onValue, orderByChild, query, ref, remove, set, update } from "firebase/database";
 import { db } from "../firebase";
-import profilePlchldr from "../assets/images/profilePlchldr.png";
+// import profilePlchldr from "../assets/images/profilePlchldr.png";
 import axios from "axios";
 
 export const getSingleChildFromDb=(collectionName:string,orderBy:string,id:any,callBackFunc:any)=>{

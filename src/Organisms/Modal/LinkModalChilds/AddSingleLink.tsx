@@ -180,7 +180,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       showError("!Invalid Link");
       return;
     }
-    if (socialLink?.placeholder) {
+    if (socialLink?.placeholder){
       updateTemplateLink(
         { ...socialLink },
         id,

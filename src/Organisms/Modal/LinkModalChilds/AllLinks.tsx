@@ -59,16 +59,16 @@ const AllLinks: React.FC<allLinksProps> = ({ changeLinkMode }) => {
   const [linkDataToMap, setLinkDataToMap] = React.useState<any[]>(allLinks);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const changeModeToAddLink = (link: Icon) => {
+  const changeModeToAddLink = (link: Icon,isLinkType:boolean) => {
     console.log(link, "link is here");
     if (link) {
       dispatch(setLinkData(link));
       changeLinkMode("addLink");
     }
 
-    // if (!isLinkType) {
-    //   changeLinkMode("addLink");
-    // }
+    if (!isLinkType) {
+      changeLinkMode("addLink");
+    }
   };
 
   const changeModeToAddWebLink = () => {

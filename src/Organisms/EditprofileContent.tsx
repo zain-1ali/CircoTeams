@@ -89,6 +89,8 @@ const EditprofileContent = () => {
 
       // console.log(templateData, "here is refined");
 
+      
+
       dispatch(setCoverLock(templateData?.coverLock));
       dispatch(setLogoLock(templateData?.logoLock));
       dispatch(setProfileLock(templateData?.profilePictureLock));
@@ -241,6 +243,8 @@ const EditprofileContent = () => {
       //   );
       // }
     }
+
+    
   };
 
   // setting redux states

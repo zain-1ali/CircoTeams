@@ -5,22 +5,30 @@ import { Icon } from "../Types";
 // import { useAppSelector } from "../Hooks/reduxHooks";
 import DropDown from "./DropDown/DropDown";
 import LinkTypeSelector from "./DropDown/LinkTypeSelector";
+import { useAppSelector } from "../Hooks/reduxHooks";
 
 const GroupOfLinks: React.FC<any> = ({
   linksGroupData,
   changeModeToAddLink,
 }) => {
   console.log(linksGroupData);
-  // const profileData = useAppSelector((state) => state.profileHandler);
+  const profileData = useAppSelector((state) => state.profileHandler);
 
-  // const [isInvidualLink,setIsInvidualLink]=React.useState<boolean>(false)
+const [typedLink, setTypedLink] = useState<any>({});
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
+  const handleOpenFonts = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("open font worked");
+
+    setAnchorEl(event.currentTarget); // Open the menu
+  };
   const openFonts = Boolean(anchorEl);
   const handleCloseFont = () => {
     setAnchorEl(null); // Close the menu
   };
+
+  console.log(profileData?.profileType, "profile type");
 
   return (
     <div className="w-[100%] mt-6">
@@ -39,15 +47,12 @@ const GroupOfLinks: React.FC<any> = ({
                 // onClick={handleOpenFonts}
                 className="outline-none"
                 onClick={
-                  // profileData?.profileType === "circoTemplate"
-                  //   ?
-                  // (e) => {
-                  //   handleOpenFonts(e);
-                  // changeModeToAddLink(link, true);
-                  // }
-                  // :
-                  //
-                  () => changeModeToAddLink(link)
+                  profileData?.profileType === "circoTemplate"
+                    ? (e) => {
+                        handleOpenFonts(e);
+                        setTypedLink(link);
+                      }
+                    : () => changeModeToAddLink(link)
                 }
               >
                 {" "}
@@ -74,8 +79,8 @@ const GroupOfLinks: React.FC<any> = ({
                 }}
               >
                 <LinkTypeSelector
-                // changeModeToAddLink={changeModeToAddLink}
-                // selectLink={() => changeModeToAddLink(link, false)}
+                  selectLink={changeModeToAddLink}
+                  link={typedLink}
                 />
               </DropDown>
             </>
