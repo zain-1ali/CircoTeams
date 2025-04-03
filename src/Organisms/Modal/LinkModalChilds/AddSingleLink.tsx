@@ -180,7 +180,7 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       showError("!Invalid Link");
       return;
     }
-    if (socialLink?.placeholder){
+    if (socialLink?.placeholder) {
       updateTemplateLink(
         { ...socialLink },
         id,
@@ -191,7 +191,12 @@ const AddSingleLink: React.FC<webLinksProps> = ({
       );
     } else {
       addLinkToTemplate(
-        { ...socialLink, placeholder: linkInfo?.placeholder, assignedTo },
+        {
+          ...socialLink,
+          placeholder: linkInfo?.placeholder,
+          assignedTo,
+          templateId: profileData?.id,
+        },
         profileData?.id,
         profileData?.links,
         showError,

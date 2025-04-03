@@ -241,8 +241,6 @@ const EditprofileContent = () => {
       //   );
       // }
     }
-
-    
   };
 
   // setting redux states
@@ -265,6 +263,7 @@ const EditprofileContent = () => {
         }
       );
     } else {
+      dispatch(setTemplateId(""));
       dispatch(setFirstName(profileData?.firstName));
       dispatch(setLastName(profileData?.lastName));
       dispatch(setJobTitle(profileData?.jobTitle));
@@ -283,8 +282,8 @@ const EditprofileContent = () => {
       dispatch(setPhone(profileData?.phone));
       dispatch(setParentId(profileData?.parentID));
       // console.log(profileData?.leadMode);
-      typeof profileData?.links === "object" ?
-        dispatch(setLinks(Object.values(profileData?.links)))
+      typeof profileData?.links === "object"
+        ? dispatch(setLinks(Object.values(profileData?.links)))
         : dispatch(setLinks([]));
       dispatch(setProfileDesign(profileData?.profileDesign));
 
@@ -326,7 +325,7 @@ const EditprofileContent = () => {
     dispatch(setCompany(profileData?.company));
     dispatch(setEmail(profileData?.email));
     dispatch(setPhone(profileData?.phone));
-    navigate("/myprofiles")
+    navigate("/myprofiles");
   };
 
   return (

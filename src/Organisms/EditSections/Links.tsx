@@ -73,6 +73,8 @@ const Links = () => {
     );
   };
 
+  console.log(profileData?.links);
+
   return (
     <div className="w-[96%] mt-6 overflow-y-scroll pb-4">
       <div className="w-[100%] flex justify-between items-center">
@@ -115,7 +117,9 @@ const Links = () => {
         />
       </div>
 
-      <DragDropContext onDragEnd={handleDrag}>
+      <DragDropContext
+        onDragEnd={profileData?.templateId ? () => {} : handleDrag}
+      >
         <Droppable droppableId="droppable" direction="vertical">
           {(provided) => (
             <div
@@ -124,15 +128,30 @@ const Links = () => {
               ref={provided.innerRef}
             >
               {profileData.links && profileData.links.length > 0 ? (
-                profileData?.links?.map((link, i) => {
+                profileData?.links?.map((link: any, i) => {
                   return (
-                    <Draggable key={link.id} draggableId={link.id} index={i}>
+                    <Draggable
+                      key={link.id}
+                      draggableId={
+                        profileData?.templateId
+                          ? profileData?.templateId
+                          : link.id
+                      }
+                      index={i}
+                    >
                       {(provided) => (
                         <div
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
                           className="w-[100%]"
+                          style={{
+                            pointerEvents:
+                              profileData?.templateId &&
+                              link?.assignedTo === "common"
+                                ? "none"
+                                : "all",
+                          }}
                         >
                           <LinkContainer
                             link={link}
