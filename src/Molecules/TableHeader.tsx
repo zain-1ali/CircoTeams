@@ -300,7 +300,9 @@ const TableHeader: React.FC<pageHeadProps> = ({
           classes="h-[95%] w-[80%] outline-none placeholder:text-[#B7B7B7] placeholder:font-[500] placeholder:text-[14px]"
           value={searchValue}
           onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Search by name, job title, email, template, or subteam"
+          placeholder={headerName == "Template" ? "Search by name" 
+            : "Search by name, job title, email, template, or subteam"
+          }
         />
       </div>
       <CustomModal

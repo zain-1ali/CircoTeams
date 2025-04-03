@@ -38,7 +38,7 @@ const AnalyticsSummary = () => {
         <AnalyticsCountBox
           text="CTR"
           icon={i20}
-          count={parseFloat(ctr.toFixed(2))}
+          count={ parseFloat(ctr.toFixed(2))}
           iconStyle="h-[18px] w-[18px]"
         />
         <AnalyticsCountBox

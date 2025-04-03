@@ -22,7 +22,7 @@ const AnalyticsTemplate = () => {
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const isAdmin: string | null = localStorage.getItem("isAdmin") || "true";
   const handleSetAnalytics = (data: any) => {
-    console.log(data, "here is data into the function");
+    // console.log(data, "here is data into the function");
     dispatch(setAnalytics(data));
   };
   const getAllProfiles = (data: any) => {
@@ -71,6 +71,7 @@ const AnalyticsTemplate = () => {
   }, []);
 
   const handleGetAnalytics = (id: string | string[], type: string) => {
+    console.log(id);
     getAnalytics(id, type, handleSetAnalytics, setLoading);
   };
 

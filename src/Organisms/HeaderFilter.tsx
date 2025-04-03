@@ -248,94 +248,98 @@ const HeaderFilter: React.FC<HeaderFilterProps> = ({
               </div>
 
               {/* Dropdown 2 */}
-              <div className="w-[90%] bg-[#F6F6F6] min-h-[40px] max-h-[130px] overflow-y-scroll px-[10px] py-[5px] my-[6px] rounded-[9px] flex flex-col justify-start">
-                <div
-                  className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
-                  onClick={() => toggleDropdown("team")}
-                >
-                  <p className="text-[13px] font-[600] text-[#606060]">
-                    Team member
-                  </p>
-                  <p>
-                    {dropdownOpen.team ? (
-                      <BsChevronUp className="text-[#606060] text-[14px]" />
-                    ) : (
-                      <BsChevronDown className="text-[#606060] text-[14px]" />
-                    )}
-                  </p>
-                </div>
-                {dropdownOpen.team && (
-                  <div className="mt-1 flex flex-col">
-                    {allProfiles
-                      ?.filter((item) => item?.profileType === "team")
-                      .map((item, index) => (
-                        <label
-                          key={index}
-                          className="flex items-center p-0 py-2"
-                        >
-                          <input
-                            type="radio"
-                            name="team"
-                            value={item.id}
-                            className="mr-3"
-                            checked={selectedOptions.teamId === item.id}
-                            onChange={() =>
-                              handleSelectChange("teamId", item.id)
-                            }
-                          />
-                          <FilterImageWithTextCell
-                            containerClass="flex w-[150px] items-center gap-3"
-                            texts={item.firstName + " " + item.lastName}
-                            imgUrl={
-                              appendBucketPath(item.profileUrl) ||
-                              profilePlchldr
-                            }
-                          />
-                        </label>
-                      ))}
+              {allProfiles?.filter((item) => item?.profileType === "team").length > 0 && (
+                <div className="w-[90%] bg-[#F6F6F6] min-h-[40px] max-h-[130px] overflow-y-scroll px-[10px] py-[5px] my-[6px] rounded-[9px] flex flex-col justify-start">
+                  <div
+                    className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
+                    onClick={() => toggleDropdown("team")}
+                  >
+                    <p className="text-[13px] font-[600] text-[#606060]">
+                      Team member
+                    </p>
+                    <p>
+                      {dropdownOpen.team ? (
+                        <BsChevronUp className="text-[#606060] text-[14px]" />
+                      ) : (
+                        <BsChevronDown className="text-[#606060] text-[14px]" />
+                      )}
+                    </p>
                   </div>
-                )}
-              </div>
+                  {dropdownOpen.team && (
+                    <div className="mt-1 flex flex-col">
+                      {allProfiles
+                        ?.filter((item) => item?.profileType === "team")
+                        .map((item, index) => (
+                          <label
+                            key={index}
+                            className="flex items-center p-0 py-2"
+                          >
+                            <input
+                              type="radio"
+                              name="team"
+                              value={item.id}
+                              className="mr-3"
+                              checked={selectedOptions.teamId === item.id}
+                              onChange={() =>
+                                handleSelectChange("teamId", item.id)
+                              }
+                            />
+                            <FilterImageWithTextCell
+                              containerClass="flex w-[150px] items-center gap-3"
+                              texts={item.firstName + " " + item.lastName}
+                              imgUrl={
+                                appendBucketPath(item.profileUrl) ||
+                                profilePlchldr
+                              }
+                            />
+                          </label>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Dropdown 3 */}
-              <div className="w-[90%] bg-[#F6F6F6] min-h-[40px] max-h-[130px] overflow-y-scroll px-[10px] py-[5px] my-[6px] rounded-[9px] flex flex-col justify-start">
-                <div
-                  className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
-                  onClick={() => toggleDropdown("subteam")}
-                >
-                  <p className="text-[13px] font-[600] text-[#606060]">
-                    Subteam
-                  </p>
-                  <p>
-                    {dropdownOpen.subteam ? (
-                      <BsChevronUp className="text-[#606060] text-[14px]" />
-                    ) : (
-                      <BsChevronDown className="text-[#606060] text-[14px]" />
-                    )}
-                  </p>
-                </div>
-                {dropdownOpen.subteam && (
-                  <div className="mt-1 flex flex-col">
-                    {/* Render subteam options similarly */}
-
-                    {subTeams?.map((item, index) => (
-                      <label className="flex items-center p-0 py-2" key={index}>
-                        <input
-                          type="radio"
-                          name={item?.name}
-                          value={item?.id}
-                          className="mr-3"
-                          checked={selectedSubTeam === item?.id}
-                          onChange={() =>
-                            handleSelectChange("subteamId", item?.id)
-                          }
-                        />
-                        {item?.name}
-                      </label>
-                    ))}
+              {subTeams?.length > 0  && (
+                <div className="w-[90%] bg-[#F6F6F6] min-h-[40px] max-h-[130px] overflow-y-scroll px-[10px] py-[5px] my-[6px] rounded-[9px] flex flex-col justify-start">
+                  <div
+                    className="flex justify-between items-center h-[29px] w-[100%] cursor-pointer"
+                    onClick={() => toggleDropdown("subteam")}
+                  >
+                    <p className="text-[13px] font-[600] text-[#606060]">
+                      Subteam
+                    </p>
+                    <p>
+                      {dropdownOpen.subteam ? (
+                        <BsChevronUp className="text-[#606060] text-[14px]" />
+                      ) : (
+                        <BsChevronDown className="text-[#606060] text-[14px]" />
+                      )}
+                    </p>
                   </div>
-                )}
-              </div>
+                  {dropdownOpen.subteam && (
+                    <div className="mt-1 flex flex-col">
+                      {/* Render subteam options similarly */}
+
+                      {subTeams?.map((item, index) => (
+                        <label className="flex items-center p-0 py-2" key={index}>
+                          <input
+                            type="radio"
+                            name={item?.name}
+                            value={item?.id}
+                            className="mr-3"
+                            checked={selectedSubTeam === item?.id}
+                            onChange={() =>
+                              handleSelectChange("subteamId", item?.id)
+                            }
+                          />
+                          {item?.name}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="w-[90%] flex items-center justify-end mt-5">
                 <p
                   className="text-[#808080] text-[12px] cursor-pointer"

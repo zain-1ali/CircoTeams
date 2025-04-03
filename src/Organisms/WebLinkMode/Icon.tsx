@@ -96,7 +96,7 @@ const Icon = () => {
             maxLength={35}
           />
           <Text
-            text={`${socialLink?.title?.length}/35 characters`}
+            text={`${socialLink?.linkHighlightDescription?.length}/35 characters`}
             classes="font-[400] text-[11px] text-[#A59595] text-right mt-[2px] mr-[2px]"
           />
         </div>

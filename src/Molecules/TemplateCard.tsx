@@ -25,6 +25,7 @@ import {
   setProfileType,
   setProfileUrl,
   setQrColor,
+  setEmail,
   setQrLogo,
 } from "../Redux/ProfileSlice";
 // import AssignTemplate from "../Organisms/Modal/AssignTemplate";
@@ -57,6 +58,7 @@ const TemplateCard: React.FC<any> = ({ data }) => {
     // console.log(templateData?.phone, ")))))(((((((");
 
     dispatch(setFirstName(templateData?.firstName));
+    dispatch(setEmail(templateData?.email));
     dispatch(setLastName(templateData?.lastName));
     dispatch(setJobTitle(templateData?.jobTitle));
     dispatch(setAddress(templateData?.address));

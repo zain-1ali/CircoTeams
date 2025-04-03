@@ -11,13 +11,13 @@ const AnalyticsRecentConnections = () => {
   console.log(analytics);
 
   return (
-    <div className="w-[100%] h-[39%] bg-white rounded-[20px] px-3 py-1">
+    <div className="w-[100%] h-[39%] bg-white rounded-[20px] px-3 py-1 overflow-y-scroll">
       <Text text="Recent Connections" classes="font-[700] text-[15px]" />
-      <div className="w-[100%] h-[80%]  flex justify-start gap-3 flex-wrap">
+      <div className="w-[100%] h-[60%]  flex justify-start gap-2 flex-wrap">
         {analytics?.recentConnections?.length > 0 ? (
           Object.values(analytics?.recentConnections)?.map((elm) => {
             return (
-              <div className="w-[32%] h-[30px] rounded-[8px] bg-[#F9F9F9] font-[500] text-[8.5px] flex justify-center items-center text-center text-[#8B8B8B]">
+              <div className="px-[5px] h-[30px] rounded-[8px] bg-[#F9F9F9] font-[500] text-[8.5px] flex justify-center items-center text-center text-[#8B8B8B]">
                 {elm?.name} Connected with {elm?.connectedWith} on {elm?.date}
               </div>
             );

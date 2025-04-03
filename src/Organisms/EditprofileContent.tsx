@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import EditContainer from "./EditContainer";
 import EditProfileHeader from "./EditProfileHeader";
 import EditSidebar from "./EditSidebar";
@@ -49,6 +49,7 @@ import {
 import { setProfileEditSection } from "../Redux/EditSectionsSlice";
 
 const EditprofileContent = () => {
+  const navigate = useNavigate();
   const innerHeight: number = window.innerHeight;
 
   const [profileData, setProfileData] = useState<any>({});
@@ -82,15 +83,12 @@ const EditprofileContent = () => {
 
   const getTemplateData = (templatesData: any, profilesData: any) => {
     // profilePictureLock:false,coverLock:false,logoLock:false,jobLock:false,companyLock:false,locationLock:false,emailLock:false,phoneLock:false
-    console.log(templatesData, "here is template data");
+    // console.log(templatesData, "here is template data");
 
     if (templatesData) {
       const templateData: any = Object.values(templatesData)?.[0];
 
       // console.log(templateData, "here is refined");
-
-      
-
       dispatch(setCoverLock(templateData?.coverLock));
       dispatch(setLogoLock(templateData?.logoLock));
       dispatch(setProfileLock(templateData?.profilePictureLock));
@@ -145,13 +143,6 @@ const EditprofileContent = () => {
           templateData?.companyLock
             ? templateData?.company
             : profilesData?.company
-        )
-      );
-      dispatch(
-        setCompany(
-          templateData?.emailLock
-            ? templateData?.email
-            : profilesData?.email
         )
       );
       dispatch(toggleLeadMode(templateData?.leadMode));
@@ -335,6 +326,7 @@ const EditprofileContent = () => {
     dispatch(setCompany(profileData?.company));
     dispatch(setEmail(profileData?.email));
     dispatch(setPhone(profileData?.phone));
+    navigate("/myprofiles")
   };
 
   return (

@@ -10,6 +10,7 @@ import logoPlchldr from "../../assets/images/logoPlchldr.png";
 
 const Portrait = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
+  const name = profileData?.profileType == "circoTemplate" ? "User Name" : profileData?.firstName + " " + profileData?.lastName;
   return (
     <div className={`w-[100%] h-[100%]`}>
       {/* <div className="w-[100%] flex justify-center mt-11">
@@ -60,7 +61,7 @@ const Portrait = () => {
       </div>
       <div className="w-[100%] mt-[90px]">
         <ProfileTextualArea
-          name={profileData?.firstName + " " + profileData?.lastName}
+          name={name}
           job={profileData.jobTitle}
           location={profileData.address}
           company={profileData?.company}

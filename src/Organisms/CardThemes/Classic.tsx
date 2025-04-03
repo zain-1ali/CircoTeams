@@ -8,6 +8,7 @@ import { appendBucketPath } from "../../Services/Constants";
 
 const Classic = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
+  const name = profileData?.profileType == "circoTemplate" ? "User Name" : profileData?.firstName + " " + profileData?.lastName;
   return (
     <div className={`w-[90%] h-[100%]`}>
       <div className="w-[100%] h-[128px] relative mt-4">
@@ -28,7 +29,7 @@ const Classic = () => {
         }`}
       >
         <ProfileTextualArea
-          name={profileData?.firstName + " " + profileData?.lastName}
+          name={name}
           job={profileData.jobTitle}
           location={profileData.address}
           company={profileData?.company}

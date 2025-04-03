@@ -8,7 +8,7 @@ import { appendBucketPath } from "../../Services/Constants";
 
 const Custom = () => {
   const profileData = useAppSelector((state) => state.profileHandler);
-  console.log(profileData?.profileDesign?.hideCompanyLogo);
+  const name = profileData?.profileType == "circoTemplate" ? "User Name" : profileData?.firstName + " " + profileData?.lastName;
 
   return (
     <div className={`w-[90%] h-[100%] absolute overflow-y-scroll`}>
@@ -21,7 +21,7 @@ const Custom = () => {
       </div>
       <div className="w-[100%] mt-[20px]">
         <ProfileTextualArea
-          name={profileData?.firstName + " " + profileData?.lastName}
+          name={name}
           job={profileData.jobTitle}
           location={profileData.address}
           company={profileData?.company}

@@ -68,6 +68,7 @@ const ReasignTemplate: React.FC<{
         setLoading
       );
     }
+    onClose();
   };
 
   return (

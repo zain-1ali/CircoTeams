@@ -125,9 +125,9 @@ const EditInfo: React.FC<any> = ({ handleCancel }) => {
   const { uploadFile } = useUploadFile();
   const { showSuccess, showError } = useToastNotifications();
 
-  console.log(profileData);
+  // console.log(profileData);
 
-  console.log(templateLockedData, "here is the data");
+  // console.log(templateLockedData, "here is the data");
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 

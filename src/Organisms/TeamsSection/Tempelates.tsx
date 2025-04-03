@@ -12,7 +12,7 @@ const Tempelates = () => {
   };
 
   const [loading, setloading] = useState<boolean>(false);
-  console.log(loading);
+  // console.log(loading);
 
   const companyId: string | null = localStorage.getItem("circoCompanyUid");
   const [templates, settemplates] = useState<any[]>([]);
@@ -26,7 +26,7 @@ const Tempelates = () => {
     } else {
       setFilteredTeams(
         templates?.filter((item: any) =>
-          item?.name?.toLowerCase().includes(searchValue.toLowerCase())
+          item?.profileName?.toLowerCase().includes(searchValue.toLowerCase())
         )
       );
     }
@@ -37,7 +37,7 @@ const Tempelates = () => {
     settemplates(Object.values(data));
   };
 
-  console.log(templates);
+  // console.log(templates);
 
   useEffect(() => {
     getMultipleChilds(
@@ -56,7 +56,7 @@ const Tempelates = () => {
       ) : templates?.[0]?.id ? (
         <div className="h-[100%] w-[100%]">
           <TableHeader
-            number={3}
+            number={templates?.length}
             headerName="Template"
             searchItem={searchItem}
           />

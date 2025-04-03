@@ -46,6 +46,8 @@ const ConnectionTemplate = () => {
       setFilteredConnections(
         allConnections.filter((item: any) =>
           item?.name?.toLowerCase().includes(searchValue.toLowerCase())
+          || item?.email?.toLowerCase().includes(searchValue.toLowerCase())
+          || item?.job?.toLowerCase().includes(searchValue.toLowerCase())
         )
       );
     }
