@@ -584,7 +584,7 @@ const linkValidationRules: ValidationRule[] = [
   {
     linkID: 999, // Website
     validate: (value: string) =>
-      /^(https?:\/\/)(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/.test(value), // Validate general URLs
   },
   {
     linkID: 25, // Embedded Video

@@ -30,7 +30,7 @@ import {
   deleteLinkFromDb,
   updateTemplateLink,
 } from "../../../Services/ProfileServices";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import useToastNotifications from "../../../Hooks/useToastNotification";
 import { useUploadFile } from "../../../Hooks/useUploadFile";
 import ImageCropperModal from "../../Cropper";
@@ -44,6 +44,7 @@ import { setAssignedTo } from "../../../Redux/TemplateInvidualLinkSlice";
 const AddSingleLink: React.FC<webLinksProps> = ({
   changeLinkMode,
   linkEdit = false,
+  id
 }) => {
   const dispatch = useAppDispatch();
   const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
@@ -52,9 +53,10 @@ const AddSingleLink: React.FC<webLinksProps> = ({
   const assignedTo = useAppSelector(
     (state) => state.TemplateInvidualLinkHandeler.assignedTo
   );
-  const { id } = useParams();
+  // const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
+  console.log(id);
 
   // useEffect(() => {
   //   if (linkToEdit) {

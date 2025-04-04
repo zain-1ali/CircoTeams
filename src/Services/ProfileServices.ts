@@ -701,51 +701,172 @@ export const addLinkToDb = (data: any, id: string | undefined, links: any, showE
   }
 }
 
-export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any, setRemainingLink: any) => {
-  console.log("Deleting link with ID:", linkID);
+// export const deleteLinkFromDb = (linkID: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any, setRemainingLink: any) => {
+//   console.log("Deleting link with ID:", linkID, id, links);
+//   if (!id || !links) {
+//     showError("Something went wrong while removing the link");
+//     return;
+//   }
+//   setLoading(true);
+
+//   const updatedLinks = Array.isArray(links)
+//     ? links.filter((link: any) => link.id !== linkID)
+//     : [];
+
+//   set(ref(db, `User/${id}/links`), updatedLinks)
+//     .then(() => {
+//       setLoading(false);
+//       setRemainingLink(updatedLinks)
+//       showSuccess("Link removed successfully");
+//     })
+//     .catch((error) => {
+//       setLoading(false);
+//       showError("Something went wrong while removing the link");
+//       console.error("Error removing link:", error);
+//     });
+// };
+
+
+export const deleteLinkFromDb = async (
+  linkID: any, 
+  id: string | undefined, 
+  links: any, 
+  showError: any, 
+  showSuccess: any, 
+  setLoading: any, 
+  setRemainingLink: any
+) => {
+  console.log("Deleting link with ID:", linkID, id, links);
+
   if (!id || !links) {
     showError("Something went wrong while removing the link");
     return;
   }
+
   setLoading(true);
 
-  const updatedLinks = Array.isArray(links)
-    ? links.filter((link: any) => link.id !== linkID)
-    : [];
+  try {
+    // 1. Check if the ID exists in User or Template
+    const userRef = ref(db, `User/${id}`);
+    const templateRef = ref(db, `Template/${id}`);
 
-  set(ref(db, `User/${id}/links`), updatedLinks)
-    .then(() => {
-      setLoading(false);
-      setRemainingLink(updatedLinks)
+    const [userSnapshot, templateSnapshot] = await Promise.all([
+      get(userRef),
+      get(templateRef),
+    ]);
+
+    if (userSnapshot.exists()) {
+      // 2. If ID belongs to a User, remove link from User
+      const pathToUpdate = `User/${id}/links`;
+      const updatedLinks = links.filter((link: any) => link.id !== linkID);
+      await set(ref(db, pathToUpdate), updatedLinks);
+
+      setRemainingLink(updatedLinks);
       showSuccess("Link removed successfully");
-    })
-    .catch((error) => {
-      setLoading(false);
-      showError("Something went wrong while removing the link");
-      console.error("Error removing link:", error);
-    });
+
+    } else if (templateSnapshot.exists()) {
+        const usersRef = ref(db, "User");
+        const usersSnapshot = await get(usersRef);
+    
+        if (usersSnapshot.exists()) {
+          const users = usersSnapshot.val();
+    
+          // Collect promises for batch updates
+          const updatePromises = Object.entries(users).map(async ([userId, userData]: [string, any]) => {
+            if (userData?.templateId === id) {
+              console.log(userData);
+              const updatedUserLinks = userData?.links?.filter((link: any) => link.templateId !== id) || [];
+    
+              // Update user's links
+              const userRef = ref(db, `User/${userId}`);
+              return update(userRef, { links: updatedUserLinks });
+            }
+          });
+    
+          // Wait for all updates to complete
+          await Promise.all(updatePromises);
+        }
+    
+        // Update the template links
+        const pathToUpdate = `Template/${id}/links`;
+        const updatedLinks = links?.filter((link: any) => link.id !== linkID) || [];
+        await set(ref(db, pathToUpdate), updatedLinks);
+    
+        showSuccess("Link removed from all users using this template");
+      } else {
+      showError("Invalid ID: Not found in User or Template");
+    }
+  } catch (error) {
+    console.error("Error removing link:", error);
+    showError("Something went wrong while removing the link");
+  } finally {
+    setLoading(false);
+  }
 };
 
 
 
-export const updateLink = (linkData: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any) => {
-  setLoading(true);
-  const objectIndex = links?.findIndex((obj: any) => obj.id === linkData?.id);
-  if (objectIndex !== -1) {
-    //   const updatedObject = { ...links[objectIndex] };
-    //   const updatedArray = [...links];
-    //   updatedArray[objectIndex] = { ...updatedObject, ...linkData };
-    update(ref(db, `User/${id}/links/${objectIndex}`), { ...linkData }).then(async () => {
-      console.log("Link updated successfully");
-      showSuccess("Link updated successfully");
-      setLoading(false);
-    }).catch((error) => {
-      console.log(error);
-      setLoading(false);
-      showError("Something went wrong");
-    });
+
+
+// export const updateLink = (linkData: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any) => {
+//   setLoading(true);
+//   const objectIndex = links?.findIndex((obj: any) => obj.id === linkData?.id);
+//   console.log(links, linkData);
+//   // return;
+//   if (objectIndex !== -1) {
+//     //   const updatedObject = { ...links[objectIndex] };
+//     //   const updatedArray = [...links];
+//     //   updatedArray[objectIndex] = { ...updatedObject, ...linkData };
+//     update(ref(db, `User/${id}/links/${objectIndex}`), { ...linkData }).then(async () => {
+//       console.log("Link updated successfully");
+//       showSuccess("Link updated successfully");
+//       setLoading(false);
+//     }).catch((error) => {
+//       console.log(error);
+//       setLoading(false);
+//       showError("Something went wrong");
+//     });
+//   }
+// }
+export const updateLink = async (
+  linkData: any,
+  id: string | undefined,
+  links: any,
+  showError: any,
+  showSuccess: any,
+  setLoading: any
+) => {
+  try {
+    setLoading(true);
+    const userLinksRef = ref(db, `User/${id}/links`);
+    const snapshot = await get(userLinksRef);
+
+    let links: any[] = [];
+    if (snapshot.exists()) {
+      links = snapshot.val();
+    }
+
+    // Find the index of the existing link
+    const objectIndex = links?.findIndex((obj: any) => obj.id === linkData?.id);
+
+    let updatePath;
+    if (objectIndex !== -1) {
+      updatePath = `User/${id}/links/${objectIndex}`;
+    } else {
+      const newIndex = links.length;
+      updatePath = `User/${id}/links/${newIndex}`;
+    }
+    await update(ref(db, updatePath), { ...linkData });
+
+    showSuccess("Link updated successfully");
+  } catch (error) {
+    console.error("Error updating link:", error);
+    showError("Something went wrong while updating the link");
+  } finally {
+    setLoading(false);
   }
-}
+};
+
 
 
 export const updateTemplateLink = (linkData: any, id: string | undefined, links: any, showError: any, showSuccess: any, setLoading: any) => {

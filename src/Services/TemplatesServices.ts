@@ -256,7 +256,25 @@ export const updateTemplate=async(data:any,id:string,showError:any,showSuccess:a
       await update(ref(db, `Template/${crntTeam?.id}`), {members:remainingMemebers}).then(async()=>{
         const updatePromises = membersId?.map(async (elm:string) => {
           // console.log("testing...");
-            await update(ref(db, `User/${elm}`), {templateId:""});
+            // await update(ref(db, `User/${elm}`), {templateId:""});
+
+          const userRef = ref(db, `User/${elm}`);
+          try {
+            // Fetch current user data
+            const snapshot = await get(userRef);
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+
+              // Filter out links where templateId matches crntTeam?.id
+              const updatedLinks = userData.links?.filter((link: any) => link.templateId !== crntTeam?.id) || [];
+
+              // Update user object
+              await update(userRef, { templateId: "", links: updatedLinks });
+            }
+          } catch (error) {
+            console.error(`Error updating user ${elm}:`, error);
+          }
+
         });
         try {
           const updatedIds = await Promise.all(updatePromises);

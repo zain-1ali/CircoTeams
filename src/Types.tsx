@@ -361,7 +361,9 @@ export interface allLinksProps {
 
 export interface addLinksProps extends allLinksProps {}
 
-export interface webLinksProps extends allLinksProps {}
+export interface webLinksProps extends allLinksProps {
+  id: string
+}
 
 export interface cardPreview {
   isAuth: boolean;

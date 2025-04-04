@@ -34,9 +34,17 @@ const Links = () => {
   const [editLinkModal, setEditLinkModal] = useState<boolean>(false);
   const [editLinkWebModal, setEditWebLinkModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { id } = useParams();
+  // const { id } = useParams();
   console.log(window.innerHeight);
   const profileData = useAppSelector((state) => state.profileHandler);
+  
+  let id:any;
+  if (profileData?.profileType === "circoTemplate") {
+    id = profileData?.id;
+  } else {
+    ({ id } = useParams());
+  }
+
   const handleCloseLinkModal = () => {
     dispatch(resetLinkData());
     dispatch(resetSocialLink());
@@ -184,6 +192,7 @@ const Links = () => {
         <AddSingleLink
           changeLinkMode={handleCloseEditLinkModal}
           linkEdit={true}
+          id={id}
         />
       </CustomModal>
 
@@ -193,7 +202,7 @@ const Links = () => {
         onClose={() => handleCloseEditWebLinkModal()}
         style={{ height: 595, width: 956, borderRadius: "33px", p: 4 }}
       >
-        <AddWeblink changeLinkMode={handleCloseEditLinkModal} linkEdit={true} />
+        <AddWeblink changeLinkMode={handleCloseEditLinkModal} linkEdit={true} id={id} />
       </CustomModal>
 
       {/* Modal use for add the link  */}
@@ -202,7 +211,7 @@ const Links = () => {
         onClose={() => handleCloseLinkModal()}
         style={{ height: 595, width: 956, borderRadius: "33px", p: 4 }}
       >
-        <LinkModal />
+        <LinkModal id={id} />
       </CustomModal>
     </div>
   );

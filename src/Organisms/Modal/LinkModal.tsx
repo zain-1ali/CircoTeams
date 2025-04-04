@@ -3,7 +3,12 @@ import AddSingleLink from "./LinkModalChilds/AddSingleLink";
 import AllLinks from "./LinkModalChilds/AllLinks";
 import AddWeblink from "./LinkModalChilds/AddWeblink";
 
-const LinkModal = () => {
+interface LinkModalProps {
+  id: any; // Replace `any` with the actual type if known (e.g., `string`)
+}
+
+const LinkModal: React.FC<LinkModalProps> = ({ id }) => {
+
   interface linkModeTypes {
     allLinksMode: boolean;
     addLinkMode: boolean;
@@ -41,9 +46,9 @@ const LinkModal = () => {
     <div className="h-[100%] w-[100%]">
       {linkModes?.allLinksMode && <AllLinks changeLinkMode={changeLinkMode} />}
       {linkModes?.addLinkMode && (
-        <AddSingleLink changeLinkMode={changeLinkMode} />
+        <AddSingleLink changeLinkMode={changeLinkMode} id={id} />
       )}
-      {linkModes?.webLinkMode && <AddWeblink changeLinkMode={changeLinkMode} />}
+      {linkModes?.webLinkMode && <AddWeblink changeLinkMode={changeLinkMode} id={id} />}
     </div>
   );
 };

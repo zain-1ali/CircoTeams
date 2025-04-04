@@ -153,7 +153,26 @@ const EditprofileContent = () => {
       dispatch(setPhone(templateData?.phone));
       // console.log(templateData?.leadMode);
       if (typeof templateData?.links === "object") {
-        dispatch(setLinks(Object.values(templateData?.links)));
+
+        if(typeof profileData?.links === "object")
+        {
+          const profileLinksMap = new Map(profileData.links.map((link: any) => [link.id, link]));
+      
+          // Merge and overwrite links:
+          const mergedLinks = Object.values(templateData.links).map((templateLink: any) => {
+            // If the link exists in profileData, keep profileData's link
+            const profileLink = profileLinksMap.get(templateLink.id);
+            return profileLink ? profileLink : templateLink;
+          });
+          dispatch(setLinks(mergedLinks));
+        }
+        else
+        {
+          dispatch(setLinks(templateData.links));
+        }
+        
+      
+        
       }
 
       dispatch(

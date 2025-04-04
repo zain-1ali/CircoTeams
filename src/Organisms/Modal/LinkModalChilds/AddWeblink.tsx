@@ -56,12 +56,13 @@ import { setLinks } from "../../../Redux/ProfileSlice";
 const AddWeblink: React.FC<webLinksProps> = ({
   changeLinkMode,
   linkEdit = false,
+  id
 }) => {
   const dispatch = useAppDispatch();
   // const linkInfo = useAppSelector((state) => state.singleLinkHandeler.linkInfo);
   const socialLink = useAppSelector((state) => state.socialLinkHandler.link);
   const profileData = useAppSelector((state) => state.profileHandler);
-  const { id } = useParams();
+  // const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   console.log(loading);
   const [sureModal, setSureModal] = useState<boolean>(false);
@@ -139,7 +140,7 @@ const AddWeblink: React.FC<webLinksProps> = ({
   };
 
   const handleAddLinkToTemplate = () => {
-    if (!validateLink(socialLink?.linkID, socialLink?.value)) {
+    if (!validateLink(socialLink?.linkID, socialLink?.url)) {
       showError("!Invalid Link");
       return;
     }
